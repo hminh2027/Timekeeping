@@ -1,7 +1,7 @@
 # vAccount
 
 Yêu cầu công nghệ:
-+ Công nghệ laravel 8 và vue 3
++ Công nghệ laravel 8 và vue 3,bootstrap 5,bootstrap-icons
 
 Thực hiện chức năng:
 + Đăng nhập/Đăng xuất.(Không cho đăng ký)
