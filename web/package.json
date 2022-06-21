@@ -7,9 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "eslint src/*.js --fix",
     "pre-commit": "lint-staged",
     "format": "prettier --write .",
     "prepare": "cd ../ && husky install ./web"
+  },
+  "lint-staged": {
+    "*.(js|css)": [
+      "prettier --write",
+      "git add"
+    ],
+    ".js": [
+      "npm run lint:fix",
+      "npm run lint"
+    ]
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
