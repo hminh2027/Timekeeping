@@ -1,4 +1,4 @@
-# vAccount
+# vCheck
 
 Yêu cầu công nghệ:
 + Công nghệ laravel 8 và vue 3,bootstrap 5,bootstrap-icons
