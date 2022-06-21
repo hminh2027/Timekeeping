@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "pre-commit": "lint-staged",
+    "format": "prettier --write .",
     "prepare": "cd ../ && husky install ./web"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.2"
+    "lint-staged": "^13.0.2",
+    "prettier": "2.7.1"
   }
 }
