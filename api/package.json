@@ -28,6 +28,7 @@
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/throttler": "^2.0.1",
     "csurf": "^1.11.0",
+    "dotenv": "^16.0.1",
     "helmet": "^5.1.0",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",

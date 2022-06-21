@@ -1,5 +1,5 @@
-
 import { DataSource } from 'typeorm';
+require('dotenv').config();
 
 export const databaseProviders = [
   {
@@ -9,9 +9,9 @@ export const databaseProviders = [
         type: 'mysql',
         host: 'localhost',
         port: 3306,
-        username: 'root',
-        password: '',
-        database: 'test',
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}',
         ],
