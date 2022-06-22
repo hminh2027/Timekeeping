@@ -1,3 +1,4 @@
+import { User } from 'src/modules/user/user.entity';
 import { DataSource } from 'typeorm';
 require('dotenv').config();
 
@@ -13,7 +14,8 @@ export const databaseProviders = [
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         entities: [
-            __dirname + '/../**/*.entity{.ts,.js}',
+            // __dirname + '/../**/*.entity{.ts,.js}',
+            User
         ],
         synchronize: true,
       });
