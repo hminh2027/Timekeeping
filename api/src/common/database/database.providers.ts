@@ -1,6 +1,7 @@
 import { User } from 'src/modules/user/user.entity';
 import { DataSource } from 'typeorm';
-require('dotenv').config();
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export const databaseProviders = [
   {
