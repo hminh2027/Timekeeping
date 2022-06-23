@@ -12,7 +12,7 @@ export class User {
     })
     email: string;
     
-    @Column("varchar", { length: 50 })
+    @Column("varchar", { length: 100 })
     password: string;
 
     @Column("nvarchar", { length: 50 })
@@ -21,30 +21,21 @@ export class User {
     @Column("nvarchar", { length: 50 })
     lastName: string;
 
-    @Column({ default: 0 })
+    @Column("bool", { default: false })
     gender: boolean;
 
-    @Column("varchar", { length: 50 })
+    @Column("varchar", { length: 50, default: '' })
     birth: string;
 
-    @Column("varchar", { length: 20 })
-    phone: string;
-
-    @Column("varchar", { length: 50 })
-    skype: string;
-
-    @Column("nvarchar", { length: 100 })
-    address: string;
-
-    @Column("varchar", { length: 50 })
+    @Column("varchar", { length: 50, default: ''  })
     avatar: string;
 
-    @CreateDateColumn ({ default: 0 })
+    @CreateDateColumn ()
     createdAt: string;
 
-    @UpdateDateColumn ({ default: 0 })
+    @UpdateDateColumn ()
     modifiedAt: string;
 
-    @Column({ default: 0 })
+    @Column("bool", { default: false })
     isDeleted: boolean;
 }

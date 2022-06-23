@@ -26,17 +26,17 @@ export class UserController {
     /* @body data: user' information payload */
     @Post()
     async createUser(@Body() data: CreateUserDto) {
-        await this.userService.create(data)
         return {
             statusCode: HttpStatus.OK,
-            message: 'User created successfully'
+            message: 'User created successfully',
+            data: await this.userService.create(data)
         }
     }
 
     /* PATCH request to update an existing user*/
     /* @param id: id of user */
     @Patch(':id')
-    async updateUser(@Param('id') id: number, @Body() data: UpdateUserDto) {
+    async updateUser(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateUserDto) {
         return {
             statusCode: HttpStatus.OK,
             message: 'User updated successfully',
@@ -47,7 +47,7 @@ export class UserController {
     /* DELETE request to delete an user*/
     /* @param id: id of user */
     @Delete(':id')
-    async deleteUser(@Param('id') id: number) {
+    async deleteUser(@Param('id',  new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
         return {
             statusCode: HttpStatus.OK,
             message: 'User deleted successfully',

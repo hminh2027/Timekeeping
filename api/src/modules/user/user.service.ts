@@ -21,7 +21,7 @@ export class UserService {
         }
     }
 
-    async findOneByEmail(email): Promise<User> {
+    async findOneByEmail(email: string): Promise<User> {
         try {
             return await this.userRepository.findOne({ where: {email} });
 
@@ -30,7 +30,7 @@ export class UserService {
         }
     }
 
-    async findOneById(id): Promise<User> {
+    async findOneById(id: number): Promise<User> {
         try {
             return await this.userRepository.findOne({ where: {id} });
 
@@ -39,74 +39,37 @@ export class UserService {
         }
     }
 
-    async create(data: CreateUserDto): Promise<void> {
+    async create(data: CreateUserDto): Promise<User> {
         try {
-            // Destructuring data object
-            const { email, password, firstName, lastName, gender, birth, phone, skype, address, avatar } = data
             // Check if email exist
-            const emailCheck = await this.findOneByEmail(data.email);
+            const emailCheck = await this.checkIfEmailExists(data.email);
             if (emailCheck) throw new HttpException(`${data.email} is already registerd on this site`, HttpStatus.CONFLICT);
+            
             // Hash password
-            const hashedPassword = await hash(password, 10)
+            const hashedPassword = await hash(data.password, 10);
+            data.password = hashedPassword;
+
             // Insert query
-            await this.userRepository
-            .createQueryBuilder()
-            .insert()
-            .into(User)
-            .values({
-                email,
-                password: hashedPassword,
-                firstName,
-                lastName,
-                gender,
-                birth,
-                phone,
-                skype,
-                address,
-                avatar
-            })
-            .execute();
+            const newUser = await this.userRepository.create(data);
+            return this.userRepository.save(newUser);
 
         } catch (err) {
             throw err;
         }
     }
 
-    async update(id: number, data: UpdateUserDto): Promise<User> {
+    async update(id: number, data: UpdateUserDto): Promise<void> {
         try {
-            // Destructuring data
-            const { email, password, firstName, lastName, gender, birth, phone, skype, address, avatar } = data;
             // Check if user exist
-            const userCheck = await this.findOneById(id);
+            const userCheck = await this.checkIfUserExists(id);
             if (!userCheck) throw new NotFoundException('User is not found');
+            
             // Check if email exist
-            const emailCheck = await this.findOneById(id);
+            const emailCheck = await this.checkIfEmailExists(data.email, id);
             if (emailCheck) throw new HttpException(`${data.email} is already registerd on this site`, HttpStatus.CONFLICT);
-            // Hash password
-            const hashedPassword = await hash(password, 10);
+            
             // Update query
-            await this.userRepository
-            .createQueryBuilder()
-            .update()
-            .set({
-                email,
-                password: hashedPassword,
-                firstName,
-                lastName,
-                gender,
-                birth,
-                phone,
-                skype,
-                address,
-                avatar
-            })
-            .where('id = :id', { id })
-            .execute();
-            // Return the updated user
-            return await this.userRepository
-            .createQueryBuilder()
-            .where('id = :id', { id })
-            .getOne();
+            await this.userRepository.update(id, data);
 
         } catch (err) {
             throw err;
@@ -121,5 +84,19 @@ export class UserService {
         } catch (err) {
             throw err;
         }
+    }
+
+    async checkIfEmailExists(email: string, id?: number): Promise<boolean> {
+        const andQuery = `and id <> ${id}`
+        const query = `SELECT EXISTS (SELECT * FROM user WHERE email = '${email}' ${id ? andQuery : ''}) AS result;`;
+
+        const [{result}] = await this.userRepository.query(query);
+        return result > 0;
+    }
+
+    async checkIfUserExists(id: number): Promise<boolean> {
+        const query = `SELECT EXISTS (SELECT * FROM user WHERE id = '${id}') AS result;`;
+        const [{result}] = await this.userRepository.query(query);
+        return result > 0;
     }
 }

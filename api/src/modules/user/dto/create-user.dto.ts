@@ -7,7 +7,7 @@ export class CreateUserDto {
     email: string;
 
     @ApiProperty()
-    @Length(8, 50, { message: 'Password must be between 8-50 characters'})
+    @Length(6, 50, { message: 'Password must be between 6-50 characters'})
     password: string;
 
     @ApiProperty()
@@ -18,26 +18,7 @@ export class CreateUserDto {
     @Length(1, 50)
     lastName: string;
 
-    @ApiProperty()
-    gender: boolean;
+    // @ApiProperty()
+    // gender: boolean;
 
-    @ApiProperty()
-    @Length(0, 50)
-    birth: string;
-
-    @ApiProperty()
-    @Length(0, 20)
-    phone: string;
-
-    @ApiProperty()
-    @Length(0, 50)
-    skype: string;
-
-    @ApiProperty()
-    @Length(0, 100)
-    address: string;
-
-    @ApiProperty()
-    @Length(0, 50)
-    avatar: string;
 }
