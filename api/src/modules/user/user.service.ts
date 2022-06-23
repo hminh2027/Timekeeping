@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { hash } from "bcrypt";
 import { Repository } from "typeorm";
-import { UserDto } from './user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from './user.entity';
 
 @Injectable()
@@ -38,7 +39,7 @@ export class UserService {
         }
     }
 
-    async create(data: UserDto): Promise<void> {
+    async create(data: CreateUserDto): Promise<void> {
         try {
             // Destructuring data object
             const { email, password, firstName, lastName, gender, birth, phone, skype, address, avatar } = data
@@ -71,7 +72,7 @@ export class UserService {
         }
     }
 
-    async update(id: number, data: UserDto): Promise<User> {
+    async update(id: number, data: UpdateUserDto): Promise<User> {
         try {
             // Destructuring data
             const { email, password, firstName, lastName, gender, birth, phone, skype, address, avatar } = data;

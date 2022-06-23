@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDto } from './user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
+@UsePipes(ValidationPipe)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -23,7 +25,7 @@ export class UserController {
     /* POST request to create a new user*/
     /* @body data: user' information payload */
     @Post()
-    async createUser(@Body() data: UserDto) {
+    async createUser(@Body() data: CreateUserDto) {
         await this.userService.create(data)
         return {
             statusCode: HttpStatus.OK,
@@ -34,8 +36,7 @@ export class UserController {
     /* PATCH request to update an existing user*/
     /* @param id: id of user */
     @Patch(':id')
-    @UsePipes(ValidationPipe)
-    async updateUser(@Param('id') id: number, @Body() data: UserDto) {
+    async updateUser(@Param('id') id: number, @Body() data: UpdateUserDto) {
         return {
             statusCode: HttpStatus.OK,
             message: 'User updated successfully',
