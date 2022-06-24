@@ -31,10 +31,10 @@ export class User {
     avatar: string;
 
     @CreateDateColumn ()
-    createdAt: string;
+    createdAt: Date;
 
     @UpdateDateColumn ()
-    modifiedAt: string;
+    modifiedAt: Date;
 
     @Column("bool", { default: false })
     isDeleted: boolean;

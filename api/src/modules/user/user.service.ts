@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
 import { hash } from "bcrypt";
 import { Repository } from "typeorm";
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,7 +9,7 @@ import { User } from './user.entity';
 @Injectable()
 export class UserService {
     constructor(
-        @Inject('USER_REPOSITORY')
+        @InjectRepository(User)
         private userRepository: Repository<User>
     ) {}
 
@@ -87,16 +88,16 @@ export class UserService {
     }
 
     async checkIfEmailExists(email: string, id?: number): Promise<boolean> {
-        const andQuery = `and id <> ${id}`
-        const query = `SELECT EXISTS (SELECT * FROM user WHERE email = '${email}' ${id ? andQuery : ''}) AS result;`;
+        const andQuery = `and id <> ?`
+        const query = `SELECT EXISTS (SELECT * FROM user WHERE email = ? ${id ? andQuery : ''}) AS result;`;
 
-        const [{result}] = await this.userRepository.query(query);
+        const [{result}] = await this.userRepository.query(query, [email, id]);
         return result > 0;
     }
 
     async checkIfUserExists(id: number): Promise<boolean> {
-        const query = `SELECT EXISTS (SELECT * FROM user WHERE id = '${id}') AS result;`;
-        const [{result}] = await this.userRepository.query(query);
+        const query = `SELECT EXISTS (SELECT * FROM user WHERE id = ?) AS result;`;
+        const [{result}] = await this.userRepository.query(query, [id]);
         return result > 0;
     }
 }

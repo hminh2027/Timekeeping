@@ -4,7 +4,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
-@UsePipes(ValidationPipe)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -25,6 +24,7 @@ export class UserController {
     /* POST request to create a new user*/
     /* @body data: user' information payload */
     @Post()
+    @UsePipes(ValidationPipe)
     async createUser(@Body() data: CreateUserDto) {
         return {
             statusCode: HttpStatus.OK,
