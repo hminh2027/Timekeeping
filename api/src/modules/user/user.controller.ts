@@ -2,23 +2,17 @@ import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SearchQueryDto } from './dto/query.dto';
 
 @Controller('user')
 @UsePipes(ValidationPipe)
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    /* GET request to get all users
-    @query search: text in searching
-    @query limit: limit in pagination
-    @query page: page in pagination */
+    /* GET request to get all users */
     @Get()
-    async search(
-        @Query('search') search: string,
-        @Query('limit') limit: number, 
-        @Query('page') page: number
-    ) {
-        return await this.userService.search(search, limit, page);
+    async search(@Query() params: SearchQueryDto) {
+        return await this.userService.search(params);
     }
 
     /* GET request to get an user*/

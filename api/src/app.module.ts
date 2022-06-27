@@ -5,10 +5,9 @@ import { DatabaseModule } from './common/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { UserController } from './modules/user/user.controller';
-import { TypeOrmExModule } from './typeorm-ex.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, TypeOrmExModule],
+  imports: [DatabaseModule, AuthModule, UserModule],
   controllers: [AppController, UserController],
   providers: [AppService],
 })
