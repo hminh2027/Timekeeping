@@ -1,43 +1,32 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, Length } from "class-validator";
+import { IsDefined, IsEmail, IsString, Length } from "class-validator";
 
 export class CreateUserDto {
     @ApiProperty()
     @IsEmail()
+    @IsString()
+    @IsDefined()
     email: string;
 
     @ApiProperty()
-    @Length(8, 50, { message: 'Password must be between 8-50 characters'})
+    @Length(6, 50, { message: 'Password must be between 6-50 characters'})
+    @IsString()
+    @IsDefined()
     password: string;
 
     @ApiProperty()
     @Length(1, 50)
+    @IsString()
+    @IsDefined()
     firstName: string;
 
     @ApiProperty()
     @Length(1, 50)
+    @IsString()
+    @IsDefined()
     lastName: string;
 
-    @ApiProperty()
-    gender: boolean;
+    // @ApiProperty()
+    // gender: boolean;
 
-    @ApiProperty()
-    @Length(0, 50)
-    birth: string;
-
-    @ApiProperty()
-    @Length(0, 20)
-    phone: string;
-
-    @ApiProperty()
-    @Length(0, 50)
-    skype: string;
-
-    @ApiProperty()
-    @Length(0, 100)
-    address: string;
-
-    @ApiProperty()
-    @Length(0, 50)
-    avatar: string;
 }
