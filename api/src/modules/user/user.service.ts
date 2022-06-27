@@ -10,8 +10,8 @@ import { UserRepository } from "./user.repository";
 @Injectable()
 export class UserService {
     constructor(
-        // @InjectRepository(User)
-        private readonly userRepository: UserRepository
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>
         // private readonly userRepository: Repository<User> = getCustomRepository(UserRepository)
     ) {}
 
@@ -23,7 +23,7 @@ export class UserService {
             if(params.textSearch) {               
                 users = await this.userRepository
                 .createQueryBuilder('user')
-                .where('user.email like :email', { email: `%${params.textSearch}%` })
+                .where('user.email like :email', { email: `%${params.textSearch}%` })               
                 .orderBy('user.createdAt', 'DESC')
                 .skip(offset)
                 .take(params.limit)
@@ -94,6 +94,7 @@ export class UserService {
             // Check if email exist
             // const emailCheck = await this.userRepository.checkIfEmailExists(data.email, id);
             const emailCheck = await getCustomRepository(UserRepository).checkIfEmailExists(data.email, id);
+
             if (emailCheck) throw new HttpException(`${data.email} is already registerd on this site`, HttpStatus.CONFLICT);
             
             // Update query

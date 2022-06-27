@@ -5,23 +5,28 @@ import { User } from "./user.entity";
 export class UserRepository extends Repository<User> {
 
     public async checkIfEmailExists(email: string, id?: number): Promise<boolean> {
-        let query = `SELECT COUNT(0) AS result FROM user WHERE `;
-        let result;
+        let count;
+
         if(id) {
-            query += 'email = ? and id <> ?';
-            [{result}] = await this.query(query, [email, id]);       
+            count = await this.createQueryBuilder('user')
+            .where('user.email = :email', { email })
+            .andWhere('user.id <> :id', { id })
+            .getCount()
         }
         else {          
-            query += 'email = ?';
-            [{result}] = await this.query(query, [email]);
+            count = await this.createQueryBuilder('user')
+            .where('user.email = :email', { email })
+            .getCount()
         }
-       //  this.createQueryBuilder
-        return result > 0;
+
+        return count > 0;
     }
 
     public async checkIfUserExists(id: number): Promise<boolean> {
-        const query = `SELECT COUNT(0) AS result FROM user WHERE id = ?;`;
-        const [{result}] = await this.query(query, [id]);
-        return result > 0;
+        const count = await this.createQueryBuilder('user')
+        .where('user.id = :id', { id })
+        .getCount()
+
+        return count > 0;
     }   
 }
