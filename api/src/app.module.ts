@@ -6,10 +6,12 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { UserController } from './modules/user/user.controller';
 import { AuthController } from './modules/auth/auth.controller';
+import { TicketController } from './modules/ticket/ticket.controller';
+import { TicketModule } from './modules/ticket/ticket.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule],
-  controllers: [AppController, UserController, AuthController],
+  imports: [DatabaseModule, AuthModule, UserModule, TicketModule],
+  controllers: [AppController, UserController, AuthController, TicketController],
   providers: [AppService],
 })
 export class AppModule {}

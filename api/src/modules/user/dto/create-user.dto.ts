@@ -28,9 +28,4 @@ export class CreateUserDto {
 
     // @ApiProperty()
     // gender: boolean;
-
-    // @ApiProperty()
-    // @IsNumber()
-    // @IsDefined()
-    // role: number
 }

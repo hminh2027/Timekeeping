@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId, UpdateDateColumn } from "typeorm";
 import { Role } from "../role/role.entity";
+import { Ticket } from "../ticket/ticket.entity";
 
 @Entity('user')
 export class User {
@@ -21,8 +22,8 @@ export class User {
     @Column({ default: false })
     gender: boolean;
 
-    @Column({ length: 50, default: '' })
-    birth: string;
+    @Column()
+    birth: Date;
 
     @Column({ length: 50, default: ''  })
     avatar: string;
@@ -37,5 +38,13 @@ export class User {
     isDeleted: boolean;
 
     @ManyToOne(() => Role, role => role.users, { eager: true })
+    @JoinColumn({ name: 'roleId', referencedColumnName: 'id'})
     role: Role;
+
+    @RelationId((user: User) => user.role)
+    roleId: number;
+
+    @OneToMany(() => Ticket, ticket => ticket.id)
+    tickets: Ticket[];
+    
 }
