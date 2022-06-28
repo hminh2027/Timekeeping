@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SearchQueryDto } from './dto/query.dto';
 
-@Controller('user')
+@Controller('api/user')
 @UsePipes(ValidationPipe)
 export class UserController {
     constructor(private readonly userService: UserService) {}
