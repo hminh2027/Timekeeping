@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId, UpdateDateColumn } from "typeorm";
 import { Role } from "../role/role.entity";
 import { User } from "../user/user.entity";
+import { TicketType } from "./ticket-type.entity";
 
 @Entity('ticket')
 export class Ticket {
@@ -45,9 +46,17 @@ export class Ticket {
     // @RelationId((ticket: Ticket) => ticket.recipient)
     // recipientId: number;
 
+    @ManyToOne(() => TicketType, ticket => ticket.tickets, { eager: true })
+    @JoinColumn({ name: 'ticketId', referencedColumnName: 'id'})
+    ticketType: Ticket;
+
     @Column()
     recipientId: number;
 
     @Column()
     authorId: number;
+
+    @Column()
+    ticketTypeId: number;
+
 }
