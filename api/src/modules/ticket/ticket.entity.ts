@@ -36,18 +36,12 @@ export class Ticket {
     @JoinColumn({ name: 'authorId', referencedColumnName: 'id'})
     author: User;
 
-    // @RelationId((ticket: Ticket) => ticket.author)
-    // authorId: number;
-
     @ManyToOne(() => User, user => user.tickets, { eager: true })
     @JoinColumn({ name: 'recipientId', referencedColumnName: 'id'})
     recipient: User;
 
-    // @RelationId((ticket: Ticket) => ticket.recipient)
-    // recipientId: number;
-
     @ManyToOne(() => TicketType, ticket => ticket.tickets, { eager: true })
-    @JoinColumn({ name: 'ticketId', referencedColumnName: 'id'})
+    @JoinColumn({ name: 'ticketTypeId', referencedColumnName: 'id'})
     ticketType: Ticket;
 
     @Column()

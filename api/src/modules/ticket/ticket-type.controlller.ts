@@ -21,11 +21,11 @@ export class TicketTypeController {
     }
 
     /* POST request to create a new ticket type
-    @Role: for user only
+    @Role: for admin only
     @Guard: must be authenticated
     @Body: ticket type's data
     */
-    @Roles(UserRole.USER)
+    @Roles(UserRole.ADMIN)
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Post()
     async createTicket(@Body() data: CreateTicketTypeDto) {
@@ -37,12 +37,12 @@ export class TicketTypeController {
     }
 
     /* PATCH request to update a ticket type
-    @Role: for user only
+    @Role: for admin only
     @Guard: must be authenticated
     @Body: ticket  type's data
     @Param: targeted id of ticket type
     */
-    @Roles(UserRole.USER)
+    @Roles(UserRole.ADMIN)
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Patch(':id')
     async updateTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketTypeDto) {        
@@ -54,11 +54,11 @@ export class TicketTypeController {
     }
 
     /* DELETE request to delete a ticket type
-    @Role: for user only
+    @Role: for admin only
     @Guard: must be authenticated
     @Param: targeted id of ticket type
     */
-    @Roles(UserRole.USER)
+    @Roles(UserRole.ADMIN)
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Delete(':id')
     async deleteTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {        

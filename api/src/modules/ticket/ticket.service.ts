@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { getCustomRepository, Repository } from "typeorm";
 import { CreateTicketDto } from "./dto/create-ticket.dto";
 import { UpdateTicketDto } from "./dto/update-ticket.dto";
+import { TicketRepository } from "./repository/ticket.repository";
 import { Ticket } from "./ticket.entity";
 
 
@@ -38,8 +39,7 @@ export class TicketService {
     async update(id: number, data: UpdateTicketDto) {
         try {
             // Check if ticket exist
-            const ticketCheck = await this.ticketRepository.findOne({where: {id}});
-            // const ticketCheck = await getCustomRepository(TicketRepository).checkIfTicketExists(id);
+            const ticketCheck = await getCustomRepository(TicketRepository).checkIfTicketExists(id);
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
             // Update query
@@ -53,8 +53,7 @@ export class TicketService {
     async remove(id: number) {
         try {
             // Check if ticket exist
-            const ticketCheck = await this.ticketRepository.findOne({where: {id}});
-            // const ticketCheck = await getCustomRepository(TicketRepository).checkIfTicketExists(id);
+            const ticketCheck = await getCustomRepository(TicketRepository).checkIfTicketExists(id);
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
             // Update query
