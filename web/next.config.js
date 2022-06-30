@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    APP_URL: "http://localhost:3000/api/",
+    APP_URL: process.env.APP_URL,
   },
 };
 
