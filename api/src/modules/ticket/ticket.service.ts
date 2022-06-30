@@ -1,18 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { getCustomRepository, Repository } from "typeorm";
-import { CreateTicketDto } from "./dto/create-ticket.dto";
-import { UpdateTicketDto } from "./dto/update-ticket.dto";
+import { Ticket } from "./entity/ticket.entity";
+import { CreateTicketPayload } from "./payload/create-ticket.payload";
+import { UpdateTicketPayload } from "./payload/update-ticket.payload";
 import { TicketRepository } from "./repository/ticket.repository";
-import { Ticket } from "./ticket.entity";
 
 
 @Injectable()
 export class TicketService {
     constructor(
-        @InjectRepository(Ticket)
-        private readonly ticketRepository: Repository<Ticket>
-        // private readonly ticketRepository: Repository<Ticket> = getCustomRepository(TicketRepository)
+        private readonly ticketRepository: TicketRepository
     ) {}
 
     async getAll(): Promise<Ticket[]> {
@@ -25,7 +21,7 @@ export class TicketService {
         }
     }
 
-    async create(data: CreateTicketDto): Promise<Ticket> {
+    async create(data: CreateTicketPayload): Promise<Ticket> {
         try {
             // Insert query
             const newTicket = await this.ticketRepository.create(data);
@@ -36,10 +32,10 @@ export class TicketService {
         }
     }
 
-    async update(id: number, data: UpdateTicketDto) {
+    async update(id: number, data: UpdateTicketPayload) {
         try {
             // Check if ticket exist
-            const ticketCheck = await getCustomRepository(TicketRepository).checkIfTicketExists(id);
+            const ticketCheck = await this.ticketRepository.checkIfTicketExists(id);
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
             // Update query
@@ -53,7 +49,7 @@ export class TicketService {
     async remove(id: number) {
         try {
             // Check if ticket exist
-            const ticketCheck = await getCustomRepository(TicketRepository).checkIfTicketExists(id);
+            const ticketCheck = await this.ticketRepository.checkIfTicketExists(id);
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
             // Update query

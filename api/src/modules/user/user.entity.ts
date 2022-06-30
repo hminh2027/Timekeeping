@@ -1,50 +1,49 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId, UpdateDateColumn } from "typeorm";
-import { Role } from "../role/role.entity";
-import { Ticket } from "../ticket/ticket.entity";
+import { Exclude } from 'class-transformer';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Role } from '../role/role.entity';
+import { Ticket } from '../ticket/entity/ticket.entity';
 
-@Entity('user')
+import { PasswordTransformer } from './password.transformer';
+
+@Entity({
+  name: 'users',
+})
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column({length: 50, unique: true })
-    email: string;
-    
-    @Column({ length: 150 })
-    password: string;
+  @Column({ length: 255 })
+  firstName!: string;
 
-    @Column({ length: 50 })
-    firstName: string;
+  @Column({ length: 255 })
+  lastName!: string;
 
-    @Column({ length: 50 })
-    lastName: string;
+  @Column({ length: 255 })
+  email!: string;
 
-    @Column({ default: false })
-    gender: boolean;
+  @Column({
+    name: 'password',
+    length: 255,
+    // transformer: new PasswordTransformer(),
+  })
+  // @Exclude()
+  password!: string;
 
-    @Column()
-    birth: Date;
+  @Column()
+  roleId: number;
 
-    @Column({ length: 50, default: ''  })
-    avatar: string;
+  /* N-1 relationships */
+  @ManyToOne(() => Role, role => role.users, { eager: true })
+  role: Role;
 
-    @CreateDateColumn ()
-    createdAt: Date;
+  /* N-1 relationships */
+  @OneToMany(() => Ticket, ticket => ticket.id)
+  tickets: Ticket[];
+}
 
-    @UpdateDateColumn ()
-    modifiedAt: Date;
-
-    @Column({ default: false })
-    isDeleted: boolean;
-
-    @ManyToOne(() => Role, role => role.users, { eager: true })
-    @JoinColumn({ name: 'roleId', referencedColumnName: 'id'})
-    role: Role;
-
-    @RelationId((user: User) => user.role)
-    roleId: number;
-
-    @OneToMany(() => Ticket, ticket => ticket.id)
-    tickets: Ticket[];
-    
+export class UserFillableFields {
+  email!: string;
+  firstName!: string;
+  lastName!: string;
+  password!: string;
 }

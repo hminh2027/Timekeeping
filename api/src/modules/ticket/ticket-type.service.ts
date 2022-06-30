@@ -1,18 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { getCustomRepository, Repository } from "typeorm";
-import { CreateTicketTypeDto } from "./dto/create-ticket-type.dto";
-import { UpdateTicketTypeDto } from "./dto/update-ticket-type.dto";
+import { CreateTicketTypePayload } from "./payload/create-ticket-type.payload";
+import { UpdateTicketTypePayload } from "./payload/update-ticket-type.payload";
 import { TicketTypeRepository } from "./repository/ticket-type.repository";
-import { TicketType } from "./ticket-type.entity";
+import { TicketType } from "./entity/ticket-type.entity";
 
 
 @Injectable()
 export class TicketTypeService {
     constructor(
-        @InjectRepository(TicketType)
-        private readonly ticketTypeRepository: Repository<TicketType>
-        // private readonly ticketRepository: Repository<Ticket> = getCustomRepository(TicketRepository)
+        private readonly ticketTypeRepository: TicketTypeRepository
     ) {}
 
     async getAll(): Promise<TicketType[]> {
@@ -25,7 +21,7 @@ export class TicketTypeService {
         }
     }
 
-    async create(data: CreateTicketTypeDto): Promise<TicketType> {
+    async create(data: CreateTicketTypePayload): Promise<TicketType> {
         try {
             // Insert query
             const newTicket = await this.ticketTypeRepository.create(data);
@@ -36,10 +32,10 @@ export class TicketTypeService {
         }
     }
 
-    async update(id: number, data: UpdateTicketTypeDto) {
+    async update(id: number, data: UpdateTicketTypePayload) {
         try {
             // Check if ticket type exist
-            const ticketCheck = await getCustomRepository(TicketTypeRepository).checkIfTicketExists(id);
+            const ticketCheck = await this.ticketTypeRepository.checkIfTicketExists(id);
             if (!ticketCheck) throw new NotFoundException('Ticket type is not found');
             
             // Update query
@@ -53,7 +49,7 @@ export class TicketTypeService {
     async remove(id: number) {
         try {
             // Check if ticket type exist
-            const ticketCheck = await getCustomRepository(TicketTypeRepository).checkIfTicketExists(id);
+            const ticketCheck = await this.ticketTypeRepository.checkIfTicketExists(id);
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
             // Update query

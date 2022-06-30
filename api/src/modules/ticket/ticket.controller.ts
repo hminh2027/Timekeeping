@@ -1,33 +1,39 @@
 import { Request, Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe, Delete } from "@nestjs/common";
+import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/common/decorators/roles.decorator";
-import { JwtAuthGuard } from "src/common/guards/jwt-auth.guard";
-import { RolesGuard } from "src/common/guards/roles.guard";
-import { UserRole } from "../role/role.enum";
-import { CreateTicketDto } from "./dto/create-ticket.dto";
-import { UpdateTicketDto } from "./dto/update-ticket.dto";
+import { JwtAuthGuard } from "src/common/guards/jwt.guard";
+import { RolesGuard } from "src/common/guards/role.guard";
+import { UserRole } from "../../../../api/src/modules/role/role.enum";
+import { CreateTicketPayload } from "./payload/create-ticket.payload";
+import { UpdateTicketPayload } from "./payload/update-ticket.payload";
 import { TicketService } from "./ticket.service";
 
-@Controller('api/ticket')
+@Controller('ticket')
+@ApiTags('ticket')
+@ApiBearerAuth()
 @UsePipes(ValidationPipe)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.USER)
+
 export class TicketController {
     constructor(private readonly ticketService: TicketService) {}
 
-    /* GET request to get all tickets */
+    @Roles(UserRole.ADMIN)
     @Get()
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
     async getAll() {
         return await this.ticketService.getAll();
     }
-
-    /* POST request to create a new ticket
-    @Role: for user only
-    @Guard: must be authenticated
-    @Body: ticket's data
-    @Request: get id of user
-    */
-    @Roles(UserRole.USER)
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    
     @Post()
-    async createTicket(@Request() req, @Body() data: CreateTicketDto) {
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Created successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    async createTicket(@Request() req, @Body() data: CreateTicketPayload) {
         data.authorId = req?.user?.id;
         return {
             statusCode: HttpStatus.OK,
@@ -36,38 +42,30 @@ export class TicketController {
         }
     }
 
-    /* PATCH request to update a ticket
-    @Role: for user only
-    @Guard: must be authenticated
-    @Body: ticket's data
-    @Request: get id of user
-    @Param: targeted id of ticket
-    */
-    @Roles(UserRole.USER)
-    @UseGuards(JwtAuthGuard, RolesGuard)
     @Patch(':id')
-    async updateTicket(@Request() req, @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketDto) {        
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Updated successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    async updateTicket(@Request() req, @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketPayload) {        
         data.authorId = req?.user?.id;
+        this.ticketService.update(id, data)
         return {
             statusCode: HttpStatus.OK,
-            message: 'Ticket updated successfully',
-            data: await this.ticketService.update(id, data)
+            message: 'Ticket updated successfully'
         }
     }
 
-    /* DELETE request to delete a ticket
-    @Role: for user only
-    @Guard: must be authenticated
-    @Param: targeted id of ticket
-    */
-    @Roles(UserRole.USER)
-    @UseGuards(JwtAuthGuard, RolesGuard)
     @Delete(':id')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Deleted successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
     async deleteTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {        
+        this.ticketService.remove(id)
         return {
             statusCode: HttpStatus.OK,
-            message: 'Ticket deleted successfully',
-            data: await this.ticketService.remove(id)
+            message: 'Ticket deleted successfully'
         }
     }
 }

@@ -1,34 +1,29 @@
-import { Request, Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe, Delete } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe, Delete } from "@nestjs/common";
+import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/common/decorators/roles.decorator";
-import { JwtAuthGuard } from "src/common/guards/jwt-auth.guard";
-import { RolesGuard } from "src/common/guards/roles.guard";
-import { UserRole } from "../role/role.enum";
-import { CreateTicketTypeDto } from "./dto/create-ticket-type.dto";
-import { CreateTicketDto } from "./dto/create-ticket.dto";
-import { UpdateTicketTypeDto } from "./dto/update-ticket-type.dto";
-import { UpdateTicketDto } from "./dto/update-ticket.dto";
+import { JwtAuthGuard } from "src/common/guards/jwt.guard";
+import { RolesGuard } from "src/common/guards/role.guard";
+import { UserRole } from "../../../../api/src/modules/role/role.enum";
+import { CreateTicketTypePayload } from "./payload/create-ticket-type.payload";
+import { UpdateTicketTypePayload } from "./payload/update-ticket-type.payload";
 import { TicketTypeService } from "./ticket-type.service";
 
-@Controller('api/ticket-type')
+@Controller('ticket/type')
+@ApiTags('ticket type')
+@ApiBearerAuth()
 @UsePipes(ValidationPipe)
+@Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+
 export class TicketTypeController {
     constructor(private readonly ticketTypeService: TicketTypeService) {}
 
-    /* GET request to get all ticket types */
-    @Get()
-    async getAll() {
-        return await this.ticketTypeService.getAll();
-    }
-
-    /* POST request to create a new ticket type
-    @Role: for admin only
-    @Guard: must be authenticated
-    @Body: ticket type's data
-    */
-    @Roles(UserRole.ADMIN)
-    @UseGuards(JwtAuthGuard, RolesGuard)
     @Post()
-    async createTicket(@Body() data: CreateTicketTypeDto) {
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Created successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })  
+    
+    async createTicket(@Body() data: CreateTicketTypePayload) {
         return {
             statusCode: HttpStatus.OK,
             message: 'Ticket type created successfully',
@@ -36,36 +31,29 @@ export class TicketTypeController {
         }
     }
 
-    /* PATCH request to update a ticket type
-    @Role: for admin only
-    @Guard: must be authenticated
-    @Body: ticket  type's data
-    @Param: targeted id of ticket type
-    */
-    @Roles(UserRole.ADMIN)
-    @UseGuards(JwtAuthGuard, RolesGuard)
     @Patch(':id')
-    async updateTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketTypeDto) {        
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Updated successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    async updateTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketTypePayload) {        
+        this.ticketTypeService.update(id, data)
         return {
             statusCode: HttpStatus.OK,
-            message: 'Ticket type updated successfully',
-            data: await this.ticketTypeService.update(id, data)
+            message: 'Ticket type updated successfully'
         }
     }
 
-    /* DELETE request to delete a ticket type
-    @Role: for admin only
-    @Guard: must be authenticated
-    @Param: targeted id of ticket type
-    */
-    @Roles(UserRole.ADMIN)
-    @UseGuards(JwtAuthGuard, RolesGuard)
     @Delete(':id')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Deleted successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
     async deleteTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {        
+        this.ticketTypeService.remove(id)
         return {
             statusCode: HttpStatus.OK,
-            message: 'Ticket type deleted successfully',
-            data: await this.ticketTypeService.remove(id)
+            message: 'Ticket type deleted successfully'
         }
     }
 }
