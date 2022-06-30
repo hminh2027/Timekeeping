@@ -1,14 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AwsModule } from './common/aws/aws.module';
+import { ConfigModule } from './common/config/config.module';
+import { ConfigService } from './common/config/config.service';
 import { DatabaseModule } from './common/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { UserModule } from './modules/user/user.module';
-import { UserController } from './modules/user/user.controller';
+import { TicketModule } from './modules/ticket/ticket.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule],
-  controllers: [AppController, UserController],
-  providers: [AppService],
+  imports: [AuthModule, ConfigModule, DatabaseModule, TicketModule, AwsModule.register()],
 })
-export class AppModule {}
+export class AppModule {
+  static port: string | number;
+  static isDev: boolean;
+
+  constructor(private readonly config: ConfigService) {
+    AppModule.port = config.get('PORT') ?? 3000;
+    AppModule.isDev = config.isDev;
+  }
+}
