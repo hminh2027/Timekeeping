@@ -1,32 +1,33 @@
-import { EntityRepository, Repository } from "typeorm";
-import { User } from "./user.entity";
+import { EntityRepository } from 'src/common/typeorm/typeorm-ex.decorator';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-
-    public async checkIfEmailExists(email: string, id?: number): Promise<boolean> {
+    public async checkEmailExistence(email: string, id?: number): Promise<boolean> {
         let count;
 
         if(id) {
-            count = await this.createQueryBuilder('user')
-            .where('user.email = :email', { email })
-            .andWhere('user.id <> :id', { id })
-            .getCount()
+            count = await this.createQueryBuilder('users')
+            .where('users.email = :email', { email })
+            .andWhere('users.id <> :id', { id })
+            .getCount();
         }
         else {          
-            count = await this.createQueryBuilder('user')
-            .where('user.email = :email', { email })
-            .getCount()
+            count = await this.createQueryBuilder('users')
+            .where('users.email = :email', { email })
+            .getCount();
         }
 
         return count > 0;
     }
 
-    public async checkIfUserExists(id: number): Promise<boolean> {
-        const count = await this.createQueryBuilder('user')
-        .where('user.id = :id', { id })
-        .getCount()
+    public async checkUserExistence(id: number): Promise<boolean> {
+        const count = await this.createQueryBuilder('users')
+        .where('users.id = :id', { id })
+        .getCount();
 
         return count > 0;
-    }   
+    }
+
 }

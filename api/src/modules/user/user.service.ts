@@ -1,117 +1,142 @@
-import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { hash } from "bcrypt";
-import { getCustomRepository, Repository } from "typeorm";
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { User } from './user.entity';
-import { UserRepository } from "./user.repository";
+import { Injectable, NotAcceptableException } from '@nestjs/common';
+import { createHmac } from 'crypto';
+import { User, UserFillableFields } from './user.entity';
+import { UserPayload } from './payload/user.payload';
+import { UserRepository } from './user.repository';
+import { UserRole } from '../role/role.enum';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>
-        // private readonly userRepository: Repository<User> = getCustomRepository(UserRepository)
-    ) {}
+  constructor(private readonly userRepository: UserRepository) { }
 
-    async search(params): Promise<User[]>{
-        try {
-            const offset = (params.page - 1) * params.limit;
-            let users: User[];
+  async getById(id: number) {
+    return await this.userRepository.findOne({ where: { id } });
+  }
 
-            if(params.textSearch) {               
-                users = await this.userRepository
-                .createQueryBuilder('user')
-                .where('user.email like :email', { email: `%${params.textSearch}%` })               
-                .orderBy('user.createdAt', 'DESC')
-                .skip(offset)
-                .take(params.limit)
-                .getMany();
+  async getByEmail(email: string) {
+    return await this.userRepository.findOne({ where: { email } });
+  }
 
-            }
-            else {
-                users = await this.userRepository
-                .createQueryBuilder('user')
-                .orderBy('user.createdAt', 'DESC')
-                .skip(offset)
-                .take(params.limit)
-                .getMany();
-            }
-            
-            return users;
+  async getByEmailAndPass(email: string, password: string) {
+    return await this.userRepository.createQueryBuilder('users')
+    .select([
+      'users.id as id',
+      'firstName',
+      'lastName',
+      'email',
+      'password',
+      'name as role'
+    ])
+    .innerJoin('users.role', 'roles')
+    .where('users.email = :email', { email })
+    .andWhere('users.password = :password', { password })
+    .execute()
 
-        } catch (err) {
-            throw err;
-        }
+    // return await this.userRepository.findOne({
+    //   join: { alias: 'users', leftJoinAndSelect: { roles: 'users.role' }},
+    //   where: { email, password }
+    // })
+
+    // return await this.userRepository.findOne({ where: { email, password } });
+  }
+
+  async create(payload: UserFillableFields): Promise<User> {
+    const passHash = createHmac('sha256', payload.password).digest('hex');
+    payload.password = passHash;
+
+    const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email);
+
+    if (checkEmailExistence) {
+      throw new NotAcceptableException(
+        'Another user with provided email already exists.',
+      );
     }
 
-    async findOneByEmail(email: string): Promise<User> {
-        try {
-            return await this.userRepository.findOne({ where: {email} });
+    const newUser = this.userRepository.create(payload);
+    return await this.userRepository.save(newUser);
+  }
 
-        } catch (err) {
-            throw err;
-        }
+  async update(id: number, payload: UserPayload): Promise<void> {
+    const checkUserExistence = await this.userRepository.checkUserExistence(id);
+
+    if (!checkUserExistence) {
+      throw new NotAcceptableException(
+        'User does not exists.',
+      );
     }
 
-    async findOneById(id: number): Promise<User> {
-        try {
-            return await this.userRepository.findOne({ where: {id} });
+    const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email, id);
 
-        } catch (err) {
-            throw err;
-        }
+    if (checkEmailExistence) {
+      throw new NotAcceptableException(
+        'Another user with provided email already exists.',
+      );
     }
+    
+    await this.userRepository.update(id, payload);
+  }
 
-    async create(data: CreateUserDto): Promise<User> {
-        try {
-            // Check if email exist
-            // const emailCheck = await this.userRepository.checkIfEmailExists(data.email);
-            const emailCheck = await getCustomRepository(UserRepository).checkIfEmailExists(data.email);
-            if (emailCheck) throw new HttpException(`${data.email} is already registerd on this site`, HttpStatus.CONFLICT);
-            
-            // Hash password
-            const hashedPassword = await hash(data.password, 10);
-            data.password = hashedPassword;
+  async search(params): Promise<User[]>{
+    try {
+        const offset = (params.page - 1) * params.limit;
+        let users: User[];
 
-            // Insert query
-            const newUser = await this.userRepository.create(data);
-            return this.userRepository.save(newUser);
+        if(params.textSearch) {
+            users = await this.userRepository
+            .createQueryBuilder('users')
+            .select([
+              'users.id as id',
+              'firstName',
+              'lastName',
+              'email',
+              'password',
+              'name as role'
+            ])
+            .innerJoin('users.role', 'roles')
+            .where('users.email like :email', { email: `%${params.textSearch}%` })               
+            .orderBy('users.id', 'DESC')
+            .skip(offset)
+            .take(params.limit)
+            .execute();
 
-        } catch (err) {
-            throw err;
         }
-    }
-
-    async update(id: number, data: UpdateUserDto): Promise<void> {
-        try {
-            // Check if user exist
-            // const userCheck = await this.userRepository.checkIfUserExists(id);
-            const userCheck = await getCustomRepository(UserRepository).checkIfUserExists(id);
-            if (!userCheck) throw new NotFoundException('User is not found');
-            
-            // Check if email exist
-            // const emailCheck = await this.userRepository.checkIfEmailExists(data.email, id);
-            const emailCheck = await getCustomRepository(UserRepository).checkIfEmailExists(data.email, id);
-
-            if (emailCheck) throw new HttpException(`${data.email} is already registerd on this site`, HttpStatus.CONFLICT);
-            
-            // Update query
-            await this.userRepository.update(id, data);
-
-        } catch (err) {
-            throw err;
+        else {
+            users = await this.userRepository
+            .createQueryBuilder('users')
+            .select([
+              'users.id as id',
+              'firstName',
+              'lastName',
+              'email',
+              'password',
+              'name as role'
+            ])
+            .innerJoin('users.role', 'roles')
+            .orderBy('users.id', 'DESC')
+            .skip(offset)
+            .take(params.limit)
+            .execute();
         }
         
-    }
+        return users;
 
-    async remove(id: number): Promise<void> {
-        try {
-            await this.userRepository.delete(id);
-
-        } catch (err) {
-            throw err;
-        }
+    } catch (err) {
+        throw err;
     }
+  }
+
+  async remove(id: number): Promise<void> {
+    try {
+      await this.userRepository.delete(id);
+
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
+    const user = await this.getById(id);
+    console.log(user)
+    return user.role.name === role;
+  } 
 }

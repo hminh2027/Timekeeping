@@ -1,57 +1,70 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { RolesGuard } from 'src/common/guards/role.guard';
+import { UserRole } from '../role/role.enum';
+import { SearchQueryDto } from './dto/search.payload';
+import { UserPayload } from './payload/user.payload';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { SearchQueryDto } from './dto/query.dto';
 
-@Controller('api/user')
+
+@Controller('user')
+@ApiTags('user')
+@ApiBearerAuth()
 @UsePipes(ValidationPipe)
-export class UserController {
-    constructor(private readonly userService: UserService) {}
+@UseGuards(JwtAuthGuard)
 
-    /* GET request to get all users */
+export class UserController {
+    constructor(
+        private readonly userService: UserService,
+        // private readonly contactService: ContactService
+    ) {}
+
     @Get()
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
     async search(@Query() params: SearchQueryDto) {
         return await this.userService.search(params);
     }
 
-    /* GET request to get an user*/
-    /* @param id: id of user */
     @Get(':id')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
     async getUser(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) { 
-        return await this.userService.findOneById(id);
+        return await this.userService.getById(id);
     }
 
-    /* POST request to create a new user*/
-    /* @body data: user' information payload */
-    @Post()
-    async createUser(@Body() data: CreateUserDto) {
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'User created successfully',
-            data: await this.userService.create(data)
-        }
-    }
-
-    /* PATCH request to update an existing user*/
-    /* @param id: id of user */
     @Patch(':id')
-    async updateUser(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateUserDto) {
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'User updated successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful Login' })
+    
+    async updateUser(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() payload: UserPayload) {
+        await this.userService.update(id, payload)
         return {
             statusCode: HttpStatus.OK,
-            message: 'User updated successfully',
-            data: await this.userService.update(id, data)
+            message: 'User updated successfully'
         }
     }
 
-    /* DELETE request to delete an user*/
-    /* @param id: id of user */
     @Delete(':id')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'User deleted successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    @Roles(UserRole.ADMIN)
+    @UseGuards(RolesGuard)
+    
     async deleteUser(@Param('id',  new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
+        await this.userService.remove(id)
         return {
             statusCode: HttpStatus.OK,
-            message: 'User deleted successfully',
-            data: await this.userService.remove(id)
+            message: 'User deleted successfully'
         }
     }
 }
