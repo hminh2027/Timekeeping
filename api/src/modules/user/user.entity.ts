@@ -25,12 +25,13 @@ export class User {
   @Column()
   roleId: number;
 
-  /* N-1 relationships */
+  /* RELATIONSHIPS */
+  /* N-1 */
   @ManyToOne(() => Role, role => role.users, { eager: true })
   @JoinColumn({ name: 'roleId'})
   role: Role;
 
-  /* 1-N relationships */
+  /* 1-N */
   @OneToMany(() => Ticket, ticket => ticket.id)
   tickets: Ticket[];
 }

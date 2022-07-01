@@ -56,6 +56,20 @@ export class TicketController {
         }
     }
 
+    @Patch(':id')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Updated successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    async updateTicketStatus(@Request() req, @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketPayload) {        
+        data.authorId = req?.user?.id;
+        this.ticketService.update(id, data)
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'Ticket status updated successfully'
+        }
+    }
+
     @Delete(':id')
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Deleted successfully' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })

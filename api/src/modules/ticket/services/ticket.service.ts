@@ -2,6 +2,7 @@ import { Inject, Injectable, NotAcceptableException, NotFoundException } from "@
 import { UserRole } from "src/modules/role/role.enum";
 import { UserService } from "src/modules/user/user.service";
 import { Ticket } from "../entities/ticket.entity";
+import { TicketStatus } from "../enums/ticket-status.enum";
 import { CreateTicketPayload } from "../payloads/create-ticket.payload";
 import { UpdateTicketPayload } from "../payloads/update-ticket.payload";
 import { TicketRepository } from "../repositories/ticket.repository";
@@ -64,5 +65,10 @@ export class TicketService {
         } catch (err) {
             throw err;
         }
+    }
+
+    async updateTicketStatus(id: number, status: TicketStatus) {
+        console.log(status)
+        // await this.ticketRepository.update(id, status)
     }
 }
