@@ -32,9 +32,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   //   return {};
   // }
   async validate(payload: LoginPayload) {
-    const user = await this.authService.validateUser(payload);
+    const user = await this.authService.validateToken(payload);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Token is invalid');
     }
     return user;
   }

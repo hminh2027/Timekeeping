@@ -1,5 +1,6 @@
 import { User } from "src/modules/user/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { TicketStatus } from "./ticket-status.entity";
 import { TicketType } from "./ticket-type.entity";
 
 @Entity('tickets')
@@ -19,10 +20,14 @@ export class Ticket {
     @Column()
     endDate: Date;
 
-    @Column({ default: false })
-    isApproved: boolean;
+    @CreateDateColumn()
+    createdAt: Date;
 
-    /* N-1 relationships */
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    /* RELATIONSHIPS */
+    /* N-1 */
     @ManyToOne(() => User, user => user.tickets, { eager: true })
     @JoinColumn({ name: 'authorId', referencedColumnName: 'id'})
     author: User;
@@ -33,7 +38,11 @@ export class Ticket {
 
     @ManyToOne(() => TicketType, ticket => ticket.tickets, { eager: true })
     @JoinColumn({ name: 'ticketTypeId', referencedColumnName: 'id'})
-    ticketType: Ticket;
+    ticketType: TicketType;
+
+    @ManyToOne(() => TicketStatus, ticket => ticket.tickets, { eager: true })
+    @JoinColumn({ name: 'ticketStatusId', referencedColumnName: 'id'})
+    ticketStatus: TicketStatus;
 
     @Column()
     recipientId: number;
@@ -44,4 +53,6 @@ export class Ticket {
     @Column()
     ticketTypeId: number;
 
+    @Column()
+    ticketStatusId: number;
 }

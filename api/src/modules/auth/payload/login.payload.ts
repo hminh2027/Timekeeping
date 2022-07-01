@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator';
 
 export class LoginPayload {
-  @ApiProperty({ required: true, default: 'test@gmail.com'})
+  @ApiProperty({ required: true, default: 'test@vdt.com'})
   @IsEmail()
+  @Matches(/^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/, { message: `Email domain must be vdtsol` })
   email!: string;
 
   @ApiProperty({ required: true, default: '123456' })

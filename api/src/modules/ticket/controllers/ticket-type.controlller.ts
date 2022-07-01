@@ -3,10 +3,10 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/common/decorators/roles.decorator";
 import { JwtAuthGuard } from "src/common/guards/jwt.guard";
 import { RolesGuard } from "src/common/guards/role.guard";
-import { UserRole } from "../../../../api/src/modules/role/role.enum";
-import { CreateTicketTypePayload } from "./payload/create-ticket-type.payload";
-import { UpdateTicketTypePayload } from "./payload/update-ticket-type.payload";
-import { TicketTypeService } from "./ticket-type.service";
+import { UserRole } from "../../role/role.enum";
+import { CreateTicketTypePayload } from "../payloads/create-ticket-type.payload";
+import { UpdateTicketTypePayload } from "../payloads/update-ticket-type.payload";
+import { TicketTypeService } from "../services/ticket-type.service";
 
 @Controller('ticket/type')
 @ApiTags('ticket type')

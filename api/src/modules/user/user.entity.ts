@@ -1,9 +1,7 @@
 import { Exclude } from 'class-transformer';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Role } from '../role/role.entity';
-import { Ticket } from '../ticket/entity/ticket.entity';
-
-import { PasswordTransformer } from './password.transformer';
+import { Ticket } from '../ticket/entities/ticket.entity';
 
 @Entity({
   name: 'users',
@@ -21,12 +19,7 @@ export class User {
   @Column({ length: 255 })
   email!: string;
 
-  @Column({
-    name: 'password',
-    length: 255,
-    // transformer: new PasswordTransformer(),
-  })
-  // @Exclude()
+  @Column({ length: 255 })
   password!: string;
 
   @Column()
@@ -34,9 +27,10 @@ export class User {
 
   /* N-1 relationships */
   @ManyToOne(() => Role, role => role.users, { eager: true })
+  @JoinColumn({ name: 'roleId'})
   role: Role;
 
-  /* N-1 relationships */
+  /* 1-N relationships */
   @OneToMany(() => Ticket, ticket => ticket.id)
   tickets: Ticket[];
 }

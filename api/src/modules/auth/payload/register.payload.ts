@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator';
+
+const EMAIL_DOMAIN = 'vdtsol';
 
 export class RegisterPayload {
   @ApiProperty({ required: true })
   @IsEmail()
+  @Matches(/^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/, { message: `Email domain must be vdtsol` })
   email!: string;
 
   @ApiProperty({ required: true })

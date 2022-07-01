@@ -3,6 +3,7 @@ import { createHmac } from 'crypto';
 import { User, UserFillableFields } from './user.entity';
 import { UserPayload } from './payload/user.payload';
 import { UserRepository } from './user.repository';
+import { UserRole } from '../role/role.enum';
 
 @Injectable()
 export class UserService {
@@ -17,12 +18,32 @@ export class UserService {
   }
 
   async getByEmailAndPass(email: string, password: string) {
-    // const passHash = createHmac('sha256', password).digest('hex');
-    const passHash = password;
-    return await this.userRepository.findOne({ where: { email, password: passHash } });
+    return await this.userRepository.createQueryBuilder('users')
+    .select([
+      'users.id as id',
+      'firstName',
+      'lastName',
+      'email',
+      'password',
+      'name as role'
+    ])
+    .innerJoin('users.role', 'roles')
+    .where('users.email = :email', { email })
+    .andWhere('users.password = :password', { password })
+    .execute()
+
+    // return await this.userRepository.findOne({
+    //   join: { alias: 'users', leftJoinAndSelect: { roles: 'users.role' }},
+    //   where: { email, password }
+    // })
+
+    // return await this.userRepository.findOne({ where: { email, password } });
   }
 
   async create(payload: UserFillableFields): Promise<User> {
+    const passHash = createHmac('sha256', payload.password).digest('hex');
+    payload.password = passHash;
+
     const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email);
 
     if (checkEmailExistence) {
@@ -63,20 +84,38 @@ export class UserService {
         if(params.textSearch) {
             users = await this.userRepository
             .createQueryBuilder('users')
+            .select([
+              'users.id as id',
+              'firstName',
+              'lastName',
+              'email',
+              'password',
+              'name as role'
+            ])
+            .innerJoin('users.role', 'roles')
             .where('users.email like :email', { email: `%${params.textSearch}%` })               
             .orderBy('users.id', 'DESC')
             .skip(offset)
             .take(params.limit)
-            .getMany();
+            .execute();
 
         }
         else {
             users = await this.userRepository
             .createQueryBuilder('users')
+            .select([
+              'users.id as id',
+              'firstName',
+              'lastName',
+              'email',
+              'password',
+              'name as role'
+            ])
+            .innerJoin('users.role', 'roles')
             .orderBy('users.id', 'DESC')
             .skip(offset)
             .take(params.limit)
-            .getMany();
+            .execute();
         }
         
         return users;
@@ -95,4 +134,9 @@ export class UserService {
     }
   }
 
+  public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
+    const user = await this.getById(id);
+    console.log(user)
+    return user.role.name === role;
+  } 
 }

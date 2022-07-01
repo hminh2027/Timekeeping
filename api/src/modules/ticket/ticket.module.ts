@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmExModule } from 'src/common/typeorm/typeorm-ex.module';
-import { TicketTypeRepository } from './repository/ticket-type.repository';
-import { TicketRepository } from './repository/ticket.repository';
-import { TicketTypeController } from './ticket-type.controlller';
-import { TicketTypeService } from './ticket-type.service';
-import { TicketController } from './ticket.controller';
-import { TicketService } from './ticket.service';
+import { UserModule } from '../user/user.module';
+import { TicketTypeRepository } from './repositories/ticket-type.repository';
+import { TicketRepository } from './repositories/ticket.repository';
+import { TicketTypeController } from './controllers/ticket-type.controlller';
+import { TicketTypeService } from './services/ticket-type.service';
+import { TicketController } from './controllers/ticket.controller';
+import { TicketService } from './services/ticket.service';
 
 @Module({
-    imports: [TypeOrmExModule.forRepository([TicketRepository, TicketTypeRepository])],
+    imports: [TypeOrmExModule.forRepository([TicketRepository, TicketTypeRepository]), UserModule],
     exports: [TicketService, TicketTypeService],
     controllers: [TicketController, TicketTypeController],
     providers: [TicketService, TicketTypeService],

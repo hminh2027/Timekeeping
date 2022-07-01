@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateTicketTypePayload } from "./payload/create-ticket-type.payload";
-import { UpdateTicketTypePayload } from "./payload/update-ticket-type.payload";
-import { TicketTypeRepository } from "./repository/ticket-type.repository";
-import { TicketType } from "./entity/ticket-type.entity";
+import { CreateTicketTypePayload } from "../payloads/create-ticket-type.payload";
+import { UpdateTicketTypePayload } from "../payloads/update-ticket-type.payload";
+import { TicketTypeRepository } from "../repositories/ticket-type.repository";
+import { TicketType } from "../entities/ticket-type.entity";
 
 
 @Injectable()
@@ -35,7 +35,7 @@ export class TicketTypeService {
     async update(id: number, data: UpdateTicketTypePayload) {
         try {
             // Check if ticket type exist
-            const ticketCheck = await this.ticketTypeRepository.checkIfTicketExists(id);
+            const ticketCheck = await this.ticketTypeRepository.checkTicketTypeExistance(id);
             if (!ticketCheck) throw new NotFoundException('Ticket type is not found');
             
             // Update query
@@ -49,7 +49,7 @@ export class TicketTypeService {
     async remove(id: number) {
         try {
             // Check if ticket type exist
-            const ticketCheck = await this.ticketTypeRepository.checkIfTicketExists(id);
+            const ticketCheck = await this.ticketTypeRepository.checkTicketTypeExistance(id);
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
             // Update query
