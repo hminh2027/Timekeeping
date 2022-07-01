@@ -12,7 +12,11 @@ const { Title, Text } = Typography;
 const DashboardLayout = (props) => {
   return (
     <Row className={styles[`dashboard-container`]}>
-      <Col span={24} style={{ backgroundColor: "rgba(151, 163, 228)" }}>
+      <Col
+        span={24}
+        // style={{ backgroundColor: "rgba(151, 163, 228)" }}
+        className={styles.header}
+      >
         <Space>
           <Image
             src="/Image/logo.png"
@@ -63,7 +67,9 @@ const DashboardLayout = (props) => {
           </Space>
         </div>
       </Col>
-      <Col span={20}>{props.children}</Col>
+      <Col span={20} style={{ backgroundColor: "rgb(240, 240, 240)" }}>
+        {props.children}
+      </Col>
     </Row>
   );
 };

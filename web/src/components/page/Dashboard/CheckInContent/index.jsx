@@ -5,7 +5,7 @@ import styles from "../../../../styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "../../../../utils/hooks/UseTrans";
 const { Title, Text } = Typography;
 
-const CheckInMain = () => {
+const CheckInContent = () => {
   const trans = UseTrans();
   const webCamRef = useRef(null);
   const [imageSrc, setImageSrc] = useState("");
@@ -47,12 +47,26 @@ const CheckInMain = () => {
 
   const capture = React.useCallback(() => {
     const imageSrc = webCamRef.current.getScreenshot();
+
     setImageSrc(imageSrc);
   }, [webCamRef, setImageSrc]);
   const videoConstraints = {
     width: 600,
     height: 400,
     facingMode: "user",
+  };
+  const submit = async () => {
+    navigator.geolocation.getCurrentPosition((res) => {
+      const location = {};
+      location.x = res.coords.latitude;
+      location.y = res.coords.longitude;
+      console.log(res);
+      const payload = {
+        location,
+        imageSrc,
+      };
+      console.log(payload);
+    });
   };
   const checkingCard = (
     <div style={{ display: "flex", width: "100%", flexFlow: "column wrap" }}>
@@ -87,6 +101,7 @@ const CheckInMain = () => {
               onClick={() => {
                 setIsChecking(false);
                 setNotChecked(false);
+                submit();
               }}
             >
               {trans.checkin.finish}
@@ -128,4 +143,4 @@ const CheckInMain = () => {
   );
 };
 
-export default CheckInMain;
+export default CheckInContent;

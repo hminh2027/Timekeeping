@@ -1,6 +1,6 @@
 // import { useRouter } from "next/router";
 import DashboardLayout from "../../components/Layout/DashboardLayout";
-import CheckIn from "../../components/page/Dashboard/CheckIn";
+import CheckIn from "../../components/page/Dashboard/CheckInContent";
 
 const Dashboard = () => {
   // const router = useRouter();

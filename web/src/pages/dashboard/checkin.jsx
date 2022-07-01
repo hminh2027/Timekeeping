@@ -1,7 +1,7 @@
 import DashboardLayout from "../../components/Layout/DashboardLayout";
-import CheckInMain from "../../components/page/Dashboard/CheckIn";
+import CheckInContent from "../../components/page/Dashboard/CheckInContent";
 const CheckIn = () => {
-  <CheckInMain />;
+  return <CheckInContent />;
 };
 
 CheckIn.layout = DashboardLayout;
