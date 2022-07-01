@@ -1,7 +1,7 @@
 import DashboardLayout from "../../components/Layout/DashboardLayout";
 
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return "Đây là in đết";
 };
 Dashboard.layout = DashboardLayout;
 

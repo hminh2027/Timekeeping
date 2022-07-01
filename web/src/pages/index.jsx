@@ -1,5 +1,6 @@
+import CheckIn from "../components/page/Dashboard/CheckIn/CheckInMain";
 const index = () => {
-  return <div>index</div>;
+  return <CheckIn />;
 };
 // index.layout = LoginLayout;
 

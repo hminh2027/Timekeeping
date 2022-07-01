@@ -5,24 +5,42 @@ import {
   QrcodeOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Col, Image, Menu, Row, Space } from "antd";
+import { Col, Image, Menu, Row, Space, Typography } from "antd";
 
+import styles from "../../../styles/Layout/Dashboard.module.scss";
+const { Title, Text } = Typography;
 const DashboardLayout = (props) => {
   return (
-    <Row>
-      <Col span={4}>
-        <Space direction="vertical" style={{ width: "100%" }} size={40}>
+    <Row className={styles[`dashboard-container`]}>
+      <Col span={24} style={{ backgroundColor: "rgba(151, 163, 228)" }}>
+        <Space>
           <Image
             src="/Image/logo.png"
             width="10em"
             alt="Đây là Logo"
             fallback="Đây là Logo"
             preview={false}
+            style={{ margin: "1.5em 0.5em" }}
           />
+          <div style={{ flexGrow: 1 }}>
+            <Title style={{ margin: 0 }}>Hello David</Title>
+            <Text type="secondary">Welcome back!</Text>
+          </div>
+        </Space>
+      </Col>
+      <Col span={4} style={{ borderRight: "1px solid rgb(22 0, 22  0, 22 0)" }}>
+        <div
+          style={{
+            display: "flex",
+            flexFlow: "column nowrap",
+            width: "100%",
+            gap: "40px",
+          }}
+        >
           <Space
             style={{ height: "100%", justifyContent: "space-between" }}
             direction="vertical"
-            size={{}}
+            size={50}
           >
             <Menu items={menuItems} style={{ width: "100%" }} />
             <Space
@@ -34,9 +52,7 @@ const DashboardLayout = (props) => {
               }}
             >
               <Image
-                // src="/Image/logo.png"
                 preview={false}
-                // alt="Đây là Logo"
                 style={{ borderRadius: "50%" }}
                 width="5em"
                 height="5em"
@@ -45,7 +61,7 @@ const DashboardLayout = (props) => {
               <div>Họ và tên</div>
             </Space>
           </Space>
-        </Space>
+        </div>
       </Col>
       <Col span={20}>{props.children}</Col>
     </Row>

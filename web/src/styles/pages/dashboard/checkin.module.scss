@@ -1,0 +1,40 @@
+@use "../../variables.scss";
+.checkin {
+  .card {
+    background-color: variables.$color-secondary;
+    color: #000;
+
+    max-width: 30em;
+    padding: 2em;
+    border-radius: 12px;
+  }
+
+  .checkin-section-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    // justifyContent: "space-between",
+    width: 100%;
+    .webcam {
+      // flex-grow: 1;
+    }
+    .capture-buttons {
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: center;
+
+      gap: 3em;
+    }
+    .preview-image {
+      // flex-grow: 1;
+    }
+    @media only screen and (max-width: 1000px) {
+      .capture-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        gap: 3em;
+      }
+    }
+  }
+}
