@@ -1,7 +1,15 @@
 import { Button, Calendar, Col, Row } from "antd";
+<<<<<<< Updated upstream
 import styles from "../../../../styles/pages/dashboard/home.module.scss";
 import Card from "../../../Common/Card";
 const Home = () => {
+=======
+import { useRouter } from "next/router";
+import styles from "../../../../styles/pages/dashboard/home.module.scss";
+import Card from "../../../Common/Card";
+const Home = () => {
+  const Router = useRouter();
+>>>>>>> Stashed changes
   return (
     <>
       <Row style={{ padding: "1em " }} gutter={[16, 16]}>
@@ -15,7 +23,15 @@ const Home = () => {
               }}
             >
               <div>Let's get to work!✨✨</div>
+<<<<<<< Updated upstream
               <Button type="primary" className={styles.button}>
+=======
+              <Button
+                type="primary"
+                className={styles.button}
+                onClick={() => Router.push("dashboard/checkin")}
+              >
+>>>>>>> Stashed changes
                 Clock In ✔
               </Button>
             </div>

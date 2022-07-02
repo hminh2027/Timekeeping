@@ -28,6 +28,7 @@ const LoginForm = () => {
         password,
       });
       if (data) {
+        console.log(data);
         if (data.status === 201) {
           setLoginSuccess(true);
           return auth.setToken(data.access_token);
