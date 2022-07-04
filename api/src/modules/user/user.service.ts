@@ -52,7 +52,7 @@ export class UserService {
       );
     }
 
-    const newUser = this.userRepository.create(payload);
+    const newUser = await this.userRepository.create(payload);
     return await this.userRepository.save(newUser);
   }
 

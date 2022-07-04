@@ -4,7 +4,7 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { UserRole } from '../role/role.enum';
-import { SearchQueryDto } from './dto/search.payload';
+import { SearchQueryDto } from './dto/search.dto';
 import { UserPayload } from './payload/user.payload';
 import { UserService } from './user.service';
 

@@ -1,5 +1,6 @@
-import { Exclude } from 'class-transformer';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Checkin } from '../checkin/checkin.entity';
+import { Checkout } from '../checkout/checkout.entity';
 import { Role } from '../role/role.entity';
 import { Ticket } from '../ticket/entities/ticket.entity';
 
@@ -34,6 +35,12 @@ export class User {
   /* 1-N */
   @OneToMany(() => Ticket, ticket => ticket.id)
   tickets: Ticket[];
+
+  @OneToMany(() => Checkin, checkin => checkin.user)
+  checkins: Checkin[];
+
+  @OneToMany(() => Checkout, checkout => checkout.user)
+  checkouts: Checkout[];
 }
 
 export class UserFillableFields {
