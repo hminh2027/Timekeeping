@@ -78,7 +78,7 @@ export class CheckinService {
       );
     }
 
-    // dùng transaction đi!
+    // cần dùng transaction
     const checkinUpdated = await this.checkinRepository.save({
       id: checkedInToday.id,
       checkoutImage: data.image,

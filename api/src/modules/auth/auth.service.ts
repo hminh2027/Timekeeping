@@ -26,7 +26,7 @@ export class AuthService {
 
   async validateUser({ email, password }: LoginPayload): Promise<any> {
     const passHash = createHmac('sha256', password).digest('hex');
-    const [user] = await this.userService.getByEmailAndPass(email, passHash);
+    const user = await this.userService.getByEmailAndPass(email, passHash);
     if (!user) {
       throw new UnauthorizedException('Wrong email or password !');
     }
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async validateToken({ email, password }: LoginPayload): Promise<any> {
-    const [user] = await this.userService.getByEmailAndPass(email, password);
+    const user = await this.userService.getByEmailAndPass(email, password);
     if (!user) {
       throw new UnauthorizedException('Wrong email or password !');
     }

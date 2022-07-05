@@ -21,6 +21,8 @@ import { ConfigService } from '../config/config.service';
         // https://github.com/nestjs/nest/issues/711
         entities: ['src/modules/**/*.entity{.ts,.js}'],
         migrations: ['src/modules/**/*.migration{.ts,.js}'],
+        seeds: ["src/db/seeding/seeds/**/*{.ts,.js}"],
+        factories: ["src/db/seeding/factories/**/*{.ts,.js}"],
         synchronize: config.isDev,
         logging: !config.isProd,
         useNewUrlParser: true,

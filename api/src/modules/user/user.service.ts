@@ -18,31 +18,10 @@ export class UserService {
   }
 
   async getByEmailAndPass(email: string, password: string) {
-    return await this.userRepository.createQueryBuilder('users')
-    .select([
-      'users.id as id',
-      'firstName',
-      'lastName',
-      'email',
-      'password',
-      'name as role'
-    ])
-    .innerJoin('users.role', 'roles')
-    .where('users.email = :email', { email })
-    .andWhere('users.password = :password', { password })
-    .execute()
-
-    // return await this.userRepository.findOne({
-    //   join: { alias: 'users', leftJoinAndSelect: { roles: 'users.role' }},
-    //   where: { email, password }
-    // })
-
-    // return await this.userRepository.findOne({ where: { email, password } });
+    return await this.userRepository.findOne({ where: { email, password } });
   }
 
   async create(payload: UserFillableFields): Promise<User> {
-    const passHash = createHmac('sha256', payload.password).digest('hex');
-    payload.password = passHash;
 
     const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email);
 
@@ -87,15 +66,6 @@ export class UserService {
         if(params.textSearch) {
             users = await this.userRepository
             .createQueryBuilder('users')
-            .select([
-              'users.id as id',
-              'firstName',
-              'lastName',
-              'email',
-              'password',
-              'name as role'
-            ])
-            .innerJoin('users.role', 'roles')
             .where('users.email like :email', { email: `%${params.textSearch}%` })               
             .orderBy('users.id', 'DESC')
             .skip(offset)
@@ -106,15 +76,6 @@ export class UserService {
         else {
             users = await this.userRepository
             .createQueryBuilder('users')
-            .select([
-              'users.id as id',
-              'firstName',
-              'lastName',
-              'email',
-              'password',
-              'name as role'
-            ])
-            .innerJoin('users.role', 'roles')
             .orderBy('users.id', 'DESC')
             .skip(offset)
             .take(params.limit)
