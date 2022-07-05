@@ -3,7 +3,7 @@ import { createHmac } from 'crypto';
 import { User, UserFillableFields } from './user.entity';
 import { UserPayload } from './payload/user.payload';
 import { UserRepository } from './user.repository';
-import { UserRole } from '../role/role.enum';
+import { UserRole } from './enums/role.enum';
 
 @Injectable()
 export class UserService {
@@ -56,7 +56,7 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  async update(id: number, payload: UserPayload): Promise<void> {
+  async update(id: number, payload: UserPayload): Promise<User> {
     const checkUserExistence = await this.userRepository.checkUserExistence(id);
 
     if (!checkUserExistence) {
@@ -73,7 +73,10 @@ export class UserService {
       );
     }
     
-    await this.userRepository.update(id, payload);
+    return await this.userRepository.save({
+      id,
+      ...payload
+    });
   }
 
   async search(params): Promise<User[]>{
@@ -137,6 +140,6 @@ export class UserService {
   public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
     const user = await this.getById(id);
     console.log(user)
-    return user.role.name === role;
+    return user.role === role;
   } 
 }

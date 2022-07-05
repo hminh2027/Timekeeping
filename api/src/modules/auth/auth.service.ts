@@ -16,6 +16,8 @@ export class AuthService {
   ) {}
 
   async generateToken(user: User) {
+    // const {password, ...payload} = user
+
     return {
       expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
       accessToken: this.jwtService.sign({ ...user }),

@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
-import { UserRole } from '../role/role.enum';
+import { UserRole } from './enums/role.enum';
 import { SearchQueryDto } from './dto/search.dto';
 import { UserPayload } from './payload/user.payload';
 import { UserService } from './user.service';
@@ -45,11 +45,11 @@ export class UserController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful Login' })
     
-    async updateUser(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() payload: UserPayload) {
-        await this.userService.update(id, payload)
+    async updateUser(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() payload: UserPayload) {  
         return {
             statusCode: HttpStatus.OK,
-            message: 'User updated successfully'
+            message: 'User updated successfully',
+            data: await this.userService.update(id, payload)
         }
     }
 

@@ -1,8 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { Checkin } from '../checkin/checkin.entity';
-import { Checkout } from '../checkout/checkout.entity';
-import { Role } from '../role/role.entity';
-import { Ticket } from '../ticket/entities/ticket.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Checkin } from '../checkin/entities/checkinout.entity';
+import { Ticket } from '../ticket/ticket.entity';
 
 @Entity({
   name: 'users',
@@ -23,24 +21,16 @@ export class User {
   @Column({ length: 255 })
   password!: string;
 
-  @Column()
-  roleId: number;
+  @Column({ length: 255 })
+  role!: string;
 
   /* RELATIONSHIPS */
-  /* N-1 */
-  @ManyToOne(() => Role, role => role.users, { eager: true })
-  @JoinColumn({ name: 'roleId'})
-  role: Role;
-
   /* 1-N */
   @OneToMany(() => Ticket, ticket => ticket.id)
   tickets: Ticket[];
 
   @OneToMany(() => Checkin, checkin => checkin.user)
   checkins: Checkin[];
-
-  @OneToMany(() => Checkout, checkout => checkout.user)
-  checkouts: Checkout[];
 }
 
 export class UserFillableFields {

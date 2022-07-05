@@ -4,8 +4,7 @@ import { ConfigModule } from './common/config/config.module';
 import { ConfigService } from './common/config/config.service';
 import { DatabaseModule } from './common/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { CheckinModule } from './modules/checkin/checkin.module';
-import { CheckoutModule } from './modules/checkout/checkout.module';
+import { CheckinModule } from './modules/checkin/checkinout.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 
 @Module({
@@ -15,7 +14,6 @@ import { TicketModule } from './modules/ticket/ticket.module';
     DatabaseModule, 
     TicketModule, 
     CheckinModule, 
-    CheckoutModule,
     AwsModule.register()],
 })
 export class AppModule {

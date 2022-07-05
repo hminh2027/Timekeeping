@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator';
+import { UserRole } from 'src/modules/user/enums/role.enum';
 
 const EMAIL_DOMAIN = 'vdtsol';
 
@@ -22,7 +23,6 @@ export class RegisterPayload {
   @MinLength(5)
   password!: string;
 
-  @ApiProperty({ required: true })
   @IsNotEmpty()
-  roleId!: number;
+  role: string = UserRole.USER;
 }
