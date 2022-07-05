@@ -4,16 +4,16 @@ import { User } from "../user/user.entity";
 @Entity('contacts')
 export class Contact {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column({ length: 255 })
-    address: string;
+    address!: string;
     
     @Column({ length: 255 })
-    skype: string;
+    skype!: string;
 
     @Column({ length: 255 })
-    phone: string;
+    phone!: string;
    
     /* 1-1 relationships */
     @OneToOne(() => User)

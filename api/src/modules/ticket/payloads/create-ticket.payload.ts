@@ -1,13 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
+import { IsDateString, IsNotEmpty, IsString } from "class-validator";
+import { TicketStatus } from "../enums/ticket-status.enum";
+import { TicketType } from "../enums/ticket-type.enum";
 
 export class CreateTicketPayload {
-    @ApiProperty({ type: Date, default: new Date() })
+    @ApiProperty({ type: Date })
     @IsDateString()
     @IsNotEmpty()
     startDate: Date;
 
-    @ApiProperty({ type: Date, default: new Date() })
+    @ApiProperty({ type: Date })
     @IsDateString()
     @IsNotEmpty()
     endDate: Date;
@@ -22,16 +24,19 @@ export class CreateTicketPayload {
     @IsNotEmpty()
     content: string;
 
-    @ApiProperty({ type: Number })
-    // @IsNumber()
+    @ApiProperty()
+    @IsString()
     @IsNotEmpty()
-    ticketTypeId: number;
+    ticketType: string = TicketType.SHORT_TERM;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    ticketStatus: string = TicketStatus.PENDING;
 
     @ApiProperty({ type: Number })
-    // @IsNumber() bug here
     @IsNotEmpty()
     recipientId: number;
 
-    // @IsNumber() bug here
     authorId: number;
 }

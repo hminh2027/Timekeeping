@@ -1,11 +1,11 @@
 import { Inject, Injectable, NotAcceptableException, NotFoundException } from "@nestjs/common";
-import { UserRole } from "src/modules/role/role.enum";
+import { UserRole } from "src/modules/user/enums/role.enum";
 import { UserService } from "src/modules/user/user.service";
-import { Ticket } from "../entities/ticket.entity";
-import { TicketStatus } from "../enums/ticket-status.enum";
-import { CreateTicketPayload } from "../payloads/create-ticket.payload";
-import { UpdateTicketPayload } from "../payloads/update-ticket.payload";
-import { TicketRepository } from "../repositories/ticket.repository";
+import { Ticket } from "./ticket.entity";
+import { TicketStatus } from "./enums/ticket-status.enum";
+import { CreateTicketPayload } from "./payloads/create-ticket.payload";
+import { UpdateTicketPayload } from "./payloads/update-ticket.payload";
+import { TicketRepository } from "./ticket.repository";
 
 @Injectable()
 export class TicketService {
@@ -47,7 +47,10 @@ export class TicketService {
             const ticketCheck = await this.ticketRepository.checkTicketExistance(id);
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
-            await this.ticketRepository.update(id, data);
+            await this.ticketRepository.save({
+                id,
+                ...data
+            });
             
         } catch (err) {
             throw err;

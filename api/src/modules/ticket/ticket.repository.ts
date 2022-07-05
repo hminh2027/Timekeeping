@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { EntityRepository } from "src/common/typeorm/typeorm-ex.decorator";
-import { Ticket } from "../entities/ticket.entity";
+import { Ticket } from "./ticket.entity";
 
 @EntityRepository(Ticket)
 export class TicketRepository extends Repository<Ticket> {
