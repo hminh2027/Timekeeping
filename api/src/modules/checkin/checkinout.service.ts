@@ -58,10 +58,12 @@ export class CheckinService {
       throw new NotAcceptableException(
         'You have checked in today.',
       );
-    }
+    }  
+
+    const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
 
     const newCheckin =  await this.checkinRepository.create({
-      checkinImage: data.image,
+      checkinImage: imageName,
       checkinLatitude: data.latitude,
       checkinLongitude: data.longitude,
       userId: data.userId
@@ -78,10 +80,12 @@ export class CheckinService {
       );
     }
 
+    const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
+
     // cần dùng transaction
     const checkinUpdated = await this.checkinRepository.save({
       id: checkedInToday.id,
-      checkoutImage: data.image,
+      checkoutImage: imageName,
       checkoutLatitude: data.latitude,
       checkoutLongitude: data.longitude
     });
