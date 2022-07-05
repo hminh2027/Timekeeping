@@ -20,7 +20,6 @@ async function bootstrap() {
   // const redisIoAdapter: any = new RedisIoAdapter(configService);
   // await redisIoAdapter.connectToRedis();
   // app.useWebSocketAdapter(redisIoAdapter);
-  
   setupSwagger(app);
   await app.listen(AppModule.port);
   // for Hot Module Reload

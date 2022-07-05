@@ -36,7 +36,7 @@ export class Checkin {
 
     /* RELATIONSHIPS */
     /* N-1 */
-    @ManyToOne(() => User, user => user.checkins, { eager: true })
+    @ManyToOne(() => User, user => user.checkins)
     @JoinColumn({ name: 'userId'})
     user: User;
 

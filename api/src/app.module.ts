@@ -6,6 +6,8 @@ import { DatabaseModule } from './common/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CheckinModule } from './modules/checkin/checkinout.module';
 import { TicketModule } from './modules/ticket/ticket.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -14,7 +16,11 @@ import { TicketModule } from './modules/ticket/ticket.module';
     DatabaseModule, 
     TicketModule, 
     CheckinModule, 
-    AwsModule.register()],
+    AwsModule.register(),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'images')
+    })
+  ],
 })
 export class AppModule {
   static port: string | number;

@@ -14,14 +14,14 @@ export const storage = {
   storage: diskStorage({
       destination: './images',
       filename: (req, file, cb) => {
-          const filename: string = file.originalname;
+          const filename: string = `${+ new Date()}_${req.user.firstName}_${req.user.lastName}_${file.originalname}`;
           cb(null, `${filename}`)
       }
   })
 }
 
 @Controller('checkin')
-@ApiTags('check in')
+@ApiTags('check in/ check out')
 @ApiBearerAuth()
 @UsePipes(ValidationPipe)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -45,7 +45,7 @@ export class CheckinController {
   @UseInterceptors(FileInterceptor('image', storage))
   async checkin(@UploadedFile() file, @Request() req, @Body() data: CheckinoutPayload) {
     data.userId = Number(req.user.id);
-    data.image = file.originalname;
+    data.image = file.filename;
     return {
       statusCode: HttpStatus.OK,
       message: 'Checked in successfully',
@@ -59,7 +59,7 @@ export class CheckinController {
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   @UseInterceptors(FileInterceptor('image', storage))
   async checkout(@UploadedFile() file, @Request() req, @Body() data: CheckinoutPayload) {
-    data.image = file.originalname;
+    data.image = file.filename;
     return {
       statusCode: HttpStatus.OK,
       message: 'Checked out successfully',
