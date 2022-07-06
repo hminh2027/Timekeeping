@@ -49,6 +49,18 @@ export class CheckinService {
     return todayChecked.length > 0
   }
 
+  async checkIfCheckoutAllowed(id) {
+    const lastestCheckout = await this.checkoutHistoryService.getLastestCheckout(id);
+    if(lastestCheckout) {
+      
+      const diffMilisec = (new Date().getTime() - lastestCheckout.createdAt.getTime()) / 1000;
+      const diffMinute = Math.abs(Math.round(diffMilisec/60));
+      console.log(lastestCheckout, diffMinute)
+      return diffMinute >= 5;
+    }
+    return true;
+  }
+
   async create(data: CheckinoutPayload) {
     const todayChecked = await this.checkTodayCheckedin(data.userId);
 
@@ -56,7 +68,7 @@ export class CheckinService {
       throw new NotAcceptableException(
         'You have checked in today.',
       );
-    }  
+    }
 
     const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
 
@@ -77,6 +89,9 @@ export class CheckinService {
         'You have not checked in today. Please check in.',
       );
     }
+
+    const allowedCheckout = this.checkIfCheckoutAllowed(checkedInToday.id)
+    if(!allowedCheckout) throw new NotAcceptableException(`Checkout is on cooldown for 5 minutes since last checkout.`);
 
     const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
 

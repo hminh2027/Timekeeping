@@ -9,4 +9,11 @@ export class CheckOutHistoryService {
     const history = await this.historyRepository.create({checkinId: id});
     return await this.historyRepository.save(history);
   }
+
+  async getLastestCheckout(id) {
+    return await this.historyRepository.findOne({
+      where: { checkinId: id },
+      order: { createdAt: 'DESC' }
+    })
+  }
 }
