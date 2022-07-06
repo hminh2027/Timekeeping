@@ -2,10 +2,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
-import { RedisIoAdapter } from './common/adapters/redis-io.adapter';
 import { loggerMiddleware } from './common/middlewares/logger.middleware';
-import { ConfigService } from './common/config/config.service';
-import { setupSwagger } from './common/swagger';
+import { setupSwagger } from './common/swagger/index';
 import * as bodyParser from 'body-parser';
 
 declare const module: any;

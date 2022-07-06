@@ -1,0 +1,28 @@
+.loginPage {
+  .login-form {
+    .title {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+  }
+  .image {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .login-form {
+    border: none;
+    box-shadow: none;
+  }
+  .image {
+    border: none;
+    box-shadow: none;
+  }
+  .loginPage {
+    flex-wrap: wrap;
+    .image {
+      border-right: none;
+    }
+  }
+}
