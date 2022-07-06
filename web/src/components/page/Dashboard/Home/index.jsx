@@ -1,19 +1,36 @@
-import { Button, Calendar, Col, Row } from "antd";
-<<<<<<< Updated upstream
+import { Button, Col, Row } from "antd";
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import { selectUserCheckInStatus } from "../../../../redux/feature/user/userSlice";
 import styles from "../../../../styles/pages/dashboard/home.module.scss";
 import Card from "../../../Common/Card";
+import WorkCalendar from "./WorkCalendar";
 const Home = () => {
-=======
-import { useRouter } from "next/router";
-import styles from "../../../../styles/pages/dashboard/home.module.scss";
-import Card from "../../../Common/Card";
-const Home = () => {
-  const Router = useRouter();
->>>>>>> Stashed changes
+  const checkInStatus = useSelector(selectUserCheckInStatus);
+  const notCheckedContent = (
+    <>
+      <div>Let's get to work!✨✨</div>
+      <Link href="/dashboard/checkin">
+        <Button type="primary" className={styles.button}>
+          Check In ✔
+        </Button>
+      </Link>
+    </>
+  );
+  const checkInContent = (
+    <>
+      <div>Already Checked In!✨✨</div>
+      {/* <Link href="/dashboard/checkin">
+        <Button type="primary" className={styles.button}>
+          Check In ✔
+        </Button>
+      </Link> */}
+    </>
+  );
   return (
     <>
       <Row style={{ padding: "1em " }} gutter={[16, 16]}>
-        <Col sm={24} md={8} lg={8}>
+        <Col xs={24} sm={24} md={24} lg={8}>
           <Card>
             <div
               style={{
@@ -22,24 +39,13 @@ const Home = () => {
                 gap: "1em",
               }}
             >
-              <div>Let's get to work!✨✨</div>
-<<<<<<< Updated upstream
-              <Button type="primary" className={styles.button}>
-=======
-              <Button
-                type="primary"
-                className={styles.button}
-                onClick={() => Router.push("dashboard/checkin")}
-              >
->>>>>>> Stashed changes
-                Clock In ✔
-              </Button>
+              {checkInStatus ? checkInContent : notCheckedContent}
             </div>
           </Card>
         </Col>
-        <Col sm={24} md={16} lg={16}>
+        <Col xs={24} sm={24} md={24} lg={16}>
           <Card style={{ width: "100%", height: "400px" }}>
-            <Calendar fullscreen={false} />
+            <WorkCalendar />
           </Card>
         </Col>
       </Row>

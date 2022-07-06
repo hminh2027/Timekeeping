@@ -13,8 +13,9 @@ export const login = async (body) => {
   return await api.post("/auth/login", body);
 };
 
-export const getMe = async () => {
+export const getCheckInStatus = async (body) => {
+  console.log(body);
   if (await auth.checkAuth()) {
-    return await api.get("/auth/getMe");
+    return await api.get("checkin", { ...body });
   }
 };

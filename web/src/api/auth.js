@@ -6,7 +6,7 @@ const checkAuth = async () => {
   if (typeof window !== "undefined") {
     console.log("set token");
     const accessToken = localStorage.getItem(AUTH_TOKEN);
-    if (accessToken !== undefined) {
+    if (accessToken) {
       api.setToken(accessToken);
       return true;
     }

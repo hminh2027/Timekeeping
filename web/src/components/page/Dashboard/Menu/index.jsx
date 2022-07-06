@@ -4,119 +4,78 @@ import {
   HomeOutlined,
   QrcodeOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
-const SiteMenu = () => {
-  return <Menu items={menuItems} style={{ width: "100%" }} />;
+import styles from "../../../../styles/pages/dashboard/menu.module.scss";
+import MenuLabel from "./MenuLabel";
+export const SidebarMenu = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        // gap: "1em",
+        flexDirection: "column",
+        // justifyContent: "space-evenly",
+        // alignItems: "center",
+        fontSize: "0.75em",
+        width: "100%",
+      }}
+      className={styles["sidebar-menu"]}
+    >
+      {menuItems.map((menuItem) => (
+        <MenuLabel
+          key={menuItem.value}
+          href={menuItem.value}
+          icon={menuItem.icon}
+          label={menuItem.label}
+          direction="row"
+        />
+      ))}
+    </div>
+  );
 };
-
-export default SiteMenu;
+export const MobileMenu = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "1em",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        fontSize: "0.75em",
+        width: "100%",
+      }}
+    >
+      {menuItems.map((menuItem) => (
+        <MenuLabel
+          key={menuItem.value}
+          href={menuItem.value}
+          icon={menuItem.icon}
+          label={menuItem.label}
+          direction="column"
+        />
+      ))}
+    </div>
+  );
+};
 const menuItems = [
   {
-    label: (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "1em",
-          // margin: "1em 0",
-          fontSize: "1.25em",
-        }}
-      >
-        <HomeOutlined style={{ fontSize: "1.25em" }} />
-        <div>Home</div>
-      </div>
-    ),
-    value: "home",
+    icon: <HomeOutlined style={{ fontSize: "1.25em" }} />,
+    label: "Home",
+    value: "/dashboard/home",
   },
   {
-    label: (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "1em",
-          // margin: "1em 0",
-          fontSize: "1.25em",
-        }}
-      >
-        <QrcodeOutlined style={{ fontSize: "1.25em" }} />
-        <div>Check In</div>
-      </div>
-    ),
-    value: "check-in",
+    icon: <QrcodeOutlined style={{ fontSize: "1.25em" }} />,
+    label: "Check In",
+    value: "/dashboard/check-in",
   },
   {
-    label: (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "1em",
-          // margin: "1em 0",
-          fontSize: "1.25em",
-        }}
-      >
-        <ClockCircleOutlined style={{ fontSize: "1.25em" }} />
-        <div>Time Request</div>
-      </div>
-    ),
-    value: "time-request",
+    icon: <ClockCircleOutlined style={{ fontSize: "1.25em" }} />,
+    label: "Time",
+    value: "/dashboard/time",
   },
+
   {
-    label: (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "1em",
-          // margin: "1em 0",
-          fontSize: "1.25em",
-        }}
-      >
-        <ClockCircleOutlined style={{ fontSize: "1.25em" }} />
-        <div>Time Approve</div>
-      </div>
-    ),
-    value: "time-apporve",
-  },
-  {
-    label: (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "1em",
-          // margin: "1em 0",
-          fontSize: "1.25em",
-        }}
-      >
-        <ClockCircleOutlined style={{ fontSize: "1.25em" }} />
-        <div>Time Report</div>
-      </div>
-    ),
-    value: "time-report",
-  },
-  {
-    label: (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "1em",
-          // margin: "1em 0",
-          fontSize: "1.25em",
-        }}
-      >
-        <BellOutlined style={{ fontSize: "1.25em" }} />
-        <div>Notification</div>
-      </div>
-    ),
-    value: "notification",
+    icon: <BellOutlined style={{ fontSize: "1.25em" }} />,
+    label: "Notifications",
+    value: "/dashboard/notification",
   },
 ];

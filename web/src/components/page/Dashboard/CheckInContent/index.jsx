@@ -1,17 +1,40 @@
 import { Button, Skeleton, Space, Typography } from "antd";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Webcam from "react-webcam";
+import api from "../../../../api/api";
+import {
+  selectUserCheckInInfo,
+  selectUserCheckInStatus,
+} from "../../../../redux/feature/user/userSlice";
 import styles from "../../../../styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "../../../../utils/hooks/UseTrans";
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const CheckInContent = () => {
   const trans = UseTrans();
+  const dispatch = useDispatch();
+  const checkInStatus = useSelector(selectUserCheckInStatus);
+  const checkInInfo = useSelector(selectUserCheckInInfo);
+  // console.log("CheckINStatus: " + checkInStatus);
   const webCamRef = useRef(null);
   const [imageSrc, setImageSrc] = useState("");
-  const [notChecked, setNotChecked] = useState(true);
   const [isChecking, setIsChecking] = useState(false);
   const [noCam, setNoCam] = useState(false);
+  const [checkedImg, setCheckedImg] = useState("");
+  // console.log(checkedImg);
+  useEffect(() => {
+    const getStatus = async () => {
+      try {
+        console.log("CheckIn", checkInStatus);
+        console.log(checkInInfo);
+        if (checkInStatus) {
+          setCheckedImg(checkInInfo[0].checkinImage);
+        }
+      } catch (error) {}
+    };
+    getStatus();
+  }, [checkInStatus]);
 
   const time = new Date(Date.now()).toLocaleString();
   const notCheckedCard = (
@@ -33,18 +56,36 @@ const CheckInContent = () => {
     </Space>
   );
   const checkedCard = (
-    <Space
-      style={{ width: "100%" }}
-      direction="vertical"
-      className={styles.card}
-    >
-      <div>
-        {trans.checkin.checked_in} {time}
-      </div>
-      <div>{trans.checkin.greeting}</div>
-    </Space>
+    <>
+      <Space
+        style={{ width: "100%" }}
+        direction="vertical"
+        className={styles.card}
+      >
+        <div>
+          {trans.checkin.checked_in} {time}
+        </div>
+        <div>{trans.checkin.greeting}</div>
+      </Space>
+    </>
+  );
+  const url = `http://localhost:3000/${checkedImg}`;
+  console.log(url);
+  const checkedImage = (
+    <div className={styles.card} style={{ padding: "0.5em" }}>
+      <img
+        src={
+          // "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
+          "http://localhost:3000/1657075427981.png"
+        }
+        width="300"
+        height="300"
+        layout="fill"
+      />
+    </div>
   );
 
+  // console.log(typeof );
   const capture = React.useCallback(() => {
     const imageSrc = webCamRef.current.getScreenshot();
 
@@ -55,17 +96,23 @@ const CheckInContent = () => {
     height: 400,
     facingMode: "user",
   };
-  const submit = async () => {
-    navigator.geolocation.getCurrentPosition((res) => {
-      const location = {};
-      location.x = res.coords.latitude;
-      location.y = res.coords.longitude;
-      console.log(res);
+  const submit = () => {
+    navigator.geolocation.getCurrentPosition(async (res) => {
+      const latitude = res.coords.latitude.toString();
+      const longitude = res.coords.longitude.toString();
+      const image = imageSrc;
       const payload = {
-        location,
-        imageSrc,
+        latitude,
+        longitude,
+        image,
       };
       console.log(payload);
+      try {
+        const res = await api.post("checkin", payload);
+        // console.log(res);
+      } catch (err) {
+        // console.log(err);
+      }
     });
   };
   const checkingCard = (
@@ -100,7 +147,8 @@ const CheckInContent = () => {
               type="primary"
               onClick={() => {
                 setIsChecking(false);
-                setNotChecked(false);
+                // setChecked(true);
+                // dispatch(changeCheckInStatus({ checked_status: true }));
                 submit();
               }}
             >
@@ -136,7 +184,12 @@ const CheckInContent = () => {
           gap: "0.5em",
         }}
       >
-        {notChecked ? notCheckedCard : checkedCard}
+        <Space>
+          {checkInStatus ? checkedCard : notCheckedCard}
+          {checkInStatus && <div>Here your image 👉</div>}
+          {checkInStatus && checkedImage}
+        </Space>
+
         {isChecking && checkingCard}
       </div>
     </div>

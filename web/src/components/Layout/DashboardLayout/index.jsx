@@ -4,34 +4,78 @@ import {
   HomeOutlined,
   QrcodeOutlined,
 } from "@ant-design/icons";
-import { Col, Image, Row, Space, Typography } from "antd";
+import { Col, Row, Space, Typography } from "antd";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import auth from "../../../api/auth";
+import {
+  changeCheckInStatus,
+  fetchCheckInStatus,
+  selectUserCheckInStatus,
+} from "../../../redux/feature/user/userSlice";
 import styles from "../../../styles/Layout/Dashboard.module.scss";
-import SiteMenu from "../../page/Dashboard/Menu";
+import { MobileMenu, SidebarMenu } from "../../page/Dashboard/Menu";
 const { Title, Text } = Typography;
 const DashboardLayout = (props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const checkInStatus = useSelector(selectUserCheckInStatus);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const authed = await auth.checkAuth();
+      if (!authed) {
+        router.push("/account/login");
+      }
+    };
+    const getCheckInStatus = async () => {
+      if (checkInStatus === false) {
+        const res = dispatch(fetchCheckInStatus());
+        console.log("Res de set checkInStatus", res);
+        if (res) dispatch(changeCheckInStatus({ checked_status: true }));
+      }
+    };
+    checkAuthStatus();
+
+    getCheckInStatus();
+  }, [checkInStatus, dispatch]);
+
   return (
     <Row className={styles[`dashboard-container`]}>
+      {/* Header */}
       <Col
         span={24}
         // style={{ backgroundColor: "rgba(151, 163, 228)" }}
         className={styles.header}
       >
         <Space>
-          <Image
-            src="/Image/logo.png"
-            width="10em"
-            alt="Đây là Logo"
-            fallback="Đây là Logo"
-            preview={false}
-            style={{ margin: "1.5em 0.5em" }}
-          />
+          <div style={{ width: "10em", display: "flex", alignItems: "center" }}>
+            <Image
+              src="/Image/logo.png"
+              width="200"
+              height="100"
+              layout="intrinsic"
+              alt="Đây là Logo"
+              fallback="Đây là Logo"
+            />
+          </div>
+
           <div style={{ flexGrow: 1 }}>
             <Title style={{ margin: 0 }}>Hello David</Title>
             <Text type="secondary">Welcome back!</Text>
           </div>
         </Space>
       </Col>
-      <Col span={4} style={{ borderRight: "1px solid rgb(22 0, 22  0, 22 0)" }}>
+      {/* Sidebar Menu */}
+      <Col
+        xs={{ span: 0 }}
+        sm={{ span: 0 }}
+        md={{ span: 0 }}
+        lg={{ span: 4 }}
+        style={{ borderRight: "1px solid rgb(22 0, 22  0, 22 0)" }}
+      >
         <div
           style={{
             display: "flex",
@@ -45,7 +89,7 @@ const DashboardLayout = (props) => {
             direction="vertical"
             size={50}
           >
-            <SiteMenu />
+            <SidebarMenu />
             {/* <Space
               direction="vertical"
               style={{
@@ -66,8 +110,31 @@ const DashboardLayout = (props) => {
           </Space>
         </div>
       </Col>
-      <Col span={20} style={{ backgroundColor: "rgb(240, 240, 240)" }}>
+      {/* Content */}
+      <Col
+        xs={{ span: 24 }}
+        sm={{ span: 24 }}
+        md={{ span: 24 }}
+        lg={{ span: 20 }}
+        style={{ backgroundColor: "rgb(240, 240, 240)" }}
+      >
         {props.children}
+      </Col>
+      {/* Mobile Menu */}
+      <Col
+        xs={{ span: 24 }}
+        sm={{ span: 24 }}
+        md={{ span: 24 }}
+        lg={{ span: 0 }}
+        style={{
+          // backgroundColor: "rgb(255,0,0)",
+          position: "fixed",
+          bottom: "0",
+          width: "100%",
+          borderTop: "1px solid rgb(220,220,220)",
+        }}
+      >
+        <MobileMenu />
       </Col>
     </Row>
   );

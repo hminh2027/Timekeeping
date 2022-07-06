@@ -28,15 +28,15 @@ const LoginForm = () => {
         password,
       });
       if (data) {
-        console.log(data);
+        console.log(data.data.accessToken);
         if (data.status === 201) {
-          setLoginSuccess(true);
-          return auth.setToken(data.access_token);
+          await auth.setToken(data.data.accessToken);
+          return setLoginSuccess(true);
         }
       }
     } catch (error) {
-      console.log("Error while login");
-      if (error.response.status === 401) {
+      console.log("Error while login", error);
+      if (error.response.data.status === 401) {
         return setLoginFailed(true);
       }
     }
