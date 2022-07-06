@@ -10,7 +10,7 @@ export class CheckinService {
   constructor(
     private readonly checkinRepository: CheckinRepository,
     private readonly checkoutHistoryService: CheckOutHistoryService,
-    private readonly dataSource: DataSource
+    // private readonly dataSource: DataSource
   ) {}
 
   async getByUserId(id: number) {
@@ -51,11 +51,9 @@ export class CheckinService {
 
   async checkIfCheckoutAllowed(id) {
     const lastestCheckout = await this.checkoutHistoryService.getLastestCheckout(id);
-    if(lastestCheckout) {
-      
+    if(lastestCheckout) {    
       const diffMilisec = (new Date().getTime() - lastestCheckout.createdAt.getTime()) / 1000;
       const diffMinute = Math.abs(Math.round(diffMilisec/60));
-      console.log(lastestCheckout, diffMinute)
       return diffMinute >= 5;
     }
     return true;
@@ -90,8 +88,8 @@ export class CheckinService {
       );
     }
 
-    const allowedCheckout = this.checkIfCheckoutAllowed(checkedInToday.id)
-    if(!allowedCheckout) throw new NotAcceptableException(`Checkout is on cooldown for 5 minutes since last checkout.`);
+    const allowedCheckout = await this.checkIfCheckoutAllowed(checkedInToday.id)
+    if(!allowedCheckout) throw new NotAcceptableException(`Checkout is on cooldown for 5 minutes since your last checkout.`);
 
     const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
 

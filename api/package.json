@@ -55,7 +55,8 @@
     "socket.io": "^4.5.1",
     "swagger-ui-express": "^4.4.0",
     "typeorm": "^0.3.6",
-    "typeorm-seeding": "^1.6.1"
+    "typeorm-seeding": "^1.6.1",
+    "typeorm-transactional-cls-hooked": "^0.1.21"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

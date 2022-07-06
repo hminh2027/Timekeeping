@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AwsModule } from './common/aws/aws.module';
-import { ConfigModule } from './common/config/config.module';
-import { ConfigService } from './common/config/config.service';
 import { DatabaseModule } from './common/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { CheckinModule } from './modules/checkin/checkinout.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { MailModule } from './modules/mail/mail.module';
+import { CheckinModule } from './modules/checkin/checkinout.module';
+import { ConfigModule } from './common/config/config.module';
+import { AwsModule } from './common/aws/aws.module';
+import { ConfigService } from './common/config/config.service';
+import { join } from 'path';
 
 @Module({
   imports: [

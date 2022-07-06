@@ -5,9 +5,8 @@ import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { UserRole } from './enums/role.enum';
 import { SearchQueryDto } from './dto/search.dto';
-import { UserPayload } from './payload/user.payload';
 import { UserService } from './user.service';
-
+import { UserPayload } from './payload/user.payload';
 
 @Controller('user')
 @ApiTags('user')
