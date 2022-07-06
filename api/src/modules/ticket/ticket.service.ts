@@ -42,11 +42,14 @@ export class TicketService {
 
     async update(id: number, data: UpdateTicketPayload) {
         try {
-            // thoi han update va delete?
-            // Check if ticket exist
-            const ticketCheck = await this.ticketRepository.checkTicketExistance(id);
+            // Check ticket existance
+            const ticketCheck = await this.ticketRepository.findOne({ where: { id } });
             if (!ticketCheck) throw new NotFoundException('Ticket is not found');
             
+            // Check update condition
+            if (ticketCheck.ticketStatus !== TicketStatus.PENDING) throw new NotAcceptableException('This ticket is no longer be able to modify.')
+
+            // update
             await this.ticketRepository.save({
                 id,
                 ...data
@@ -68,10 +71,5 @@ export class TicketService {
         } catch (err) {
             throw err;
         }
-    }
-
-    async updateTicketStatus(id: number, status: TicketStatus) {
-        console.log(status)
-        // await this.ticketRepository.update(id, status)
     }
 }

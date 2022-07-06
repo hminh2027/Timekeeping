@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CheckoutHistoryRepository } from "./checkout-history.repository";
+import { CheckoutHistoryRepository } from "../checkout-history.repository";
 
 @Injectable()
 export class CheckOutHistoryService {

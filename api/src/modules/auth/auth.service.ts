@@ -70,8 +70,10 @@ export class AuthService {
 
   async reset({ password, password2 }: ResetPayload, token: string): Promise<any> {
     if(password !== password2) throw new BadRequestException('Password does not match the confirmed one.')
+    
     const payload = this.jwtService.verify(token);
     if(!payload) throw new BadRequestException('Token expired. Please make another forgot password request.')
+    
     await this.userService.update(payload.id, { password })
     return 'Password has been reset.'
   }

@@ -6,16 +6,18 @@ import { RedisIoAdapter } from './common/adapters/redis-io.adapter';
 import { loggerMiddleware } from './common/middlewares/logger.middleware';
 import { ConfigService } from './common/config/config.service';
 import { setupSwagger } from './common/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 declare const module: any;
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const globalPrefix = '/api';
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.setGlobalPrefix(globalPrefix);
   app.use(helmet());
   app.use(loggerMiddleware);
-  
+  app.enableCors();
+  app.useStaticAssets(join(__dirname, '..', 'images'));
   // const configService = app.get(ConfigService);
   // const redisIoAdapter: any = new RedisIoAdapter(configService);
   // await redisIoAdapter.connectToRedis();

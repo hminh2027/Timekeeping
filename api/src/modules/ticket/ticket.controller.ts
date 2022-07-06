@@ -4,6 +4,7 @@ import { Roles } from "src/common/decorators/roles.decorator";
 import { JwtAuthGuard } from "src/common/guards/jwt.guard";
 import { RolesGuard } from "src/common/guards/role.guard";
 import { UserRole } from "src/modules/user/enums/role.enum";
+import { TicketStatus } from "./enums/ticket-status.enum";
 import { CreateTicketPayload } from "./payloads/create-ticket.payload";
 import { UpdateTicketPayload } from "./payloads/update-ticket.payload";
 import { TicketService } from "./ticket.service";
@@ -61,27 +62,39 @@ export class TicketController {
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
 
-    async cancelTicket(@Request() req, @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketPayload) {        
-        data.authorId = req?.user?.id;  
+    async cancelTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {        
         return {
             statusCode: HttpStatus.OK,
-            message: 'Ticket cancelled',
-            data: await this.ticketService.update(id, data)
+            message: 'Ticket cancelled successfully',
+            data: await this.ticketService.update(id, {ticketStatus: TicketStatus.CANCELLED})
         }
     }
 
     @Patch(':id/reject')
-    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Ticket cancelled' })
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Ticket rejected' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
     @Roles(UserRole.ADMIN)
 
-    async rejectTicket(@Request() req, @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() data: UpdateTicketPayload) {        
-        data.authorId = req?.user?.id;
+    async rejectTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {        
         return {
             statusCode: HttpStatus.OK,
-            message: 'Ticket rejected',
-            data: await this.ticketService.update(id, data)
+            message: 'Ticket rejected successfully',
+            data: await this.ticketService.update(id, {ticketStatus: TicketStatus.REJECTED})
+        }
+    }
+
+    @Patch(':id/approve')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Ticket approved' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    @Roles(UserRole.ADMIN)
+
+    async approveTicket(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {        
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'Ticket approved successfully',
+            data: await this.ticketService.update(id, {ticketStatus: TicketStatus.APPROVED})
         }
     }
 

@@ -19,9 +19,9 @@ import { MailModule } from './modules/mail/mail.module';
     TicketModule, 
     CheckinModule, 
     AwsModule.register(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'images')
-    })
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'images')
+    // })
   ],
 })
 export class AppModule {

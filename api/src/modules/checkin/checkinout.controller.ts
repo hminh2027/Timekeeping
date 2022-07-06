@@ -4,7 +4,7 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { UserRole } from '../user/enums/role.enum';
-import { CheckinService } from './checkinout.service';
+import { CheckinService } from './services/checkinout.service';
 import { SearchQueryDto } from './dto/search.dto';
 import { CheckinoutPayload } from './payloads/checkinout.payload';
 

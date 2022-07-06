@@ -1,11 +1,9 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { CheckinRepository } from './checkinout.repository';
-import { SearchQueryDto } from './dto/search.dto';
+import { CheckinRepository } from '../checkinout.repository';
+import { SearchQueryDto } from '../dto/search.dto';
 import { Between, DataSource } from 'typeorm';
-import { CheckinoutPayload } from './payloads/checkinout.payload';
+import { CheckinoutPayload } from '../payloads/checkinout.payload';
 import { CheckOutHistoryService } from './checkout-history.service';
-import { Checkin } from './entities/checkinout.entity';
-import { CheckoutHistory } from './entities/checkout-history.entity';
 
 @Injectable()
 export class CheckinService {
