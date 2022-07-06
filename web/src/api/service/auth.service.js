@@ -14,7 +14,7 @@ export const login = async (body) => {
 };
 
 export const getCheckInStatus = async (body) => {
-  console.log(body);
+  // console.log(body);
   if (await auth.checkAuth()) {
     return await api.get("checkin", { ...body });
   }

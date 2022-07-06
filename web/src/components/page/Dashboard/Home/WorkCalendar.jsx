@@ -61,6 +61,11 @@ const WorkCalendar = () => {
     }
     return <div style={style}>{date.date()}</div>;
   }
+  const videoConstraints = {
+    width: 600,
+    height: 400,
+    facingMode: "user",
+  };
   const content = (
     <Calendar
       fullscreen={false}

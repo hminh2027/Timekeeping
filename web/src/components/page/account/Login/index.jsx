@@ -3,11 +3,14 @@ import { Button, Input, Space } from "antd";
 import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import api from "../../../../api/api";
 import auth from "../../../../api/auth";
+import { setUserInfo } from "../../../../redux/feature/user/userSlice";
 import Form from "../Common/Form";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState({ email: "", password: "" });
   const [invalidData, setInvalidData] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
@@ -28,8 +31,10 @@ const LoginForm = () => {
         password,
       });
       if (data) {
-        console.log(data.data.accessToken);
         if (data.status === 201) {
+          const { user: userInfo } = data.data;
+          console.log(userInfo);
+          dispatch(setUserInfo({ userInfo: userInfo }));
           await auth.setToken(data.data.accessToken);
           return setLoginSuccess(true);
         }

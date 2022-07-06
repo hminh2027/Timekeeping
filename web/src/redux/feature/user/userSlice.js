@@ -2,9 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCheckInStatus } from "../../../api/service/auth.service";
 const initialState = {
   name: "",
-  checked_status: false,
+  checkInStatus: false,
+  checkOutStatus: false,
   fetch_status: "idle",
-  info: [],
+  checkInInfo: {},
+  userInfo: {},
 };
 
 export const fetchCheckInStatus = createAsyncThunk(
@@ -14,6 +16,7 @@ export const fetchCheckInStatus = createAsyncThunk(
       fromDate: new Date(Date.now()).toISOString().split("T")[0],
       toDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
     });
+    console.log(response);
     return response;
   }
 );
@@ -24,10 +27,24 @@ export const userSlice = createSlice({
 
   reducers: {
     changeCheckInStatus: (state, action) => {
-      const { checked_status } = action.payload;
+      const { checkInStatus } = action.payload;
       return {
         ...state,
-        checked_status,
+        checkInStatus,
+      };
+    },
+    changeCheckOutStatus: (state, action) => {
+      const { checkOutStatus } = action.payload;
+      return {
+        ...state,
+        checkOutStatus,
+      };
+    },
+    setUserInfo: (state, action) => {
+      const { userInfo } = action.payload;
+      return {
+        ...state,
+        userInfo,
       };
     },
   },
@@ -36,23 +53,30 @@ export const userSlice = createSlice({
       state.status = "succeeded";
       try {
         // Add any fetched posts to the array
-        state.info = action.payload.data;
+        state.checkInInfo = action.payload.data[0];
+        console.log("Payload từ redux: ", action.payload.data[0]);
         // console.log(action.payload.data[0].checkinImage);
         if (action.payload.data[0].checkinImage) {
-          state.checked_status = true;
+          state.checkInStatus = true;
+        }
+        if (action.payload.data[0].checkoutImage) {
+          state.checkOutStatus = true;
         }
       } catch (err) {}
     });
   },
 });
 
-export const { changeCheckInStatus } = userSlice.actions;
+export const { changeCheckInStatus, changeCheckOutStatus, setUserInfo } =
+  userSlice.actions;
 
 export const selectUser = (state) => state.user;
 
 //Selectors
 export const selectUserName = (state) => state.user.name;
-export const selectUserCheckInStatus = (state) => state.user.checked_status;
-export const selectUserCheckInInfo = (state) => state.user.info;
+export const selectUserCheckInStatus = (state) => state.user.checkInStatus;
+export const selectUserCheckOutStatus = (state) => state.user.checkOutStatus;
+export const selectUserCheckInInfo = (state) => state.user.checkInInfo;
+export const selectUserInfo = (state) => state.user.userInfo;
 
 export default userSlice.reducer;

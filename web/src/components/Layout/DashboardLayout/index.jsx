@@ -14,15 +14,17 @@ import {
   changeCheckInStatus,
   fetchCheckInStatus,
   selectUserCheckInStatus,
+  selectUserInfo,
 } from "../../../redux/feature/user/userSlice";
 import styles from "../../../styles/Layout/Dashboard.module.scss";
 import { MobileMenu, SidebarMenu } from "../../page/Dashboard/Menu";
+
 const { Title, Text } = Typography;
 const DashboardLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const checkInStatus = useSelector(selectUserCheckInStatus);
-
+  const userInfo = useSelector(selectUserInfo);
   useEffect(() => {
     const checkAuthStatus = async () => {
       const authed = await auth.checkAuth();
@@ -33,15 +35,15 @@ const DashboardLayout = (props) => {
     const getCheckInStatus = async () => {
       if (checkInStatus === false) {
         const res = dispatch(fetchCheckInStatus());
-        console.log("Res de set checkInStatus", res);
-        if (res) dispatch(changeCheckInStatus({ checked_status: true }));
+        if (res.data) dispatch(changeCheckInStatus({ checked_status: true }));
       }
     };
     checkAuthStatus();
 
     getCheckInStatus();
   }, [checkInStatus, dispatch]);
-
+  console.log("UserInfo:", userInfo);
+  const userFullName = userInfo.firstName + " " + userInfo.lastName;
   return (
     <Row className={styles[`dashboard-container`]}>
       {/* Header */}
@@ -63,7 +65,7 @@ const DashboardLayout = (props) => {
           </div>
 
           <div style={{ flexGrow: 1 }}>
-            <Title style={{ margin: 0 }}>Hello David</Title>
+            <Title style={{ margin: 0 }}>Hello {userFullName}</Title>
             <Text type="secondary">Welcome back!</Text>
           </div>
         </Space>
