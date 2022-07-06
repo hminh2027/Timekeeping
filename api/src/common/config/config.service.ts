@@ -105,6 +105,22 @@ export class ConfigService {
     return this.envConfig.JWT_SECRET;
   }
 
+  public get mailerEmail() {
+    return this.envConfig.MAILER_EMAIL;
+  }
+
+  public get mailerPassword() {
+    return this.envConfig.MAILER_PASSWORD;
+  }
+
+  public get mailerHost() {
+    return this.envConfig.MAILER_HOST;
+  }
+
+  public get mailerPort() {
+    return this.envConfig.MAILER_PORT;
+  }
+
   public get googleauthClientId() {
     return this.envConfig.GOOGLEAUTH_CLIENT_ID;
   }

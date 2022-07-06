@@ -1,10 +1,12 @@
-import { Controller, Body, Post, HttpStatus } from '@nestjs/common';
+import { Controller, Body, Post, HttpStatus, Query } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 import { LoginPayload } from './payload/login.payload';
 import { RegisterPayload } from './payload/register.payload';
 import { UserService } from '../user/user.service';
+import { ForgotPayload } from './payload/forgot.payload';
+import { ResetPayload } from './payload/reset.payload';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -34,4 +36,25 @@ export class AuthController {
     return await this.authService.generateToken(user);
   }
 
+  @Post('forgot')
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  
+  async forgot(@Body() payload: ForgotPayload): Promise<any> {
+    return {
+      statusCode: HttpStatus.OK,
+      message: await this.authService.forgot(payload)
+    }
+  }
+
+  @Post('reset')
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  
+  async reset(@Body() payload: ResetPayload, @Query('token') token: string): Promise<any> {
+    return {
+      statusCode: HttpStatus.OK,
+      message: await this.authService.reset(payload, token)
+    }
+  }
 }

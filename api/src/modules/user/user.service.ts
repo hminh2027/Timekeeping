@@ -51,11 +51,12 @@ export class UserService {
         'Another user with provided email already exists.',
       );
     }
-    
-    return await this.userRepository.save({
+    const userUpdate = await this.userRepository.create({
       id,
       ...payload
-    });
+    })
+    
+    return await this.userRepository.save(userUpdate);
   }
 
   async search(params): Promise<User[]>{

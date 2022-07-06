@@ -1,5 +1,5 @@
 import { createHmac } from 'crypto';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { Checkin } from '../checkin/entities/checkinout.entity';
 import { Ticket } from '../ticket/ticket.entity';
 
@@ -34,10 +34,12 @@ export class User {
   checkins: Checkin[];
 
   @BeforeInsert()
+  @BeforeUpdate()
   async setPassword(password: string): Promise<void> {
     const passHash = createHmac('sha256', password || this.password).digest('hex');
     this.password = passHash;
   }
+
 }
 
 export class UserFillableFields {

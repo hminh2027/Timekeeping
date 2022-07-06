@@ -8,10 +8,12 @@ import { CheckinModule } from './modules/checkin/checkinout.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
-    AuthModule, 
+    AuthModule,
+    MailModule,
     ConfigModule, 
     DatabaseModule, 
     TicketModule, 

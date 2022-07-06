@@ -20,7 +20,7 @@ export class RegisterPayload {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @MinLength(5)
+  @MinLength(6)
   password!: string;
 
   @IsNotEmpty()
