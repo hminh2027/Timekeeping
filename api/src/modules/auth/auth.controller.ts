@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { ForgotPayload } from './payload/forgot.payload';
 import { ResetPayload } from './payload/reset.payload';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { TokenQueryDto } from './dto/Token.dto';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -67,10 +68,10 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   
-  async reset(@Body() payload: ResetPayload, @Query('token') token: string): Promise<any> {
+  async reset(@Body() payload: ResetPayload, @Query() params: TokenQueryDto): Promise<any> {
     return {
       statusCode: HttpStatus.OK,
-      message: await this.authService.reset(payload, token)
+      message: await this.authService.reset(payload, params)
     }
   }
 }

@@ -1,11 +1,12 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { createHmac } from 'crypto';
 
 import { ConfigService } from '../../common/config/config.service';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
+import { TokenQueryDto } from './dto/Token.dto';
 import { ForgotPayload } from './payload/forgot.payload';
 import { LoginPayload } from './payload/login.payload';
 import { ResetPayload } from './payload/reset.payload';
@@ -54,8 +55,7 @@ export class AuthService {
       throw new NotFoundException('User not exist!');
     }
     // Generate 15m token
-    const { password, ...rest } = user;
-    const token = await this.jwtService.sign({ ...rest }, { expiresIn: '15m' });
+    const token = await this.jwtService.sign({ id: user.id, isResetToken: true }, { expiresIn: '15m' });
     const url = `http://localhost:3000/api/auth/reset?token=${token}`;
 
     // Send email
@@ -70,13 +70,18 @@ export class AuthService {
     return 'Please check your email!';
   }
 
-  async reset({ password, password2 }: ResetPayload, token: string): Promise<any> {
-    if(password !== password2) throw new BadRequestException('Password does not match the confirmed one.')
+  async reset({ password, password2 }: ResetPayload, params: TokenQueryDto): Promise<any> {
+    if(password !== password2) throw new NotAcceptableException('Password does not match the confirmed one.')
     
-    const payload = await this.jwtService.verify(token);
-    if(!payload) throw new BadRequestException('Token expired. Please make another forgot password request.')
-    
-    await this.userService.update(payload.id, { password })
-    return 'Password has been reset.'
+    try {
+      const payload = await this.jwtService.verify(params.token);
+      if(!payload.isResetToken) throw new  NotAcceptableException('Token invalid. Please make another forgot password request.')
+
+      await this.userService.update(payload.id, { password })
+      return 'Password has been reset.'
+
+    } catch (err) {
+      throw new  BadRequestException('Token expired. Please make another forgot password request.')
+    }     
   }
 }
