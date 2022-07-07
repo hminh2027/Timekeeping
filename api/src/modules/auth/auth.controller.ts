@@ -1,4 +1,4 @@
-import { Controller, Body, Post, HttpStatus, Query, Get } from '@nestjs/common';
+import { Controller, Body, Post, HttpStatus, Query, Request, UsePipes, ValidationPipe, UseGuards, Get } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
@@ -7,22 +7,26 @@ import { RegisterPayload } from './payload/register.payload';
 import { UserService } from '../user/user.service';
 import { ForgotPayload } from './payload/forgot.payload';
 import { ResetPayload } from './payload/reset.payload';
+import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 
 @Controller('auth')
 @ApiTags('authentication')
+@UsePipes(ValidationPipe)
+
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
   ) { }
 
-  @Post('me')
+  @Get('me')
   @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful verify token' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
-  
-  async decodingToken(@Body() token: string): Promise<any> {
-    return await this.authService.decodingToken(token);
+  @UseGuards(JwtAuthGuard)
+
+  async decodingToken(@Request() req): Promise<any> {
+    return req.user
   }
 
   @Post('login')

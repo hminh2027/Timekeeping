@@ -20,7 +20,8 @@ export class AuthService {
   ) {}
 
   async generateToken(user: User) {
-    const {password, ...payload} = user
+    const {password, ...payload} = user;
+    console.log(payload)
 
     return {
       expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
@@ -33,31 +34,24 @@ export class AuthService {
     const passHash = createHmac('sha256', password).digest('hex');
     const user = await this.userService.getByEmailAndPass(email, passHash);
     if (!user) {
-      throw new UnauthorizedException('Wrong email or password !');
+      throw new UnauthorizedException('Wrong email or password!');
     }
     return user;
   }
 
-  async validateToken({ email, password }: LoginPayload): Promise<any> {
-    const user = await this.userService.getByEmailAndPass(email, password);
+  async validateToken({ email }: LoginPayload): Promise<any> {
+    const user = await this.userService.getByEmail(email);
     if (!user) {
-      throw new UnauthorizedException('Wrong email or password !');
+      throw new UnauthorizedException('Token invalid!');
     }
     return user;
-  }
-
-  async decodingToken(token: string): Promise<any> {
-    const payload = this.jwtService.verify(token);
-    if(!payload) throw new UnauthorizedException('Token invalid. Please login');
-
-    return payload;
   }
 
   async forgot({ email }: ForgotPayload): Promise<any> {
     // Check user existance
     const user = await this.userService.getByEmail(email);
     if (!user) {
-      throw new NotFoundException('User not exist !');
+      throw new NotFoundException('User not exist!');
     }
     // Generate 15m token
     const { password, ...rest } = user;
@@ -79,7 +73,7 @@ export class AuthService {
   async reset({ password, password2 }: ResetPayload, token: string): Promise<any> {
     if(password !== password2) throw new BadRequestException('Password does not match the confirmed one.')
     
-    const payload = this.jwtService.verify(token);
+    const payload = await this.jwtService.verify(token);
     if(!payload) throw new BadRequestException('Token expired. Please make another forgot password request.')
     
     await this.userService.update(payload.id, { password })

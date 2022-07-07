@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
 import { LoginPayload } from './payload/login.payload';
 import { JwtPayload } from './jwt.payload';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
