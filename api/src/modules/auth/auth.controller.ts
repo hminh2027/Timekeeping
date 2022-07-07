@@ -1,4 +1,4 @@
-import { Controller, Body, Post, HttpStatus, Query } from '@nestjs/common';
+import { Controller, Body, Post, HttpStatus, Query, Get } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
@@ -15,6 +15,15 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly userService: UserService,
   ) { }
+
+  @Post('me')
+  @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful verify token' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  
+  async decodingToken(@Body() token: string): Promise<any> {
+    return await this.authService.decodingToken(token);
+  }
 
   @Post('login')
   @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful Login' })
@@ -37,6 +46,7 @@ export class AuthController {
   }
 
   @Post('forgot')
+  @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful sent reset email' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   
@@ -48,6 +58,7 @@ export class AuthController {
   }
 
   @Post('reset')
+  @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful reset password reset' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   

@@ -24,7 +24,7 @@ export class AuthService {
 
     return {
       expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
-      accessToken: this.jwtService.sign({ ...user }),
+      accessToken: this.jwtService.sign({ ...payload }),
       user: {...payload}
     };
   }
@@ -44,6 +44,13 @@ export class AuthService {
       throw new UnauthorizedException('Wrong email or password !');
     }
     return user;
+  }
+
+  async decodingToken(token: string): Promise<any> {
+    const payload = this.jwtService.verify(token);
+    if(!payload) throw new UnauthorizedException('Token invalid. Please login');
+
+    return payload;
   }
 
   async forgot({ email }: ForgotPayload): Promise<any> {

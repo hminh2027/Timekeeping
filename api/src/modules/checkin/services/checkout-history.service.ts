@@ -6,7 +6,10 @@ export class CheckOutHistoryService {
   constructor(private readonly historyRepository: CheckoutHistoryRepository) {}
 
   async create(id: number) {
-    const history = await this.historyRepository.create({checkinId: id});
+    const history = await this.historyRepository.create({
+      checkinId: id,
+      date: new Date().getDate()
+    });
     return await this.historyRepository.save(history);
   }
 

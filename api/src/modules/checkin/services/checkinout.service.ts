@@ -69,12 +69,14 @@ export class CheckinService {
     }
 
     const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
+    if(!imageName) throw new NotAcceptableException('Can not convert base64 to image');
 
     const newCheckin =  await this.checkinRepository.create({
       checkinImage: imageName,
       checkinLatitude: data.latitude,
       checkinLongitude: data.longitude,
-      userId: data.userId
+      userId: data.userId,
+      date: new Date().getDate()
     });
 
     return await this.checkinRepository.save(newCheckin);
