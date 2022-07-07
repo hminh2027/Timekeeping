@@ -1,5 +1,5 @@
 import { Controller, Body, Post, HttpStatus, Query, Request, UsePipes, ValidationPipe, UseGuards, Get } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 import { LoginPayload } from './payload/login.payload';
@@ -23,6 +23,7 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful verify token' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
 
   async decodingToken(@Request() req): Promise<any> {
