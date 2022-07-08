@@ -24,6 +24,10 @@ export class UserService {
     return await this.userRepository.findOne({ where: { resetToken: token } });
   }
 
+  async getAdmin() {
+    return await this.userRepository.findOne({ where: { role: UserRole.ADMIN } });
+  }
+
   async create(payload: UserFillableFields): Promise<User> {
 
     const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email);
