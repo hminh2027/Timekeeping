@@ -29,7 +29,8 @@ export class UserController {
         return await this.userService.search(params);
     }
 
-    @Get()
+
+    @Get('/role')
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
@@ -46,6 +47,15 @@ export class UserController {
     async getUser(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) { 
         return await this.userService.getById(id);
     }
+
+    // @Get(':role')
+    // @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    // @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    // @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    // async getByRole() {
+    //     return this.userService.getByRole();
+    // }
 
     @Patch(':id')
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'User updated successfully' })

@@ -22,13 +22,22 @@ export class AuthService {
 
   async generateToken(user: User) {
     const {password, ...payload} = user;
-    console.log(payload)
+
+    const rToken = this.generateRefreshToken(payload);
+    console.log(rToken)
 
     return {
       expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
       accessToken: this.jwtService.sign({ ...payload }),
       user: {...payload}
     };
+  }
+
+  // not working
+  generateRefreshToken(payload: any): string {
+    const privateKey = this.configService.jwtRefreshTokenSecret
+    console.log(privateKey)
+    return this.jwtService.sign(payload, { privateKey })
   }
 
   async validateUser({ email, password }: LoginPayload): Promise<any> {

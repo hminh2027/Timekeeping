@@ -42,7 +42,6 @@ export class TicketController {
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
-    @Roles(UserRole.ADMIN)
 
     async getAllById(@Request() req) {
         return await this.ticketService.getByUserId(req.user.id);
