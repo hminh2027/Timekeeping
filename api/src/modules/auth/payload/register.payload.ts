@@ -25,4 +25,6 @@ export class RegisterPayload {
 
   @IsNotEmpty()
   role: string = UserRole.USER;
+
+  resetToken: string = ''
 }

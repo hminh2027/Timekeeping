@@ -29,6 +29,15 @@ export class UserController {
         return await this.userService.search(params);
     }
 
+    @Get()
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    async getRoles() {
+        return this.userService.getRole();
+    }
+
     @Get(':id')
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })

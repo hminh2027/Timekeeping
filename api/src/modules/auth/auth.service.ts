@@ -55,9 +55,8 @@ export class AuthService {
       throw new NotFoundException('User not exist!');
     }
     // Generate 15m token
-    const token = await this.jwtService.sign({ id: user.id, isResetToken: true }, { expiresIn: '15m' });
-    const url = `http://localhost:3000/api/auth/reset?token=${token}`;
-
+    const token = await this.jwtService.sign({ ...user }, { expiresIn: '15m' });
+    const url = `http://localhost:3001/api/account/recover?token=${token}`;
     // Send email
     await this.mailerService.sendMail({
       to: email,
@@ -67,6 +66,8 @@ export class AuthService {
     .catch(() => {
       throw new InternalServerErrorException('Something wrong in sending email.');
     });
+    // Save token to db
+    await this.userService.updateToken(user.id, token);
     return 'Please check your email!';
   }
 
@@ -74,13 +75,16 @@ export class AuthService {
     if(password !== password2) throw new NotAcceptableException('Password does not match the confirmed one.')
     
     try {
+      const user = await this.userService.getByResetToken(params.token);
+      if(!user) throw new Error()
       const payload = await this.jwtService.verify(params.token);
-      if(!payload.isResetToken) throw new  NotAcceptableException('Token invalid. Please make another forgot password request.')
+      await this.userService.updatePassword(payload.id, password)
+      await this.userService.updateToken(payload.id, '')
 
-      await this.userService.update(payload.id, { password })
       return 'Password has been reset.'
 
     } catch (err) {
+      console.log(err)
       throw new  BadRequestException('Token expired. Please make another forgot password request.')
     }     
   }

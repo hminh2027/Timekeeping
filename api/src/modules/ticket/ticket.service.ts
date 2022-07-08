@@ -6,6 +6,7 @@ import { TicketStatus } from "./enums/ticket-status.enum";
 import { CreateTicketPayload } from "./payloads/create-ticket.payload";
 import { UpdateTicketPayload } from "./payloads/update-ticket.payload";
 import { TicketRepository } from "./ticket.repository";
+import { TicketType } from "./enums/ticket-type.enum";
 
 @Injectable()
 export class TicketService {
@@ -23,6 +24,19 @@ export class TicketService {
         } catch (err) {
             throw err;
         }
+    }
+
+    async getByUserId(userId): Promise<Ticket[]> {
+        try {
+            return this.ticketRepository.find({ where: { authorId: userId } });
+
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async getTicketType(): Promise<string[]> {
+        return Object.values(TicketType)
     }
 
     async create(data: CreateTicketPayload): Promise<Ticket> {

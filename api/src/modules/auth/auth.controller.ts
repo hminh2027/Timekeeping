@@ -64,7 +64,7 @@ export class AuthController {
   }
 
   @Post('reset')
-  @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful reset password reset' })
+  @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Successful reset password' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   

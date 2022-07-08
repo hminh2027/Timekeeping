@@ -1,4 +1,4 @@
-import { Request, Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe, Delete } from "@nestjs/common";
+import { Request, Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe, Delete, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/common/decorators/roles.decorator";
 import { JwtAuthGuard } from "src/common/guards/jwt.guard";
@@ -27,6 +27,24 @@ export class TicketController {
 
     async getAll() {
         return await this.ticketService.getAll();
+    }
+
+    @Get(':id')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+
+    async getAllById(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
+        return await this.ticketService.getByUserId(id);
+    }
+
+    @Get('/type')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+
+    async getTicketType() {
+        return await this.ticketService.getTicketType();
     }
     
     @Post()

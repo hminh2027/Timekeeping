@@ -1,5 +1,4 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { createHmac } from 'crypto';
 import { User, UserFillableFields } from './user.entity';
 import { UserPayload } from './payload/user.payload';
 import { UserRepository } from './user.repository';
@@ -21,6 +20,10 @@ export class UserService {
     return await this.userRepository.findOne({ where: { email, password } });
   }
 
+  async getByResetToken(token: string) {
+    return await this.userRepository.findOne({ where: { resetToken: token } });
+  }
+
   async create(payload: UserFillableFields): Promise<User> {
 
     const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email);
@@ -33,6 +36,30 @@ export class UserService {
 
     const newUser = await this.userRepository.create(payload);
     return await this.userRepository.save(newUser);
+  }
+
+  async updateToken(id: number, token: string): Promise<void> {
+    const checkUserExistence = await this.userRepository.checkUserExistence(id);
+    
+    if (!checkUserExistence) {
+      throw new NotAcceptableException(
+        'User does not exists.',
+      );
+    }
+
+    await this.userRepository.update(id, { resetToken: token });
+  }
+
+  async updatePassword(id: number, password: string): Promise<void> {
+    const checkUserExistence = await this.userRepository.checkUserExistence(id);
+
+    if (!checkUserExistence) {
+      throw new NotAcceptableException(
+        'User does not exists.',
+      );
+    }
+    
+    await this.userRepository.update(id, { password });
   }
 
   async update(id: number, payload: UserPayload): Promise<User> {
@@ -51,12 +78,17 @@ export class UserService {
         'Another user with provided email already exists.',
       );
     }
+
     const userUpdate = await this.userRepository.create({
       id,
       ...payload
     })
     
     return await this.userRepository.save(userUpdate);
+  }
+
+  async getRole(): Promise<string[]> {
+    return Object.values(UserRole);
   }
 
   async search(params): Promise<User[]>{
