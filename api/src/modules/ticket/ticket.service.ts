@@ -36,6 +36,7 @@ export class TicketService {
     }
 
     async getTicketType(): Promise<string[]> {
+        console.log('called')
         return Object.values(TicketType)
     }
 

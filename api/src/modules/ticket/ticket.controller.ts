@@ -29,15 +29,6 @@ export class TicketController {
         return await this.ticketService.getAll();
     }
 
-    @Get(':id')
-    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
-    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
-
-    async getAllById(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
-        return await this.ticketService.getByUserId(id);
-    }
-
     @Get('/type')
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
@@ -46,7 +37,17 @@ export class TicketController {
     async getTicketType() {
         return await this.ticketService.getTicketType();
     }
-    
+
+    @Get(':id')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    @Roles(UserRole.ADMIN)
+
+    async getAllById(@Request() req) {
+        return await this.ticketService.getByUserId(req.user.id);
+    }
+
     @Post()
     @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Created successfully' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
