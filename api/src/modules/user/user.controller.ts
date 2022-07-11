@@ -5,9 +5,8 @@ import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { UserRole } from './enums/role.enum';
 import { SearchQueryDto } from './dto/search.dto';
-import { UserPayload } from './payload/user.payload';
 import { UserService } from './user.service';
-
+import { UserPayload } from './payload/user.payload';
 
 @Controller('user')
 @ApiTags('user')
@@ -28,6 +27,25 @@ export class UserController {
     
     async search(@Query() params: SearchQueryDto) {
         return await this.userService.search(params);
+    }
+
+
+    @Get('/role')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    async getRoles() {
+        return this.userService.getRole();
+    }
+    
+    @Get('/admin')
+    @ApiResponse({ status: HttpStatus.ACCEPTED, description: 'Get successfully' })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
+    
+    async getAdmin() {
+        return this.userService.getAdmin();
     }
 
     @Get(':id')

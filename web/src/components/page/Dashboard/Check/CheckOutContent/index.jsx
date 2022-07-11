@@ -1,5 +1,6 @@
 import { Button, Space } from "antd";
 import moment from "moment";
+import Router from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -12,7 +13,9 @@ import CheckingCard from "../CheckingCard";
 
 const CheckInContent = () => {
   const trans = UseTrans();
-  const checkInStatus = useSelector(selectUserCheckOutStatus);
+  const [checkOutLimit, setCheckOutLimit] = useState(false);
+  const checkOutStatus = useSelector(selectUserCheckOutStatus);
+  const checkInStatus = useSelector(selectUserCheckInInfo);
   const checkInInfo = useSelector(selectUserCheckInInfo);
   const [isChecking, setIsChecking] = useState(false);
   const [checkedImg, setCheckedImg] = useState("");
@@ -21,9 +24,7 @@ const CheckInContent = () => {
   useEffect(() => {
     const getStatus = async () => {
       try {
-        console.log("CheckInStatus", checkInStatus);
-        console.log("CheckInInfo: ", checkInInfo);
-        if (checkInStatus) {
+        if (checkOutStatus) {
           setCheckedImg(checkInInfo.checkoutImage);
           setCheckOutTime(
             moment(checkInInfo.updatedAt).format("YYYY-MM-DD HH:mm:ss")
@@ -32,20 +33,37 @@ const CheckInContent = () => {
       } catch (error) {}
     };
     getStatus();
-  }, [checkInStatus]);
+  }, [checkOutStatus, checkInInfo]);
+
+  if (error) {
+    console.log("Error: ", error);
+  }
   const notCheckedCard = (
     <Space
       style={{ width: "100%" }}
       direction="vertical"
       className={styles.card}
     >
-      <div>{trans.check.checkout.not_checked_out}</div>
-      <div>{trans.check.checkout.please_check_out}</div>
+      {!checkOutStatus ? (
+        <>
+          <div>{trans.check.checkout.not_checked_out}</div>
+          <div>{trans.check.checkout.please_check_out}</div>
+        </>
+      ) : (
+        <>
+          <div>
+            {trans.check.checkout.checked_out} {checkOutTime}
+          </div>
+          <div>{trans.check.greeting}</div>
+        </>
+      )}
+
       <Button
         type="primary"
         onClick={() => {
           setIsChecking(true);
         }}
+        disabled={checkOutLimit && checkOutLimit}
       >
         {trans.check.checkout.checkout_now}
       </Button>
@@ -59,19 +77,57 @@ const CheckInContent = () => {
         className={styles.card}
       >
         <div>
-          {trans.check.checkout.checked_out} {checkOutTime}
+          <div>
+            {trans.check.checkout.checked_out} {checkOutTime}
+          </div>
+          <div>{trans.check.checkout.greeting}</div>
         </div>
-        <div>{trans.check.checkout.greeting}</div>
       </Space>
     </>
   );
   const url = `http://localhost:3000/${checkedImg}`;
-  console.log(url);
+
   const checkedImage = (
     <div className={styles.card} style={{ padding: "0.5em" }}>
       <img src={url} width="300" height="300" layout="fill" />
     </div>
   );
+  const checkOutContent = (
+    <>
+      <Space>
+        {notCheckedCard}
+        {checkOutStatus && <div>Here's your image 👉</div>}
+        {checkOutStatus && checkedImage}
+      </Space>
+      {error && (
+        <div style={{ color: "rgb(230,30,10)" }}>
+          Lỗi rồi : {error.message} 😔😔😔
+        </div>
+      )}
+
+      {isChecking && (
+        <CheckingCard
+          state={"checkout"}
+          setIsChecking={setIsChecking}
+          setError={setError}
+        />
+      )}
+    </>
+  );
+  const failedCheckIn = (
+    <div>
+      Haven't checked in yet! Wanna checkin?
+      <Button
+        type="primary"
+        onClick={() => {
+          Router.push("dashboard/checkin");
+        }}
+      >
+        Go to Checkin
+      </Button>
+    </div>
+  );
+  const content = checkInStatus === false ? failedCheckIn : checkOutContent;
 
   return (
     <div
@@ -92,22 +148,7 @@ const CheckInContent = () => {
           gap: "0.5em",
         }}
       >
-        <Space>
-          {checkInStatus ? checkedCard : notCheckedCard}
-          {checkInStatus && <div>Here's your image 👉</div>}
-          {checkInStatus && checkedImage}
-        </Space>
-        {error && (
-          <div style={{ color: "rgb(240,10,0)" }}>Lỗi rồi : {error} 😔😔😔</div>
-        )}
-
-        {isChecking && (
-          <CheckingCard
-            state={"checkout"}
-            setIsChecking={setIsChecking}
-            setError={setError}
-          />
-        )}
+        {content}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { ObjectID } from 'typeorm/driver/mongodb/typings';
 import { LoginPayload } from './payload/login.payload';
 import { JwtPayload } from './jwt.payload';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -19,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         ExtractJwt.fromAuthHeaderAsBearerToken(),
         ExtractJwt.fromUrlQueryParameter('access_token'),
       ]),
-      secretOrKey: configService.get('JWT_SECRET_KEY'),
+      secretOrKey: configService.get('JWT_ATOKEN_SECRET_KEY'),
       // passReqToCallback: true,
     });
   }

@@ -1,7 +1,11 @@
 import cardStyles from "../../styles/Common/Card.module.scss";
-const Card = ({ children, className, style }) => {
+const Card = (props) => {
+  const { children, className = " ", style } = props;
+  // ${className}
+  const thisClassName = cardStyles.card + " " + className;
+  // console.log(thisClassName);
   return (
-    <div className={`${cardStyles.card} ${className}`} style={style}>
+    <div className={thisClassName} style={style} {...props}>
       {children}
     </div>
   );

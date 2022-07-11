@@ -1,19 +1,47 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Button, Input, Space } from "antd";
+import { LoadingOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Input, Space, Spin } from "antd";
 import { useState } from "react";
+import api from "../../../../api/api";
 import Form from "../Common/Form";
 const ForgotPassword = () => {
   const [username, setUsername] = useState("");
-  const [invalidData, setInvalidData] = useState(false);
   const [recoverySent, setRecoverySent] = useState(false);
-  const recoverHandler = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const recoverHandler = async () => {
+    setRecoverySent(false);
+    setErrors([]);
+    const newErrors = [];
     if (!usernameRegex.test(username) && !emailRegex.test(username)) {
-      return setInvalidData(true);
+      newErrors.push({
+        title: "invalid-data",
+        message: "Invalid Username (Username must be a vdtsol email)",
+        color: "rgb(249, 217, 35)",
+      });
     }
+
     try {
+      setIsSubmitting(true);
       //Call API to recover account
+      const res = await api.post("auth/forgot", { email: username });
       setRecoverySent(true);
-    } catch (err) {}
+    } catch (err) {
+      const newErrors = errors.filter(
+        (error) => error.title !== "submit-error"
+      );
+
+      newErrors.push({
+        title: "submit-error",
+        message: err.response.data.message,
+        color: "rgb(102,128,211)",
+      });
+      setErrors(newErrors);
+      console.log("NEw error: ", newErrors);
+
+      // console.log(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <Form title="Recover Password">
@@ -22,11 +50,16 @@ const ForgotPassword = () => {
         size="middle"
         style={{ width: "100%", alignItems: "center" }}
       >
-        {invalidData && (
-          <div style={{ color: "rgb(249, 217, 35)", fontSize: "1.1rem" }}>
-            Invalid Input
-          </div>
+        {errors && (
+          <Space direction="vertical">
+            {errors.map((err) => (
+              <span style={{ color: err.color }} className="error">
+                {err.message}
+              </span>
+            ))}
+          </Space>
         )}
+
         {recoverySent && (
           <div style={{ color: "rgb(108, 196, 161)", fontSize: "1.1rem" }}>
             Recovery instruction sent! Please check your email.
@@ -47,7 +80,7 @@ const ForgotPassword = () => {
               }}
               onChange={(e) => {
                 setUsername(e.target.value);
-                setInvalidData(false);
+                setErrors([]);
               }}
               size="large"
             />
@@ -58,7 +91,14 @@ const ForgotPassword = () => {
             style={{ width: "100%", borderRadius: "6px" }}
             onClick={() => recoverHandler()}
           >
-            Recover
+            {isSubmitting ? (
+              <Space>
+                <Spin indicator={<LoadingOutlined spin />} />
+                <div>Submitting</div>
+              </Space>
+            ) : (
+              "Recover"
+            )}
           </Button>
         </Space>
       </Space>
@@ -68,4 +108,4 @@ const ForgotPassword = () => {
 
 export default ForgotPassword;
 const usernameRegex = /^.{4,}$/;
-const emailRegex = /^\S+@\S+\.\S+$/;
+const emailRegex = /^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/;

@@ -1,0 +1,18 @@
+import moment from "moment";
+const checkInInfoFormatter = (info) => {
+  const checkInTime = moment(info.createdAt).format("YYYY-MM-DD HH:mm:ss");
+  const checkOutTime = moment(info.updatedAt).format("YYYY-MM-DD HH:mm:ss");
+  return {
+    id: info.id,
+    checkInLatitude: info.checkinLatitude,
+    checkInLongitude: info.checkinLongitude,
+    checkOutImage: info.checkoutImage,
+    checkInImage: info.checkinImage,
+    checkOutLatitude: info.checkoutLatitude,
+    checkOutLongitude: info.checkoutLongitude,
+    checkInTime,
+    checkOutTime,
+    userId: info.userId,
+  };
+};
+export { checkInInfoFormatter };

@@ -1,7 +1,7 @@
 import style from "../../../../styles/pages/account/form.module.scss";
 const Form = (props) => {
   return (
-    <div
+    <form
       style={{
         display: "flex",
         flexDirection: "column",
@@ -21,7 +21,7 @@ const Form = (props) => {
     >
       <div className={style.title}>{props.title}</div>
       {props.children}
-    </div>
+    </form>
   );
 };
 

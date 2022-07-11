@@ -19,11 +19,14 @@ export class User {
   @Column({ length: 255 })
   email!: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, select: false })
   password!: string;
 
   @Column({ length: 255 })
   role!: string;
+
+  @Column( {length: 355, select: false })
+  resetToken: string
 
   /* RELATIONSHIPS */
   /* 1-N */

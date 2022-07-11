@@ -19,7 +19,7 @@ const Home = () => {
   );
   const checkInContent = (
     <>
-      <div>Already Checked In!✨✨</div>
+      <div>Already Checked In!🔥🔥🔥</div>
       {/* <Link href="/dashboard/checkin">
         <Button type="primary" className={styles.button}>
           Check In ✔

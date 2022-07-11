@@ -29,7 +29,6 @@ export class CreateTicketPayload {
     @IsNotEmpty()
     ticketType: string = TicketType.SHORT_TERM;
 
-    @ApiProperty()
     @IsString()
     @IsNotEmpty()
     ticketStatus: string = TicketStatus.PENDING;

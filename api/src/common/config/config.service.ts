@@ -102,7 +102,11 @@ export class ConfigService {
   }
 
   public get jwtSecret() {
-    return this.envConfig.JWT_SECRET;
+    return this.envConfig.JWT_ATOKEN_SECRET_KEY;
+  }
+
+  public get jwtRefreshTokenSecret() {
+    return this.envConfig.JWT_RTOKEN_SECRET_KEY;
   }
 
   public get mailerEmail() {

@@ -6,6 +6,9 @@ export class CheckoutHistory {
     @PrimaryGeneratedColumn()
     id!: number;
 
+    @Column()
+    date: Number;
+
     @CreateDateColumn()
     createdAt: Date;
 

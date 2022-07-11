@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCheckInStatus } from "../../../api/service/auth.service";
+import { getCheckInStatus, getMyInfo } from "../../../api/service/auth.service";
 const initialState = {
   name: "",
   checkInStatus: false,
@@ -16,10 +16,15 @@ export const fetchCheckInStatus = createAsyncThunk(
       fromDate: new Date(Date.now()).toISOString().split("T")[0],
       toDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
     });
-    console.log(response);
+    // console.log(response);
     return response;
   }
 );
+export const fetchMe = createAsyncThunk("user/fetchMe", async () => {
+  const response = await getMyInfo();
+  console.log(response);
+  return response;
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -47,6 +52,9 @@ export const userSlice = createSlice({
         userInfo,
       };
     },
+    logOut: () => {
+      return initialState;
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchCheckInStatus.fulfilled, (state, action) => {
@@ -54,7 +62,7 @@ export const userSlice = createSlice({
       try {
         // Add any fetched posts to the array
         state.checkInInfo = action.payload.data[0];
-        console.log("Payload từ redux: ", action.payload.data[0]);
+        // console.log("Payload từ redux: ", action.payload.data[0]);
         // console.log(action.payload.data[0].checkinImage);
         if (action.payload.data[0].checkinImage) {
           state.checkInStatus = true;
@@ -64,11 +72,22 @@ export const userSlice = createSlice({
         }
       } catch (err) {}
     });
+    builder.addCase(fetchMe.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      try {
+        // Add userInfo
+        state.userInfo = action.payload.data;
+      } catch (err) {}
+    });
   },
 });
 
-export const { changeCheckInStatus, changeCheckOutStatus, setUserInfo } =
-  userSlice.actions;
+export const {
+  changeCheckInStatus,
+  changeCheckOutStatus,
+  setUserInfo,
+  logOut,
+} = userSlice.actions;
 
 export const selectUser = (state) => state.user;
 

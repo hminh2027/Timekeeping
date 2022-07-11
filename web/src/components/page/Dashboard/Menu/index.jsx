@@ -1,20 +1,11 @@
-import {
-  BellOutlined,
-  ClockCircleOutlined,
-  HomeOutlined,
-  QrcodeOutlined,
-} from "@ant-design/icons";
-import styles from "../../../../styles/pages/dashboard/menu.module.scss";
+import styles from "../../../../styles/Layout/menu.module.scss";
 import MenuLabel from "./MenuLabel";
-export const SidebarMenu = () => {
+const SidebarMenu = () => {
   return (
     <div
       style={{
         display: "flex",
-        // gap: "1em",
         flexDirection: "column",
-        // justifyContent: "space-evenly",
-        // alignItems: "center",
         fontSize: "0.75em",
         width: "100%",
       }}
@@ -26,13 +17,14 @@ export const SidebarMenu = () => {
           href={menuItem.value}
           icon={menuItem.icon}
           label={menuItem.label}
-          direction="row"
+          className={styles["menu-label"]}
+          id={menuItem.id}
         />
       ))}
     </div>
   );
 };
-export const MobileMenu = () => {
+const MobileMenu = () => {
   return (
     <div
       style={{
@@ -50,32 +42,45 @@ export const MobileMenu = () => {
           href={menuItem.value}
           icon={menuItem.icon}
           label={menuItem.label}
-          direction="column"
+          id={menuItem.id}
         />
       ))}
     </div>
   );
 };
+export { SidebarMenu, MobileMenu };
+
 const menuItems = [
   {
-    icon: <HomeOutlined style={{ fontSize: "1.25em" }} />,
+    icon: <div>🏠</div>,
     label: "Home",
     value: "/dashboard/home",
+    id: "home",
   },
   {
-    icon: <QrcodeOutlined style={{ fontSize: "1.25em" }} />,
+    icon: <div>📷</div>,
     label: "Check In",
-    value: "/dashboard/check-in",
-  },
-  {
-    icon: <ClockCircleOutlined style={{ fontSize: "1.25em" }} />,
-    label: "Time",
-    value: "/dashboard/time",
+    value: "/dashboard/checkin",
+    id: "checkin",
   },
 
   {
-    icon: <BellOutlined style={{ fontSize: "1.25em" }} />,
+    icon: <div>🕐</div>,
+    label: "Time",
+    value: "/dashboard/time",
+    id: "time",
+  },
+
+  {
+    icon: <div>🔔</div>,
     label: "Notifications",
     value: "/dashboard/notification",
+    id: "notification",
+  },
+  {
+    icon: <div>🎫</div>,
+    label: "Tickets",
+    value: "/dashboard/ticket",
+    id: "ticket",
   },
 ];

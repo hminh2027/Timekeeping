@@ -25,6 +25,9 @@ export class Checkin {
     @Column({ length: 255, default: '' })
     checkoutLatitude!: string;
 
+    @Column()
+    date: Number;
+
     @CreateDateColumn()
     createdAt: Date;
 

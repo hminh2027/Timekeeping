@@ -47,7 +47,8 @@ export class CheckinController {
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
 
   async checkout(@Request() req, @Body() data: CheckinoutPayload) {
-    return {
+    data.userId = Number(req.user.id);
+    return {    
       statusCode: HttpStatus.OK,
       message: 'Checked out successfully',
       data: await this.checkinService.update(data)

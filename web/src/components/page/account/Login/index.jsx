@@ -12,60 +12,92 @@ import Form from "../Common/Form";
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({ email: "", password: "" });
-  const [invalidData, setInvalidData] = useState(false);
-  const [loginFailed, setLoginFailed] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
-
-  const handleChange = (e) =>
+  const [errors, setErrors] = useState([]);
+  const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    setErrors([]);
+  };
   const loginHandler = async () => {
     const { email, password } = data;
-    console.log(emailRegex.test(email) && passwordRegex.test(password));
 
-    if (!emailRegex.test(email) && !passwordRegex.test(password))
-      return setInvalidData(true);
-
-    try {
-      const data = await api.post("auth/login", {
-        email,
-        password,
+    const newErrors = [];
+    if (!emailRegex.test(email)) {
+      newErrors.push({
+        title: "invalid-inputs",
+        message: "Invalid Email",
+        color: "rgb(249, 217, 35)",
       });
-      if (data) {
-        if (data.status === 201) {
-          const { user: userInfo } = data.data;
-          console.log(userInfo);
-          dispatch(setUserInfo({ userInfo: userInfo }));
-          await auth.setToken(data.data.accessToken);
-          return setLoginSuccess(true);
+      setErrors(newErrors);
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      newErrors.push({
+        title: "invalid-inputs",
+        message: "Invalid Password",
+        color: "rgb(249, 217, 35)",
+      });
+      setErrors(newErrors);
+      return;
+    }
+    if (emailRegex.test(email) && passwordRegex.test(password)) {
+      try {
+        const res = await api.post("auth/login", { email, password });
+
+        if (res) {
+          if (res.status === 201) {
+            const { user: userInfo } = res.data;
+            console.log(userInfo);
+            dispatch(setUserInfo({ userInfo: userInfo }));
+            await auth.setToken(res.data.accessToken);
+            setLoginSuccess(true);
+            setTimeout(() => Router.push("/"), 3000);
+          }
         }
-      }
-    } catch (error) {
-      console.log("Error while login", error);
-      if (error.response.data.status === 401) {
-        return setLoginFailed(true);
+      } catch (err) {
+        console.log(err);
+        newErrors.push({
+          title: "login-failed",
+          message: err.response.data.message,
+          color: "red",
+        });
+        setErrors(newErrors);
+      } finally {
       }
     }
   };
-  if (loginSuccess) {
-    setTimeout(() => Router.push("/"), 3000);
-  }
+  // useEffect(() => {
+  //   const listener = (event) => {
+  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
+  //       console.log("Enter key was pressed. Run your function.");
+  //       event.preventDefault();
+  //       loginHandler();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", listener);
+  //   return () => {
+  //     document.removeEventListener("keydown", listener);
+  //   };
+  // }, [data]);
   return (
     <Form title="Login">
       <Space direction="vertical" size="middle" style={{ width: "100%" }}>
-        {loginFailed && (
-          <div style={{ color: "red", fontSize: "1.1rem" }}>
-            Wrong email/password !
-          </div>
-        )}
         {loginSuccess && (
           <div style={{ color: "rgb(108, 196, 161)", fontSize: "1.1rem" }}>
             Login successful! Redirecting...
           </div>
         )}
-        {invalidData && (
-          <div style={{ color: "rgb(249, 217, 35)", fontSize: "1.1rem" }}>
-            Invalid Input
-          </div>
+        {errors && (
+          <Space
+            direction="vertical"
+            style={{ width: "100%", paddingBottom: "1em" }}
+          >
+            {errors.map((error, i) => (
+              <div style={{ color: error.color, fontWeight: "500" }}>
+                {error.message}
+              </div>
+            ))}
+          </Space>
         )}
         <Space>
           <UserOutlined style={{ fontSize: "1.5rem" }} />
@@ -82,11 +114,9 @@ const LoginForm = () => {
             size="large"
             onChange={(e) => {
               handleChange(e);
-              setLoginFailed(false);
-              setInvalidData(false);
             }}
             onPressEnter={() => {
-              loginHandler;
+              loginHandler();
             }}
           />
         </Space>
@@ -106,11 +136,9 @@ const LoginForm = () => {
               size="large"
               onChange={(e) => {
                 handleChange(e);
-                setLoginFailed(false);
-                setInvalidData(false);
               }}
               onPressEnter={() => {
-                loginHandler;
+                loginHandler();
               }}
             />
           </Space>
@@ -133,5 +161,6 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-const emailRegex = /^.{4,}$/;
+const emailRegex = /^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/;
+
 const passwordRegex = /^.{4,}$/;
