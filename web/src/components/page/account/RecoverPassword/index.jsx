@@ -116,7 +116,8 @@ const RecoverPassword = (props) => {
 
         <Button
           type="primary"
-          style={{ width: "100%", borderRadius: "6px" }}
+          className="v-btn"
+          // style={{ width: "100%", borderRadius: "6px" }}
           onClick={() => {
             checkError();
             submit();

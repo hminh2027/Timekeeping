@@ -150,7 +150,8 @@ const LoginForm = () => {
 
         <Button
           type="primary"
-          style={{ width: "100%", borderRadius: "6px" }}
+          className="v-btn w-full"
+          // style={{ width: "100%", borderRadius: "6px" }}
           onClick={() => loginHandler()}
         >
           Login

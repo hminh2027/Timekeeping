@@ -9,6 +9,7 @@ const { Option } = Select;
 const DesktopTicketList = () => {
   const [tickets, setTickets] = useState(demoTickets);
   const [ticketTypes, setTicketTypes] = useState([]);
+  const [curStatus, setCurStatus] = useState(null);
   const userInfo = useSelector(selectUserInfo);
   useEffect(() => {
     const fetchTicketTypes = async () => {
@@ -65,12 +66,32 @@ const DesktopTicketList = () => {
             </Space>
             <Space>
               <div>Status:</div>
-              <Select value="All" style={{ flex: "1 0 8em", minWidth: "8em" }}>
-                <Option value="all">All</Option>
-                <Option value="accepted">Accepted</Option>
-                <Option value="pending">Pending</Option>
-                <Option value="denied">Denied</Option>
-              </Select>
+              <Select
+                defaultValue="all"
+                style={{
+                  flex: "1 0 10em",
+                  minWidth: "10em",
+                }}
+                options={status}
+              ></Select>
+              {/* <div className="flex gap-2">
+                <div className="flex justify-between gap-1">
+                  <div className="">⚪</div>
+                  <div className="">Approved</div>
+                </div>
+                <div className="flex gap-1">
+                  <div className="">⚪</div>
+                  <div className="">Rejected</div>
+                </div>
+                <div className="flex gap-1">
+                  <div className="">⚪</div>
+                  <div className="">Pending</div>
+                </div>
+                <div className="flex gap-1">
+                  <div className="">⚪</div>
+                  <div className="">Cancel</div>
+                </div>
+              </div> */}
             </Space>
           </div>
           <div>
@@ -189,6 +210,53 @@ const demoTickets = [
       // respondedAt: "2022-07-05",
       action: "Cancel",
     },
+  },
+];
+const status = [
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">All</div>
+        <div className=""></div>
+      </div>
+    ),
+    value: "all",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Approved</div>
+        <div className="">🟢</div>
+      </div>
+    ),
+    value: "approved",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Pending</div>
+        <div className="">🟡</div>
+      </div>
+    ),
+    value: "pending",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Rejected</div>
+        <div className="">🔴</div>
+      </div>
+    ),
+    value: "rejected",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Cancelled</div>
+        <div className="">⚪</div>
+      </div>
+    ),
+    value: "cancelled",
   },
 ];
 // const MobileTicketList = () => {

@@ -101,12 +101,20 @@ export class ConfigService {
     return this.envConfig.DATABASE_NAME;
   }
 
-  public get jwtSecret() {
-    return this.envConfig.JWT_ATOKEN_SECRET_KEY;
+  public get jwtAccessTokenSecret() {
+    return this.envConfig.JWT_ATOKEN_SECRET;
   }
 
   public get jwtRefreshTokenSecret() {
-    return this.envConfig.JWT_RTOKEN_SECRET_KEY;
+    return this.envConfig.JWT_RTOKEN_SECRET;
+  }
+
+  public get jwtAccessTokenExpiration() {
+    return this.envConfig.JWT_ATOKEN_EXPIRATION_TIME;
+  }
+
+  public get jwtRefreshTokenExpiration() {
+    return this.envConfig.JWT_RTOKEN_EXPIRATION_TIME;
   }
 
   public get mailerEmail() {

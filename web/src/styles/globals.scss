@@ -1,8 +1,5 @@
 @use "variables";
 @use "./Common/Button.scss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 .WorkCalendar
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {

@@ -1,6 +1,6 @@
 import { Factory, Seeder } from "typeorm-seeding";
 import { Connection } from "typeorm";
-import { User } from "src/modules/user/user.entity";
+import { User } from "src/modules/user/entities/user.entity";
 
 
 export default class InitialDatabaseSeed implements Seeder {

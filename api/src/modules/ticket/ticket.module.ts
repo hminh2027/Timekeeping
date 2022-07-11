@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmExModule } from 'src/common/typeorm/typeorm-ex.module';
 import { UserModule } from '../user/user.module';
-import { TicketRepository } from './ticket.repository';
-import { TicketController } from './ticket.controller';
-import { TicketService } from './ticket.service';
+import { TicketRepository } from './repositories/ticket.repository';
+import { TicketController } from './controllers/ticket.controller';
+import { TicketService } from './services/ticket.service';
 
 @Module({
     imports: [TypeOrmExModule.forRepository([TicketRepository]), UserModule],

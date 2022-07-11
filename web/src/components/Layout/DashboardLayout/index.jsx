@@ -24,19 +24,23 @@ const DashboardLayout = (props) => {
   const checkInStatus = useSelector(selectUserCheckInStatus);
   const userInfo = useSelector(selectUserInfo);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const loading = false && Object.keys(userInfo).length !== 0;
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      const authed = await auth.checkAuth();
+    const checkAuthStatus = () => {
+      const authed = auth.checkAuth();
+      console.log("Auth:", authed);
       if (!authed) {
         router.push("/account/login");
+      } else {
+        setLoading(false);
       }
     };
     const getUserInfo = () => {
-      if (Object.keys(userInfo).length === 0) dispatch(fetchMe());
+      if (Object.keys(userInfo).length === 0) {
+        dispatch(fetchMe());
+      }
     };
-
-    const getCheckInStatus = async () => {
+    const getCheckInStatus = () => {
       if (checkInStatus === false) {
         const res = dispatch(fetchCheckInStatus());
         if (res.data) dispatch(changeCheckInStatus({ checked_status: true }));
@@ -185,8 +189,8 @@ const DashboardLayout = (props) => {
       </Col>
     </Row>
   );
-  console.log();
-  return content;
+
+  return loading ? <>Loading...</> : content;
 };
 
 export default DashboardLayout;

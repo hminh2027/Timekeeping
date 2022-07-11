@@ -46,6 +46,7 @@ const CheckInContent = () => {
       <div>{trans.check.checkin.please_check_in}</div>
       <Button
         type="primary"
+        className="v-btn"
         onClick={() => {
           setIsChecking(true);
         }}

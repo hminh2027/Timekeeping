@@ -1,10 +1,11 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
-import { setupSwagger } from './common/swagger/index';
-import * as bodyParser from 'body-parser';
+import { ConfigService } from './common/config/config.service';
 import { loggerMiddleware } from './common/middlewares/logger.middleware';
+import { setupSwagger } from './common/swagger/index';
 
 declare const module: any;
 async function bootstrap() {
@@ -15,9 +16,9 @@ async function bootstrap() {
   app.use(helmet());
   app.use(loggerMiddleware);
   app.enableCors();
-  app.use(bodyParser.json({limit: '50mb'}));
-  app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-  // const configService = app.get(ConfigService);
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+  const configService = app.get(ConfigService);
   // const redisIoAdapter: any = new RedisIoAdapter(configService);
   // await redisIoAdapter.connectToRedis();
   // app.useWebSocketAdapter(redisIoAdapter);
