@@ -9,8 +9,8 @@ import { UpdateContactDto } from './dto/update-contact.dto';
 export class ContactService {
   constructor(
     @InjectRepository(Contact)
-    private readonly contactRepository: Repository<Contact>
-  ) { }
+    private readonly contactRepository: Repository<Contact>,
+  ) {}
 
   async create(payload: CreateContactDto): Promise<Contact> {
     const newUser = this.contactRepository.create(payload);
@@ -18,18 +18,20 @@ export class ContactService {
   }
 
   async update(userId: number, payload: UpdateContactDto): Promise<void> {
-    this.contactRepository.createQueryBuilder()
-    .update(Contact)
-    .set(payload)
-    .where('userId = :userId', { userId })
-    .execute();
+    this.contactRepository
+      .createQueryBuilder()
+      .update(Contact)
+      .set(payload)
+      .where('userId = :userId', { userId })
+      .execute();
   }
 
   async remove(userId: number): Promise<void> {
-    this.contactRepository.createQueryBuilder()
-    .delete()
-    .from(Contact)
-    .where('userId = :userId', { userId })
-    .execute();
+    this.contactRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Contact)
+      .where('userId = :userId', { userId })
+      .execute();
   }
 }

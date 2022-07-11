@@ -1,48 +1,56 @@
-import { User } from "src/modules/user/entities/user.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from 'src/modules/user/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('tickets')
 export class Ticket {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column({ length: 255 })
-    title!: string;
-    
-    @Column({ length: 255 })
-    content!: string;
+  @Column({ length: 255 })
+  title!: string;
 
-    @Column()
-    startDate!: Date;
-    
-    @Column()
-    endDate!: Date;
-    
-    @Column()
-    recipientId!: number;
+  @Column({ length: 255 })
+  content!: string;
 
-    @Column()
-    authorId!: number;
-    
-    @Column()
-    ticketType!: string;
+  @Column()
+  startDate!: Date;
 
-    @Column()
-    ticketStatus!: string;
+  @Column()
+  endDate!: Date;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @Column()
+  recipientId!: number;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @Column()
+  authorId!: number;
 
-    /* RELATIONSHIPS */
-    /* N-1 */
-    @ManyToOne(() => User, user => user.tickets, { eager: true })
-    @JoinColumn({ name: 'authorId', referencedColumnName: 'id'})
-    author: User;
+  @Column()
+  ticketType!: string;
 
-    @ManyToOne(() => User, user => user.tickets, { eager: true })
-    @JoinColumn({ name: 'recipientId', referencedColumnName: 'id'})
-    recipient: User;
+  @Column()
+  ticketStatus!: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  /* RELATIONSHIPS */
+  /* N-1 */
+  @ManyToOne(() => User, (user) => user.tickets, { eager: true })
+  @JoinColumn({ name: 'authorId', referencedColumnName: 'id' })
+  author: User;
+
+  @ManyToOne(() => User, (user) => user.tickets, { eager: true })
+  @JoinColumn({ name: 'recipientId', referencedColumnName: 'id' })
+  recipient: User;
 }

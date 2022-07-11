@@ -6,9 +6,9 @@ import { TicketController } from './controllers/ticket.controller';
 import { TicketService } from './services/ticket.service';
 
 @Module({
-    imports: [TypeOrmExModule.forRepository([TicketRepository]), UserModule],
-    exports: [TicketService],
-    controllers: [TicketController],
-    providers: [TicketService],
+  imports: [TypeOrmExModule.forRepository([TicketRepository]), UserModule],
+  exports: [TicketService],
+  controllers: [TicketController],
+  providers: [TicketService],
 })
 export class TicketModule {}

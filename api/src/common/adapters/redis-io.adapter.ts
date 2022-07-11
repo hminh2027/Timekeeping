@@ -5,23 +5,24 @@ import { createClient } from 'redis';
 import { ConfigService } from '../config/config.service';
 
 export class RedisIoAdapter extends IoAdapter {
-    private adapterConstructor: ReturnType<typeof createAdapter>;
-    constructor(private readonly configService: ConfigService) {
-        super();
-    }
-    async connectToRedis(): Promise<void> {
+  private adapterConstructor: ReturnType<typeof createAdapter>;
+  constructor(private readonly configService: ConfigService) {
+    super();
+  }
+  async connectToRedis(): Promise<void> {
+    const pubClient = createClient({
+      url: this.configService.get('REDIS_URI'),
+    });
+    const subClient = pubClient.duplicate();
 
-        const pubClient = createClient({ url: this.configService.get('REDIS_URI') });
-        const subClient = pubClient.duplicate();
+    await Promise.all([pubClient.connect(), subClient.connect()]);
 
-        await Promise.all([pubClient.connect(), subClient.connect()]);
+    this.adapterConstructor = createAdapter(pubClient, subClient);
+  }
 
-        this.adapterConstructor = createAdapter(pubClient, subClient);
-    }
-
-    createIOServer(port: number, options?: ServerOptions): any {
-        const server = super.createIOServer(port, options);
-        server.adapter(this.adapterConstructor);
-        return server;
-    }
+  createIOServer(port: number, options?: ServerOptions): any {
+    const server = super.createIOServer(port, options);
+    server.adapter(this.adapterConstructor);
+    return server;
+  }
 }

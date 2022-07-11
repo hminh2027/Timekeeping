@@ -1,3 +1,1 @@
-export class AwsService {
-
-}
+export class AwsService {}

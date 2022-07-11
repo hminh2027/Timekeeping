@@ -17,8 +17,8 @@ async function bootstrap() {
   app.use(helmet());
   app.use(loggerMiddleware);
   app.enableCors();
-  app.use(bodyParser.json({limit: '50mb'}));
-  app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   const configService = app.get(ConfigService);
   const redisIoAdapter: any = new RedisIoAdapter(configService);
   await redisIoAdapter.connectToRedis();

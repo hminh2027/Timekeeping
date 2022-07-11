@@ -6,7 +6,7 @@ import { UserRole } from '../enums/role.enum';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UserRepository) {}
 
   async getById(id: number) {
     return await this.userRepository.findOne({ where: { id } });
@@ -29,8 +29,9 @@ export class UserService {
   }
 
   async create(payload: UserFillableFields): Promise<User> {
-
-    const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email);
+    const checkEmailExistence = await this.userRepository.checkEmailExistence(
+      payload.email,
+    );
 
     if (checkEmailExistence) {
       throw new NotAcceptableException(
@@ -44,11 +45,9 @@ export class UserService {
 
   async updateToken(id: number, token: string): Promise<void> {
     const checkUserExistence = await this.userRepository.checkUserExistence(id);
-    
+
     if (!checkUserExistence) {
-      throw new NotAcceptableException(
-        'User does not exists.',
-      );
+      throw new NotAcceptableException('User does not exists.');
     }
 
     await this.userRepository.update(id, { resetToken: token });
@@ -58,11 +57,9 @@ export class UserService {
     const checkUserExistence = await this.userRepository.checkUserExistence(id);
 
     if (!checkUserExistence) {
-      throw new NotAcceptableException(
-        'User does not exists.',
-      );
+      throw new NotAcceptableException('User does not exists.');
     }
-    
+
     await this.userRepository.update(id, { password });
   }
 
@@ -70,12 +67,13 @@ export class UserService {
     const checkUserExistence = await this.userRepository.checkUserExistence(id);
 
     if (!checkUserExistence) {
-      throw new NotAcceptableException(
-        'User does not exists.',
-      );
+      throw new NotAcceptableException('User does not exists.');
     }
 
-    const checkEmailExistence = await this.userRepository.checkEmailExistence(payload.email, id);
+    const checkEmailExistence = await this.userRepository.checkEmailExistence(
+      payload.email,
+      id,
+    );
 
     if (checkEmailExistence) {
       throw new NotAcceptableException(
@@ -85,9 +83,9 @@ export class UserService {
 
     const userUpdate = await this.userRepository.create({
       id,
-      ...payload
-    })
-    
+      ...payload,
+    });
+
     return await this.userRepository.save(userUpdate);
   }
 
@@ -95,49 +93,37 @@ export class UserService {
     return Object.values(UserRole);
   }
 
-  async search(params): Promise<User[]>{
-    try {
-        const offset = (params.page - 1) * params.limit;
-        let users: User[];
+  async search(params): Promise<User[]> {
+    const offset = (params.page - 1) * params.limit;
+    let users: User[];
 
-        if(params.textSearch) {
-            users = await this.userRepository
-            .createQueryBuilder('users')
-            .where('users.email like :email', { email: `%${params.textSearch}%` })               
-            .orderBy('users.id', 'DESC')
-            .skip(offset)
-            .take(params.limit)
-            .execute();
-
-        }
-        else {
-            users = await this.userRepository
-            .createQueryBuilder('users')
-            .orderBy('users.id', 'DESC')
-            .skip(offset)
-            .take(params.limit)
-            .execute();
-        }
-        
-        return users;
-
-    } catch (err) {
-        throw err;
+    if (params.textSearch) {
+      users = await this.userRepository
+        .createQueryBuilder('users')
+        .where('users.email like :email', { email: `%${params.textSearch}%` })
+        .orderBy('users.id', 'DESC')
+        .skip(offset)
+        .take(params.limit)
+        .execute();
+    } else {
+      users = await this.userRepository
+        .createQueryBuilder('users')
+        .orderBy('users.id', 'DESC')
+        .skip(offset)
+        .take(params.limit)
+        .execute();
     }
+
+    return users;
   }
 
   async remove(id: number): Promise<void> {
-    try {
-      await this.userRepository.delete(id);
-
-    } catch (err) {
-      throw err;
-    }
+    await this.userRepository.delete(id);
   }
 
   public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
     const user = await this.getById(id);
-    console.log(user)
+    console.log(user);
     return user.role === role;
-  } 
+  }
 }

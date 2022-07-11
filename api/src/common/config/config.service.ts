@@ -36,7 +36,7 @@ export class ConfigService {
         )
         .required(),
       PORT: Joi.number().default(3000),
-      REDIS_URI: Joi.string().required().default('redis://127.0.0.1:6379')
+      REDIS_URI: Joi.string().required().default('redis://127.0.0.1:6379'),
       // API_AUTH_ENABLED: Joi.boolean()
       //   .required()
       //   .default(true),

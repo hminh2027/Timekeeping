@@ -14,14 +14,14 @@ import { join } from 'path';
   imports: [
     AuthModule,
     MailModule,
-    ConfigModule, 
-    DatabaseModule, 
-    TicketModule, 
-    CheckinModule, 
+    ConfigModule,
+    DatabaseModule,
+    TicketModule,
+    CheckinModule,
     AwsModule.register(),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'images')
-    })
+      rootPath: join(__dirname, '..', 'images'),
+    }),
   ],
 })
 export class AppModule {

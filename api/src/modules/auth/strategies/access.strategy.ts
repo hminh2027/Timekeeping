@@ -25,7 +25,6 @@ export class ATJwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-
   async validate(payload: LoginPayload) {
     const user = await this.authService.validateToken(payload);
     if (!user) {
@@ -33,5 +32,4 @@ export class ATJwtStrategy extends PassportStrategy(Strategy) {
     }
     return user;
   }
-
 }

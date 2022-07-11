@@ -1,6 +1,6 @@
-import { UserRole } from "src/modules/user/enums/role.enum";
-import { User } from "src/modules/user/entities/user.entity";
-import { define } from "typeorm-seeding";
+import { UserRole } from 'src/modules/user/enums/role.enum';
+import { User } from 'src/modules/user/entities/user.entity';
+import { define } from 'typeorm-seeding';
 
 define(User, () => {
   const user = new User();
@@ -10,4 +10,4 @@ define(User, () => {
   user.firstName = 'admin';
   user.lastName = 'admin';
   return user;
-})
+});

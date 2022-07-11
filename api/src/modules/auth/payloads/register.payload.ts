@@ -7,7 +7,9 @@ const EMAIL_DOMAIN = 'vdtsol';
 export class RegisterPayload {
   @ApiProperty({ required: true })
   @IsEmail()
-  @Matches(/^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/, { message: `Email domain must be vdtsol` })
+  @Matches(/^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/, {
+    message: `Email domain must be vdtsol`,
+  })
   email!: string;
 
   @ApiProperty({ required: true })
@@ -26,5 +28,5 @@ export class RegisterPayload {
   @IsNotEmpty()
   role: string = UserRole.USER;
 
-  resetToken: string = ''
+  resetToken: string = '';
 }

@@ -25,7 +25,6 @@ export class RTJwtStrategy extends PassportStrategy(Strategy, 'refresh') {
     });
   }
 
-
   async validate(token: string) {
     // const user = await this.authService.validateToken(accessToken);
     // if (!user) {
@@ -33,5 +32,4 @@ export class RTJwtStrategy extends PassportStrategy(Strategy, 'refresh') {
     // }
     // return user;
   }
-
 }

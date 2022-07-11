@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
-import { CheckoutHistoryRepository } from "../repositories/checkout-history.repository";
+import { Injectable } from '@nestjs/common';
+import { CheckoutHistoryRepository } from '../repositories/checkout-history.repository';
 
 @Injectable()
 export class CheckOutHistoryService {
@@ -8,7 +8,7 @@ export class CheckOutHistoryService {
   async create(id: number) {
     const history = await this.historyRepository.create({
       checkinId: id,
-      date: new Date().getDate()
+      date: new Date().getDate(),
     });
     return await this.historyRepository.save(history);
   }
@@ -16,7 +16,7 @@ export class CheckOutHistoryService {
   async getLastestCheckout(id) {
     return await this.historyRepository.findOne({
       where: { checkinId: id },
-      order: { createdAt: 'DESC' }
-    })
+      order: { createdAt: 'DESC' },
+    });
   }
 }

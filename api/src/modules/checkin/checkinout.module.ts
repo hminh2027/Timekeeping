@@ -7,9 +7,14 @@ import { CheckOutHistoryService } from './services/checkout-history.service';
 import { CheckinRepository } from './repositories/checkinout.repository';
 
 @Module({
-  imports: [TypeOrmExModule.forRepository([CheckinRepository, CheckoutHistoryRepository])],
+  imports: [
+    TypeOrmExModule.forRepository([
+      CheckinRepository,
+      CheckoutHistoryRepository,
+    ]),
+  ],
   exports: [CheckinService, CheckOutHistoryService],
   controllers: [CheckinController],
-  providers: [CheckinService, CheckOutHistoryService]
+  providers: [CheckinService, CheckOutHistoryService],
 })
 export class CheckinModule {}

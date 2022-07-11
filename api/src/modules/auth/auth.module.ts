@@ -31,4 +31,4 @@ import { RTJwtStrategy } from './strategies/refresh.strategy';
   providers: [AuthService, RTJwtStrategy, ATJwtStrategy],
   exports: [PassportModule.register({ defaultStrategy: 'jwt' })],
 })
-export class AuthModule { }
+export class AuthModule {}
