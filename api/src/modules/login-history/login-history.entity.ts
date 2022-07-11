@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "../user/entities/user.entity";
 
 @Entity('login_histories')
 export class LoginHistory {
@@ -6,7 +7,7 @@ export class LoginHistory {
     id!: number;
 
     @Column({ length: 355 })
-    accessToken!: string;
+    refreshToken!: string;
 
     @Column({ length: 255 })
     ipAddress!: string;
@@ -20,12 +21,12 @@ export class LoginHistory {
     @CreateDateColumn()
     createdAt: Date;
 
-    // @Column()
-    // checkinId!: number;
+    @Column()
+    userId!: number;
 
-    // /* RELATIONSHIPS */
-    // /* N-1 */
-    // @ManyToOne(() => Checkin, checkin => checkin.checkout_histories, { eager: true })
-    // @JoinColumn({ name: 'checkinId'})
-    // checkin: Checkin;  
+    /* RELATIONSHIPS */
+    /* N-1 */
+    @ManyToOne(() => User, user => user.loginHistories, { eager: true })
+    @JoinColumn({ name: 'userId'})
+    user: User;  
 }

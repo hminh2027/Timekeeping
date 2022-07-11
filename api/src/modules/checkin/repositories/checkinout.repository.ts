@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { EntityRepository } from "src/common/typeorm/typeorm-ex.decorator";
-import { Checkin } from "./entities/checkinout.entity";
+import { Checkin } from "../entities/checkinout.entity";
 import * as fs from "fs";
 
 @EntityRepository(Checkin)

@@ -1,14 +1,14 @@
 import { Controller, Body, Post, HttpStatus, Query, Request, UsePipes, ValidationPipe, UseGuards, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { AuthService } from './auth.service';
-import { LoginPayload } from './payload/login.payload';
-import { RegisterPayload } from './payload/register.payload';
-import { UserService } from '../user/user.service';
-import { ForgotPayload } from './payload/forgot.payload';
-import { ResetPayload } from './payload/reset.payload';
+import { AuthService } from '../services/auth.service';
+import { LoginPayload } from '../payloads/login.payload';
+import { RegisterPayload } from '../payloads/register.payload';
+import { UserService } from '../../user/services/user.service';
+import { ForgotPayload } from '../payloads/forgot.payload';
+import { ResetPayload } from '../payloads/reset.payload';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
-import { TokenQueryDto } from './dto/Token.dto';
+import { TokenQueryDto } from '../dto/Token.dto';
 
 @Controller('auth')
 @ApiTags('authentication')

@@ -1,5 +1,5 @@
 import { UserRole } from "src/modules/user/enums/role.enum";
-import { User } from "src/modules/user/user.entity";
+import { User } from "src/modules/user/entities/user.entity";
 import { define } from "typeorm-seeding";
 
 define(User, () => {

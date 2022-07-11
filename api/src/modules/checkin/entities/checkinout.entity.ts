@@ -1,4 +1,4 @@
-import { User } from "src/modules/user/user.entity";
+import { User } from "src/modules/user/entities/user.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CheckoutHistory } from "./checkout-history.entity";
 

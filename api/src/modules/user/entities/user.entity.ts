@@ -1,7 +1,8 @@
 import { createHmac } from 'crypto';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert, BeforeUpdate } from 'typeorm';
-import { Checkin } from '../checkin/entities/checkinout.entity';
-import { Ticket } from '../ticket/ticket.entity';
+import { Checkin } from '../../checkin/entities/checkinout.entity';
+import { LoginHistory } from '../../login-history/login-history.entity';
+import { Ticket } from '../../ticket/entities/ticket.entity';
 
 @Entity({
   name: 'users',
@@ -35,6 +36,9 @@ export class User {
 
   @OneToMany(() => Checkin, checkin => checkin.user)
   checkins: Checkin[];
+
+  @OneToMany(() => LoginHistory, loginHistory => loginHistory.id)
+  loginHistories: LoginHistory[];
 
   @BeforeInsert()
   @BeforeUpdate()

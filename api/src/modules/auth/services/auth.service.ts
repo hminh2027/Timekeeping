@@ -3,13 +3,13 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotAccep
 import { JwtService } from '@nestjs/jwt';
 import { createHmac } from 'crypto';
 
-import { ConfigService } from '../../common/config/config.service';
-import { User } from '../user/user.entity';
-import { UserService } from '../user/user.service';
-import { TokenQueryDto } from './dto/Token.dto';
-import { ForgotPayload } from './payload/forgot.payload';
-import { LoginPayload } from './payload/login.payload';
-import { ResetPayload } from './payload/reset.payload';
+import { ConfigService } from '../../../common/config/config.service';
+import { User } from '../../user/entities/user.entity';
+import { UserService } from '../../user/services/user.service';
+import { TokenQueryDto } from '../dto/Token.dto';
+import { ForgotPayload } from '../payloads/forgot.payload';
+import { LoginPayload } from '../payloads/login.payload';
+import { ResetPayload } from '../payloads/reset.payload';
 
 @Injectable()
 export class AuthService {
@@ -23,21 +23,10 @@ export class AuthService {
   async generateToken(user: User) {
     const {password, ...payload} = user;
 
-    const rToken = this.generateRefreshToken(payload);
-    console.log(rToken)
-
     return {
-      expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
       accessToken: this.jwtService.sign({ ...payload }),
       user: {...payload}
     };
-  }
-
-  // not working
-  generateRefreshToken(payload: any): string {
-    const privateKey = this.configService.jwtRefreshTokenSecret
-    console.log(privateKey)
-    return this.jwtService.sign(payload, { privateKey })
   }
 
   async validateUser({ email, password }: LoginPayload): Promise<any> {

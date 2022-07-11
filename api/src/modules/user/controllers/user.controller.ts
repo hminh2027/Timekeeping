@@ -3,10 +3,10 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
-import { UserRole } from './enums/role.enum';
-import { SearchQueryDto } from './dto/search.dto';
-import { UserService } from './user.service';
-import { UserPayload } from './payload/user.payload';
+import { UserRole } from '../enums/role.enum';
+import { SearchQueryDto } from '../dto/search.dto';
+import { UserService } from '../services/user.service';
+import { UserPayload } from '../payload/user.payload';
 
 @Controller('user')
 @ApiTags('user')

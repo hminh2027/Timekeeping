@@ -1,8 +1,8 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { User, UserFillableFields } from './user.entity';
-import { UserPayload } from './payload/user.payload';
-import { UserRepository } from './user.repository';
-import { UserRole } from './enums/role.enum';
+import { User, UserFillableFields } from '../entities/user.entity';
+import { UserPayload } from '../payload/user.payload';
+import { UserRepository } from '../repositories/user.repository';
+import { UserRole } from '../enums/role.enum';
 
 @Injectable()
 export class UserService {
@@ -25,7 +25,7 @@ export class UserService {
   }
 
   async getAdmin() {
-    return await this.userRepository.findOne({ where: { role: UserRole.ADMIN } });
+    return await this.userRepository.find({ where: { role: UserRole.ADMIN } });
   }
 
   async create(payload: UserFillableFields): Promise<User> {

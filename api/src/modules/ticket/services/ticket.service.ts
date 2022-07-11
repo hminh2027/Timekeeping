@@ -1,12 +1,12 @@
 import { Inject, Injectable, NotAcceptableException, NotFoundException } from "@nestjs/common";
 import { UserRole } from "src/modules/user/enums/role.enum";
-import { UserService } from "src/modules/user/user.service";
-import { Ticket } from "./ticket.entity";
-import { TicketStatus } from "./enums/ticket-status.enum";
-import { CreateTicketPayload } from "./payloads/create-ticket.payload";
-import { UpdateTicketPayload } from "./payloads/update-ticket.payload";
-import { TicketRepository } from "./ticket.repository";
-import { TicketType } from "./enums/ticket-type.enum";
+import { UserService } from "src/modules/user/services/user.service";
+import { Ticket } from "../entities/ticket.entity";
+import { TicketStatus } from "../enums/ticket-status.enum";
+import { CreateTicketPayload } from "../payloads/create-ticket.payload";
+import { UpdateTicketPayload } from "../payloads/update-ticket.payload";
+import { TicketRepository } from "../repositories/ticket.repository";
+import { TicketType } from "../enums/ticket-type.enum";
 
 @Injectable()
 export class TicketService {
