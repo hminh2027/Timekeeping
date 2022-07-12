@@ -1,3 +1,4 @@
+import { createHmac } from 'crypto';
 import { EntityRepository } from 'src/common/typeorm/typeorm-ex.decorator';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -30,5 +31,9 @@ export class UserRepository extends Repository<User> {
       .getCount();
 
     return count > 0;
+  }
+
+  public hashPassword(password: string): string {
+    return createHmac('sha256', password).digest('hex');
   }
 }

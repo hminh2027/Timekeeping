@@ -59,8 +59,8 @@ export class UserService {
     if (!checkUserExistence) {
       throw new NotAcceptableException('User does not exists.');
     }
-
-    await this.userRepository.update(id, { password });
+    const passHashed = this.userRepository.hashPassword(password);
+    await this.userRepository.update(id, { password: passHashed });
   }
 
   async update(id: number, payload: UserPayload): Promise<User> {
