@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button, Input, Radio, Select, Space, Spin } from "antd";
+import { Button, Input, Select, Space, Spin } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import api from "../../../../api/api";
@@ -10,12 +10,12 @@ const { Option } = Select;
 const SubmitTicket = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [data, setData] = useState({
+  const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     title: "",
     content: "",
-    ticketType: "1",
+    ticketType: 0,
     recipientId: 0,
   });
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -24,26 +24,29 @@ const SubmitTicket = (props) => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
       const { data } = res;
+      console.log(data);
       setTicketTypes(data);
+      // setTicketData({ ...ticketData, ticketType: data[0] });
     };
     const fetchManagers = async () => {
       const res = await api.get("user/admin");
       const { data } = res;
       setManagers(data);
-      setData({ ...data, recipientId: data[0].id });
+      setTicketData({ ...ticketData, recipientId: data[0].id });
     };
     fetchManagers();
     fetchTicketTypes();
   }, []);
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setTicketData({ ...ticketData, [e.target.name]: e.target.value });
     // setErrors([]);
   };
+  // console.log(ticketData);
   const submit = async () => {
     setIsSubmitting(true);
-    console.log(data);
+    // console.log(ticketData);
     try {
-      await api.post("ticket", data);
+      await api.post("ticket", ticketData);
       props.hide();
     } catch (err) {
       const newErrors = [];
@@ -78,7 +81,7 @@ const SubmitTicket = (props) => {
           <Input
             type="text"
             name="title"
-            value={data.title}
+            value={ticketData.title}
             placeholder="Ticket title"
             className={styles[`info-input`]}
             onChange={(e) => {
@@ -91,7 +94,7 @@ const SubmitTicket = (props) => {
           <Input
             type="date"
             name="startDate"
-            value={data.startDate}
+            value={ticketData.startDate}
             addonBefore={<div style={{ minWidth: "6em" }}>Start Date</div>}
             className={styles[`info-input`]}
             onChange={(e) => {
@@ -104,7 +107,7 @@ const SubmitTicket = (props) => {
           <Input
             type="date"
             name="endDate"
-            value={data.endDate}
+            value={ticketData.endDate}
             addonBefore={<div style={{ minWidth: "6em" }}>End Date</div>}
             className={styles[`info-input`]}
             onChange={(e) => {
@@ -116,23 +119,27 @@ const SubmitTicket = (props) => {
           />
           <Space wrap>
             <div style={{ minWidth: "6em" }}>Ticket Type:</div>
-            <Radio.Group
-              name="ticketType"
-              defaultValue={ticketTypes[0]}
+            <Select
               style={{
                 flexGrow: 2,
               }}
-              onChange={(e) => {
+              name="ticketType"
+              // value={ticketData.ticketType}
+              value={ticketTypes[0]}
+              placeholder="Search to Select"
+              onChange={(value, option) => {
+                // console.log(value, option);
+                const e = { target: { name: "ticketType", value: value } };
                 handleChange(e);
               }}
               onPressEnter={() => {
                 submit();
               }}
             >
-              {ticketTypes.map((ticketType) => (
-                <Radio value={ticketType}>{ticketType}</Radio>
+              {ticketTypes.map((ticketType, index) => (
+                <Option value={ticketType}>{ticketType}</Option>
               ))}
-            </Radio.Group>
+            </Select>
           </Space>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "1em" }}>
             <div style={{ minWidth: "6em" }}>Recipient Name:</div>
@@ -141,7 +148,7 @@ const SubmitTicket = (props) => {
                 flexGrow: 2,
               }}
               name="recipientId"
-              value={data.recipientId}
+              value={ticketData.recipientId}
               placeholder="Search to Select"
               onChange={(value, option) => {
                 // console.log(value, option);
@@ -163,7 +170,7 @@ const SubmitTicket = (props) => {
         <TextArea
           rows={5}
           name="content"
-          value={data.content}
+          value={ticketData.content}
           style={{ width: "100%" }}
           className={styles[`ticket-content`]}
           placeholder="Ticket Content"

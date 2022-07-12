@@ -64,35 +64,35 @@ const DesktopTicketList = () => {
                 ))}
               </Select>
             </Space>
-            <Space>
-              <div>Status:</div>
-              <Select
-                defaultValue="all"
-                style={{
-                  flex: "1 0 10em",
-                  minWidth: "10em",
-                }}
-                options={status}
-              ></Select>
-              {/* <div className="flex gap-2">
+            <div className="flex items-center justify-between ">
+              <div className="flex flex-1 items-center w-80">
+                <div>Status:</div>
+                <Select
+                  defaultValue="all"
+                  className=" w-32"
+                  options={status}
+                ></Select>
+              </div>
+
+              <div className="flex gap-2 flex-1">
                 <div className="flex justify-between gap-1">
-                  <div className="">⚪</div>
+                  <div className="">🟢</div>
                   <div className="">Approved</div>
                 </div>
                 <div className="flex gap-1">
-                  <div className="">⚪</div>
+                  <div className="">🔴</div>
                   <div className="">Rejected</div>
                 </div>
                 <div className="flex gap-1">
-                  <div className="">⚪</div>
+                  <div className="">🟡</div>
                   <div className="">Pending</div>
                 </div>
                 <div className="flex gap-1">
                   <div className="">⚪</div>
                   <div className="">Cancel</div>
                 </div>
-              </div> */}
-            </Space>
+              </div>
+            </div>
           </div>
           <div>
             <Button type="primary">Apply</Button>
