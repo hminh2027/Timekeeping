@@ -34,6 +34,8 @@ services:
     volumes:
         - ./api:/usr/src/app
         - /usr/src/app/node_modules
+    depends_on:
+        - db
   web:
     build:
       context: ./web
@@ -46,6 +48,8 @@ services:
       APP_URL: "http://localhost:4005/api/"
     ports:
       - 3005:3005
+    depends_on:
+      - api
 volumes:
   vcheckdb:
   cache:
