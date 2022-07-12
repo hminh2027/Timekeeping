@@ -1,7 +1,7 @@
-import DashboardLayout from "../../components/Layout/DashboardLayout";
-
+import Home from "@/components/page/Dashboard/Home";
+import DashboardLayout from "@/layout/DashboardLayout";
 const Dashboard = () => {
-  return "Đây là in đết";
+  return <Home />;
 };
 Dashboard.layout = DashboardLayout;
 

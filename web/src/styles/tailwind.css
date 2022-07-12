@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+    .v-btn{
+        @apply text-white bg-third border-third rounded-md hover:text-black contrast-125
+    }
+}

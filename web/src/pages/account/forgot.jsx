@@ -1,8 +1,8 @@
-import LoginLayout from "../../components/Layout/LoginLayout";
 import ForgotPasswordForm from "../../components/page/account/ForgotPassword";
+import RecoveryLayout from "../../components/Layout/RecoveryLayout";
 const ForgotPassword = () => {
   return <ForgotPasswordForm />;
 };
-ForgotPassword.layout = LoginLayout;
+ForgotPassword.layout = RecoveryLayout;
 
 export default ForgotPassword;

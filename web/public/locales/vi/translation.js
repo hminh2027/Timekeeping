@@ -1,7 +1,7 @@
-import checkin from "./checkin";
+import check from "./check";
 
 const exportObj = {
-  checkin,
+  check,
 };
 
 export default exportObj;
