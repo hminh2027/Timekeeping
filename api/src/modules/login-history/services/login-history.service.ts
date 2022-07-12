@@ -12,4 +12,8 @@ export class LoginHistoryService {
     const loginHistory = await this.loginHistoryRepository.create(data);
     return await this.loginHistoryRepository.save(loginHistory);
   }
+
+  async deleteExpiredToken() {
+    // return await this.loginHistoryRepository
+  }
 }

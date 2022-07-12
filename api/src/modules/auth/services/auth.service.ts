@@ -60,7 +60,7 @@ export class AuthService {
     }
     // Generate 15m token
     const token = await this.jwtService.sign({ ...user }, { expiresIn: '15m' });
-    const url = `http://localhost:3001/api/account/recover?token=${token}`;
+    const url = `http://localhost:3001/account/recover?token=${token}`;
     // Send email
     await this.mailerService
       .sendMail({
