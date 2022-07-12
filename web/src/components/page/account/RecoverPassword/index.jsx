@@ -1,5 +1,6 @@
 import { LoadingOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Spin } from "antd";
+import Router from "next/router";
 import { useState } from "react";
 import api from "../../../../api/api";
 import Form from "../Common/Form";
@@ -8,6 +9,7 @@ const RecoverPassword = (props) => {
   console.log("Token ne: ", token);
   const [data, setData] = useState({ password: "", password2: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setErrors([]);
@@ -42,6 +44,12 @@ const RecoverPassword = (props) => {
       setIsSubmitting(true);
 
       const res = await api.post(`auth/reset?token=${token}`, { ...data });
+      if (res.status === 200) {
+        setIsSuccess(true);
+        setTimeout(() => {
+          Router.push("/");
+        }, 3000);
+      }
       setIsSubmitting(false);
     } catch (err) {
       const newErrors = errors.filter(
@@ -70,6 +78,16 @@ const RecoverPassword = (props) => {
               {error.message}
             </div>
           ))}
+        </Space>
+      )}
+      {isSuccess && (
+        <Space
+          direction="vertical"
+          style={{ width: "100%", paddingBottom: "1em" }}
+        >
+          <div className="text-green-500 font-medium">
+            Reset password successfully
+          </div>
         </Space>
       )}
       <Space direction="vertical" size="middle" style={{ width: "100%" }}>

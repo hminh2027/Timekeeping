@@ -21,7 +21,7 @@ export class ATJwtStrategy extends PassportStrategy(Strategy) {
         ExtractJwt.fromUrlQueryParameter('access_token'),
       ]),
       secretOrKey: configService.jwtAccessTokenSecret,
-      passReqToCallback: true,
+      // passReqToCallback: true,
     });
   }
 

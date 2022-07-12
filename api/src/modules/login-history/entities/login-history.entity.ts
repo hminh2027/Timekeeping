@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -29,6 +30,9 @@ export class LoginHistory {
   createdAt: Date;
 
   @Column()
+  expiredAt: Date;
+
+  @Column()
   userId!: number;
 
   /* RELATIONSHIPS */
@@ -36,4 +40,10 @@ export class LoginHistory {
   @ManyToOne(() => User, (user) => user.loginHistories, { eager: true })
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @BeforeInsert()
+  async setExpiration(): Promise<void> {
+    // đang bị fix cứng
+    this.expiredAt = new Date(+this.createdAt + 3 * 60 * 60 * 1000);
+  }
 }

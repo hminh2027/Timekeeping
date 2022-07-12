@@ -31,14 +31,3 @@ const Dashboard = (props) => {
 Dashboard.layout = DashboardLayout;
 
 export default Dashboard;
-export async function getServerSideProps(context) {
-  const authed = auth.checkAuth();
-
-  // Get user Info
-  const res = await fetch(`${process.env.APP_URL}auth/me`);
-  const data = await res.json();
-
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
