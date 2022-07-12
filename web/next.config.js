@@ -5,8 +5,8 @@ const nextConfig = {
   reactStrictMode: true,
   env: {
     APP_URL: process.env.APP_URL,
-    AUTH_TOKEN: process.env.AUTH_TOKEN,
-    ROLE: process.env.ROLE,
+    AUTH_TOKEN: process.env.AUTH_TOKEN || "vCheck_Token",
+    ROLE: process.env.ROLE || "vCheck_Role",
   },
   images: {
     domains: [

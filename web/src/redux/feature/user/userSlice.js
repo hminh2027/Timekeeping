@@ -22,7 +22,7 @@ export const fetchCheckInStatus = createAsyncThunk(
 );
 export const fetchMe = createAsyncThunk("user/fetchMe", async () => {
   const response = await getMyInfo();
-  console.log(response);
+
   return response;
 });
 

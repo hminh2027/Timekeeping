@@ -1,31 +1,36 @@
+import api from "@/api/api";
+import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import { Button, Input, Select, Space } from "antd";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import api from "../../../../api/api";
-import { selectUserInfo } from "../../../../redux/feature/user/userSlice";
-import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
-import { TicketInfoFormatter } from "../../../../utils/Formatter/TicketInfo";
+import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
 const { Option } = Select;
-const DesktopTicketList = () => {
+const TicketList = (props) => {
   const [tickets, setTickets] = useState(demoTickets);
   const [ticketTypes, setTicketTypes] = useState([]);
-  const [curStatus, setCurStatus] = useState(null);
-  const userInfo = useSelector(selectUserInfo);
+
   useEffect(() => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
       const { data } = res;
       setTicketTypes(data);
     };
-    const fetchTicketData = async () => {
-      const res = await api.get(`ticket/${userInfo.id}`);
-      const tickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
-      setTickets(tickets);
-    };
 
     fetchTicketTypes();
-    fetchTicketData();
   }, []);
+
+  useEffect(() => {
+    const fetchTicketData = async () => {
+      const res = await api.get(`ticket/me`);
+      const resTickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
+      setTickets(resTickets);
+    };
+    fetchTicketData();
+    return () => {
+      setTickets([]);
+      props.onFetched();
+    };
+  }, [props.newTicketSubmitted]);
+
   // console.log(tickets);
   const filter = () => {};
   return (
@@ -166,7 +171,7 @@ const TicketListItem = (props) => {
     </div>
   );
 };
-export { TicketListItem, DesktopTicketList };
+export default TicketList;
 
 const demoTickets = [
   {
