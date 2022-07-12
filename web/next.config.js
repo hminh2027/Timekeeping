@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const { i18n } = require("./next-i18next.config");
 const nextConfig = {
+  swcMinify: true,
   reactStrictMode: true,
   env: {
     APP_URL: process.env.APP_URL,
