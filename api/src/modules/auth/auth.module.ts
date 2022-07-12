@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from 'src/common/config/config.module';
 import { ConfigService } from 'src/common/config/config.service';
+import { LoginHistoryModule } from '../login-history/login-history.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
@@ -13,6 +14,7 @@ import { RTJwtStrategy } from './strategies/refresh.strategy';
   imports: [
     UserModule,
     ConfigModule,
+    LoginHistoryModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
