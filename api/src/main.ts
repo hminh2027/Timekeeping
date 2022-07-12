@@ -4,7 +4,6 @@ import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { setupSwagger } from './common/swagger/index';
-import * as bodyParser from 'body-parser';
 import { loggerMiddleware } from './common/middlewares/logger.middleware';
 import { ConfigService } from './common/config/config.service';
 import { RedisIoAdapter } from './common/adapters/redis-io.adapter';
