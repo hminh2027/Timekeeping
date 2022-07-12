@@ -9,9 +9,8 @@ import { CheckinRepository } from '../repositories/checkinout.repository';
 export class CheckinService {
   constructor(
     private readonly checkinRepository: CheckinRepository,
-    private readonly checkoutHistoryService: CheckOutHistoryService,
-  ) // private readonly dataSource: DataSource
-  {}
+    private readonly checkoutHistoryService: CheckOutHistoryService, // private readonly dataSource: DataSource
+  ) {}
 
   async getByUserId(id: number) {
     return await this.checkinRepository.findOne({

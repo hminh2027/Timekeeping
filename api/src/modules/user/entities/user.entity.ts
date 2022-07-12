@@ -48,12 +48,11 @@ export class User {
   loginHistories: LoginHistory[];
 
   @BeforeInsert()
-  @BeforeUpdate()
-  async setPassword(password: string): Promise<void> {
-    const passHash = createHmac('sha256', password || this.password).digest(
+  async setPassword(password: string | undefined): Promise<void> {
+    const passHashed = createHmac('sha256', password || this.password).digest(
       'hex',
     );
-    this.password = passHash;
+    this.password = passHashed;
   }
 }
 
