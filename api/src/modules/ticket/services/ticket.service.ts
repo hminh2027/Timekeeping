@@ -34,6 +34,10 @@ export class TicketService {
     return Object.values(TicketType);
   }
 
+  async getByTicketId(id: number): Promise<Ticket> {
+    return this.ticketRepository.findOne({ where: { id } });
+  }
+
   async create(data: CreateTicketPayload): Promise<Ticket> {
     if (data.authorId === data.recipientId)
       throw new NotAcceptableException('Unable to send ticket to self.');

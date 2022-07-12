@@ -1,5 +1,6 @@
 import { User } from 'src/modules/user/entities/user.entity';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -36,7 +37,7 @@ export class Checkin {
   checkoutLatitude!: string;
 
   @Column()
-  date: Number;
+  date!: Number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -56,4 +57,9 @@ export class Checkin {
   /* 1-N */
   @OneToMany(() => CheckoutHistory, (checkout) => checkout.checkin)
   checkout_histories: CheckoutHistory;
+
+  @BeforeInsert()
+  getDate(): void {
+    this.date = this.createdAt.getDate();
+  }
 }

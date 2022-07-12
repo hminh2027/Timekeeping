@@ -1,3 +1,4 @@
+import { Comment } from 'src/modules/comment/entities/comment.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import {
   Column,
@@ -5,6 +6,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -47,10 +49,14 @@ export class Ticket {
   /* RELATIONSHIPS */
   /* N-1 */
   @ManyToOne(() => User, (user) => user.tickets, { eager: true })
-  @JoinColumn({ name: 'authorId', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'authorId' })
   author: User;
 
   @ManyToOne(() => User, (user) => user.tickets, { eager: true })
-  @JoinColumn({ name: 'recipientId', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'recipientId' })
   recipient: User;
+
+  /* 1-N */
+  @OneToMany(() => Comment, (comment) => comment.ticket)
+  comments: Comment;
 }
