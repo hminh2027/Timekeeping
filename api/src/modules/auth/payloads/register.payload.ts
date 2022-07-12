@@ -2,27 +2,26 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator';
 import { UserRole } from 'src/modules/user/enums/role.enum';
 
-const EMAIL_DOMAIN = 'vdtsol';
-
 export class RegisterPayload {
-  @ApiProperty({ required: true })
+  @ApiProperty({ default: 'test@vdtsol.com' })
   @IsEmail()
   @Matches(/^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/, {
     message: `Email domain must be vdtsol`,
   })
   email!: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ default: 'John' })
   @IsNotEmpty()
   firstName!: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ default: 'Wick' })
   @IsNotEmpty()
   lastName!: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ default: '12345678' })
   @IsNotEmpty()
-  @MinLength(6)
+  @MinLength(8)
+  // viet regex password theo requirements
   password!: string;
 
   @IsNotEmpty()
