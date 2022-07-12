@@ -89,10 +89,10 @@ export class AuthService {
 
     try {
       const user = await this.userService.getByResetToken(params.token);
-      if (!user) throw new Error();
-      const payload = await this.jwtService.verify(params.token);
-      await this.userService.updatePassword(payload.id, password);
-      await this.userService.updateToken(payload.id, '');
+      if (!user) throw new Error('User not exist!');
+      await this.jwtService.verify(params.token);
+      await this.userService.updatePassword(user.id, password);
+      await this.userService.updateToken(user.id, '');
 
       return 'Password has been reset.';
     } catch (err) {

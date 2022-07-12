@@ -23,78 +23,57 @@ export class TicketService {
   ) {}
 
   async getAll(): Promise<Ticket[]> {
-    try {
-      return this.ticketRepository.find();
-    } catch (err) {
-      throw err;
-    }
+    return this.ticketRepository.find();
   }
 
   async getByUserId(userId): Promise<Ticket[]> {
-    try {
-      return this.ticketRepository.find({ where: { authorId: userId } });
-    } catch (err) {
-      throw err;
-    }
+    return this.ticketRepository.find({ where: { authorId: userId } });
   }
 
   async getTicketType(): Promise<string[]> {
-    console.log('called');
     return Object.values(TicketType);
   }
 
   async create(data: CreateTicketPayload): Promise<Ticket> {
-    try {
-      if (data.authorId === data.recipientId)
-        throw new NotAcceptableException('Unable to send ticket to self.');
+    if (data.authorId === data.recipientId)
+      throw new NotAcceptableException('Unable to send ticket to self.');
 
-      const checkRecipientRole = await this.userRepository.checkUserRole(
-        data.recipientId,
-        UserRole.USER,
+    const checkRecipientRole = await this.userRepository.checkUserRole(
+      data.recipientId,
+      UserRole.USER,
+    );
+    if (checkRecipientRole)
+      throw new NotAcceptableException('Unable to send ticket to this user.');
+
+    const newTicket = await this.ticketRepository.create(data);
+    return this.ticketRepository.save(newTicket);
+  }
+
+  async update(id: number, data: UpdateTicketPayload): Promise<void> {
+    // Check ticket existance
+    const ticketCheck = await this.ticketRepository.findOne({
+      where: { id },
+    });
+    if (!ticketCheck) throw new NotFoundException('Ticket is not found');
+
+    // Check update condition
+    if (ticketCheck.ticketStatus !== TicketStatus.PENDING)
+      throw new NotAcceptableException(
+        'This ticket is no longer be able to modify.',
       );
-      if (checkRecipientRole)
-        throw new NotAcceptableException('Unable to send ticket to this user.');
 
-      const newTicket = await this.ticketRepository.create(data);
-      return this.ticketRepository.save(newTicket);
-    } catch (err) {
-      throw err;
-    }
+    // update
+    await this.ticketRepository.save({
+      id,
+      ...data,
+    });
   }
 
-  async update(id: number, data: UpdateTicketPayload) {
-    try {
-      // Check ticket existance
-      const ticketCheck = await this.ticketRepository.findOne({
-        where: { id },
-      });
-      if (!ticketCheck) throw new NotFoundException('Ticket is not found');
+  async remove(id: number): Promise<void> {
+    // Check if ticket exist
+    const ticketCheck = await this.ticketRepository.checkTicketExistance(id);
+    if (!ticketCheck) throw new NotFoundException('Ticket is not found');
 
-      // Check update condition
-      if (ticketCheck.ticketStatus !== TicketStatus.PENDING)
-        throw new NotAcceptableException(
-          'This ticket is no longer be able to modify.',
-        );
-
-      // update
-      await this.ticketRepository.save({
-        id,
-        ...data,
-      });
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async remove(id: number) {
-    try {
-      // Check if ticket exist
-      const ticketCheck = await this.ticketRepository.checkTicketExistance(id);
-      if (!ticketCheck) throw new NotFoundException('Ticket is not found');
-
-      await this.ticketRepository.delete(id);
-    } catch (err) {
-      throw err;
-    }
+    await this.ticketRepository.delete(id);
   }
 }

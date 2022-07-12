@@ -46,7 +46,7 @@ export class TicketController {
   }
 
   @Get('/me')
-  async getAllById(@ReqUser() user: User) {
+  async getAllById(@ReqUser() user: User): Promise<any> {
     return await this.ticketService.getByUserId(user.id);
   }
 
