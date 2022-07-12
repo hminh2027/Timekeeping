@@ -35,7 +35,7 @@ const TicketList = (props) => {
   const filter = () => {};
   return (
     <div
-      className={styles[`desktop-ticket-list`]}
+      className={`${styles[`desktop-ticket-list`]}`}
       style={{
         backgroundColor: "#fff",
         boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
@@ -151,21 +151,27 @@ const TicketListItem = (props) => {
     }
   }
   return (
-    <div className={styles[`list-item`]} style={style}>
-      <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
+    <div className="lg:flex items-center lg:justify-start lg:px-4 lg:py-8 lg:border-b lg:border-b-orange-600">
+      <div
+        style={{ flex: "1 0 12em" }}
+        className="font-semibold text-sky-800 before:content-['Title:'] before:mx-4 "
+      >
         {title}
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+      <div
+        style={{ flex: "1 0 5em" }}
+        className={`font-light text-gray-500 before:content-[${"Type:"}] before:mx-4 `}
+      >
         {type}
       </div>
       <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+      <div style={{ flex: "1 0 10em" }} className="font-light text-gray-500">
         {startDate}
       </div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+      <div style={{ flex: "1 0 10em" }} className="font-light text-gray-500">
         {endDate}
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+      <div style={{ flex: "1 0 5em" }} className="font-light text-gray-500">
         <Button>{action}</Button>
       </div>
     </div>
