@@ -20,6 +20,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { TokenQueryDto } from '../dto/Token.dto';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
+import { LoginHistoryService } from 'src/modules/login-history/services/login-history.service';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -28,6 +29,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly loginHistoryService: LoginHistoryService,
   ) {}
 
   @Get('me')
@@ -40,6 +42,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() credentials: LoginPayload): Promise<any> {
     const user = await this.authService.validateUser(credentials);
+    // await this.loginHistoryService.create()
     return await this.authService.generateToken(user);
   }
 

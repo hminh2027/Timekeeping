@@ -12,13 +12,13 @@ import {
   UsePipes,
   ValidationPipe,
   Delete,
-  Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
+import { User } from 'src/modules/user/entities/user.entity';
 import { UserRole } from 'src/modules/user/enums/role.enum';
 import { TicketStatus } from '../enums/ticket-status.enum';
 import { CreateTicketPayload } from '../payloads/create-ticket.payload';
@@ -45,13 +45,16 @@ export class TicketController {
     return await this.ticketService.getTicketType();
   }
 
-  @Get(':id')
-  async getAllById(@Request() req) {
-    return await this.ticketService.getByUserId(req.user.id);
+  @Get('/me')
+  async getAllById(@ReqUser() user: User) {
+    return await this.ticketService.getByUserId(user.id);
   }
 
   @Post()
-  async createTicket(@ReqUser() user, @Body() data: CreateTicketPayload) {
+  async createTicket(
+    @ReqUser() user: User,
+    @Body() data: CreateTicketPayload,
+  ): Promise<Object> {
     data.authorId = user.id;
     return {
       statusCode: HttpStatus.OK,
@@ -62,7 +65,7 @@ export class TicketController {
 
   @Patch(':id')
   async updateTicket(
-    @Request() req,
+    @ReqUser() user: User,
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
@@ -70,7 +73,7 @@ export class TicketController {
     id: number,
     @Body() data: UpdateTicketPayload,
   ) {
-    data.authorId = req?.user?.id;
+    data.authorId = user.id;
     this.ticketService.update(id, data);
     return {
       statusCode: HttpStatus.OK,
