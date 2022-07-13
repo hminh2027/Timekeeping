@@ -1,4 +1,4 @@
-import { DesktopTicketList } from "./TicketList";
+import { TicketList } from "./TicketList";
 const ApproveTicket = () => {
   return (
     <div>
@@ -14,7 +14,7 @@ const ApproveTicket = () => {
     >
       <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Manage Ticket</div>
     </div>
-      <DesktopTicketList/>
+      <TicketList/>
     </div>
     
   );
