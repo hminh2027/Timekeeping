@@ -4,6 +4,6 @@
 
 @layer components{
     .v-btn{
-        @apply text-white bg-third border-third rounded-md w-full hover:text-black contrast-125
+        @apply text-white bg-third border-third rounded-md hover:text-black contrast-125
     }
 }

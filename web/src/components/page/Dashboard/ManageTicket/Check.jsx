@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import api from "../../../../api/api";
 import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
 import Card from "../../../Common/Card";
+import Router from "next/router";
 const { TextArea } = Input;
 const { Option } = Select;
 const CheckTicket = (props) => {
@@ -22,23 +23,32 @@ const CheckTicket = (props) => {
   });
   const [ticketTypes, setTicketTypes] = useState([]);
   const [managers, setManagers] = useState([]);
-
+  const [comment, setComment] = useState({
+    comment: "",
+    titleId : props.id
+  });
   useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      console.log(data);
-      setTicketTypes(data);
-      // setTicketData({ ...ticketData, ticketType: data[0] });
-    };
-    const fetchManagers = async () => {
-      const res = await api.get("user/admin");
-      const { data } = res;
-      setManagers(data);
-      setTicketData({ ...ticketData, recipientId: data[0]?.id });
-    };
-    fetchManagers();
-    fetchTicketTypes();
+    // const fetchTicketTypes = async () => {
+    //   const res = await api.get("ticket/type");
+    //   const { data } = res;
+    //   console.log(data);
+    //   setTicketTypes(data);
+    //   // setTicketData({ ...ticketData, ticketType: data[0] });
+    // };
+    // const fetchManagers = async () => {
+    //   const res = await api.get("user/admin");
+    //   const { data } = res;
+    //   setManagers(data);
+    //   setTicketData({ ...ticketData, recipientId: data[0]?.id });
+    // };
+    const fetchTikect = async () => {
+      const res = await api.get(`ticket/${props.id}`);
+      const {data} = res;
+      setTicketData(data);
+    }
+    fetchTikect();
+    // fetchManagers();
+    // fetchTicketTypes();
   }, []);
   const handleChange = (e) => {
     setTicketData({ ...ticketData, [e.target.name]: e.target.value });
@@ -49,22 +59,30 @@ const CheckTicket = (props) => {
     setApprove(true);
     try {
       await api.patch(`ticket/${props.id}/approve`);
+      Router.reload(window.location.pathname);
     } catch (err) {
       setErrors([])
     } finally {
       setApprove(false);
     }
   }
+
   const reject = async () => {
     setReject(true);
     try {
       await api.patch(`ticket/${props.id}/reject`)
+      Router.reload(window.location.pathname);
     } catch (err) {
       setErrors([])
     } finally {
       setReject(false)
     }
   }
+
+  const addComment = async() => {
+
+  }
+
   const submit = async () => {
     setIsSubmitting(true);
     // console.log(ticketData);
@@ -207,7 +225,7 @@ const CheckTicket = (props) => {
           //   handleChange(e);
           // }}
         />
-        <div className="flex">
+        {/* <div className="flex">
           <TextArea
             rows= {2}
             name= "comment"
@@ -221,7 +239,7 @@ const CheckTicket = (props) => {
           />
           <Button
             type="primary"
-            style={{ width: "5%", height: "54px" }}
+            style={{ width: "5%", height: "54px"}}
             onClick={() => {
               submit();
             }}
@@ -235,13 +253,13 @@ const CheckTicket = (props) => {
               "Add"
             )}
           </Button>
-        </div>
+        </div> */}
        
       </div>
       <div style={{width: "100%", }}>
         <Button
           type="primary"
-          style={{ width: "30%", margin: "0px 20px 0px"}}
+          style={{ width: "30%", margin: "0px 20px 0px 40px"}}
           onClick={() => {
             approve();
           }}

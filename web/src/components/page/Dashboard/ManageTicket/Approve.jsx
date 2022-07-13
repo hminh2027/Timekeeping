@@ -3,15 +3,20 @@ import React from "react";
 import UseModal from "../../../../utils/hooks/UseModal";
 import Modal from "../../../Common/Modal";
 import CheckTicket from "../ManageTicket/Check";
+import CommentTicket from "./CommentTicket";
 const Approve = ({num, id}) => {
   const { isShowing, toggle } = UseModal();
-  console.log("number",num)
-  if(num === 2){
+  console.log("ticket",num, id)
+  if(num == "pending"){
     return (
       <div>
           <Button onClick={toggle}>Approve</Button>
           <Modal isShowing={isShowing} hide={toggle}>
+            <div className="flex">
               <CheckTicket id={id} hide={toggle} />
+              <CommentTicket/>
+            </div>
+              
           </Modal>
       </div>
     );

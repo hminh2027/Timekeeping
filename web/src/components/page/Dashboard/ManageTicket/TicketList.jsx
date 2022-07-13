@@ -119,6 +119,7 @@ const DesktopTicketList = () => {
       {tickets.map((ticket) => (
         <TicketListItem
           key={ticket.id}
+          id={ticket.id}
           content={ticket.content}
           style={{ width: "100%" }}
         />
@@ -128,18 +129,18 @@ const DesktopTicketList = () => {
 };
 const TicketListItem = (props) => {
   const {
-    key,
+    id,
     style,
     content: { status, title, type, startDate, endDate, action },
   } = props;
   // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
   switch (status) {
-    case 0: {
+    case "rejected": {
       statusIcon.push("🔴");
       break;
     }
-    case 1: {
+    case "approved": {
       statusIcon.push("🟢");
       break;
     }
@@ -165,7 +166,7 @@ const TicketListItem = (props) => {
           {endDate}
         </div>
         <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-          <Approve id={key} num={status}></Approve>
+          <Approve id={id} num={status}></Approve>
         </div>
       </div>
     );  

@@ -15,8 +15,7 @@ export const login = async (body) => {
 
 export const getCheckInStatus = async (body) => {
   // console.log(body);
-  if (auth.checkAuth()) {
-<<<<<<< HEAD
+  if (await auth.checkAuth()) {
     return await api.get("checkin", { ...body });
 =======
     try {
@@ -32,8 +31,7 @@ export const getCheckInStatus = async (body) => {
 };
 export const getMyInfo = async (body) => {
   // console.log(body);
-  if (auth.checkAuth()) {
-<<<<<<< HEAD
+  if (await auth.checkAuth()) {
     return await api.get("auth/me");
 =======
     try {

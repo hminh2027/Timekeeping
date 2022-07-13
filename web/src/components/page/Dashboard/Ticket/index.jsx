@@ -1,36 +1,25 @@
-// import Modal from "@/components/Common/Modal";
-import UseModal from "@/utils/hooks/UseModal";
 import { Col, Row } from "antd";
-import { useState } from "react";
-import SubmitTicket from "./Submit";
-import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";
-import TicketList from "./TicketList";
+import { DesktopTicketList } from "./TicketList";
 const TicketContent = () => {
-  const { isShowing, toggle } = UseModal();
-  const [newTicketSubmitted, setNewTicketSubmitted] = useState(false);
-  // console.log(newTicketSubmitted);
-  // return <div>abc</div>
   return (
-    <>
-      <Row>
-        <Header toggleModal={toggle} />
-        <Col span={24}>
-          <TicketList
-            newTicketSubmitted={newTicketSubmitted}
-            onFetched={() => setNewTicketSubmitted(false)}
-          />
-        </Col>
-
-        <Modal isShowing={isShowing} hide={toggle}>
-          <SubmitTicket
-            hide={toggle}
-            onSubmit={() => setNewTicketSubmitted(true)}
-          />
-        </Modal>
-      </Row>
-    </>
+    <Row>
+      <Header />
+      {/*  sm={0} xs={0} md={0} lg={24} xxl={24} */}
+      <Col span={24}>
+        <DesktopTicketList />
+      </Col>
+      {/* <Card>aaaaaaaaaaaaaaaaaaaaa</Card> */}
+      {/* <Col sm={24} xs={24} md={24} lg={18} xxl={18}>
+        <SubmitTicket />
+      </Col> */}
+    </Row>
   );
 };
 
 export default TicketContent;
+{
+  /* <Col sm={24} xs={24} md={24} lg={0} xxl={0}>
+        <MobileTicketList />
+</Col>*/
+}
