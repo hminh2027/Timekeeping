@@ -9,7 +9,7 @@ import UseModal from "../../../../utils/hooks/UseModal";
 // import SubmitTicket from "../Ticket/Submit";
 import Approve from "./Approve";
 const { Option } = Select;
-const DesktopTicketList = () => {
+const TicketList = () => {
   const [tickets, setTickets] = useState(demoTickets);
   const [ticketTypes, setTicketTypes] = useState([]);
   const userInfo = useSelector(selectUserInfo);
@@ -171,7 +171,7 @@ const TicketListItem = (props) => {
       </div>
     );  
 };
-export { TicketListItem, DesktopTicketList };
+export { TicketListItem, TicketList };
 
 const demoTickets = [
   {

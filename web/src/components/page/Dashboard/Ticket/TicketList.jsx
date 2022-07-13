@@ -76,7 +76,7 @@ const TicketListItem = (props) => {
     </div>
   );
 };
-export { TicketListItem, DesktopTicketList };
+export { TicketListItem, TicketList };
 
 const demoTickets = [
   {

@@ -1,4 +1,4 @@
-import Card from "../../../Common/Card";
+// import Card from "../../../Common/Card";
 import TextArea from "antd/lib/input/TextArea";
 import CommentChild from "./CommentChild";
 import { useState } from "react";

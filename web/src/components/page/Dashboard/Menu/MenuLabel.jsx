@@ -1,9 +1,5 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-<<<<<<< HEAD
-import styles from "@/styles/Layout/menu.module.scss";
-=======
->>>>>>> 3ed9525df318a9db83041aafe76ccf3165f44041
 import {
   selectCurrentItem,
   changeCurrentItem,
@@ -24,7 +20,7 @@ const MenuLabel = (props) => {
   return (
     <Link href={href}>
       <div
-        className={styles["menu-label"]}
+        className=""
         style={{ backgroundColor: color[0] }}
         onClick={() => {
           dispatch(changeCurrentItem({ menuItem: id }));
