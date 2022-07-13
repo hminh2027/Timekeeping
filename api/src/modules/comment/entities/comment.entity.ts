@@ -17,7 +17,7 @@ export class Comment {
   @Column({ length: 255 })
   content!: string;
 
-  @Column()
+  @Column({ select: false })
   ticketId!: number;
 
   @CreateDateColumn()
@@ -26,11 +26,12 @@ export class Comment {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Column()
   userId!: number;
 
   /* RELATIONSHIPS */
   /* N-1 */
-  @ManyToOne(() => Ticket, (ticket) => ticket.comments, { eager: true })
+  @ManyToOne(() => Ticket, (ticket) => ticket.comments)
   @JoinColumn({ name: 'ticketId' })
   ticket: Ticket;
 }

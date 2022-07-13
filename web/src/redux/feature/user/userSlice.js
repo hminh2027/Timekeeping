@@ -1,4 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+<<<<<<< HEAD
+=======
+import { Router } from "next/router";
+>>>>>>> 3ed9525df318a9db83041aafe76ccf3165f44041
 import {
   getCheckInStatus,
   getMyInfo,
@@ -16,12 +20,18 @@ const initialState = {
 export const fetchCheckInStatus = createAsyncThunk(
   "user/fetchCheckInStatus",
   async () => {
-    const response = await getCheckInStatus({
-      fromDate: new Date(Date.now()).toISOString().split("T")[0],
-      toDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-    });
+    try {
+      const response = await getCheckInStatus({
+        fromDate: new Date(Date.now()).toISOString().split("T")[0],
+        toDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+      });
+      return response;
+    } catch (error) {
+      if (error.status === 401) {
+        Router.replace("/account/login");
+      }
+    }
     // console.log(response);
-    return response;
   }
 );
 export const fetchMe = createAsyncThunk("user/fetchMe", async () => {
