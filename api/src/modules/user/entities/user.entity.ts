@@ -5,15 +5,12 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
-  BeforeUpdate,
 } from 'typeorm';
 import { Checkin } from '../../checkin/entities/checkinout.entity';
 import { LoginHistory } from '../../login-history/entities/login-history.entity';
 import { Ticket } from '../../ticket/entities/ticket.entity';
 
-@Entity({
-  name: 'users',
-})
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;

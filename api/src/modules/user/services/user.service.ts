@@ -70,16 +70,16 @@ export class UserService {
       throw new NotAcceptableException('User does not exists.');
     }
 
-    const checkEmailExistence = await this.userRepository.checkEmailExistence(
-      payload.email,
-      id,
-    );
+    // const checkEmailExistence = await this.userRepository.checkEmailExistence(
+    //   payload.email,
+    //   id,
+    // );
 
-    if (checkEmailExistence) {
-      throw new NotAcceptableException(
-        'Another user with provided email already exists.',
-      );
-    }
+    // if (checkEmailExistence) {
+    //   throw new NotAcceptableException(
+    //     'Another user with provided email already exists.',
+    //   );
+    // }
 
     const userUpdate = await this.userRepository.create({
       id,
