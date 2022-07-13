@@ -85,12 +85,13 @@ export class CommentController {
     description: 'delete a comment by id',
   })
   async remove(
+    @ReqUser() user: User,
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
   ) {
-    return this.commentService.remove(id);
+    return this.commentService.remove(id, user.id);
   }
 }
