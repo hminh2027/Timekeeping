@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Select, Space } from "antd";
+import { Button, Input, Select, Space } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../../api/api";
@@ -6,6 +6,7 @@ import { selectUserInfo } from "../../../../redux/feature/user/userSlice";
 import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
 import { TicketInfoFormatter } from "../../../../utils/Formatter/TicketInfo";
 import UseModal from "../../../../utils/hooks/UseModal";
+import Modal from "@/components/Common/Modal";
 // import SubmitTicket from "../Ticket/Submit";
 import Approve from "./Approve";
 const { Option } = Select;
@@ -76,26 +77,24 @@ const DesktopTicketList = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-2 flex-1"
-            style={{margin: "2px 10px"}}
-          >
-          <div className="flex justify-between gap-1">
-            <div className="">🟢</div>
-            <div className="">Approved</div>
+          <div className="flex gap-2 flex-1" style={{ margin: "2px 10px" }}>
+            <div className="flex justify-between gap-1">
+              <div className="">🟢</div>
+              <div className="">Approved</div>
+            </div>
+            <div className="flex gap-1">
+              <div className="">🔴</div>
+              <div className="">Rejected</div>
+            </div>
+            <div className="flex gap-1">
+              <div className="">🟡</div>
+              <div className="">Pending</div>
+            </div>
+            <div className="flex gap-1">
+              <div className="">⚪</div>
+              <div className="">Cancel</div>
+            </div>
           </div>
-          <div className="flex gap-1">
-            <div className="">🔴</div>
-            <div className="">Rejected</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">🟡</div>
-            <div className="">Pending</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">⚪</div>
-            <div className="">Cancel</div>
-          </div>
-        </div>
           <div>
             <Button type="primary">Apply</Button>
           </div>
@@ -149,27 +148,27 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  const {isShowing, toggle} = UseModal();
-    return (
-      <div className={styles[`list-item`]} style={style}>
-        <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
-          {title}
-        </div>
-        <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-          {type}
-        </div>
-        <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
-        <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-          {startDate}
-        </div>
-        <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-          {endDate}
-        </div>
-        <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-          <Approve id={id} num={status}></Approve>
-        </div>
+  const { isShowing, toggle } = UseModal();
+  return (
+    <div className={styles[`list-item`]} style={style}>
+      <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
+        {title}
       </div>
-    );  
+      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+        {type}
+      </div>
+      <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
+      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+        {startDate}
+      </div>
+      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+        {endDate}
+      </div>
+      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+        <Approve id={id} num={status}></Approve>
+      </div>
+    </div>
+  );
 };
 export { TicketListItem, DesktopTicketList };
 
