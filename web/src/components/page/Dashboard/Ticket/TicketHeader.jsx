@@ -1,5 +1,10 @@
 import { Button } from "antd";
-const Header = (props) => {
+import React from "react";
+import UseModal from "../../../../utils/hooks/UseModal";
+import Modal from "../../../Common/Modal";
+import SubmitTicket from "./Submit";
+const Header = () => {
+  const { isShowing, toggle } = UseModal();
   return (
     <div
       style={{
@@ -12,7 +17,10 @@ const Header = (props) => {
       }}
     >
       <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Tickets</div>
-      <Button onClick={props.toggleModal}>Create Ticket</Button>
+      <Button onClick={toggle}>Create Ticket</Button>
+      <Modal isShowing={isShowing} hide={toggle}>
+        <SubmitTicket hide={toggle} />
+      </Modal>
     </div>
   );
 };

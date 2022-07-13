@@ -1,12 +1,12 @@
-import api from "@/api/api";
-import auth from "@/api/auth";
-import { setUserInfo } from "@/redux/feature/user/userSlice";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
 import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import api from "../../../../api/api";
+import auth from "../../../../api/auth";
+import { setUserInfo } from "../../../../redux/feature/user/userSlice";
 import Form from "../Common/Form";
 
 const LoginForm = () => {
@@ -49,7 +49,7 @@ const LoginForm = () => {
             const { user: userInfo } = res.data;
             console.log(userInfo);
             dispatch(setUserInfo({ userInfo: userInfo }));
-            auth.setToken(res.data.accessToken);
+            await auth.setToken(res.data.accessToken);
             setLoginSuccess(true);
             setTimeout(() => Router.push("/"), 3000);
           }

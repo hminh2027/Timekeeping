@@ -10,7 +10,6 @@ module.exports = {
         secondary: "rgb(249, 249, 249)",
         third: "rgb(246, 198, 234)",
         forth: "rgb(250, 244, 183)",
-        paleGreen: "rgb(153, 226, 180)",
       },
     },
   },

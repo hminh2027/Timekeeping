@@ -35,14 +35,9 @@ export const fetchCheckInStatus = createAsyncThunk(
   }
 );
 export const fetchMe = createAsyncThunk("user/fetchMe", async () => {
-  try {
-    const response = await getMyInfo();
-    return response;
-  } catch (error) {
-    if (error.statusCode === 401) {
-      authLogOut();
-    }
-  }
+  const response = await getMyInfo();
+  console.log(response);
+  return response;
 });
 
 export const userSlice = createSlice({

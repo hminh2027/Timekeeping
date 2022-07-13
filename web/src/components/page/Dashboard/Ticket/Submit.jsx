@@ -1,15 +1,15 @@
-import api from "@/api/api";
-import Card from "@/components/Common/Card";
-import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Button, Input, Select, Space, Spin } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import api from "../../../../api/api";
+import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
+import Card from "../../../Common/Card";
+import Router from "next/router";
 const { TextArea } = Input;
 const { Option } = Select;
 const SubmitTicket = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [errors, setErrors] = useState([]);
   const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
@@ -27,26 +27,29 @@ const SubmitTicket = (props) => {
       const { data } = res;
       console.log(data);
       setTicketTypes(data);
+      // setTicketData({ ...ticketData, ticketType: data[0] });
     };
     const fetchManagers = async () => {
       const res = await api.get("user/admin");
       const { data } = res;
       setManagers(data);
-      setTicketData({ ...ticketData, recipientId: data[0].id });
+      setTicketData({ ...ticketData, recipientId: data[0]?.id });
     };
     fetchManagers();
     fetchTicketTypes();
   }, []);
   const handleChange = (e) => {
     setTicketData({ ...ticketData, [e.target.name]: e.target.value });
+    // setErrors([]);
   };
-
+  // console.log(ticketData);
   const submit = async () => {
     setIsSubmitting(true);
+    // console.log(ticketData);
     try {
       await api.post("ticket", ticketData);
       props.hide();
-      props.onSubmit();
+      Router.reload(window.location.pathname)
     } catch (err) {
       const newErrors = [];
       const {
@@ -62,7 +65,6 @@ const SubmitTicket = (props) => {
       setErrors(newErrors);
     } finally {
       setIsSubmitting(false);
-      props.onSubmit();
     }
   };
   return (

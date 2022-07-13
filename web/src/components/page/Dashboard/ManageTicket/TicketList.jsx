@@ -1,16 +1,17 @@
-import { Button, Input, Select, Space } from "antd";
+import { Button, Input, Modal, Select, Space } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../../api/api";
 import { selectUserInfo } from "../../../../redux/feature/user/userSlice";
 import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
 import { TicketInfoFormatter } from "../../../../utils/Formatter/TicketInfo";
-
+import UseModal from "../../../../utils/hooks/UseModal";
+// import SubmitTicket from "../Ticket/Submit";
+import Approve from "./Approve";
 const { Option } = Select;
 const DesktopTicketList = () => {
   const [tickets, setTickets] = useState(demoTickets);
   const [ticketTypes, setTicketTypes] = useState([]);
-  const [curStatus, setCurStatus] = useState(null);
   const userInfo = useSelector(selectUserInfo);
   useEffect(() => {
     const fetchTicketTypes = async () => {
@@ -19,7 +20,7 @@ const DesktopTicketList = () => {
       setTicketTypes(data);
     };
     const fetchTicketData = async () => {
-      const res = await api.get(`ticket/me`);
+      const res = await api.get(`ticket`);
       const tickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
       setTickets(tickets);
     };
@@ -118,6 +119,7 @@ const DesktopTicketList = () => {
       {tickets.map((ticket) => (
         <TicketListItem
           key={ticket.id}
+          id={ticket.id}
           content={ticket.content}
           style={{ width: "100%" }}
         />
@@ -127,6 +129,7 @@ const DesktopTicketList = () => {
 };
 const TicketListItem = (props) => {
   const {
+    id,
     style,
     content: { status, title, type, startDate, endDate, action },
   } = props;
@@ -146,26 +149,27 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  return (
-    <div className={styles[`list-item`]} style={style}>
-      <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
-        {title}
+  const {isShowing, toggle} = UseModal();
+    return (
+      <div className={styles[`list-item`]} style={style}>
+        <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
+          {title}
+        </div>
+        <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+          {type}
+        </div>
+        <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
+        <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+          {startDate}
+        </div>
+        <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+          {endDate}
+        </div>
+        <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+          <Approve id={id} num={status}></Approve>
+        </div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-        {type}
-      </div>
-      <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {startDate}
-      </div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {endDate}
-      </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-        <Button>{action}</Button>
-      </div>
-    </div>
-  );
+    );  
 };
 export { TicketListItem, DesktopTicketList };
 
@@ -175,8 +179,8 @@ const demoTickets = [
     content: {
       title: "Xin vắng mặt",
       type: "Xin nghỉ",
-      createdAt: "2022-07-05",
-      respondedAt: "2022-07-08",
+      startDate: "2022-07-05",
+      endDate: "2022-07-08",
       status: 1,
     },
   },
@@ -186,9 +190,9 @@ const demoTickets = [
       title: "Xin vắng mặt",
       type: "Xin nghỉ",
       status: 2,
-      createdAt: "2022-07-05",
-      // respondedAt: "2022-07-05",
-      action: "Cancel",
+      startDate: "2022-07-05",
+      endDate: "2022-07-05",
+      action: "Approve",
     },
   },
   {
@@ -197,8 +201,8 @@ const demoTickets = [
       title: "Xin vắng mặt",
       type: "Xin nghỉ",
       status: 0,
-      createdAt: "2022-07-05",
-      respondedAt: "2022-07-10",
+      startDate: "2022-07-05",
+      endDate: "2022-07-10",
     },
   },
   {
@@ -207,73 +211,9 @@ const demoTickets = [
       title: "Xin vắng mặt",
       type: "Xin nghỉ",
       status: 2,
-      createdAt: "2022-07-05",
-      // respondedAt: "2022-07-05",
+      startDate: "2022-07-05",
+      endDate: "2022-07-05",
       action: "Cancel",
     },
   },
 ];
-const status = [
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">All</div>
-        <div className=""></div>
-      </div>
-    ),
-    value: "all",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Approved</div>
-        <div className="">🟢</div>
-      </div>
-    ),
-    value: "approved",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Pending</div>
-        <div className="">🟡</div>
-      </div>
-    ),
-    value: "pending",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Rejected</div>
-        <div className="">🔴</div>
-      </div>
-    ),
-    value: "rejected",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Cancelled</div>
-        <div className="">⚪</div>
-      </div>
-    ),
-    value: "cancelled",
-  },
-];
-// const MobileTicketList = () => {
-//   return (
-//     <div
-//       style={{ minWidth: "100%", minHeight: "5em" }}
-//       className={styles[`mobile-ticket-list`]}
-//     >
-//       {tickets.map((ticket) => (
-//         <TicketListItem
-//           key={ticket.id}
-//           status={ticket.status}
-//           type={ticket.type}
-//           title={ticket.title}
-//         />
-//       ))}
-//     </div>
-//   );
-// };
