@@ -55,6 +55,7 @@ export class TicketController {
 
   @Get('/me')
   @ApiOperation({
+    summary: '(USER only)',
     description: 'get all tickets of current user',
   })
   async getAllByUserId(@ReqUser() user: User): Promise<any> {
@@ -78,6 +79,7 @@ export class TicketController {
 
   @Post()
   @ApiOperation({
+    summary: '(USER only)',
     description: 'create ticket',
   })
   async createTicket(
@@ -94,6 +96,7 @@ export class TicketController {
 
   @Patch(':id')
   @ApiOperation({
+    summary: '(USER only)',
     description: 'update ticket',
   })
   async updateTicket(
@@ -115,6 +118,7 @@ export class TicketController {
 
   @Patch(':id/cancel')
   @ApiOperation({
+    summary: '(USER only)',
     description: 'cancel ticket',
   })
   async cancelTicket(
