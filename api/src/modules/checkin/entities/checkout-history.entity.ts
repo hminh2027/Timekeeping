@@ -1,23 +1,32 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Checkin } from "./checkinout.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Checkin } from './checkinout.entity';
 
 @Entity('checkout_histories')
 export class CheckoutHistory {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column()
-    date: Number;
+  @Column()
+  date: Number;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @Column()
-    checkinId!: number;
+  @Column()
+  checkinId!: number;
 
-    /* RELATIONSHIPS */
-    /* N-1 */
-    @ManyToOne(() => Checkin, checkin => checkin.checkout_histories, { eager: true })
-    @JoinColumn({ name: 'checkinId'})
-    checkin: Checkin;  
+  /* RELATIONSHIPS */
+  /* N-1 */
+  @ManyToOne(() => Checkin, (checkin) => checkin.checkout_histories, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'checkinId' })
+  checkin: Checkin;
 }

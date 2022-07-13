@@ -9,19 +9,21 @@ import { ConfigModule } from './common/config/config.module';
 import { AwsModule } from './common/aws/aws.module';
 import { ConfigService } from './common/config/config.service';
 import { join } from 'path';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
     AuthModule,
     MailModule,
-    ConfigModule, 
-    DatabaseModule, 
-    TicketModule, 
-    CheckinModule, 
+    ConfigModule,
+    DatabaseModule,
+    CommentModule,
+    TicketModule,
+    CheckinModule,
     AwsModule.register(),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'images')
-    })
+      rootPath: join(__dirname, '..', 'images'),
+    }),
   ],
 })
 export class AppModule {

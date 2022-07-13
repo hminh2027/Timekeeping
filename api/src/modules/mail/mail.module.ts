@@ -9,21 +9,21 @@ import { ConfigService } from 'src/common/config/config.service';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) =>
-      ({
-        transport: {
-          host: config.mailerHost,
-          post: config.mailerPort,
-          secure: true,
-          auth: {
-            user: config.mailerEmail,
-            pass: config.mailerPassword
-          }
-        },
-        defaults: {
-          from: config.mailerEmail
-        }
-      } as MailerOptions),
+        ({
+          transport: {
+            host: config.mailerHost,
+            post: config.mailerPort,
+            secure: true,
+            auth: {
+              user: config.mailerEmail,
+              pass: config.mailerPassword,
+            },
+          },
+          defaults: {
+            from: config.mailerEmail,
+          },
+        } as MailerOptions),
     }),
   ],
 })
-export class MailModule { }
+export class MailModule {}

@@ -1,20 +1,20 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SearchQueryDto {
-  @ApiPropertyOptional({ 
+  @ApiPropertyOptional({
     type: Number,
-    default: 10
+    default: 10,
   })
   limit?: number = 10;
 
-  @ApiPropertyOptional({ 
+  @ApiPropertyOptional({
     type: Number,
-    default: 1
+    default: 1,
   })
   page?: number = 1;
 
-  @ApiPropertyOptional({ 
-    type: String
+  @ApiPropertyOptional({
+    type: String,
   })
   textSearch?: string;
 }

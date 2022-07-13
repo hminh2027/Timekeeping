@@ -1,59 +1,65 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { CheckinRepository } from '../checkinout.repository';
 import { SearchQueryDto } from '../dto/search.dto';
 import { Between, DataSource } from 'typeorm';
 import { CheckinoutPayload } from '../payloads/checkinout.payload';
 import { CheckOutHistoryService } from './checkout-history.service';
+import { CheckinRepository } from '../repositories/checkinout.repository';
 
 @Injectable()
 export class CheckinService {
   constructor(
     private readonly checkinRepository: CheckinRepository,
-    private readonly checkoutHistoryService: CheckOutHistoryService,
-    // private readonly dataSource: DataSource
+    private readonly checkoutHistoryService: CheckOutHistoryService, // private readonly dataSource: DataSource
   ) {}
 
   async getByUserId(id: number) {
     return await this.checkinRepository.findOne({
       where: {
         createdAt: Between(
-          new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
-          new Date()
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate(),
+          ),
+          new Date(),
         ),
-        userId: id
-      }
-    })
+        userId: id,
+      },
+    });
   }
 
   async search(userId: number, data: SearchQueryDto) {
-    if(!data.fromDate || !data.toDate) {
-      return await this.checkinRepository.find({ where: {userId} });
+    if (!data.fromDate || !data.toDate) {
+      return await this.checkinRepository.find({ where: { userId } });
     }
 
-    return await this.checkinRepository.find({ 
+    return await this.checkinRepository.find({
       where: {
-        createdAt: Between(
-          data.fromDate,
-          data.toDate
-        ),
-        userId
-      } 
+        createdAt: Between(data.fromDate, data.toDate),
+        userId,
+      },
     });
   }
 
   async checkTodayCheckedin(id) {
     const todayChecked = await this.search(id, {
-      fromDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
-      toDate: new Date()
-    })
-    return todayChecked.length > 0
+      fromDate: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+      ),
+      toDate: new Date(),
+    });
+    return todayChecked.length > 0;
   }
 
   async checkIfCheckoutAllowed(id) {
-    const lastestCheckout = await this.checkoutHistoryService.getLastestCheckout(id);
-    if(lastestCheckout) {    
-      const diffMilisec = (new Date().getTime() - lastestCheckout.createdAt.getTime()) / 1000;
-      const diffMinute = Math.abs(Math.round(diffMilisec/60));
+    const lastestCheckout =
+      await this.checkoutHistoryService.getLastestCheckout(id);
+    if (lastestCheckout) {
+      const diffMilisec =
+        (new Date().getTime() - lastestCheckout.createdAt.getTime()) / 1000;
+      const diffMinute = Math.abs(Math.round(diffMilisec / 60));
       return diffMinute >= 5;
     }
     return true;
@@ -63,20 +69,19 @@ export class CheckinService {
     const todayChecked = await this.checkTodayCheckedin(data.userId);
 
     if (todayChecked) {
-      throw new NotAcceptableException(
-        'You have checked in today.',
-      );
+      throw new NotAcceptableException('You have checked in today.');
     }
 
     const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
-    if(!imageName) throw new NotAcceptableException('Can not convert base64 to image');
+    if (!imageName)
+      throw new NotAcceptableException('Can not convert base64 to image');
 
-    const newCheckin =  await this.checkinRepository.create({
+    const newCheckin = await this.checkinRepository.create({
       checkinImage: imageName,
       checkinLatitude: data.latitude,
       checkinLongitude: data.longitude,
       userId: data.userId,
-      date: new Date().getDate()
+      date: new Date().getDate(),
     });
 
     return await this.checkinRepository.save(newCheckin);
@@ -84,14 +89,19 @@ export class CheckinService {
 
   async update(data: CheckinoutPayload) {
     const checkedInToday = await this.getByUserId(data.userId);
-    if(!checkedInToday) {
+    if (!checkedInToday) {
       throw new NotAcceptableException(
         'You have not checked in today. Please check in.',
       );
     }
 
-    const allowedCheckout = await this.checkIfCheckoutAllowed(checkedInToday.id)
-    if(!allowedCheckout) throw new NotAcceptableException(`Checkout is on cooldown for 5 minutes since your last checkout.`);
+    const allowedCheckout = await this.checkIfCheckoutAllowed(
+      checkedInToday.id,
+    );
+    if (!allowedCheckout)
+      throw new NotAcceptableException(
+        `Checkout is on cooldown for 5 minutes since your last checkout.`,
+      );
 
     const imageName = await this.checkinRepository.saveBase64ToFile(data.image);
 
@@ -100,7 +110,7 @@ export class CheckinService {
       id: checkedInToday.id,
       checkoutImage: imageName,
       checkoutLatitude: data.latitude,
-      checkoutLongitude: data.longitude
+      checkoutLongitude: data.longitude,
     });
 
     await this.checkoutHistoryService.create(checkinUpdated.id);
@@ -110,11 +120,9 @@ export class CheckinService {
     // const runner = await this.dataSource.createQueryRunner();
     // await runner.connect();
     // await runner.startTransaction();
-    
 
     // try {
 
-      
     //   // const checkinUpdated = await runner.manager.save({
     //   //   id: checkedInToday.id,
     //   //   checkoutImage: data.image,
@@ -122,16 +130,11 @@ export class CheckinService {
     //   //   checkoutLongitude: data.longitude
     //   // })
 
-      
-
-      
-
     // } catch (err) {
     //   await runner.rollbackTransaction();
 
     // } finally {
     //   await runner.release();
     // }
-    
   }
 }

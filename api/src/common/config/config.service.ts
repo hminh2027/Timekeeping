@@ -36,7 +36,7 @@ export class ConfigService {
         )
         .required(),
       PORT: Joi.number().default(3000),
-      REDIS_URI: Joi.string().required().default('redis://127.0.0.1:6379')
+      REDIS_URI: Joi.string().required().default('redis://127.0.0.1:6379'),
       // API_AUTH_ENABLED: Joi.boolean()
       //   .required()
       //   .default(true),
@@ -101,8 +101,20 @@ export class ConfigService {
     return this.envConfig.DATABASE_NAME;
   }
 
-  public get jwtSecret() {
-    return this.envConfig.JWT_SECRET;
+  public get jwtAccessTokenSecret() {
+    return this.envConfig.JWT_ATOKEN_SECRET;
+  }
+
+  public get jwtRefreshTokenSecret() {
+    return this.envConfig.JWT_RTOKEN_SECRET;
+  }
+
+  public get jwtAccessTokenExpiration() {
+    return this.envConfig.JWT_ATOKEN_EXPIRATION_TIME;
+  }
+
+  public get jwtRefreshTokenExpiration() {
+    return this.envConfig.JWT_RTOKEN_EXPIRATION_TIME;
   }
 
   public get mailerEmail() {

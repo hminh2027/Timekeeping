@@ -1,7 +1,8 @@
-import CheckIn from "../components/page/Dashboard/CheckIn/CheckInMain";
+import DashboardLayout from "../components/Layout/DashboardLayout";
+import Dashboard from "../components/page/Dashboard/Home";
 const index = () => {
-  return <CheckIn />;
+  return <Dashboard />;
 };
-// index.layout = LoginLayout;
+index.layout = DashboardLayout;
 
 export default index;

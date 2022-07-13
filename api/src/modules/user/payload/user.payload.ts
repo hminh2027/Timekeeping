@@ -1,4 +1,8 @@
-import { PartialType } from "@nestjs/swagger";
-import { RegisterPayload } from "../../auth/payload/register.payload";
+import { OmitType } from '@nestjs/swagger';
+import { RegisterPayload } from '../../auth/payloads/register.payload';
 
-export class UserPayload extends PartialType(RegisterPayload) {}
+export class UserPayload extends OmitType(RegisterPayload, [
+  'email',
+  'resetToken',
+  'password',
+]) {}
