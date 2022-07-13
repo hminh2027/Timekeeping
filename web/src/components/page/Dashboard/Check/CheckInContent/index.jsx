@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 import {
   selectUserCheckInInfo,
   selectUserCheckInStatus,
-} from "../../../../../redux/feature/user/userSlice";
-import styles from "../../../../../styles/pages/dashboard/checkin.module.scss";
-import UseTrans from "../../../../../utils/hooks/UseTrans";
+} from "@/redux/feature/user/userSlice";
+import styles from "@/styles/pages/dashboard/checkin.module.scss";
+import UseTrans from "@/utils/hooks/UseTrans";
 import CheckingCard from "../CheckingCard";
 const CheckInContent = () => {
   const trans = UseTrans();
@@ -70,7 +70,7 @@ const CheckInContent = () => {
       </Space>
     </>
   );
-  const url = `http://localhost:3000/${checkedImg}`;
+  const url = `${process.env.APP_URL}/${checkedImg}`;
   console.log(url);
   const checkedImage = (
     <div className={styles.card} style={{ padding: "0.5em" }}>

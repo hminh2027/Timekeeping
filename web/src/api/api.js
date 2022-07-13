@@ -48,7 +48,7 @@ const api = {
 
   post: (url, body = {}, params = {}) => {
     console.log("url:", getURL(url));
-    console.log(HEADERS);
+    // console.log(HEADERS);
     return axios.post(getURL(url), body, {
       params,
       headers: HEADERS,

@@ -1,111 +1,44 @@
-import { Button, Input, Select, Space } from "antd";
+import api from "@/api/api";
+import { Button } from "antd";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import api from "../../../../api/api";
-import { selectUserInfo } from "../../../../redux/feature/user/userSlice";
-import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
-import { TicketInfoFormatter } from "../../../../utils/Formatter/TicketInfo";
-const { Option } = Select;
-const DesktopTicketList = () => {
+import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
+import { DesktopFilter, MobileFilter } from "./Filters";
+const TicketList = (props) => {
   const [tickets, setTickets] = useState(demoTickets);
-  const [ticketTypes, setTicketTypes] = useState([]);
-  const [curStatus, setCurStatus] = useState(null);
-  const userInfo = useSelector(selectUserInfo);
-  useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      setTicketTypes(data);
-    };
-    const fetchTicketData = async () => {
-      const res = await api.get(`ticket/${userInfo.id}`);
-      const tickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
-      setTickets(tickets);
-    };
 
-    fetchTicketTypes();
+  useEffect(() => {
+    const fetchTicketData = async () => {
+      const res = await api.get(`ticket/me`);
+      const resTickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
+      setTickets(resTickets);
+    };
     fetchTicketData();
-  }, []);
+    return () => {
+      setTickets([]);
+      props.onFetched();
+    };
+  }, [props.newTicketSubmitted]);
+
   // console.log(tickets);
-  const filter = () => {};
+
   return (
     <div
-      className={styles[`desktop-ticket-list`]}
+      className="flex flex-col overflow-auto rounded-lg m-1"
       style={{
         backgroundColor: "#fff",
         boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", padding: "1em" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", gap: "2em" }}>
-            <Space>
-              <div>Title:</div>
-              <Input
-                placeholder="Title"
-                onChange={filter}
-                style={{ flex: "1 0 5em" }}
-              />
-            </Space>
-
-            <Space>
-              <div>Type:</div>
-              <Select
-                value={ticketTypes[0]}
-                style={{ flex: "1 0 8em", minWidth: "8em" }}
-              >
-                {ticketTypes.map((ticketType) => (
-                  <Option value={ticketType}>{ticketType}</Option>
-                ))}
-              </Select>
-            </Space>
-            <div className="flex items-center justify-between ">
-              <div className="flex flex-1 items-center w-80">
-                <div>Status:</div>
-                <Select
-                  defaultValue="all"
-                  className=" w-32"
-                  options={status}
-                ></Select>
-              </div>
-
-              <div className="flex gap-2 flex-1">
-                <div className="flex justify-between gap-1">
-                  <div className="">🟢</div>
-                  <div className="">Approved</div>
-                </div>
-                <div className="flex gap-1">
-                  <div className="">🔴</div>
-                  <div className="">Rejected</div>
-                </div>
-                <div className="flex gap-1">
-                  <div className="">🟡</div>
-                  <div className="">Pending</div>
-                </div>
-                <div className="flex gap-1">
-                  <div className="">⚪</div>
-                  <div className="">Cancel</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <Button type="primary">Apply</Button>
-          </div>
-        </div>
-      </div>
+      <DesktopFilter className="hidden lg:flex" />
+      <MobileFilter className="lg:hidden" />
+      {/* Table Header */}
       <div
         style={{
-          display: "flex",
           padding: "1em",
           backgroundColor: "#99e2b4",
           fontWeight: "bold",
         }}
+        className="hidden lg:flex"
       >
         <div style={{ flex: "1 0 12em" }}>Title</div>
         <div style={{ flex: "1 0 5em" }}>Type</div>
@@ -146,27 +79,56 @@ const TicketListItem = (props) => {
     }
   }
   return (
-    <div className={styles[`list-item`]} style={style}>
-      <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
-        {title}
+    <div className="lg:flex items-center lg:justify-start lg:px-4 lg:py-8 lg:border-b lg:border-b-orange-600">
+      <div
+        style={{ flex: "1 0 12em" }}
+        className="flex font-semibold text-sky-800"
+      >
+        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+          Title:
+        </div>
+        <div className="flex-1">{title}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-        {type}
+      <div
+        style={{ flex: "1 0 5em" }}
+        className={`flex font-light text-gray-500`}
+      >
+        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+          Type:
+        </div>
+        <div className="flex-1">{type}</div>
       </div>
-      <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {startDate}
+      <div style={{ flex: "1 1 50px" }} className="flex">
+        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+          Status:
+        </div>
+        <div className="flex-1">{statusIcon[0]}</div>
       </div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {endDate}
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+          Start date:
+        </div>
+        <div className="flex-1">{startDate}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500"
+      >
+        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+          End date:
+        </div>
+        <div className="flex-1">{endDate}</div>
+      </div>
+      <div style={{ flex: "1 0 5em" }} className="font-light text-gray-500">
         <Button>{action}</Button>
       </div>
     </div>
   );
 };
-export { TicketListItem, DesktopTicketList };
+export default TicketList;
 
 const demoTickets = [
   {
@@ -210,53 +172,6 @@ const demoTickets = [
       // respondedAt: "2022-07-05",
       action: "Cancel",
     },
-  },
-];
-const status = [
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">All</div>
-        <div className=""></div>
-      </div>
-    ),
-    value: "all",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Approved</div>
-        <div className="">🟢</div>
-      </div>
-    ),
-    value: "approved",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Pending</div>
-        <div className="">🟡</div>
-      </div>
-    ),
-    value: "pending",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Rejected</div>
-        <div className="">🔴</div>
-      </div>
-    ),
-    value: "rejected",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Cancelled</div>
-        <div className="">⚪</div>
-      </div>
-    ),
-    value: "cancelled",
   },
 ];
 // const MobileTicketList = () => {
