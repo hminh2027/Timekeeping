@@ -12,6 +12,7 @@ import {
   UsePipes,
   ValidationPipe,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
@@ -46,8 +47,13 @@ export class TicketController {
   }
 
   @Get('/me')
-  async getAllById(@ReqUser() user: User) {
+  async getAllByUserId(@ReqUser() user: User): Promise<any> {
     return await this.ticketService.getByUserId(user.id);
+  }
+
+  @Get(':id')
+  async getByTicketId(@Query('id') id: number): Promise<any> {
+    return await this.ticketService.getByTicketId(id);
   }
 
   @Post()

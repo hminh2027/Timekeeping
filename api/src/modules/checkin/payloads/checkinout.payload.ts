@@ -10,12 +10,12 @@ export class CheckinoutPayload {
   })
   image: string;
 
-  @ApiProperty()
+  @ApiProperty({ default: '105.30304757837501' })
   @IsString()
   @IsNotEmpty()
   longitude: string;
 
-  @ApiProperty()
+  @ApiProperty({ default: '10.000207145497916' })
   @IsString()
   @IsNotEmpty()
   latitude: string;
