@@ -51,6 +51,7 @@ export class TicketController {
     return await this.ticketService.getByUserId(user.id);
   }
 
+  @Roles(UserRole.ADMIN, UserRole.USER)
   @Get(':id')
   async getByTicketId(@Query('id') id: number): Promise<any> {
     return await this.ticketService.getByTicketId(id);
