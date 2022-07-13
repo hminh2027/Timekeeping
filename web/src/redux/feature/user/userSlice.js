@@ -1,5 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCheckInStatus, getMyInfo } from "../../../api/service/auth.service";
+<<<<<<< HEAD
+=======
+import { Router } from "next/router";
+>>>>>>> 3ed9525df318a9db83041aafe76ccf3165f44041
+import {
+  getCheckInStatus,
+  getMyInfo,
+  logOut as authLogOut,
+} from "../../../api/service/auth.service";
 const initialState = {
   name: "",
   checkInStatus: false,

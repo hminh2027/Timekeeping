@@ -14,7 +14,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
@@ -36,30 +36,49 @@ export class TicketController {
   constructor(private readonly ticketService: TicketService) {}
 
   @Get()
+  @ApiOperation({
+    summary: '(ADMIN only)',
+    description: 'get all tickets',
+  })
   @Roles(UserRole.ADMIN)
   async getAll() {
     return await this.ticketService.getAll();
   }
 
   @Get('/type')
+  @ApiOperation({
+    description: 'get all tickets type',
+  })
   async getTicketType() {
     return await this.ticketService.getTicketType();
   }
 
   @Get('/me')
+  @ApiOperation({
+    description: 'get all tickets of current user',
+  })
   async getAllByUserId(@ReqUser() user: User): Promise<any> {
     return await this.ticketService.getByUserId(user.id);
   }
 
-  @Get('/:id')
-  async getByTicketId(@Param(
+  @Get(':id')
+  @ApiOperation({
+    description: 'get ticket details by ticket id',
+  })
+  @Roles(UserRole.ADMIN, UserRole.USER)
+  async getByTicketId(
+    @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    ) id: number): Promise<any> {
-    // return await this.ticketService.getByTicketId(id);
-    return {message: "hello"}
+    )
+    id: number,
+  ): Promise<any> {
+    return await this.ticketService.getByTicketId(id);
   }
   @Post()
+  @ApiOperation({
+    description: 'create ticket',
+  })
   async createTicket(
     @ReqUser() user: User,
     @Body() data: CreateTicketPayload,
@@ -73,6 +92,9 @@ export class TicketController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    description: 'update ticket',
+  })
   async updateTicket(
     @ReqUser() user: User,
     @Param(
@@ -91,6 +113,9 @@ export class TicketController {
   }
 
   @Patch(':id/cancel')
+  @ApiOperation({
+    description: 'cancel ticket',
+  })
   async cancelTicket(
     @Param(
       'id',
@@ -108,6 +133,10 @@ export class TicketController {
   }
 
   @Patch(':id/reject')
+  @ApiOperation({
+    summary: '(ADMIN only)',
+    description: 'reject ticket',
+  })
   @Roles(UserRole.ADMIN)
   async rejectTicket(
     @Param(
@@ -126,6 +155,10 @@ export class TicketController {
   }
 
   @Patch(':id/approve')
+  @ApiOperation({
+    summary: '(ADMIN only)',
+    description: 'approve ticket',
+  })
   @Roles(UserRole.ADMIN)
   async approveTicket(
     @Param(
@@ -144,6 +177,11 @@ export class TicketController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: '(ADMIN only)',
+    description: 'delete ticket',
+  })
+  @Roles(UserRole.ADMIN)
   async deleteTicket(
     @Param(
       'id',
