@@ -5,7 +5,8 @@ import styles from "../../../../styles/Layout/Dashboard.module.scss";
 import { changeCurrentItem } from "../../../../redux/feature/layout/menuSlice.js";
 
 import { useDispatch } from "react-redux";
-import { logOut } from "../../../../api/service/auth.service";
+
+import { logOut } from "@/api/service/auth.service";
 
 const MobileDrawer = (props) => {
   const dispatch = useDispatch();
