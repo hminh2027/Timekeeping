@@ -1,44 +1,15 @@
-import api from "@/api/api";
 import { Button } from "antd";
-import { useEffect, useState } from "react";
-import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
-import { DesktopFilter, MobileFilter } from "./Filters";
 const TicketList = (props) => {
-  const [tickets, setTickets] = useState(demoTickets);
-
-  useEffect(() => {
-    const fetchTicketData = async () => {
-      const res = await api.get(`ticket/me`);
-      const resTickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
-      setTickets(resTickets);
-    };
-    fetchTicketData();
-    return () => {
-      setTickets([]);
-      props.onFetched();
-    };
-  }, [props.newTicketSubmitted]);
-
-  // console.log(tickets);
+  const tickets = props.tickets;
 
   return (
-    <div
-      className="flex flex-col overflow-auto rounded-lg m-1"
-      style={{
-        backgroundColor: "#fff",
-        boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-      }}
-    >
-      <DesktopFilter className="hidden lg:flex" />
-      <MobileFilter className="lg:hidden" />
+    <>
       {/* Table Header */}
       <div
         style={{
-          padding: "1em",
           backgroundColor: "#99e2b4",
-          fontWeight: "bold",
         }}
-        className="hidden lg:flex"
+        className="hidden p-4 font-semibold lg:flex"
       >
         <div style={{ flex: "1 0 12em" }}>Title</div>
         <div style={{ flex: "1 0 5em" }}>Type</div>
@@ -54,7 +25,7 @@ const TicketList = (props) => {
           style={{ width: "100%" }}
         />
       ))}
-    </div>
+    </>
   );
 };
 const TicketListItem = (props) => {
@@ -79,7 +50,7 @@ const TicketListItem = (props) => {
     }
   }
   return (
-    <div className="lg:flex items-center lg:justify-start lg:px-4 lg:py-8 lg:border-b lg:border-b-orange-600">
+    <div className="lg:flex items-center lg:justify-start lg:px-4 lg:py-8 lg:border-b lg:border-b-orange-600  hover:bg-slate-300">
       <div
         style={{ flex: "1 0 12em" }}
         className="flex font-semibold text-sky-800"

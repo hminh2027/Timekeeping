@@ -1,4 +1,4 @@
-import styles from "../../../../styles/Layout/menu.module.scss";
+import styles from "@/styles/Layout/menu.module.scss";
 import MenuLabel from "./MenuLabel";
 const SidebarMenu = () => {
   return (

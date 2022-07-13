@@ -1,4 +1,3 @@
-import { Button } from "antd";
 const Header = (props) => {
   return (
     <div
@@ -12,7 +11,9 @@ const Header = (props) => {
       }}
     >
       <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Tickets</div>
-      <Button onClick={props.toggleModal}>Create Ticket</Button>
+      <button className="v-btn-secondary" onClick={props.toggleModal}>
+        Create Ticket
+      </button>
     </div>
   );
 };

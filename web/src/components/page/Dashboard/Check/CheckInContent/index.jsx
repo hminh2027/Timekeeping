@@ -32,71 +32,62 @@ const CheckInContent = () => {
     getStatus();
   }, [checkInStatus]);
   const notCheckedCard = (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1em",
-        width: "100%",
-      }}
-      direction="vertical"
-      className={styles.card}
-    >
-      <div>{trans.check.checkin.not_checked_in}</div>
-      <div>{trans.check.checkin.please_check_in}</div>
-      <Button
-        type="primary"
-        className="v-btn"
-        onClick={() => {
-          setIsChecking(true);
-        }}
-      >
-        {trans.check.checkin.checkin_now}
-      </Button>
+    <div className="card bg-secondary">
+      <div className="card-body">
+        <div>{trans.check.checkin.not_checked_in}</div>
+        <div>{trans.check.checkin.please_check_in}</div>
+        <button
+          className="v-btn-primary"
+          onClick={() => {
+            setIsChecking(true);
+          }}
+        >
+          {trans.check.checkin.checkin_now}
+        </button>
+      </div>
     </div>
   );
-  console.log("CheckInTIme: ", checkInTime);
   const checkedCard = (
     <>
-      <Space
-        style={{ width: "100%" }}
-        direction="vertical"
-        className={styles.card}
-      >
-        <div>
-          {trans.check.checkin.checked_in} {checkInTime}
+      <div className="card bg-secondary">
+        <div className="card-body">
+          <div>
+            {trans.check.checkin.checked_in} {checkInTime}
+          </div>
+          <div>{trans.check.greeting}</div>
         </div>
-        <div>{trans.check.greeting}</div>
-      </Space>
+      </div>
     </>
   );
   const url = `${process.env.APP_URL}/${checkedImg}`;
   console.log(url);
   const checkedImage = (
-    <div className={styles.card} style={{ padding: "0.5em" }}>
-      <img src={url} width="300" height="300" layout="fill" />
+    <div className="card bg-secondary">
+      <div className="card-body">
+        <img src={url} width="300" height="300" layout="fill" />
+      </div>
     </div>
   );
   const redirectCheckOut = (
-    <Space>
+    <div className="flex items-center">
       <div>Already checked in! Wanna Checkout?</div>
-      <Button
-        type="primary"
+      <button
+        className="v-btn-primary"
         onClick={() => {
           Router.push("/dashboard/checkout");
         }}
       >
         Go to Checkout
-      </Button>
-    </Space>
+      </button>
+    </div>
   );
   const content = (
     <>
-      <Space>
+      <div className="flex items-center">
         {checkInStatus ? checkedCard : notCheckedCard}
         {checkInStatus && <div>Here's your image 👉</div>}
         {checkInStatus && checkedImage}
-      </Space>
+      </div>
       {error && (
         <div style={{ color: "rgb(230,30,10)" }}>
           Lỗi rồi : {error.message} 😔😔😔
@@ -113,28 +104,8 @@ const CheckInContent = () => {
     </>
   );
   return (
-    <div
-      style={{
-        display: "flex",
-        // alignItems: "center",
-        justifyContent: "center",
-        height: "100%",
-      }}
-      className={styles.checkin}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-
-          width: "100%",
-          margin: "0 auto",
-          padding: "2em",
-          gap: "0.5em",
-        }}
-      >
-        {content}
-      </div>
+    <div className="flex justify-center h-full">
+      <div className="flex flex-col w-full mx-auto p-8 gap-2">{content}</div>
     </div>
   );
 };
