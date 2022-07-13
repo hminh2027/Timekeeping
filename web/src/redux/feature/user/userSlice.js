@@ -1,8 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-<<<<<<< HEAD
-=======
 import { Router } from "next/router";
->>>>>>> 3ed9525df318a9db83041aafe76ccf3165f44041
 import {
   getCheckInStatus,
   getMyInfo,
