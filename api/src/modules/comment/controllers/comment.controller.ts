@@ -6,32 +6,79 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+  ParseIntPipe,
+  HttpStatus,
+  Inject,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CommentService } from '../services/comment.service';
-import { CreateCommentDto } from '../dto/create-comment.dto';
-import { UpdateCommentDto } from '../dto/update-comment.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CommentPayload } from '../payloads/comment.payload';
+import { UpdateCommentPayload } from '../payloads/update-comment.payload';
+import { ReqUser } from 'src/common/decorators/user.decorator';
+import { User } from 'src/modules/user/entities/user.entity';
+import { TicketService } from 'src/modules/ticket/services/ticket.service';
 
+@Controller('comment')
+@ApiTags('comment')
+@ApiBearerAuth()
+@UsePipes(ValidationPipe)
+@UseGuards(JwtAuthGuard)
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
   @Post()
-  create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentService.create(createCommentDto);
+  async create(@ReqUser() user: User, @Body() data: CommentPayload) {
+    data.userId = user.id;
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Comment created successfully',
+      data: await this.commentService.create(data),
+    };
   }
 
-  @Get()
-  findAll() {
-    return this.commentService.findAll();
+  @Get(':id')
+  async getAllByTicketId(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ) {
+    return this.commentService.getAllByTicketId(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentService.update(+id, updateCommentDto);
+  async update(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+    @ReqUser() user: User,
+    @Body() data: UpdateCommentPayload,
+  ) {
+    data.userId = user.id;
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Comment updated successfully',
+      data: await this.commentService.update(id, data),
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentService.remove(+id);
+  async remove(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ) {
+    return this.commentService.remove(id);
   }
 }

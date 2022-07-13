@@ -60,6 +60,6 @@ export class Checkin {
 
   @BeforeInsert()
   getDate(): void {
-    this.date = this.createdAt.getDate();
+    this.date = new Date().getDate();
   }
 }

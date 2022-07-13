@@ -26,8 +26,19 @@ export class TicketService {
     return this.ticketRepository.find();
   }
 
-  async getByUserId(userId): Promise<Ticket[]> {
+  async getByUserId(userId: number): Promise<Ticket[]> {
     return this.ticketRepository.find({ where: { authorId: userId } });
+  }
+
+  async getByUserIdAndTicketId(userId: number, id: number): Promise<Ticket[]> {
+    return this.ticketRepository.find({ where: { authorId: userId, id } });
+  }
+
+  async getByRecipienIdAndTicketId(
+    userId: number,
+    id: number,
+  ): Promise<Ticket[]> {
+    return this.ticketRepository.find({ where: { recipientId: userId, id } });
   }
 
   async getTicketType(): Promise<string[]> {
