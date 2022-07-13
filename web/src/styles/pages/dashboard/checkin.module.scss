@@ -1,37 +1,11 @@
 @use "../../variables.scss";
 .checkin {
-  .card {
-    background-color: variables.$color-secondary;
-    color: #000;
-
-    max-width: 30em;
-    padding: 2em;
-    border-radius: 12px;
-  }
-
   .checkin-section-wrapper {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    // justifyContent: "space-between",
-    width: 100%;
     div:nth-child(1),
     div:nth-child(3) {
       flex: 1 0 300px;
     }
 
-    .webcam {
-      // flex: 1 1 350px;
-      width: 100%;
-      // max-width: 500px;
-    }
-    .capture-buttons {
-      display: flex;
-      flex-flow: column wrap;
-      justify-content: center;
-      // width: 5em;
-      gap: 3em;
-    }
     .preview-image {
       width: 100%;
       // max-width: 500px;
