@@ -105,8 +105,8 @@ const DesktopTicketList = () => {
           display: "flex",
           padding: "1em",
           backgroundColor: "#99e2b4",
-          fontWeight: "bold",
         }}
+        className="hidden p-4 font-semibold lg:flex"
       >
         <div style={{ flex: "1 0 12em" }}>Title</div>
         <div style={{ flex: "1 0 5em" }}>Type</div>
@@ -122,7 +122,7 @@ const DesktopTicketList = () => {
           style={{ width: "100%" }}
         />
       ))}
-    </div>
+    </>
   );
 };
 const TicketListItem = (props) => {
@@ -147,9 +147,15 @@ const TicketListItem = (props) => {
     }
   }
   return (
-    <div className={styles[`list-item`]} style={style}>
-      <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
-        {title}
+    <div className="lg:flex items-center lg:justify-start lg:px-4 lg:py-8 lg:border-b lg:border-b-orange-600  hover:bg-slate-300">
+      <div
+        style={{ flex: "1 0 12em" }}
+        className="flex font-semibold text-sky-800"
+      >
+        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+          Title:
+        </div>
+        <div className="flex-1">{title}</div>
       </div>
       <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
         {type}
