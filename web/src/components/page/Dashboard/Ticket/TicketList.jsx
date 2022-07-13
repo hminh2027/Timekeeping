@@ -36,11 +36,11 @@ const TicketListItem = (props) => {
   // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
   switch (status) {
-    case 0: {
+    case "rejected": {
       statusIcon.push("🔴");
       break;
     }
-    case 1: {
+    case "approved": {
       statusIcon.push("🟢");
       break;
     }
@@ -60,46 +60,23 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">{title}</div>
       </div>
-      <div
-        style={{ flex: "1 0 5em" }}
-        className={`flex font-light text-gray-500`}
-      >
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
-          Type:
-        </div>
-        <div className="flex-1">{type}</div>
+      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+        {type}
       </div>
-      <div style={{ flex: "1 1 50px" }} className="flex">
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
-          Status:
-        </div>
-        <div className="flex-1">{statusIcon[0]}</div>
+      <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
+      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+        {startDate}
       </div>
-      <div
-        style={{ flex: "1 0 10em" }}
-        className="flex font-light text-gray-500 "
-      >
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
-          Start date:
-        </div>
-        <div className="flex-1">{startDate}</div>
+      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
+        {endDate}
       </div>
-      <div
-        style={{ flex: "1 0 10em" }}
-        className="flex font-light text-gray-500"
-      >
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
-          End date:
-        </div>
-        <div className="flex-1">{endDate}</div>
-      </div>
-      <div style={{ flex: "1 0 5em" }} className="font-light text-gray-500">
+      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
         <Button>{action}</Button>
       </div>
     </div>
   );
 };
-export default TicketList;
+export { TicketListItem, DesktopTicketList };
 
 const demoTickets = [
   {
@@ -143,6 +120,53 @@ const demoTickets = [
       // respondedAt: "2022-07-05",
       action: "Cancel",
     },
+  },
+];
+const status = [
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">All</div>
+        <div className=""></div>
+      </div>
+    ),
+    value: "all",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Approved</div>
+        <div className="">🟢</div>
+      </div>
+    ),
+    value: "approved",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Pending</div>
+        <div className="">🟡</div>
+      </div>
+    ),
+    value: "pending",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Rejected</div>
+        <div className="">🔴</div>
+      </div>
+    ),
+    value: "rejected",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Cancelled</div>
+        <div className="">⚪</div>
+      </div>
+    ),
+    value: "cancelled",
   },
 ];
 // const MobileTicketList = () => {

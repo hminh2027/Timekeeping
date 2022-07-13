@@ -65,3 +65,8 @@ const TicketContent = () => {
 };
 
 export default TicketContent;
+{
+  /* <Col sm={24} xs={24} md={24} lg={0} xxl={0}>
+        <MobileTicketList />
+</Col>*/
+}

@@ -49,7 +49,7 @@ const DashboardLayout = (props) => {
     checkAuthStatus();
     getUserInfo();
     getCheckInStatus();
-  }, []);
+  });
 
   const MobileHeader = () => {
     return (

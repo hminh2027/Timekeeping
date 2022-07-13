@@ -75,7 +75,6 @@ export class TicketController {
   ): Promise<any> {
     return await this.ticketService.getByTicketId(id);
   }
-
   @Post()
   @ApiOperation({
     description: 'create ticket',
