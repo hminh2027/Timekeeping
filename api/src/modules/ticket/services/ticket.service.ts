@@ -67,7 +67,7 @@ export class TicketService {
   async update(id: number, data: UpdateTicketPayload): Promise<void> {
     // Check ticket existance
     const ticketCheck = await this.ticketRepository.findOne({
-      where: { id },
+      where: { id, authorId: data.authorId },
     });
     if (!ticketCheck) throw new NotFoundException('Ticket is not found');
 
