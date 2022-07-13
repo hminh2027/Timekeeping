@@ -53,7 +53,13 @@ export class TicketController {
 
   @Roles(UserRole.ADMIN, UserRole.USER)
   @Get(':id')
-  async getByTicketId(@Query('id') id: number): Promise<any> {
+  async getByTicketId(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): Promise<any> {
     return await this.ticketService.getByTicketId(id);
   }
 

@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCheckInStatus, getMyInfo } from "../../../api/service/auth.service";
+import {
+  getCheckInStatus,
+  getMyInfo,
+  logOut as authLogOut,
+} from "../../../api/service/auth.service";
 const initialState = {
   name: "",
   checkInStatus: false,
@@ -21,9 +25,14 @@ export const fetchCheckInStatus = createAsyncThunk(
   }
 );
 export const fetchMe = createAsyncThunk("user/fetchMe", async () => {
-  const response = await getMyInfo();
-  console.log(response);
-  return response;
+  try {
+    const response = await getMyInfo();
+    return response;
+  } catch (error) {
+    if (error.statusCode === 401) {
+      authLogOut();
+    }
+  }
 });
 
 export const userSlice = createSlice({
