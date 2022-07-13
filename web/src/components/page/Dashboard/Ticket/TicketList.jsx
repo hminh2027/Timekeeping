@@ -1,109 +1,12 @@
-import { Button, Input, Select, Space } from "antd";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import api from "../../../../api/api";
-import { selectUserInfo } from "../../../../redux/feature/user/userSlice";
-import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
-import { TicketInfoFormatter } from "../../../../utils/Formatter/TicketInfo";
+import { Button } from "antd";
+const TicketList = (props) => {
+  const tickets = props.tickets;
 
-const { Option } = Select;
-const DesktopTicketList = () => {
-  const [tickets, setTickets] = useState(demoTickets);
-  const [ticketTypes, setTicketTypes] = useState([]);
-  const [curStatus, setCurStatus] = useState(null);
-  const userInfo = useSelector(selectUserInfo);
-  useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      setTicketTypes(data);
-    };
-    const fetchTicketData = async () => {
-      const res = await api.get(`ticket/me`);
-      const tickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
-      setTickets(tickets);
-    };
-    fetchTicketTypes();
-    fetchTicketData();
-  }, []);
-  // console.log(tickets);
-  const filter = () => {};
   return (
-    <div
-      className={styles[`desktop-ticket-list`]}
-      style={{
-        backgroundColor: "#fff",
-        boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", padding: "1em" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", gap: "2em" }}>
-            <Space>
-              <div>Title:</div>
-              <Input
-                placeholder="Title"
-                onChange={filter}
-                style={{ flex: "1 0 5em" }}
-              />
-            </Space>
-
-            <Space>
-              <div>Type:</div>
-              <Select
-                value={ticketTypes[0]}
-                style={{ flex: "1 0 8em", minWidth: "8em" }}
-              >
-                {ticketTypes.map((ticketType) => (
-                  <Option value={ticketType}>{ticketType}</Option>
-                ))}
-              </Select>
-            </Space>
-            <div className="flex items-center justify-between ">
-              <div className="flex flex-1 items-center w-80">
-                <div>Status:</div>
-                <Select
-                  defaultValue="all"
-                  className=" w-32"
-                  options={status}
-                ></Select>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-2 flex-1"
-            style={{margin: "2px 10px"}}
-          >
-          <div className="flex justify-between gap-1">
-            <div className="">🟢</div>
-            <div className="">Approved</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">🔴</div>
-            <div className="">Rejected</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">🟡</div>
-            <div className="">Pending</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">⚪</div>
-            <div className="">Cancel</div>
-          </div>
-        </div>
-          <div>
-            <Button type="primary">Apply</Button>
-          </div>
-        </div>
-      </div>
+    <>
+      {/* Table Header */}
       <div
         style={{
-          display: "flex",
-          padding: "1em",
           backgroundColor: "#99e2b4",
         }}
         className="hidden p-4 font-semibold lg:flex"
