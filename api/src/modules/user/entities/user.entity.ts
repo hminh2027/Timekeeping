@@ -1,4 +1,5 @@
 import { createHmac } from 'crypto';
+import { Notification } from 'src/modules/notification/entities/notification.entity';
 import {
   Entity,
   Column,
@@ -40,6 +41,9 @@ export class User {
 
   @OneToMany(() => Checkin, (checkin) => checkin.user)
   checkins: Checkin[];
+
+  @OneToMany(() => Notification, (noti) => noti.user)
+  notifications: Notification[];
 
   @OneToMany(() => LoginHistory, (loginHistory) => loginHistory.id)
   loginHistories: LoginHistory[];
