@@ -15,7 +15,7 @@ const HEADERS_MUlTIPLE_PART = {
   Accept: "multipart/form-data",
 };
 
-const baseURL = process.env.APP_URL;
+const baseURL = process.env.API_URL;
 
 export const getURL = (url) => {
   if (url.startsWith("http")) {
@@ -48,7 +48,7 @@ const api = {
 
   post: (url, body = {}, params = {}) => {
     console.log("url:", getURL(url));
-    // console.log(HEADERS);
+    console.log(HEADERS);
     return axios.post(getURL(url), body, {
       params,
       headers: HEADERS,

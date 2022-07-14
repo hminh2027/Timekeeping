@@ -121,14 +121,14 @@ const WorkCalendar = () => {
           <Space>
             <div>CheckIn time:</div> <div>{checkInInfo.checkInTime}</div>
           </Space>
-          <img src={`${process.env.APP_URL}/${checkInInfo.checkInImage}`} />
+          <img src={`${process.env.APP_URL}${checkInInfo.checkInImage}`} />
         </Space>
 
         <Space direction="vertical">
           <Space>
             <div>CheckOut time:</div> <div>{checkInInfo.checkOutTime}</div>
           </Space>
-          <img src={`${process.env.APP_URL}/${checkInInfo.checkOutImage}`} />
+          <img src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`} />
         </Space>
       </div>
     </div>

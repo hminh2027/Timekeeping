@@ -1,4 +1,4 @@
-import styles from "../../../../styles/Layout/menu.module.scss";
+import styles from "@/styles/Layout/menu.module.scss";
 import MenuLabel from "./MenuLabel";
 const SidebarMenu = () => {
   return (
@@ -82,5 +82,11 @@ const menuItems = [
     label: "Tickets",
     value: "/dashboard/ticket",
     id: "ticket",
+  },
+  {
+    icon: <div>🎫</div>,
+    label: "Manage Ticket",
+    value: "/dashboard/manage",
+    id: "manageTicket",
   },
 ];

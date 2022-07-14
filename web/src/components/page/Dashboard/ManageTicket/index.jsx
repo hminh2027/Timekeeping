@@ -1,6 +1,8 @@
-const Header = (props) => {
+import { TicketList } from "./TicketList";
+const ApproveTicket = () => {
   return (
-    <div
+    <div>
+      <div
       style={{
         display: "flex",
         justifyContent: "space-between",
@@ -10,12 +12,12 @@ const Header = (props) => {
         width: "100%",
       }}
     >
-      <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Tickets</div>
-      <button className="v-btn-secondary" onClick={props.toggleModal}>
-        Create Ticket
-      </button>
+      <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Manage Ticket</div>
     </div>
+      <TicketList/>
+    </div>
+    
   );
 };
 
-export default Header;
+export default ApproveTicket;

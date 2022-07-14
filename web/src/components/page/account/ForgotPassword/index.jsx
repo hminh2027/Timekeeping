@@ -1,7 +1,7 @@
 import { LoadingOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Spin } from "antd";
+import { Input, Spin } from "antd";
 import { useState } from "react";
-import api from "../../../../api/api";
+import api from "@/api/api";
 import Form from "../Common/Form";
 const ForgotPassword = () => {
   const [username, setUsername] = useState("");
@@ -45,19 +45,15 @@ const ForgotPassword = () => {
   };
   return (
     <Form title="Recover Password">
-      <Space
-        direction="vertical"
-        size="middle"
-        style={{ width: "100%", alignItems: "center" }}
-      >
+      <div className="flex flex-col gap-6 w-full ">
         {errors && (
-          <Space direction="vertical">
+          <div className="flex flex-col">
             {errors.map((err) => (
               <span style={{ color: err.color }} className="error">
                 {err.message}
               </span>
             ))}
-          </Space>
+          </div>
         )}
 
         {recoverySent && (
@@ -66,8 +62,8 @@ const ForgotPassword = () => {
           </div>
         )}
         <div>Enter your ID/ Email address to recover your password!</div>
-        <Space direction="vertical" size="large">
-          <Space>
+        <div className="flex flex-col gap-8">
+          <div className="flex">
             <UserOutlined style={{ fontSize: "1.5rem" }} />
             <Input
               placeholder="Username/ Email address"
@@ -84,25 +80,28 @@ const ForgotPassword = () => {
               }}
               size="large"
             />
-          </Space>
+          </div>
 
-          <Button
+          <button
             type="primary"
-            className="v-btn w-full"
+            className="v-btn-primary w-full"
             // style={{ width: "100%", borderRadius: "6px" }}
-            onClick={() => recoverHandler()}
+            onClick={(e) => {
+              e.preventDefault();
+              recoverHandler();
+            }}
           >
             {isSubmitting ? (
-              <Space>
+              <div className="space justify-center">
                 <Spin indicator={<LoadingOutlined spin />} />
                 <div>Submitting</div>
-              </Space>
+              </div>
             ) : (
               "Recover"
             )}
-          </Button>
-        </Space>
-      </Space>
+          </button>
+        </div>
+      </div>
     </Form>
   );
 };
