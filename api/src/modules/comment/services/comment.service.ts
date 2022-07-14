@@ -39,20 +39,20 @@ export class CommentService {
     return await this.commentRepository.find({ where: { ticketId: id } });
   }
 
-  async findOneById(id: number): Promise<Comment> {
-    return await this.commentRepository.findOne({ where: { id } });
+  async findOneByIdAndUserId(id: number, userId: number): Promise<Comment> {
+    return await this.commentRepository.findOne({ where: { id, userId } });
   }
 
   async update(id: number, data: UpdateCommentPayload) {
-    const comment = await this.findOneById(id);
+    const comment = await this.findOneByIdAndUserId(id, data.userId);
     if (!comment) throw new NotFoundException('Comment not exist!');
     comment.content = data.content;
     return await this.commentRepository.save(comment);
   }
 
-  async remove(id: number) {
+  async remove(id: number, userId: number) {
+    const comment = await this.findOneByIdAndUserId(id, userId);
+    if (!comment) throw new NotFoundException('Comment not exist!');
     return await this.commentRepository.delete(id);
   }
-
-  async checkUserPermission() {}
 }

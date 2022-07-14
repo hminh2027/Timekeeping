@@ -7,8 +7,7 @@ import { LoginHistoryModule } from '../login-history/login-history.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
-import { ATJwtStrategy } from './strategies/access.strategy';
-import { RTJwtStrategy } from './strategies/refresh.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -30,7 +29,7 @@ import { RTJwtStrategy } from './strategies/refresh.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, ATJwtStrategy],
+  providers: [AuthService, JwtStrategy],
   exports: [PassportModule.register({ defaultStrategy: 'jwt' })],
 })
 export class AuthModule {}
