@@ -65,7 +65,6 @@ export class AuthController {
   }
 
   @Post('refresh')
-  @ApiCookieAuth()
   async refreshToken(@ReqCookie() token: string): Promise<Object> {
     return {
       accessToken: await this.authService.refreshToken(token),
