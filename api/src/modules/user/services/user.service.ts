@@ -97,22 +97,15 @@ export class UserService {
     const offset = (params.page - 1) * params.limit;
     let users: User[];
 
-    if (params.textSearch) {
-      users = await this.userRepository
-        .createQueryBuilder('users')
-        .where('users.email like :email', { email: `%${params.textSearch}%` })
-        .orderBy('users.id', 'DESC')
-        .skip(offset)
-        .take(params.limit)
-        .execute();
-    } else {
-      users = await this.userRepository
-        .createQueryBuilder('users')
-        .orderBy('users.id', 'DESC')
-        .skip(offset)
-        .take(params.limit)
-        .execute();
-    }
+    users = await this.userRepository
+      .createQueryBuilder('users')
+      .where('users.email like :email', {
+        email: `%${params.textSearch || ' '}%`,
+      })
+      .orderBy('users.id', 'DESC')
+      .skip(offset)
+      .take(params.limit)
+      .execute();
 
     return users;
   }
