@@ -1,5 +1,4 @@
 import {
-  Request,
   Body,
   Controller,
   Get,
@@ -59,6 +58,7 @@ export class TicketController {
   }
 
   @Get('/type')
+  @Roles(UserRole.ADMIN, UserRole.USER)
   @ApiOperation({
     description: 'get all tickets type',
   })

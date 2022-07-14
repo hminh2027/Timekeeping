@@ -14,6 +14,7 @@ import { UpdateTicketPayload } from '../payloads/update-ticket.payload';
 import { TicketRepository } from '../repositories/ticket.repository';
 import { TicketType } from '../enums/ticket-type.enum';
 import { SearchQueryDto } from '../dto/search.dto';
+import * as moment from 'moment';
 
 @Injectable()
 export class TicketService {
@@ -37,16 +38,22 @@ export class TicketService {
           title: `%${params.textSearch || ' '}%`,
         })
         .andWhere('tickets.authorId = :authorId', { authorId: userId })
-        .andWhere('tickets.ticketType = :ticketType', {
-          ticketType: params.ticketType,
-        })
-        .andWhere('tickets.ticketStatus = :ticketStatus', {
-          ticketStatus: params.ticketStatus,
-        })
+        .andWhere(
+          params.ticketType ? 'tickets.ticketType = :ticketType' : '1=1',
+          {
+            ticketType: params.ticketType,
+          },
+        )
+        .andWhere(
+          params.ticketStatus ? 'tickets.ticketStatus = :ticketStatus' : '1=1',
+          {
+            ticketStatus: params.ticketStatus,
+          },
+        )
         .orderBy(`tickets.${params.sortBy}`, params.orderBy ? 'ASC' : 'DESC')
         .skip(offset)
         .take(params.limit)
-        .execute();
+        .getMany();
     } catch (err) {
       throw new BadRequestException('Bad query parameters.');
     }
@@ -79,11 +86,19 @@ export class TicketService {
       data.recipientId,
       UserRole.USER,
     );
+
     if (checkRecipientRole)
       throw new NotAcceptableException('Unable to send ticket to this user.');
 
+    const isConflict = await this.checkTicketTimeConflict(data);
+    if (isConflict)
+      throw new NotAcceptableException('Ticket date is in conflict.');
+
+    const isValid = this.validateTicketTime(data);
+    if (!isValid) throw new NotAcceptableException('Ticket date is invalid.');
     const newTicket = await this.ticketRepository.create(data);
-    return this.ticketRepository.save(newTicket);
+    return;
+    // return this.ticketRepository.save(newTicket);
   }
 
   async update(id: number, data: UpdateTicketPayload): Promise<void> {
@@ -120,5 +135,22 @@ export class TicketService {
     if (!ticketCheck) throw new NotFoundException('Ticket is not found');
 
     await this.ticketRepository.delete(id);
+  }
+
+  async checkTicketTimeConflict(data: CreateTicketPayload): Promise<boolean> {
+    const lastestTicket = await this.ticketRepository.findOne({
+      where: { authorId: data.authorId },
+      order: { endDate: 'DESC' },
+    });
+    if (!lastestTicket) return false;
+    const a = moment(lastestTicket.endDate);
+    const b = moment(data.startDate);
+    return b.diff(a, 'days') < 0;
+  }
+
+  validateTicketTime(data: CreateTicketPayload): boolean {
+    const start = moment(data.startDate);
+    const end = moment(data.endDate);
+    return end.diff(start, 'seconds') >= 0;
   }
 }

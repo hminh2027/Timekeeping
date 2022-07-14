@@ -1,4 +1,8 @@
-import { Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { User, UserFillableFields } from '../entities/user.entity';
 import { UserPayload } from '../payload/user.payload';
 import { UserRepository } from '../repositories/user.repository';
@@ -116,7 +120,7 @@ export class UserService {
 
   public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
     const user = await this.getById(id);
-    console.log(user);
+    if (!user) throw new NotFoundException('User not found!');
     return user.role === role;
   }
 }
