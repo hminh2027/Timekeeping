@@ -5,7 +5,7 @@ import api from "../../../../api/api";
 import Form from "../Common/Form";
 const RecoverPassword = (props) => {
   const { token } = props;
-  console.log("Token ne: ", token);
+  // console.log("Token ne: ", token);
   const [data, setData] = useState({ password: "", password2: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);

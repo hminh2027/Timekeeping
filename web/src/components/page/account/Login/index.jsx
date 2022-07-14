@@ -47,7 +47,7 @@ const LoginForm = () => {
         if (res) {
           if (res.status === 201) {
             const { user: userInfo } = res.data;
-            console.log(userInfo);
+            // console.log(userInfo);
             dispatch(setUserInfo({ userInfo: userInfo }));
             await auth.setToken(res.data.accessToken);
             setLoginSuccess(true);
@@ -56,7 +56,7 @@ const LoginForm = () => {
           }
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
         newErrors.push({
           title: "login-failed",
           message: err.response.data.message,

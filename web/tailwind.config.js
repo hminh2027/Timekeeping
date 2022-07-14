@@ -12,6 +12,7 @@ module.exports = {
         32: "8em",
       },
       colors: {
+        black: "rgb(31,31,31)",
         primary: "rgb(205, 240, 234)",
         secondary: "rgb(249, 249, 249)",
         third: "rgb(246, 198, 234)",
