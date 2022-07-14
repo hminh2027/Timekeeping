@@ -28,7 +28,6 @@ const TicketList = () => {
     fetchTicketTypes();
     fetchTicketData();
   }, []);
-  // console.log(tickets);
   const filter = () => {};
   return (
     <div
@@ -54,7 +53,6 @@ const TicketList = () => {
                 style={{ flex: "1 0 5em" }}
               />
             </Space>
-
             <Space>
               <div>Type:</div>
               <Select
@@ -96,17 +94,20 @@ const TicketList = () => {
             </div>
           </div>
           <div>
-            <Button type="primary">Apply</Button>
+            <button 
+              type="primary" 
+              className="border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500 mr-4"
+            >
+              Apply
+            </button>
           </div>
         </div>
       </div>
       <div
         style={{
-          display: "flex",
-          padding: "1em",
           backgroundColor: "#99e2b4",
-          fontWeight: "bold",
         }}
+        className="hidden p-4 font-semibold lg:flex"
       >
         <div style={{ flex: "1 0 12em" }}>Title</div>
         <div style={{ flex: "1 0 5em" }}>Type</div>
@@ -117,7 +118,6 @@ const TicketList = () => {
       </div>
       {tickets.map((ticket) => (
         <TicketListItem
-          key={ticket.id}
           id={ticket.id}
           content={ticket.content}
           style={{ width: "100%" }}
@@ -130,7 +130,7 @@ const TicketListItem = (props) => {
   const {
     id,
     style,
-    content: { status, title, type, startDate, endDate, action },
+    content: { status, title, type, startDate, endDate, actions },
   } = props;
   // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
@@ -148,23 +148,52 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  const { isShowing, toggle } = UseModal();
+  // const { isShowing, toggle } = UseModal();
   return (
-    <div className={styles[`list-item`]} style={style}>
-      <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
-        {title}
+    <div className="py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
+      <div
+        style={{ flex: "1 0 12em" }}
+        className="flex font-semibold text-sky-800"
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Title:
+        </div>
+        <div className="flex-1">{title}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-        {type}
+      <div
+        style={{ flex: "1 0 5em" }}
+        className={`flex font-light text-gray-500`}
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Type:
+        </div>
+        <div className="flex-1">{type}</div>
       </div>
-      <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {startDate}
+      <div style={{ flex: "1 1 50px" }} className="flex">
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Status:
+        </div>
+        <div className="flex-1">{statusIcon[0]}</div>
       </div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {endDate}
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Start date:
+        </div>
+        <div className="flex-1">{startDate}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500"
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          End date:
+        </div>
+        <div className="flex-1">{endDate}</div>
+      </div>
+      <div style={{ flex: "1 0 5em" }} className="font-light text-gray-500">
         <Approve id={id} num={status}></Approve>
       </div>
     </div>
@@ -172,47 +201,52 @@ const TicketListItem = (props) => {
 };
 export { TicketListItem, TicketList };
 
-const demoTickets = [
+const demoTickets = [];
+
+const status = [
   {
-    id: 1,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      startDate: "2022-07-05",
-      endDate: "2022-07-08",
-      status: 1,
-    },
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">All</div>
+        <div className=""></div>
+      </div>
+    ),
+    value: "all",
   },
   {
-    id: 2,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      status: 2,
-      startDate: "2022-07-05",
-      endDate: "2022-07-05",
-      action: "Approve",
-    },
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Approved</div>
+        <div className="">🟢</div>
+      </div>
+    ),
+    value: "approved",
   },
   {
-    id: 3,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      status: 0,
-      startDate: "2022-07-05",
-      endDate: "2022-07-10",
-    },
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Pending</div>
+        <div className="">🟡</div>
+      </div>
+    ),
+    value: "pending",
   },
   {
-    id: 4,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      status: 2,
-      startDate: "2022-07-05",
-      endDate: "2022-07-05",
-      action: "Cancel",
-    },
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Rejected</div>
+        <div className="">🔴</div>
+      </div>
+    ),
+    value: "rejected",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Cancelled</div>
+        <div className="">⚪</div>
+      </div>
+    ),
+    value: "cancelled",
   },
 ];

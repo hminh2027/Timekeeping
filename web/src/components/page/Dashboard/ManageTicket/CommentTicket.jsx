@@ -5,7 +5,7 @@ import { Button } from "antd";
 const CommentTicket = () => {
   const [isAddComment, setAddComment] = useState(false);
   return (
-    <div className="border border-solid border-gray-400 shadow-xl m-3 w-96 rounded">
+    <div className="border border-solid border-gray-400 shadow-xl m-3 w-96 rounded bg-white">
       <div className="p-2 h-full">
         <div className="text-xl font-bold text-center h-1/7">Comment</div>
         <div className="h-5/6">
@@ -16,7 +16,7 @@ const CommentTicket = () => {
             rows={2}
             name="comment"
             // value= {ticketData.comment}
-            style={{ width: "95%" }}
+            // style={{ width: "95%" }}
             // className={styles[`ticket-content`]}
             placeholder="Comment"
             // onChange={(e) => {
@@ -24,7 +24,7 @@ const CommentTicket = () => {
             // }}
           />
           <button
-            className="bg-red-200 w-2/12 text-gray-50"
+            className="bg-teal-600 w-2/12 text-gray-100 hover:text-zinc-500"
             onClick={() => {
               submit();
             }}
