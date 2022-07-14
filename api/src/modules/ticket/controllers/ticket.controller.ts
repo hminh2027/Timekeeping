@@ -76,7 +76,6 @@ export class TicketController {
   ): Promise<any> {
     return await this.ticketService.getByTicketId(id);
   }
-
   @Post()
   @ApiOperation({
     summary: '(USER only)',

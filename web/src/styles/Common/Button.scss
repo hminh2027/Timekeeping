@@ -4,14 +4,14 @@
   min-width: 8em;
 }
 
-.ant-btn-primary {
-  color: #fff;
-  border-color: variables.$color-third;
-  background: variables.$color-third;
-}
+// .ant-btn-primary {
+//   color: #fff;
+//   border-color: variables.$color-third;
+//   background: variables.$color-third;
+// }
 .ant-btn-primary:hover,
 .ant-btn-primary:focus .ant-btn-primary:active {
-  color: #000;
+  // color: #000;
   border-color: variables.$color-third;
   background: variables.$color-third;
   filter: contrast(105%);

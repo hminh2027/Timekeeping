@@ -1,12 +1,12 @@
-import api from "@/api/api";
-import auth from "@/api/auth";
-import { setUserInfo } from "@/redux/feature/user/userSlice";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
 import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import api from "../../../../api/api";
+import auth from "../../../../api/auth";
+import { setUserInfo } from "../../../../redux/feature/user/userSlice";
 import Form from "../Common/Form";
 
 const LoginForm = () => {
@@ -49,8 +49,9 @@ const LoginForm = () => {
             const { user: userInfo } = res.data;
             console.log(userInfo);
             dispatch(setUserInfo({ userInfo: userInfo }));
-            auth.setToken(res.data.accessToken);
+            await auth.setToken(res.data.accessToken);
             setLoginSuccess(true);
+
             setTimeout(() => Router.push("/"), 3000);
           }
         }
@@ -66,19 +67,6 @@ const LoginForm = () => {
       }
     }
   };
-  // useEffect(() => {
-  //   const listener = (event) => {
-  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("Enter key was pressed. Run your function.");
-  //       event.preventDefault();
-  //       loginHandler();
-  //     }
-  //   };
-  //   document.addEventListener("keydown", listener);
-  //   return () => {
-  //     document.removeEventListener("keydown", listener);
-  //   };
-  // }, [data]);
   return (
     <Form title="Login">
       <Space direction="vertical" size="middle" style={{ width: "100%" }}>
@@ -148,14 +136,16 @@ const LoginForm = () => {
           </Space>
         </Space>
 
-        <Button
-          type="primary"
-          className="v-btn w-full"
+        <button
+          className="v-btn-primary w-full"
           // style={{ width: "100%", borderRadius: "6px" }}
-          onClick={() => loginHandler()}
+          onClick={(e) => {
+            e.preventDefault();
+            loginHandler();
+          }}
         >
           Login
-        </Button>
+        </button>
       </Space>
     </Form>
   );
