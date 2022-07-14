@@ -18,6 +18,7 @@ module.exports = {
         forth: "rgb(250, 244, 183)",
         paleGreen: "rgb(153, 226, 180)",
         mirror: "rgba(0, 0, 0, 0.5)",
+        pastelBlue: "rgb(175, 189, 218)",
       },
     },
   },

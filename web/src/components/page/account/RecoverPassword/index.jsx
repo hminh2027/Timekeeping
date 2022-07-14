@@ -8,6 +8,7 @@ const RecoverPassword = (props) => {
   console.log("Token ne: ", token);
   const [data, setData] = useState({ password: "", password2: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setErrors([]);
@@ -42,6 +43,9 @@ const RecoverPassword = (props) => {
       setIsSubmitting(true);
 
       const res = await api.post(`auth/reset?token=${token}`, { ...data });
+      if (res.status === 200) {
+        setIsSuccess(true);
+      }
       setIsSubmitting(false);
     } catch (err) {
       const newErrors = errors.filter(

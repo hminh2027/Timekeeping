@@ -30,7 +30,7 @@ const TicketList = (props) => {
 const TicketListItem = (props) => {
   console.log(props);
   const {
-    style,
+    ticketId,
     content: { status, title, type, startDate, endDate, actions },
   } = props;
   // const { status, title, type, createdDate, respondedDate, action } = content;
@@ -49,6 +49,9 @@ const TicketListItem = (props) => {
       break;
     }
   }
+  const cancelTicket = (e, ticketId) => {
+    console.log(ticketId);
+  };
   return (
     <div className="py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
       <div
@@ -98,9 +101,15 @@ const TicketListItem = (props) => {
         className="flex justify-end font-light text-gray-500 lg:justify-start"
       >
         {actions.map((action) => {
+          const style = action.style;
           if (action.title.trim() !== "") {
             return (
-              <div className={`v-btn ${action.style}`}>{action.title}</div>
+              <button
+                className={style}
+                onClick={(e, ticketId) => cancelTicket(e, ticketId)}
+              >
+                {action.title}
+              </button>
             );
           }
         })}

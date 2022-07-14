@@ -4,10 +4,10 @@ const TicketInfoFormatter = (ticket) => {
   const endDate = moment(ticket.endDate).format("YYYY-MM-DD");
   const actions = [{ title: " ", style: "" }];
   if (ticket.ticketStatus === "pending")
-    actions.push({ title: "Cancel", style: "bg-gray-400" });
+    actions.push({ title: "Cancel", style: "v-btn-third" });
   // <div className=""></div>
   return {
-    id: ticket.id,
+    ticketId: ticket.id,
     content: {
       title: ticket.title,
       type: ticket.ticketType,
