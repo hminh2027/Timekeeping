@@ -28,9 +28,10 @@ const TicketList = (props) => {
   );
 };
 const TicketListItem = (props) => {
+  console.log(props);
   const {
     style,
-    content: { status, title, type, startDate, endDate, action },
+    content: { status, title, type, startDate, endDate, actions },
   } = props;
   // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
@@ -49,12 +50,12 @@ const TicketListItem = (props) => {
     }
   }
   return (
-    <div className="lg:flex items-center lg:justify-start lg:px-4 lg:py-8 lg:border-b lg:border-b-orange-600">
+    <div className="py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
       <div
         style={{ flex: "1 0 12em" }}
         className="flex font-semibold text-sky-800"
       >
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Title:
         </div>
         <div className="flex-1">{title}</div>
@@ -63,13 +64,13 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 5em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Type:
         </div>
         <div className="flex-1">{type}</div>
       </div>
       <div style={{ flex: "1 1 50px" }} className="flex">
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Status:
         </div>
         <div className="flex-1">{statusIcon[0]}</div>
@@ -78,7 +79,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 10em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Start date:
         </div>
         <div className="flex-1">{startDate}</div>
@@ -87,13 +88,17 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 10em" }}
         className="flex font-light text-gray-500"
       >
-        <div className="mx-4 text-sky-800 w-20 font-semibold lg:hidden">
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           End date:
         </div>
         <div className="flex-1">{endDate}</div>
       </div>
       <div style={{ flex: "1 0 5em" }} className="font-light text-gray-500">
-        <Button>{action}</Button>
+        {actions.map((action) => {
+          if (action.trim() !== "") {
+            <div className="v-btn">{action}</div>;
+          }
+        })}
       </div>
     </div>
   );

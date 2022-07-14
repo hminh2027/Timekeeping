@@ -39,12 +39,11 @@ const SubmitTicket = (props) => {
   }, []);
   const handleChange = (e) => {
     setTicketData({ ...ticketData, [e.target.name]: e.target.value });
-    // setErrors([]);
   };
-  // console.log(ticketData);
+
   const submit = async () => {
     setIsSubmitting(true);
-    // console.log(ticketData);
+
     try {
       await api.post("ticket", ticketData);
       props.hide();
