@@ -1,0 +1,29 @@
+@use "../variables.scss";
+
+.header {
+  background-color: variables.$color-primary;
+}
+
+.mobile-drawer {
+  background-color: variables.$color-primary;
+  // color: variables.$color-primary;
+  color: rgb(242, 161, 67);
+  font-size: 1.5em;
+  // transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  // transition: visibility 1000ms;
+  // transition: visibility 0.3s linear, opacity 0.3s linear;
+  // transition: 0.5s opacity, 0.5s visibility;
+  transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  .label {
+    cursor: pointer;
+  }
+}
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.show-me {
+  opacity: 1;
+  visibility: visible;
+}

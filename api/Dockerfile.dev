@@ -1,0 +1,14 @@
+# Install dependencies only when needed
+FROM node:14
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN yarn install
+
+COPY . .
+
+# RUN npm run build
+
+CMD ["npm", "run", "start:dev"]
