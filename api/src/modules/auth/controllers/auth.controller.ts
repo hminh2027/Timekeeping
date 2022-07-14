@@ -8,8 +8,9 @@ import {
   ValidationPipe,
   UseGuards,
   Get,
+  Res,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';
 import { LoginPayload } from '../payloads/login.payload';
 import { RegisterPayload } from '../payloads/register.payload';
@@ -21,6 +22,7 @@ import { TokenQueryDto } from '../dto/Token.dto';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
 import { ReqCookie } from 'src/common/decorators/cookie.decorator';
+import { Response } from 'express';
 // import { LoginHistoryService } from 'src/modules/login-history/services/login-history.service';
 
 @Controller('auth')
@@ -40,11 +42,17 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() credentials: LoginPayload): Promise<any> {
+  async login(
+    @Body() credentials: LoginPayload,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<any> {
     const user = await this.authService.validateUser(credentials);
+    const refreshToken = await this.authService.generateRefreshToken(user);
+    res.cookie('refresh-token', refreshToken);
+
     return {
       accessToken: await this.authService.generateAccessToken(user),
-      refreshToken: await this.authService.generateRefreshToken(user),
+      refreshToken,
       user,
     };
   }
@@ -55,11 +63,18 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() payload: RegisterPayload): Promise<Object> {
+  async register(
+    @Body() payload: RegisterPayload,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<Object> {
     const user = await this.userService.create(payload);
+    const refreshToken = await this.authService.generateRefreshToken(user);
+
+    res.cookie('refresh-token', refreshToken);
+
     return {
       accessToken: await this.authService.generateAccessToken(user),
-      refreshToken: await this.authService.generateRefreshToken(user),
+      refreshToken,
       user,
     };
   }
