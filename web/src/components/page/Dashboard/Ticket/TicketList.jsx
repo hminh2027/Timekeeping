@@ -21,14 +21,17 @@ const TicketList = (props) => {
         <div className="font-semibold" style={{ flex: "1 1 2em" }}>
           Status
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 8em" }}>
-          Created At
+        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+          <div>Created At</div>
+          <div className="ml-4">{arrow_down_icon}</div>
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 8em" }}>
-          Start Date
+        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+          <div>Start Date</div>
+          <div className="ml-4">{arrow_down_icon}</div>
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 8em" }}>
-          End Date
+        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+          <div>End Date</div>
+          <div className="ml-4">{arrow_down_icon}</div>
         </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Action
@@ -212,3 +215,31 @@ const status = [
 //     </div>
 //   );
 // };
+const arrow_down_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
+const arrow_up_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
