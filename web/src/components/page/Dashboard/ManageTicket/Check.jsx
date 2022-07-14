@@ -18,7 +18,7 @@ const CheckTicket = (props) => {
     title: "",
     content: "",
     ticketType: 0,
-    recipientId: 0,
+    recipient: {},
   });
   const [ticketTypes, setTicketTypes] = useState([]);
   const [managers, setManagers] = useState([]);
@@ -27,33 +27,16 @@ const CheckTicket = (props) => {
     titleId: props.id,
   });
   useEffect(() => {
-    // const fetchTicketTypes = async () => {
-    //   const res = await api.get("ticket/type");
-    //   const { data } = res;
-    //   console.log(data);
-    //   setTicketTypes(data);
-    //   // setTicketData({ ...ticketData, ticketType: data[0] });
-    // };
-    // const fetchManagers = async () => {
-    //   const res = await api.get("user/admin");
-    //   const { data } = res;
-    //   setManagers(data);
-    //   setTicketData({ ...ticketData, recipientId: data[0]?.id });
-    // };
     const fetchTikect = async () => {
       const res = await api.get(`ticket/${props.id}`);
       const { data } = res;
       setTicketData(data);
+      console.log("data",data.startDate);
     };
     fetchTikect();
     // fetchManagers();
-    // fetchTicketTypes();
   }, []);
-  const handleChange = (e) => {
-    setTicketData({ ...ticketData, [e.target.name]: e.target.value });
-    // setErrors([]);
-  };
-  // console.log(ticketData);
+  
   const approve = async () => {
     setApprove(true);
     try {
@@ -77,186 +60,89 @@ const CheckTicket = (props) => {
       setReject(false);
     }
   };
-
-  const addComment = async () => {};
-
-  const submit = async () => {
-    setIsSubmitting(true);
-    // console.log(ticketData);
-    try {
-      await api.post("ticket", ticketData);
-      props.hide();
-    } catch (err) {
-      const newErrors = [];
-      const {
-        response: {
-          data: { message },
-        },
-      } = err;
-      newErrors.push({
-        id: "submit-error",
-        message: message,
-        color: "red",
-      });
-      setErrors(newErrors);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
   return (
     <div className="card">
       <div className="card-body">
-        <Space direction="vertical">
+        {/* <Space direction="vertical">
           {errors &&
             errors.map((error) => (
               <div style={{ color: error.color }}>{error.message}</div>
             ))}
-        </Space>
-        <div style={{ fontSize: "1.25em", fontWeight: "bold" }}>
+        </Space> */}
+        <div  className = " text-xl font-bold text-center justify-center" style={{ fontSize: "1.25em", fontWeight: "bold" }}>
           Ticket Content
         </div>
         <div className={styles[`input-wrapper`]}>
           <div className={styles[`input-list`]}>
-            <Input
+            <input
+              className="w-full border border-solid border-gray-300 p-2"
               disabled
               type="text"
               name="title"
               value={ticketData.title}
               placeholder="Ticket title"
-              className={styles[`info-input`]}
-              // onChange={(e) => {
-              //   handleChange(e);
-              // }}
-              // onPressEnter={() => {
-              //   submit();
-              // }}
             />
-            <Input
-              disabled
-              type="text"
-              name="startDate"
-              value={ticketData.startDate}
-              addonBefore={<div style={{ minWidth: "6em" }}>Start Date</div>}
-              className={styles[`info-input`]}
-              // onChange={(e) => {
-              //   handleChange(e);
-              // }}
-              // onPressEnter={() => {
-              //   submit();
-              // }}
-            />
-            <Input
-              disabled
-              type="text"
-              name="endDate"
-              value={ticketData.endDate}
-              addonBefore={<div style={{ minWidth: "6em" }}>End Date</div>}
-              className={styles[`info-input`]}
-              // onChange={(e) => {
-              //   handleChange(e);
-              // }}
-              // onPressEnter={() => {
-              //   submit();
-              // }}
-            />
-            <Space wrap>
-              <div style={{ minWidth: "6em" }}>Ticket Type:</div>
-              <Input
+            <div className="flex ">
+              <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                Start Date
+              </div>
+              <input
+                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
-                style={{
-                  flexGrow: 2,
-                }}
-                name="ticketType"
-                // value={ticketData.ticketType}
-                // value={ticketTypes[0]}
-                placeholder="Search to Select"
-                // onChange={(value, option) => {
-                //   // console.log(value, option);
-                //   const e = { target: { name: "ticketType", value: value } };
-                //   handleChange(e);
-                // }}
-                // onPressEnter={() => {
-                //   submit();
-                // }}
-              >
-                {/* {ticketTypes.map((ticketType, index) => (
-                <Option value={ticketType}>{ticketType}</Option>
-              ))} */}
-              </Input>
-            </Space>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "1em" }}>
-              <div style={{ minWidth: "6em" }}>Recipient Name:</div>
-              <Input
-                disabled
-                style={{
-                  flexGrow: 2,
-                }}
-                name="recipientId"
-                value={ticketData.recipientId}
-                placeholder="Search to Select"
-                // onChange={(value, option) => {
-                //   // console.log(value, option);
-                //   const e = { target: { name: "recipientId", value: value } };
-                //   handleChange(e);
-                // }}
-                // onPressEnter={() => {
-                //   submit();
-                // }}
-              >
-                {/* {managers.map((manager) => (
-                <Option value={manager.id}>
-                  {manager.firstName + " " + manager.lastName}
-                </Option>
-              ))} */}
-              </Input>
+                type="text"
+                name="startDate"
+                value={new Date(ticketData.startDate).toLocaleString()}
+              />
             </div>
+            <div className="flex ">
+              <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                End Date
+              </div>
+              <input
+                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                disabled
+                type="text"
+                name="endDate"
+                value={new Date(ticketData.endDate).toLocaleString()}
+              />
+            </div>
+            <div className="flex ">
+              <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                Ticket Type
+              </div>
+              <input
+                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                disabled
+                type="text"
+                name="ticketType"
+                value={ticketData.ticketType}
+              />
+            </div>
+            <div className="flex" >
+                <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">Recipient Name</div>
+                <input
+                  className=" flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                  disabled
+                  name="recipientId"
+                  value={ticketData.recipient.firstName+" "+ticketData.recipient.lastName}
+                  placeholder="Search to Select"
+                >
+                </input>
+            </div>
+            <textarea
+              className=" flex-grow w-full border border-solid border-gray-300 p-2 h-auto"
+              disabled
+              type="text"
+              name="content"
+              value={ticketData.content}
+              placeholder="Ticket title"
+            />
           </div>
-          <TextArea
-            rows={5}
-            disabled
-            name="content"
-            value={ticketData.content}
-            style={{ width: "100%" }}
-            className={styles[`ticket-content`]}
-            placeholder="Ticket Content"
-            // onChange={(e) => {
-            //   handleChange(e);
-            // }}
-          />
-          {/* <div className="flex">
-          <TextArea
-            rows= {2}
-            name= "comment"
-            value= {ticketData.comment}
-            style={{width: "95%"}}
-            className={styles[`ticket-content`]}
-            placeholder="Comment"
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
-          <Button
-            type="primary"
-            style={{ width: "5%", height: "54px"}}
-            onClick={() => {
-              submit();
-            }}
-          >
-            {isSubmitting ? (
-              <Space>
-                <Spin indicator={<LoadingOutlined />} />
-                <div>AddComment</div>
-              </Space>
-            ) : (
-              "Add"
-            )}
-          </Button>
-        </div> */}
         </div>
-        <div style={{ width: "100%" }}>
-          <Button
+        <div className="w-full flex items-center justify-center">
+          <button
+            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500 mr-4"
             type="primary"
-            style={{ width: "30%", margin: "0px 20px 0px 40px" }}
             onClick={() => {
               approve();
             }}
@@ -269,10 +155,10 @@ const CheckTicket = (props) => {
             ) : (
               "Approve"
             )}
-          </Button>
-          <Button
+          </button>
+          <button
+            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500"
             type="primary"
-            style={{ width: "30%", margin: "0px 20px 0px" }}
             onClick={() => {
               reject();
             }}
@@ -285,7 +171,7 @@ const CheckTicket = (props) => {
             ) : (
               "Reject"
             )}
-          </Button>
+          </button>
         </div>
       </div>
     </div>
