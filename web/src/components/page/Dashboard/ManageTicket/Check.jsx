@@ -4,14 +4,12 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import api from "../../../../api/api";
 import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
-// import Card from "../../../Common/Card";
 import Router from "next/router";
 const { TextArea } = Input;
 const { Option } = Select;
 const CheckTicket = (props) => {
   const [isApprove, setApprove] = useState(false); 
   const [isReject, setReject] = useState(false); 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
@@ -21,39 +19,21 @@ const CheckTicket = (props) => {
     ticketType: 0,
     recipientId: 0,
   });
-  const [ticketTypes, setTicketTypes] = useState([]);
-  const [managers, setManagers] = useState([]);
-  const [comment, setComment] = useState({
-    comment: "",
-    titleId : props.id
-  });
   useEffect(() => {
-    // const fetchTicketTypes = async () => {
-    //   const res = await api.get("ticket/type");
-    //   const { data } = res;
-    //   console.log(data);
-    //   setTicketTypes(data);
-    //   // setTicketData({ ...ticketData, ticketType: data[0] });
-    // };
-    // const fetchManagers = async () => {
-    //   const res = await api.get("user/admin");
-    //   const { data } = res;
-    //   setManagers(data);
-    //   setTicketData({ ...ticketData, recipientId: data[0]?.id });
-    // };
     const fetchTikect = async () => {
       const res = await api.get(`ticket/${props.id}`);
       const {data} = res;
+      console.log("data", data)
       setTicketData(data);
     }
     fetchTikect();
     // fetchManagers();
     // fetchTicketTypes();
   }, []);
-  const handleChange = (e) => {
-    setTicketData({ ...ticketData, [e.target.name]: e.target.value });
-    // setErrors([]);
-  };
+  // const handleChange = (e) => {
+  //   setTicketData({ ...ticketData, [e.target.name]: e.target.value });
+  //   // setErrors([]);
+  // };
   // console.log(ticketData);
   const approve = async () => {
     setApprove(true);
@@ -78,36 +58,8 @@ const CheckTicket = (props) => {
       setReject(false)
     }
   }
-
-  const addComment = async() => {
-
-  }
-
-  const submit = async () => {
-    setIsSubmitting(true);
-    // console.log(ticketData);
-    try {
-      await api.post("ticket", ticketData);
-      props.hide();
-    } catch (err) {
-      const newErrors = [];
-      const {
-        response: {
-          data: { message },
-        },
-      } = err;
-      newErrors.push({
-        id: "submit-error",
-        message: message,
-        color: "red",
-      });
-      setErrors(newErrors);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
   return (
-    <Card className={styles[`ticket-card`]}>
+    <div className={styles[`ticket-card`]}>
       <Space direction="vertical">
         {errors &&
           errors.map((error) => (
@@ -126,12 +78,6 @@ const CheckTicket = (props) => {
             value={ticketData.title}
             placeholder="Ticket title"
             className={styles[`info-input`]}
-            // onChange={(e) => {
-            //   handleChange(e);
-            // }}
-            // onPressEnter={() => {
-            //   submit();
-            // }}
           />
           <Input
             disabled
@@ -140,12 +86,6 @@ const CheckTicket = (props) => {
             value={ticketData.startDate}
             addonBefore={<div style={{ minWidth: "6em" }}>Start Date</div>}
             className={styles[`info-input`]}
-            // onChange={(e) => {
-            //   handleChange(e);
-            // }}
-            // onPressEnter={() => {
-            //   submit();
-            // }}
           />
           <Input
             disabled
@@ -154,12 +94,6 @@ const CheckTicket = (props) => {
             value={ticketData.endDate}
             addonBefore={<div style={{ minWidth: "6em" }}>End Date</div>}
             className={styles[`info-input`]}
-            // onChange={(e) => {
-            //   handleChange(e);
-            // }}
-            // onPressEnter={() => {
-            //   submit();
-            // }}
           />
           <Space wrap>
             <div style={{ minWidth: "6em" }}>Ticket Type:</div>
@@ -172,18 +106,9 @@ const CheckTicket = (props) => {
               // value={ticketData.ticketType}
               // value={ticketTypes[0]}
               placeholder="Search to Select"
-              // onChange={(value, option) => {
-              //   // console.log(value, option);
-              //   const e = { target: { name: "ticketType", value: value } };
-              //   handleChange(e);
-              // }}
-              // onPressEnter={() => {
-              //   submit();
-              // }}
+
             >
-              {/* {ticketTypes.map((ticketType, index) => (
-                <Option value={ticketType}>{ticketType}</Option>
-              ))} */}
+              {ticketData.ticketType}
             </Input>
           </Space>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "1em" }}>
@@ -196,20 +121,8 @@ const CheckTicket = (props) => {
               name="recipientId"
               value={ticketData.recipientId}
               placeholder="Search to Select"
-              // onChange={(value, option) => {
-              //   // console.log(value, option);
-              //   const e = { target: { name: "recipientId", value: value } };
-              //   handleChange(e);
-              // }}
-              // onPressEnter={() => {
-              //   submit();
-              // }}
             >
-              {/* {managers.map((manager) => (
-                <Option value={manager.id}>
-                  {manager.firstName + " " + manager.lastName}
-                </Option>
-              ))} */}
+              {/* {ticketData.} */}
             </Input>
           </div>
         </div>
@@ -221,40 +134,7 @@ const CheckTicket = (props) => {
           style={{ width: "100%" }}
           className={styles[`ticket-content`]}
           placeholder="Ticket Content"
-          // onChange={(e) => {
-          //   handleChange(e);
-          // }}
         />
-        {/* <div className="flex">
-          <TextArea
-            rows= {2}
-            name= "comment"
-            value= {ticketData.comment}
-            style={{width: "95%"}}
-            className={styles[`ticket-content`]}
-            placeholder="Comment"
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
-          <Button
-            type="primary"
-            style={{ width: "5%", height: "54px"}}
-            onClick={() => {
-              submit();
-            }}
-          >
-            {isSubmitting ? (
-              <Space>
-                <Spin indicator={<LoadingOutlined />} />
-                <div>AddComment</div>
-              </Space>
-            ) : (
-              "Add"
-            )}
-          </Button>
-        </div> */}
-       
       </div>
       <div style={{width: "100%", }}>
         <Button
@@ -293,7 +173,7 @@ const CheckTicket = (props) => {
       
       </div>
       
-    </Card>
+    </div>
   );
 };
 

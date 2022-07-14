@@ -14,7 +14,7 @@ const ApproveTicket = () => {
     >
       <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Manage Ticket</div>
     </div>
-      <TicketList/>
+      {/* <TicketList/> */}
     </div>
     
   );

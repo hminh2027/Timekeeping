@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import React from "react";
 import UseModal from "../../../../utils/hooks/UseModal";
-import Modal from "../../../Common/Modal";
+// import Modal from "../../../Common/Modal";
 import CheckTicket from "../ManageTicket/Check";
 import CommentTicket from "./CommentTicket";
 const Approve = ({num, id}) => {
@@ -11,13 +11,15 @@ const Approve = ({num, id}) => {
     return (
       <div>
           <Button onClick={toggle}>Approve</Button>
-          <Modal isShowing={isShowing} hide={toggle}>
+          {/* <Modal isShowing={isShowing} hide={toggle}> */}
+          <div>
             <div className="flex">
               <CheckTicket id={id} hide={toggle} />
               <CommentTicket/>
             </div>
-              
-          </Modal>
+          </div>
+            
+          {/* </Modal> */}
       </div>
     );
   }
@@ -25,13 +27,15 @@ const Approve = ({num, id}) => {
     return (
       <div>
           <Button disabled onClick={toggle}>Not Approve</Button>
-          <Modal isShowing={isShowing} hide={toggle}>
+          {/* <Modal isShowing={isShowing} hide={toggle}> */}
+            <div>
               <CheckTicket hide={toggle} />
-          </Modal>
+            </div>
+              
+          {/* </Modal> */}
       </div>
     );
   }
-  
 };
 
 export default Approve;

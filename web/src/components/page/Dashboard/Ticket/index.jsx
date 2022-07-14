@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";
-import TicketList from "./TicketList";
+import {TicketList} from "./TicketList";
 import { DesktopFilter, MobileFilter } from "./Filters";
 const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
