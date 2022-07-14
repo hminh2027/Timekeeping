@@ -93,10 +93,15 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">{endDate}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className="font-light text-gray-500">
+      <div
+        style={{ flex: "1 0 5em" }}
+        className="flex justify-end font-light text-gray-500 lg:justify-start"
+      >
         {actions.map((action) => {
-          if (action.trim() !== "") {
-            <div className="v-btn">{action}</div>;
+          if (action.title.trim() !== "") {
+            return (
+              <div className={`v-btn ${action.style}`}>{action.title}</div>
+            );
           }
         })}
       </div>

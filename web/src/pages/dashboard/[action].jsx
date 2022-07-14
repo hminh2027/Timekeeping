@@ -3,7 +3,7 @@ import CheckIn from "@/components/page/Dashboard/Check/CheckInContent";
 import CheckOut from "@/components/page/Dashboard/Check/CheckOutContent";
 import Home from "@/components/page/Dashboard/Home";
 import TicketContent from "@/components/page/Dashboard/Ticket";
-import ManageTicket from "../../components/page/Dashboard/ManageTicket"
+import ManageTicket from "../../components/page/Dashboard/ManageTicket";
 import DashboardLayout from "@/layout/DashboardLayout";
 import { changeCurrentItem } from "@/redux/feature/layout/menuSlice";
 import { useRouter } from "next/router";
@@ -23,7 +23,7 @@ const Dashboard = (props) => {
     case "home":
       return <Home />;
     case "manage":
-      return <ManageTicket/>;
+      return <ManageTicket />;
     default:
       return <Home />;
   }
@@ -31,14 +31,3 @@ const Dashboard = (props) => {
 Dashboard.layout = DashboardLayout;
 
 export default Dashboard;
-export async function getServerSideProps(context) {
-  const authed = auth.checkAuth();
-
-  // Get user Info
-  const res = await fetch(`${process.env.APP_URL}auth/me`);
-  const data = await res.json();
-
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}

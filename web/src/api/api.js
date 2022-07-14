@@ -15,7 +15,7 @@ const HEADERS_MUlTIPLE_PART = {
   Accept: "multipart/form-data",
 };
 
-const baseURL = process.env.APP_URL;
+const baseURL = process.env.API_URL;
 
 export const getURL = (url) => {
   if (url.startsWith("http")) {
