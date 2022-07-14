@@ -1,6 +1,8 @@
-import { Button } from "antd";
+import { useDispatch } from "react-redux";
+import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
 const TicketList = (props) => {
   const tickets = props.tickets;
+  // const tickets = props.tickets;
   return (
     <>
       {/* Table Header */}
@@ -10,38 +12,60 @@ const TicketList = (props) => {
         }}
         className="hidden p-4 font-semibold lg:flex"
       >
-        <div style={{ flex: "1 0 12em" }}>Title</div>
-        <div style={{ flex: "1 0 5em" }}>Type</div>
-        <div style={{ flex: "1 1 50px" }}>Status</div>
-        <div style={{ flex: "1 0 10em" }}>Start Date</div>
-        <div style={{ flex: "1 0 10em" }}>End Date</div>
-        <div style={{ flex: "1 0 5em" }}>Action</div>
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+          Title
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+          Type
+        </div>
+        <div className="font-semibold" style={{ flex: "1 1 2em" }}>
+          Status
+        </div>
+        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+          <div>Created At</div>
+          <div className="ml-4">{arrow_down_icon}</div>
+        </div>
+        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+          <div>Start Date</div>
+          <div className="ml-4">{arrow_down_icon}</div>
+        </div>
+        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+          <div>End Date</div>
+          <div className="ml-4">{arrow_down_icon}</div>
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+          Action
+        </div>
       </div>
       {tickets.map((ticket) => (
         <TicketListItem
           key={ticket.id}
+          id={ticket.id}
           content={ticket.content}
-          style={{ width: "100%" }}
         />
       ))}
     </>
   );
 };
 const TicketListItem = (props) => {
-  console.log(props);
+  // console.log("PROPS: ", props);
+  const dispatch = useDispatch();
   const {
-    ticketId,
+    id,
     content: { status, title, type, startDate, endDate, actions },
   } = props;
-  // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
   switch (status) {
-    case 0: {
+    case "rejected": {
       statusIcon.push("🔴");
       break;
     }
-    case 1: {
+    case "approved": {
       statusIcon.push("🟢");
+      break;
+    }
+    case "cancelled": {
+      statusIcon.push("⚪");
       break;
     }
     default: {
@@ -49,22 +73,19 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  const cancelTicket = (e, ticketId) => {
-    console.log(ticketId);
+  const cancelHandler = (id) => {
+    dispatch(cancelTicket(id));
   };
   return (
-    <div className="py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
-      <div
-        style={{ flex: "1 0 12em" }}
-        className="flex font-semibold text-sky-800"
-      >
+    <div className="font-medium py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
+      <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Title:
         </div>
-        <div className="flex-1">{title}</div>
+        <div className="flex-1 font-semibold">{title}</div>
       </div>
       <div
-        style={{ flex: "1 0 5em" }}
+        style={{ flex: "1 0 3em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -72,14 +93,28 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">{type}</div>
       </div>
-      <div style={{ flex: "1 1 50px" }} className="flex">
+      <div
+        style={{ flex: "1 1 2em" }}
+        className="flex font-light text-gray-500 "
+      >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Status:
         </div>
-        <div className="flex-1">{statusIcon[0]}</div>
+        <div className="flex-1">
+          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+        </div>
       </div>
       <div
-        style={{ flex: "1 0 10em" }}
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Created at:
+        </div>
+        <div className="flex-1">{startDate}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -88,7 +123,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{startDate}</div>
       </div>
       <div
-        style={{ flex: "1 0 10em" }}
+        style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500"
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -97,17 +132,14 @@ const TicketListItem = (props) => {
         <div className="flex-1">{endDate}</div>
       </div>
       <div
-        style={{ flex: "1 0 5em" }}
+        style={{ flex: "1 0 3em" }}
         className="flex justify-end font-light text-gray-500 lg:justify-start"
       >
         {actions.map((action) => {
           const style = action.style;
           if (action.title.trim() !== "") {
             return (
-              <button
-                className={style}
-                onClick={(e, ticketId) => cancelTicket(e, ticketId)}
-              >
+              <button className="v-btn-third" onClick={() => cancelHandler(id)}>
                 {action.title}
               </button>
             );
@@ -183,3 +215,31 @@ const status = [
 //     </div>
 //   );
 // };
+const arrow_down_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
+const arrow_up_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);

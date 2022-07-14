@@ -1,8 +1,8 @@
 import { CloseOutlined } from "@ant-design/icons";
 import Router from "next/router";
-import styles from "../../../../styles/Layout/Dashboard.module.scss";
-
-import { changeCurrentItem } from "../../../../redux/feature/layout/menuSlice.js";
+import styles from "@/styles/Layout/Dashboard.module.scss";
+import { drawerItems } from "./Menu.config";
+import { changeCurrentItem } from "@/redux/feature/layout/menuSlice.js";
 
 import { useDispatch } from "react-redux";
 
