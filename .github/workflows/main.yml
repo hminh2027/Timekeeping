@@ -38,8 +38,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_DEBUG: false
-          envkey_API_URL: http://dev:4005/api/
-          envkey_APP_URL: http://dev:4005/
+          envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
           directory: web
           file_name: .env.production
           fail_on_empty: false
@@ -55,7 +54,7 @@ jobs:
         env:
           REPO: self
           BRANCH: deploy/api # The branch name where you want to push the assets
-          FOLDER: api # The directory where your assets are generated
+          FOLDER: api/dist # The directory where your assets are generated
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
           MESSAGE: "Build: ({sha}) {msg}" # The commit message
       
@@ -64,6 +63,6 @@ jobs:
         env:
           REPO: self
           BRANCH: deploy/web # The branch name where you want to push the assets
-          FOLDER: web # The directory where your assets are generated
+          FOLDER: web/.next # The directory where your assets are generated
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
           MESSAGE: "Build: ({sha}) {msg}" # The commit message
