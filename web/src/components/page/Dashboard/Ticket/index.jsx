@@ -22,6 +22,10 @@ const TicketContent = () => {
   const [newTicketSubmitted, setNewTicketSubmitted] = useState(false);
 
   const [filterOptions, setFilterOptions] = useState([]);
+  const [sortOption, setSortOption] = useState({
+    sortBy: "createdAt",
+    orderBy: "ASC",
+  });
   useEffect(() => {
     const fetchTicketData = async () => {
       dispatch(fetchMyTickets());
@@ -50,7 +54,11 @@ const TicketContent = () => {
               className="lg:hidden"
             />
 
-            <TicketList tickets={tickets} />
+            <TicketList
+              tickets={tickets}
+              onSort={(option) => setSortOption(option)}
+              sortOption={sortOption}
+            />
           </div>
         </Col>
 

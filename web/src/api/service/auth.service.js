@@ -1,5 +1,5 @@
-import api from "../api";
-import auth from "../auth";
+import api from "@/api/api";
+import auth from "@/api/auth";
 export const logOut = async () => {
   const token = process.env.AUTH_TOKEN;
   // const role = process.env.USER_ROLE;
@@ -21,7 +21,7 @@ export const getCheckInStatus = async (body) => {
       return res;
     } catch (error) {
       if (error.response.status === 401) {
-        window.location.replace(`/account/login`);
+        // window.location.replace(`/account/login`);
       }
     }
   }
@@ -34,7 +34,7 @@ export const getMyInfo = async (body) => {
       return res;
     } catch (error) {
       if (error.response.status === 401) {
-        window.location.replace(`/account/login`);
+        // window.location.replace(`/account/login`);
       }
     }
   }
