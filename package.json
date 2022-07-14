@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "vcheck",
   "scripts": {
-    "build:api": "cd api && npm install && npm run build",
+    "build:api": "cd api && npm install --legacy-peer-deps --save && npm run build",
     "build:web": "cd web && npm install && npm run build",
     "build": "npm run build:api && npm run build:web",
     "start": "npm run build && node api/index.js",
