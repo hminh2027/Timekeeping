@@ -4,7 +4,7 @@ import {
   getCheckInStatus,
   getMyInfo,
   logOut as authLogOut,
-} from "../../../api/service/auth.service";
+} from "@/api/service/auth.service";
 const initialState = {
   name: "",
   checkInStatus: false,
@@ -33,7 +33,7 @@ export const fetchCheckInStatus = createAsyncThunk(
 );
 export const fetchMe = createAsyncThunk("user/fetchMe", async () => {
   const response = await getMyInfo();
-  console.log(response);
+  // console.log(response);
   return response;
 });
 

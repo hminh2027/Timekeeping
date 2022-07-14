@@ -79,7 +79,7 @@ const menuItems = [
   },
   {
     icon: <div>🎫</div>,
-    label: "Tickets",
+    label: "My Tickets",
     value: "/dashboard/ticket",
     id: "ticket",
   },
