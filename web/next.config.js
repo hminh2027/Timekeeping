@@ -4,9 +4,10 @@ const nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
   env: {
+    API_URL: process.env.API_URL,
     APP_URL: process.env.APP_URL,
-    AUTH_TOKEN: process.env.AUTH_TOKEN || "vCheck_Token",
-    ROLE: process.env.ROLE || "vCheck_Role",
+    AUTH_TOKEN: process.env.AUTH_TOKEN,
+    ROLE: process.env.ROLE,
   },
   images: {
     domains: [

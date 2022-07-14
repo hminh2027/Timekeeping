@@ -9,7 +9,7 @@ import {
   UseGuards,
   Get,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';
 import { LoginPayload } from '../payloads/login.payload';
 import { RegisterPayload } from '../payloads/register.payload';
@@ -20,7 +20,8 @@ import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { TokenQueryDto } from '../dto/Token.dto';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
-import { LoginHistoryService } from 'src/modules/login-history/services/login-history.service';
+import { ReqCookie } from 'src/common/decorators/cookie.decorator';
+// import { LoginHistoryService } from 'src/modules/login-history/services/login-history.service';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -28,8 +29,7 @@ import { LoginHistoryService } from 'src/modules/login-history/services/login-hi
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UserService,
-    private readonly loginHistoryService: LoginHistoryService,
+    private readonly userService: UserService, // private readonly loginHistoryService: LoginHistoryService,
   ) {}
 
   @Get('me')
@@ -42,8 +42,11 @@ export class AuthController {
   @Post('login')
   async login(@Body() credentials: LoginPayload): Promise<any> {
     const user = await this.authService.validateUser(credentials);
-    // await this.loginHistoryService.create()
-    return await this.authService.generateToken(user);
+    return {
+      accessToken: await this.authService.generateAccessToken(user),
+      refreshToken: await this.authService.generateRefreshToken(user),
+      user,
+    };
   }
 
   @Post('logout')
@@ -54,7 +57,19 @@ export class AuthController {
   @Post('register')
   async register(@Body() payload: RegisterPayload): Promise<Object> {
     const user = await this.userService.create(payload);
-    return await this.authService.generateToken(user);
+    return {
+      accessToken: await this.authService.generateAccessToken(user),
+      refreshToken: await this.authService.generateRefreshToken(user),
+      user,
+    };
+  }
+
+  @Post('refresh')
+  @ApiCookieAuth()
+  async refreshToken(@ReqCookie() token: string): Promise<Object> {
+    return {
+      accessToken: await this.authService.refreshToken(token),
+    };
   }
 
   @Post('forgot')

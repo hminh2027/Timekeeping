@@ -1,9 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base{
+    .min-w-4{
+        min-width: 1em;
+    }
+}
 
 @layer components{
-    .v-btn{
-        @apply text-white bg-third border-third rounded-md w-full hover:text-black contrast-125
+    .v-btn-primary{
+        @apply text-black bg-third border-third rounded-sm p-1 transition-all duration-300 min-w-32 hover:text-white 
     }
+    .v-btn-secondary{
+        @apply text-black bg-blue-400 border-blue-400 rounded-sm p-1 transition-all duration-300 min-w-32 hover:text-white 
+    }
+    .v-btn-third{
+        @apply text-black bg-pastelBlue border-pastelBlue rounded-sm p-1 transition-all duration-300 min-w-32 hover:text-white 
+    }
+    .v-btn{
+        @apply text-black border bg-transparent  border-violet-300 rounded-sm p-1 transition-all duration-300 min-w-32  hover:text-white 
+    }
+}
+
+*{
+    @apply transition duration-200 
 }

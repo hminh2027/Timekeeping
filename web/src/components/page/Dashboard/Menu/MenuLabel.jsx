@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {
   selectCurrentItem,
   changeCurrentItem,
-} from "../../../../redux/feature/layout/menuSlice";
+} from "@/redux/feature/layout/menuSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 const MenuLabel = (props) => {

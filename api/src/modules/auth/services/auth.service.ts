@@ -12,7 +12,7 @@ import { createHmac } from 'crypto';
 import { ConfigService } from '../../../common/config/config.service';
 import { User } from '../../user/entities/user.entity';
 import { UserService } from '../../user/services/user.service';
-import { TokenQueryDto } from '../dto/Token.dto';
+import { TokenQueryDto } from '../dto/token.dto';
 import { ForgotPayload } from '../payloads/forgot.payload';
 import { LoginPayload } from '../payloads/login.payload';
 import { ResetPayload } from '../payloads/reset.payload';
@@ -26,13 +26,44 @@ export class AuthService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async generateToken(user: User) {
-    const { password, ...payload } = user;
+  generateAccessToken(user: User): string {
+    return this.jwtService.sign({ ...user });
+  }
 
-    return {
-      accessToken: this.jwtService.sign({ ...payload }),
-      user: { ...payload },
-    };
+  generateRefreshToken(user: User): string {
+    return this.jwtService.sign(
+      { ...user },
+      {
+        secret: this.configService.jwtRefreshTokenSecret,
+        expiresIn: this.configService.jwtRefreshTokenExpiration,
+      },
+    );
+  }
+
+  generateResetToken(user: User): string {
+    return this.jwtService.sign(
+      { ...user },
+      {
+        expiresIn: '15m',
+      },
+    );
+  }
+
+  async refreshToken(token: string): Promise<string> {
+    try {
+      if (!token) throw new Error();
+      const payload = this.jwtService.verify(token, {
+        secret: this.configService.jwtRefreshTokenSecret,
+      });
+
+      if (!payload) throw new Error();
+      const user = await this.userService.getById(payload.userId);
+      if (!user) throw new Error();
+
+      return this.generateAccessToken(user);
+    } catch (err) {
+      throw new UnauthorizedException('Token invalid. Please re-login now.');
+    }
   }
 
   async validateUser({ email, password }: LoginPayload): Promise<User> {
@@ -55,11 +86,11 @@ export class AuthService {
   async forgot({ email }: ForgotPayload): Promise<any> {
     // Check user existance
     const user = await this.userService.getByEmail(email);
-    if (!user) {
-      throw new NotFoundException('User not exist!');
-    }
+    if (!user) throw new NotFoundException('User not exist!');
+
     // Generate 15m token
-    const token = await this.jwtService.sign({ ...user }, { expiresIn: '15m' });
+    const token = this.generateResetToken(user);
+
     const url = `http://localhost:3001/account/recover?token=${token}`;
     // Send email
     await this.mailerService
