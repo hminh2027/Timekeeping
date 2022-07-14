@@ -84,9 +84,9 @@ const menuItems = [
     id: "ticket",
   },
   {
-    icon: <div>🎫</div>,
+    icon: <div>🖥️</div>,
     label: "Manage Ticket",
     value: "/dashboard/manage",
-    id: "manageTicket",
+    id: "manage",
   },
 ];

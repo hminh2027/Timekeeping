@@ -5,13 +5,9 @@ import { useEffect, useState } from "react";
 import api from "@/api/api";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import Router from "next/router";
-const { TextArea } = Input;
-const { Option } = Select;
 const CheckTicket = (props) => {
   const [isApprove, setApprove] = useState(false);
   const [isReject, setReject] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState([]);
   const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
@@ -19,12 +15,6 @@ const CheckTicket = (props) => {
     content: "",
     ticketType: 0,
     recipient: {},
-  });
-  const [ticketTypes, setTicketTypes] = useState([]);
-  const [managers, setManagers] = useState([]);
-  const [comment, setComment] = useState({
-    comment: "",
-    titleId: props.id,
   });
   useEffect(() => {
     const fetchTikect = async () => {
@@ -34,14 +24,13 @@ const CheckTicket = (props) => {
       console.log("data",data.startDate);
     };
     fetchTikect();
-    // fetchManagers();
   }, []);
   
   const approve = async () => {
     setApprove(true);
     try {
-      await api.patch(`ticket/${props.id}/approve`);
-      Router.reload(window.location.pathname);
+        await api.patch(`ticket/${props.id}/approve`);
+        Router.reload(window.location.pathname);     
     } catch (err) {
       setErrors([]);
     } finally {
@@ -63,12 +52,6 @@ const CheckTicket = (props) => {
   return (
     <div className="card">
       <div className="card-body">
-        {/* <Space direction="vertical">
-          {errors &&
-            errors.map((error) => (
-              <div style={{ color: error.color }}>{error.message}</div>
-            ))}
-        </Space> */}
         <div  className = " text-xl font-bold text-center justify-center" style={{ fontSize: "1.25em", fontWeight: "bold" }}>
           Ticket Content
         </div>
