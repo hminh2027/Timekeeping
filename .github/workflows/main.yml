@@ -54,7 +54,7 @@ jobs:
         env:
           REPO: self
           BRANCH: deploy/api # The branch name where you want to push the assets
-          FOLDER: api/dist # The directory where your assets are generated
+          FOLDER: api # The directory where your assets are generated
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
           MESSAGE: "Build: ({sha}) {msg}" # The commit message
       
@@ -63,6 +63,6 @@ jobs:
         env:
           REPO: self
           BRANCH: deploy/web # The branch name where you want to push the assets
-          FOLDER: web/.next # The directory where your assets are generated
+          FOLDER: web # The directory where your assets are generated
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
           MESSAGE: "Build: ({sha}) {msg}" # The commit message
