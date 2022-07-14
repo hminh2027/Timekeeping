@@ -4,9 +4,9 @@ import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import api from "../../../../api/api";
-import auth from "../../../../api/auth";
-import { setUserInfo } from "../../../../redux/feature/user/userSlice";
+import api from "@/api/api";
+import auth from "@/api/auth";
+import { setUserInfo } from "@/redux/feature/user/userSlice";
 import Form from "../Common/Form";
 
 const LoginForm = () => {
@@ -47,16 +47,17 @@ const LoginForm = () => {
         if (res) {
           if (res.status === 201) {
             const { user: userInfo } = res.data;
-            console.log(userInfo);
+            // console.log(userInfo);
             dispatch(setUserInfo({ userInfo: userInfo }));
-            await auth.setToken(res.data.accessToken);
+            auth.setToken(res.data.accessToken);
+            // auth.setRefreshToken(res.data.refreshToken);
             setLoginSuccess(true);
 
             setTimeout(() => Router.push("/"), 3000);
           }
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
         newErrors.push({
           title: "login-failed",
           message: err.response.data.message,

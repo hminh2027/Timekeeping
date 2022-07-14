@@ -5,7 +5,7 @@ const Modal = (props) => {
   const { isShowing, hide, children } = props;
   const handleClick = (event) => {
     // event.stopPropagation();
-    console.log(event);
+    // console.log(event);
   };
   const content = isShowing
     ? ReactDOM.createPortal(

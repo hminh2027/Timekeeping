@@ -1,4 +1,5 @@
 import styles from "@/styles/Layout/menu.module.scss";
+import { menuItems } from "./Menu.config";
 import MenuLabel from "./MenuLabel";
 const SidebarMenu = () => {
   return (
@@ -49,44 +50,3 @@ const MobileMenu = () => {
   );
 };
 export { SidebarMenu, MobileMenu };
-
-const menuItems = [
-  {
-    icon: <div>🏠</div>,
-    label: "Home",
-    value: "/dashboard/home",
-    id: "home",
-  },
-  {
-    icon: <div>📷</div>,
-    label: "Check In",
-    value: "/dashboard/checkin",
-    id: "checkin",
-  },
-
-  {
-    icon: <div>🕐</div>,
-    label: "Time",
-    value: "/dashboard/time",
-    id: "time",
-  },
-
-  {
-    icon: <div>🔔</div>,
-    label: "Notifications",
-    value: "/dashboard/notification",
-    id: "notification",
-  },
-  {
-    icon: <div>🎫</div>,
-    label: "Tickets",
-    value: "/dashboard/ticket",
-    id: "ticket",
-  },
-  {
-    icon: <div>🎫</div>,
-    label: "Manage Ticket",
-    value: "/dashboard/manage",
-    id: "manageTicket",
-  },
-];

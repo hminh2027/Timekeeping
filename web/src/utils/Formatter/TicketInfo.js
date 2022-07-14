@@ -7,7 +7,7 @@ const TicketInfoFormatter = (ticket) => {
     actions.push({ title: "Cancel", style: "v-btn-third" });
   // <div className=""></div>
   return {
-    ticketId: ticket.id,
+    id: ticket.id,
     content: {
       title: ticket.title,
       type: ticket.ticketType,

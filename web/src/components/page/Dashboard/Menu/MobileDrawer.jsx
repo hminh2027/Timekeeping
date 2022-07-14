@@ -1,8 +1,8 @@
 import { CloseOutlined } from "@ant-design/icons";
 import Router from "next/router";
-import styles from "../../../../styles/Layout/Dashboard.module.scss";
-
-import { changeCurrentItem } from "../../../../redux/feature/layout/menuSlice.js";
+import styles from "@/styles/Layout/Dashboard.module.scss";
+import { drawerItems } from "./Menu.config";
+import { changeCurrentItem } from "@/redux/feature/layout/menuSlice.js";
 
 import { useDispatch } from "react-redux";
 
@@ -61,32 +61,3 @@ const MobileDrawer = (props) => {
 };
 
 export default MobileDrawer;
-const drawerItems = [
-  {
-    label: "Home",
-    value: "/dashboard/home",
-    id: "home",
-  },
-  {
-    label: "Check In",
-    value: "/dashboard/checkin",
-    id: "checkin",
-  },
-
-  {
-    label: "Time",
-    value: "/dashboard/time",
-    id: "time",
-  },
-
-  {
-    label: "Notifications",
-    value: "/dashboard/notification",
-    id: "notification",
-  },
-  {
-    label: "Log Out",
-    value: "/dashboard/logout",
-    id: "logout",
-  },
-];
