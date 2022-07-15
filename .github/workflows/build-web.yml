@@ -42,9 +42,9 @@ jobs:
           directory: web
           file_name: .env.production
           fail_on_empty: false
-
-      - name: Build api
-        run: npm run build:api
+          
+      - name: Build web
+        run: npm run build:web
       
       - name: Push web
         uses: s0/git-publish-subdir-action@develop
