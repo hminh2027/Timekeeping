@@ -1,4 +1,8 @@
-import { ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  ValidationError,
+  ValidationPipe,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
@@ -12,14 +16,28 @@ declare const module: any;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = '/api';
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      stopAtFirstError: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+      exceptionFactory: (validationError: ValidationError[]) => {
+        const errors = validationError.map((err) => ({
+          [err.property]: Object.values(err.constraints)[0],
+        }));
+        return new BadRequestException(errors);
+      },
+    }),
+  );
   app.setGlobalPrefix(globalPrefix);
   app.use(helmet());
   app.use(loggerMiddleware);
   app.enableCors();
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-  const configService = app.get(ConfigService);
+  // const configService = app.get(ConfigService);
   // const redisIoAdapter: any = new RedisIoAdapter(configService);
   // await redisIoAdapter.connectToRedis();
   // app.useWebSocketAdapter(redisIoAdapter);
