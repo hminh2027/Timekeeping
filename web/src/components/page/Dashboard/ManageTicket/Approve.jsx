@@ -17,7 +17,7 @@ const Approve = ({ num, id }) => {
         <Modal isShowing={isShowing} hide={toggle}>
           <div className="flex">
             <CheckTicket id={id} hide={toggle} /> 
-            <CommentTicket />
+            <CommentTicket id={id}/>
           </div>
         </Modal>
       </div>

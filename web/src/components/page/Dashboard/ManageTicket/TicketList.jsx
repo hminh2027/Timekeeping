@@ -28,6 +28,9 @@ const TicketList = () => {
     fetchTicketTypes();
     fetchTicketData();
   }, []);
+  const deleteTicket = () => {
+
+  }
   const filter = () => {};
   return (
     <div
@@ -141,7 +144,7 @@ const TicketListItem = (props) => {
   // const { isShowing, toggle } = UseModal();
   return (
     <div className="py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
-      <div
+      <div 
         style={{ flex: "1 0 12em" }}
         className="flex font-semibold text-sky-800"
       >
