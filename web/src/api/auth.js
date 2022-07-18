@@ -7,10 +7,6 @@ const checkAuth = () => {
   if (typeof window !== "undefined") {
     console.log("set token");
     const accessToken = localStorage.getItem(AUTH_TOKEN);
-    // const refreshToken = document.cookie
-    //   .split("; ")
-    //   .find((row) => row.startsWith("refresh_token="))
-    //   ?.split("=")[1];
     if (accessToken) {
       api.setToken(accessToken);
       // api.setRefreshToken(refreshToken);
@@ -28,9 +24,10 @@ const setToken = (accessToken) => {
 };
 const setRefreshToken = (refreshToken) => {
   if (typeof window !== "undefined") {
-    api.setRefreshToken(refreshToken);
+    // api.setRefreshToken(refreshToken);
     // document.cookie = `refresh_token=${refreshToken}; SameSite=None; Secure`;
-    Cookies.set("refreshToken", refreshToken, { domain: ".localhost" });
+    Cookies.set("abc", refreshToken, { domain: ".localhost" });
+    localStorage.setItem("refreshToken", refreshToken);
   }
 };
 
