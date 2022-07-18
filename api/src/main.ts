@@ -20,9 +20,6 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       stopAtFirstError: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      forbidUnknownValues: true,
       exceptionFactory: (validationError: ValidationError[]) => {
         const errors = validationError.map((err) => ({
           [err.property]: Object.values(err.constraints)[0],

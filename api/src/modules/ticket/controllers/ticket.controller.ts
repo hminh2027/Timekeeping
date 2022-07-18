@@ -41,8 +41,8 @@ export class TicketController {
     description: 'get all tickets',
   })
   @Roles(UserRole.ADMIN)
-  async getAll() {
-    return await this.ticketService.getAll();
+  async getAll(@Query() params: SearchQueryDto) {
+    return await this.ticketService.getAll(params);
   }
 
   @Get('/me')
