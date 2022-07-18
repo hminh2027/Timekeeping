@@ -11,7 +11,7 @@ const CommentChild = ({ id, content }) => {
   } else {
     return (
       <div className="flex justify-end">
-        <div className="w-min mt-1 border border-solid border-gray-200 rounded-2xl truncate p-2 bg-teal-500 text-gray-50">
+        <div className="w-min mt-1 border border-solid border-teal-500 rounded-2xl truncate p-2 bg-teal-300 text-gray-700">
           <p className="ml-auto">{content}</p>
         </div>
       </div>
