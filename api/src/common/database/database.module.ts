@@ -19,6 +19,7 @@ import { ConfigService } from '../config/config.service';
           password: config.databasePassword,
           entities: ['src/modules/**/*.entity{.ts,.js}'],
           migrations: ['src/modules/**/*.migration{.ts,.js}'],
+          migrationsRun: true,
           seeds: ['src/db/seeding/seeds/**/*{.ts,.js}'],
           factories: ['src/db/seeding/factories/**/*{.ts,.js}'],
           synchronize: config.isDev,

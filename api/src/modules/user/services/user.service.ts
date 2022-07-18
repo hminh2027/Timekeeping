@@ -29,7 +29,9 @@ export class UserService {
   }
 
   async getAdmin() {
-    return await this.userRepository.find({ where: { role: UserRole.ADMIN } });
+    return await this.userRepository.find({
+      where: { roleId: UserRole.ADMIN },
+    });
   }
 
   async create(payload: UserFillableFields): Promise<User> {
@@ -93,10 +95,6 @@ export class UserService {
     return await this.userRepository.save(userUpdate);
   }
 
-  async getRole(): Promise<string[]> {
-    return Object.values(UserRole);
-  }
-
   async search(params): Promise<User[]> {
     const offset = (params.page - 1) * params.limit;
     let users: User[];
@@ -121,6 +119,6 @@ export class UserService {
   public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
     const user = await this.getById(id);
     if (!user) throw new NotFoundException('User not found!');
-    return user.role === role;
+    return user.roleId === role;
   }
 }
