@@ -1,136 +1,99 @@
-import { Button, Input, Select, Space } from "antd";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import api from "../../../../api/api";
-import { selectUserInfo } from "../../../../redux/feature/user/userSlice";
-import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
-import { TicketInfoFormatter } from "../../../../utils/Formatter/TicketInfo";
+import { useDispatch } from "react-redux";
+import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
+import { useReducer, useState } from "react";
 
-const { Option } = Select;
-const DesktopTicketList = () => {
-  const [tickets, setTickets] = useState(demoTickets);
-  const [ticketTypes, setTicketTypes] = useState([]);
-  const [curStatus, setCurStatus] = useState(null);
-  const userInfo = useSelector(selectUserInfo);
-  useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      setTicketTypes(data);
-    };
-    const fetchTicketData = async () => {
-      const res = await api.get(`ticket/me`);
-      const tickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
-      setTickets(tickets);
-    };
-    fetchTicketTypes();
-    fetchTicketData();
-  }, []);
-  // console.log(tickets);
-  const filter = () => {};
+const initSort = { createAt: false, startDate: false, endDate: false };
+function reducer(state, action) {
+  switch (action.type) {
+    case "createAt":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+const TicketList = (props) => {
+  const tickets = props.tickets;
+  // const [state, dispatch] = useReducer(first, second, third);
+  const [sortOption, setSortOption] = useState({
+    createAt: "ASC",
+    startDate: "ASC",
+    endDate: "ASC",
+  });
+  const sortHandler = (key) => {
+    sortOption[key] = "ASC";
+  };
+  // const tickets = props.tickets;
   return (
-    <div
-      className={styles[`desktop-ticket-list`]}
-      style={{
-        backgroundColor: "#fff",
-        boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", padding: "1em" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", gap: "2em" }}>
-            <Space>
-              <div>Title:</div>
-              <Input
-                placeholder="Title"
-                onChange={filter}
-                style={{ flex: "1 0 5em" }}
-              />
-            </Space>
-
-            <Space>
-              <div>Type:</div>
-              <Select
-                value={ticketTypes[0]}
-                style={{ flex: "1 0 8em", minWidth: "8em" }}
-              >
-                {ticketTypes.map((ticketType) => (
-                  <Option value={ticketType}>{ticketType}</Option>
-                ))}
-              </Select>
-            </Space>
-            <div className="flex items-center justify-between ">
-              <div className="flex flex-1 items-center w-80">
-                <div>Status:</div>
-                <Select
-                  defaultValue="all"
-                  className=" w-32"
-                  options={status}
-                ></Select>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-2 flex-1"
-            style={{margin: "2px 10px"}}
-          >
-          <div className="flex justify-between gap-1">
-            <div className="">🟢</div>
-            <div className="">Approved</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">🔴</div>
-            <div className="">Rejected</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">🟡</div>
-            <div className="">Pending</div>
-          </div>
-          <div className="flex gap-1">
-            <div className="">⚪</div>
-            <div className="">Cancel</div>
-          </div>
-        </div>
-          <div>
-            <Button type="primary">Apply</Button>
-          </div>
-        </div>
-      </div>
+    <>
+      {/* Table Header */}
       <div
         style={{
-          display: "flex",
-          padding: "1em",
           backgroundColor: "#99e2b4",
-          fontWeight: "bold",
         }}
+        className="hidden p-4 font-semibold lg:flex"
       >
-        <div style={{ flex: "1 0 12em" }}>Title</div>
-        <div style={{ flex: "1 0 5em" }}>Type</div>
-        <div style={{ flex: "1 1 50px" }}>Status</div>
-        <div style={{ flex: "1 0 10em" }}>Start Date</div>
-        <div style={{ flex: "1 0 10em" }}>End Date</div>
-        <div style={{ flex: "1 0 5em" }}>Action</div>
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+          Title
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+          Type
+        </div>
+        <div className="font-semibold" style={{ flex: "1 1 2em" }}>
+          Status
+        </div>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => sortHandler("createdAt")}
+        >
+          <div>Created At</div>
+          <div className="ml-4">
+            {sortOption === "createdAt" ? arrow_down_icon : arrow_up_icon}
+          </div>
+        </div>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => sortHandler("startDate")}
+        >
+          <div>Start Date</div>
+          <div className="ml-4">
+            {sortOption === "startDate" ? arrow_down_icon : arrow_up_icon}
+          </div>
+        </div>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => sortHandler("endDate")}
+        >
+          <div>End Date</div>
+          <div className="ml-4">
+            {sortOption === "endDate" ? arrow_down_icon : arrow_up_icon}
+          </div>
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+          Action
+        </div>
       </div>
       {tickets.map((ticket) => (
         <TicketListItem
           key={ticket.id}
+          id={ticket.id}
           content={ticket.content}
-          style={{ width: "100%" }}
         />
       ))}
-    </div>
+    </>
   );
 };
 const TicketListItem = (props) => {
+  // console.log("PROPS: ", props);
+  const dispatch = useDispatch();
   const {
-    style,
-    content: { status, title, type, startDate, endDate, action },
+    id,
+    content: { status, title, type, startDate, endDate, actions },
   } = props;
-  // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
   switch (status) {
     case "rejected": {
@@ -141,78 +104,93 @@ const TicketListItem = (props) => {
       statusIcon.push("🟢");
       break;
     }
+    case "cancelled": {
+      statusIcon.push("⚪");
+      break;
+    }
     default: {
       statusIcon.push("🟡");
       break;
     }
   }
+  const cancelHandler = (id) => {
+    dispatch(cancelTicket(id));
+  };
   return (
-    <div className={styles[`list-item`]} style={style}>
-      <div style={{ flex: "1 0 12em" }} className={styles[`title`]}>
-        {title}
+    <div className="font-medium py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
+      <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Title:
+        </div>
+        <div className="flex-1 font-semibold">{title}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-        {type}
+      <div
+        style={{ flex: "1 0 3em" }}
+        className={`flex font-light text-gray-500`}
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Type:
+        </div>
+        <div className="flex-1">{type}</div>
       </div>
-      <div style={{ flex: "1 1 50px" }}>{statusIcon[0]}</div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {startDate}
+      <div
+        style={{ flex: "1 1 2em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Status:
+        </div>
+        <div className="flex-1">
+          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+        </div>
       </div>
-      <div style={{ flex: "1 0 10em" }} className={styles[`type`]}>
-        {endDate}
+      <div
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Created at:
+        </div>
+        <div className="flex-1">{startDate}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className={styles[`type`]}>
-        <Button>{action}</Button>
+      <div
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Start date:
+        </div>
+        <div className="flex-1">{startDate}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500"
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          End date:
+        </div>
+        <div className="flex-1">{endDate}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 3em" }}
+        className="flex justify-end font-light text-gray-500 lg:justify-start"
+      >
+        {actions.map((action) => {
+          const style = action.style;
+          if (action.title.trim() !== "") {
+            return (
+              <button className="v-btn-third" onClick={() => cancelHandler(id)}>
+                {action.title}
+              </button>
+            );
+          }
+        })}
       </div>
     </div>
   );
 };
-export { TicketListItem, DesktopTicketList };
+export { TicketListItem, TicketList };
 
-const demoTickets = [
-  {
-    id: 1,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      createdAt: "2022-07-05",
-      respondedAt: "2022-07-08",
-      status: 1,
-    },
-  },
-  {
-    id: 2,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      status: 2,
-      createdAt: "2022-07-05",
-      // respondedAt: "2022-07-05",
-      action: "Cancel",
-    },
-  },
-  {
-    id: 3,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      status: 0,
-      createdAt: "2022-07-05",
-      respondedAt: "2022-07-10",
-    },
-  },
-  {
-    id: 4,
-    content: {
-      title: "Xin vắng mặt",
-      type: "Xin nghỉ",
-      status: 2,
-      createdAt: "2022-07-05",
-      // respondedAt: "2022-07-05",
-      action: "Cancel",
-    },
-  },
-];
 const status = [
   {
     label: (
@@ -277,3 +255,31 @@ const status = [
 //     </div>
 //   );
 // };
+const arrow_down_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
+const arrow_up_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);

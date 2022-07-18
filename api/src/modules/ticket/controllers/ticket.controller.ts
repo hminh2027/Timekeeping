@@ -1,5 +1,4 @@
 import {
-  Request,
   Body,
   Controller,
   Get,
@@ -21,6 +20,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { User } from 'src/modules/user/entities/user.entity';
 import { UserRole } from 'src/modules/user/enums/role.enum';
+import { SearchQueryDto } from '../dto/search.dto';
 import { TicketStatus } from '../enums/ticket-status.enum';
 import { CreateTicketPayload } from '../payloads/create-ticket.payload';
 import { UpdateTicketPayload } from '../payloads/update-ticket.payload';
@@ -45,20 +45,25 @@ export class TicketController {
     return await this.ticketService.getAll();
   }
 
+  @Get('/me')
+  @ApiOperation({
+    summary: '(USER only)',
+    description: 'get all tickets of current user',
+  })
+  async getAllByUserId(
+    @ReqUser() user: User,
+    @Query() params: SearchQueryDto,
+  ): Promise<any> {
+    return await this.ticketService.getByUserId(user.id, params);
+  }
+
   @Get('/type')
+  @Roles(UserRole.ADMIN, UserRole.USER)
   @ApiOperation({
     description: 'get all tickets type',
   })
   async getTicketType() {
     return await this.ticketService.getTicketType();
-  }
-
-  @Get('/me')
-  @ApiOperation({
-    description: 'get all tickets of current user',
-  })
-  async getAllByUserId(@ReqUser() user: User): Promise<any> {
-    return await this.ticketService.getByUserId(user.id);
   }
 
   @Get(':id')
@@ -77,6 +82,7 @@ export class TicketController {
   }
   @Post()
   @ApiOperation({
+    summary: '(USER only)',
     description: 'create ticket',
   })
   async createTicket(
@@ -93,6 +99,7 @@ export class TicketController {
 
   @Patch(':id')
   @ApiOperation({
+    summary: '(USER only)',
     description: 'update ticket',
   })
   async updateTicket(
@@ -105,6 +112,7 @@ export class TicketController {
     @Body() data: UpdateTicketPayload,
   ) {
     data.authorId = user.id;
+    data.ticketType = TicketStatus.PENDING;
     this.ticketService.update(id, data);
     return {
       statusCode: HttpStatus.OK,
@@ -114,9 +122,11 @@ export class TicketController {
 
   @Patch(':id/cancel')
   @ApiOperation({
+    summary: '(USER only)',
     description: 'cancel ticket',
   })
   async cancelTicket(
+    @ReqUser() user: User,
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
@@ -127,6 +137,7 @@ export class TicketController {
       statusCode: HttpStatus.OK,
       message: 'Ticket cancelled successfully',
       data: await this.ticketService.update(id, {
+        authorId: user.id,
         ticketStatus: TicketStatus.CANCELLED,
       }),
     };
@@ -139,6 +150,7 @@ export class TicketController {
   })
   @Roles(UserRole.ADMIN)
   async rejectTicket(
+    @ReqUser() user: User,
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
@@ -149,6 +161,7 @@ export class TicketController {
       statusCode: HttpStatus.OK,
       message: 'Ticket rejected successfully',
       data: await this.ticketService.update(id, {
+        recipientId: user.id,
         ticketStatus: TicketStatus.REJECTED,
       }),
     };
@@ -161,6 +174,7 @@ export class TicketController {
   })
   @Roles(UserRole.ADMIN)
   async approveTicket(
+    @ReqUser() user: User,
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
@@ -171,6 +185,7 @@ export class TicketController {
       statusCode: HttpStatus.OK,
       message: 'Ticket approved successfully',
       data: await this.ticketService.update(id, {
+        recipientId: user.id,
         ticketStatus: TicketStatus.APPROVED,
       }),
     };

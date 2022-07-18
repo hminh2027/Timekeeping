@@ -1,4 +1,4 @@
-import { Button, Skeleton, Typography } from "antd";
+import { Skeleton, Typography } from "antd";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Webcam from "react-webcam";
@@ -57,23 +57,26 @@ const CheckingCard = (props) => {
           avatar={{ active: true, shape: "square", size: 500 }}
         ></Skeleton>
       ) : (
-        <div className={styles[`checkin-section-wrapper`]}>
+        <div className="flex flex-row flex-wrap items-center w-full">
           <div>
             <Webcam
               ref={webCamRef}
               screenshotFormat="image/jpg"
               onUserMediaError={() => setNoCam(true)}
               screenshotQuality={1}
-              className={styles.webcam}
+              className="w-full"
             />
           </div>
 
-          <div className={styles[`capture-buttons`]}>
-            <Button type="" onClick={() => capture()}>
+          <div className="flex flex-col flex-wrap items-center gap-12">
+            <button
+              className="v-btn btn-outline btn-primary"
+              onClick={() => capture()}
+            >
               {trans.check.capture}
-            </Button>
-            <Button
-              type="primary"
+            </button>
+            <button
+              className="v-btn-primary"
               onClick={() => {
                 props.setIsChecking(false);
                 submit();
@@ -81,7 +84,7 @@ const CheckingCard = (props) => {
               }}
             >
               {trans.check.finish}
-            </Button>
+            </button>
           </div>
           <div>
             <img src={imageSrc} className={styles[`preview-image`]} />

@@ -1,5 +1,5 @@
 import axios from "axios";
-
+// axios.defaults.withCredentials = true;
 const HEADERS = {
   "Content-Type": "application/json",
   Accept: "application/json",
@@ -15,7 +15,7 @@ const HEADERS_MUlTIPLE_PART = {
   Accept: "multipart/form-data",
 };
 
-const baseURL = process.env.APP_URL;
+const baseURL = process.env.API_URL;
 
 export const getURL = (url) => {
   if (url.startsWith("http")) {
@@ -30,10 +30,16 @@ const setToken = (accessToken) => {
   HEADERS.Authorization = `Bearer ${accessToken}`;
   HEADERS_MUlTIPLE_PART.Authorization = `Bearer ${accessToken}`;
 };
-
+const setRefreshToken = (refreshToken) => {
+  console.log(refreshToken);
+  HEADERS.cookie = refreshToken;
+  HEADERS_MUlTIPLE_PART.cookie = refreshToken;
+};
 const clearToken = () => {
   delete HEADERS.Authorization;
   delete HEADERS_MUlTIPLE_PART.Authorization;
+  delete HEADERS.cookie;
+  delete HEADERS_MUlTIPLE_PART.cookie;
 };
 
 const api = {
@@ -73,6 +79,7 @@ const api = {
 const exportObject = {
   clearToken,
   setToken,
+  setRefreshToken,
   ...api,
 };
 

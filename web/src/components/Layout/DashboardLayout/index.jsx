@@ -4,17 +4,17 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import auth from "../../../api/auth";
+import auth from "@/api/auth";
 import {
   changeCheckInStatus,
   fetchCheckInStatus,
   fetchMe,
   selectUserCheckInStatus,
   selectUserInfo,
-} from "../../../redux/feature/user/userSlice";
-import styles from "../../../styles/Layout/Dashboard.module.scss";
-import { MobileMenu, SidebarMenu } from "../../page/Dashboard/Menu";
-import MobileDrawer from "../../page/Dashboard/Menu/MobileDrawer";
+} from "@/redux/feature/user/userSlice";
+import styles from "@/styles/Layout/Dashboard.module.scss";
+import { MobileMenu, SidebarMenu } from "@/components/page/Dashboard/Menu";
+import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 
 // MobileMenu,
 const { Title, Text } = Typography;
@@ -54,6 +54,7 @@ const DashboardLayout = (props) => {
   const MobileHeader = () => {
     return (
       <div
+       
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -101,7 +102,7 @@ const DashboardLayout = (props) => {
     );
   };
   const content = (
-    <Row className={styles[`dashboard-container`]}>
+    <div className="h-screen w-screen flex flex-row flex-wrap">
       {/* Header */}
       <Col
         xs={0}
@@ -114,7 +115,6 @@ const DashboardLayout = (props) => {
       >
         <DesktopHeader />
       </Col>
-
       <Col
         xs={24}
         sm={24}
@@ -134,14 +134,7 @@ const DashboardLayout = (props) => {
         lg={{ span: 4 }}
         style={{ borderRight: "5px solid rgb(220, 220, 220)" }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexFlow: "column nowrap",
-            width: "100%",
-            gap: "40px",
-          }}
-        >
+        <div className="flex flex-col flex-nowrap w-full gap-10">
           <Space
             className="h-full justify-between"
             direction="vertical"
@@ -160,9 +153,9 @@ const DashboardLayout = (props) => {
         xl={{ span: 20 }}
         style={{
           backgroundColor: "rgb(240, 240, 240)",
-          overflow: "hidden",
           minHeight: "80vh",
         }}
+        className="overflow-hidden"
       >
         {props.children}
       </Col>
@@ -172,14 +165,7 @@ const DashboardLayout = (props) => {
         sm={{ span: 24 }}
         md={{ span: 24 }}
         lg={{ span: 0 }}
-        style={{
-          backgroundColor: "rgb(255,255,255)",
-          position: "fixed",
-          bottom: "0",
-          width: "100%",
-          borderTop: "1px solid rgb(220,220,220)",
-          zIndex: 9999,
-        }}
+        className="z-50 border-t border-t-gray-200 w-full bg-white fixed bottom-0"
       >
         <MobileDrawer
           visible={openDrawer}
@@ -187,7 +173,7 @@ const DashboardLayout = (props) => {
         />
         <MobileMenu />
       </Col>
-    </Row>
+    </div>
   );
 
   return loading ? <>Loading...</> : content;

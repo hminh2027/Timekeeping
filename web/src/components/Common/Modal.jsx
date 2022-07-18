@@ -1,17 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Card from "./Card";
+
 const Modal = (props) => {
   const { isShowing, hide, children } = props;
   const handleClick = (event) => {
     // event.stopPropagation();
-    console.log(event);
+    // console.log(event);
   };
   const content = isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
           <div
-            className="modal-overlay"
+            className="modal-overlay            "
             style={{
               position: "fixed",
               top: 0,
@@ -20,7 +20,7 @@ const Modal = (props) => {
             }}
             onClick={() => hide()}
           >
-            <div
+            {/* <div
               className="modal-wrapper"
               aria-modal
               aria-hidden
@@ -37,9 +37,20 @@ const Modal = (props) => {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+            > */}
+            <div
+              className="card absolute w-screen h-screen space justify-center bg-mirror rounded-none"
+              onClick={() => hide()}
+              style={{
+                // backgroundColor: "rgba(0,0,0,0.5)",
+                justifyContent: "center",
+              }}
             >
-              <Card onClick={(e) => e.stopPropagation()}>
-                <div className="modal-header" style={{ textAlign: "right" }}>
+              <div
+                className="card-body items-center justify-center flex-grow-0"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* <div className="modal-header" style={{ textAlign: "right" }}>
                   <span
                     aria-hidden="true"
                     onClick={() => hide()}
@@ -50,11 +61,12 @@ const Modal = (props) => {
                   >
                     &times;
                   </span>
-                </div>
+                </div> */}
                 <div>{children}</div>
-              </Card>
+              </div>
             </div>
           </div>
+          {/* </div> */}
         </React.Fragment>,
         document.querySelector("div#__next")
       )

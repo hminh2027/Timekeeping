@@ -4,9 +4,9 @@ import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import api from "../../../../api/api";
-import auth from "../../../../api/auth";
-import { setUserInfo } from "../../../../redux/feature/user/userSlice";
+import api from "@/api/api";
+import auth from "@/api/auth";
+import { setUserInfo } from "@/redux/feature/user/userSlice";
 import Form from "../Common/Form";
 
 const LoginForm = () => {
@@ -47,15 +47,17 @@ const LoginForm = () => {
         if (res) {
           if (res.status === 201) {
             const { user: userInfo } = res.data;
-            console.log(userInfo);
+            // console.log(userInfo);
             dispatch(setUserInfo({ userInfo: userInfo }));
-            await auth.setToken(res.data.accessToken);
+            auth.setToken(res.data.accessToken);
+            // auth.setRefreshToken(res.data.refreshToken);
             setLoginSuccess(true);
+
             setTimeout(() => Router.push("/"), 3000);
           }
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
         newErrors.push({
           title: "login-failed",
           message: err.response.data.message,
@@ -66,19 +68,6 @@ const LoginForm = () => {
       }
     }
   };
-  // useEffect(() => {
-  //   const listener = (event) => {
-  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("Enter key was pressed. Run your function.");
-  //       event.preventDefault();
-  //       loginHandler();
-  //     }
-  //   };
-  //   document.addEventListener("keydown", listener);
-  //   return () => {
-  //     document.removeEventListener("keydown", listener);
-  //   };
-  // }, [data]);
   return (
     <Form title="Login">
       <Space direction="vertical" size="middle" style={{ width: "100%" }}>
@@ -148,14 +137,16 @@ const LoginForm = () => {
           </Space>
         </Space>
 
-        <Button
-          type="primary"
-          className="v-btn w-full"
+        <button
+          className="v-btn-primary w-full"
           // style={{ width: "100%", borderRadius: "6px" }}
-          onClick={() => loginHandler()}
+          onClick={(e) => {
+            e.preventDefault();
+            loginHandler();
+          }}
         >
           Login
-        </Button>
+        </button>
       </Space>
     </Form>
   );

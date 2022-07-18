@@ -5,9 +5,10 @@ import api from "../../../../api/api";
 import Form from "../Common/Form";
 const RecoverPassword = (props) => {
   const { token } = props;
-  console.log("Token ne: ", token);
+  // console.log("Token ne: ", token);
   const [data, setData] = useState({ password: "", password2: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setErrors([]);
@@ -42,6 +43,9 @@ const RecoverPassword = (props) => {
       setIsSubmitting(true);
 
       const res = await api.post(`auth/reset?token=${token}`, { ...data });
+      if (res.status === 200) {
+        setIsSuccess(true);
+      }
       setIsSubmitting(false);
     } catch (err) {
       const newErrors = errors.filter(
@@ -61,19 +65,23 @@ const RecoverPassword = (props) => {
   return (
     <Form title="Recover Password">
       {errors && (
-        <Space
-          direction="vertical"
-          style={{ width: "100%", paddingBottom: "1em" }}
-        >
+        <div className="flex flex-col w-full pb-4">
           {errors.map((error, i) => (
             <div style={{ color: error.color, fontWeight: "500" }}>
               {error.message}
             </div>
           ))}
-        </Space>
+        </div>
       )}
-      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
-        <Space>
+      {isSuccess && (
+        <div className="flex flex-col w-full pb-4">
+          <div className="text-green-500 font-medium">
+            Reset password successfully
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col gap-6 w-full">
+        <div className="flex items-center gap-2                 ">
           <LockOutlined style={{ fontSize: "1.5rem" }} />
           <Input.Password
             placeholder="Password"
@@ -91,9 +99,9 @@ const RecoverPassword = (props) => {
               submit();
             }}
           />
-        </Space>
-        <Space direction="vertical" size="small">
-          <Space>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Repeat Password"
@@ -111,28 +119,28 @@ const RecoverPassword = (props) => {
                 submit();
               }}
             />
-          </Space>
-        </Space>
+          </div>
+        </div>
 
-        <Button
-          type="primary"
-          className="v-btn"
-          // style={{ width: "100%", borderRadius: "6px" }}
-          onClick={() => {
+        <button
+          className="v-btn-primary"
+          onClick={(e) => {
+            e.preventDefault();
+
             checkError();
             submit();
           }}
         >
           {isSubmitting ? (
-            <Space>
+            <div className="space">
               <Spin indicator={<LoadingOutlined spin />} />
               <div>Submitting</div>
-            </Space>
+            </div>
           ) : (
             "Submit"
           )}
-        </Button>
-      </Space>
+        </button>
+      </div>
     </Form>
   );
 };

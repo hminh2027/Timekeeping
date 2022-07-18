@@ -1,13 +1,9 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-<<<<<<< HEAD
-import styles from "@/styles/Layout/menu.module.scss";
-=======
->>>>>>> 3ed9525df318a9db83041aafe76ccf3165f44041
 import {
   selectCurrentItem,
   changeCurrentItem,
-} from "../../../../redux/feature/layout/menuSlice";
+} from "@/redux/feature/layout/menuSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 const MenuLabel = (props) => {
@@ -21,10 +17,11 @@ const MenuLabel = (props) => {
   if (curItem === props.id) {
     color.push("rgb(205, 240, 234)");
   }
+  console.log(props.id)
   return (
     <Link href={href}>
       <div
-        className={styles["menu-label"]}
+        className="flex items-center py-4 flex-col flex-grow cursor-pointer lg:flex-grow-0 lg:flex-row  lg:gap-4 lg:text-lg lg:p-4 hover:bg-gray-100 active:bg-primary"
         style={{ backgroundColor: color[0] }}
         onClick={() => {
           dispatch(changeCurrentItem({ menuItem: id }));
