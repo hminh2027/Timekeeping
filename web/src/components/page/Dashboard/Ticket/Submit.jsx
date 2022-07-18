@@ -32,7 +32,7 @@ const SubmitTicket = (props) => {
       const res = await api.get("user/admin");
       const { data } = res;
       setManagers(data);
-      setTicketData({ ...ticketData, recipientId: data[0]?.id });
+      // setTicketData({ ...ticketData, recipientId: data[0]?.id });
     };
     fetchManagers();
     fetchTicketTypes();
@@ -47,7 +47,8 @@ const SubmitTicket = (props) => {
     try {
       await api.post("ticket", ticketData);
       props.hide();
-      Router.reload(window.location.pathname);
+      // console.log("Ticket:", ticketData);
+      // Router.reload(window.location.pathname);
     } catch (err) {
       const newErrors = [];
       const {

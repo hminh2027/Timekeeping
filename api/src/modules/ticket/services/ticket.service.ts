@@ -97,8 +97,7 @@ export class TicketService {
     const isValid = this.validateTicketTime(data);
     if (!isValid) throw new NotAcceptableException('Ticket date is invalid.');
     const newTicket = await this.ticketRepository.create(data);
-    return;
-    // return this.ticketRepository.save(newTicket);
+    return await this.ticketRepository.save(newTicket);
   }
 
   async update(id: number, data: UpdateTicketPayload): Promise<void> {

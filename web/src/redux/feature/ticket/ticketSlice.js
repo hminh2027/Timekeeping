@@ -19,9 +19,9 @@ export const cancelTicket = createAsyncThunk(
 );
 export const fetchMyTickets = createAsyncThunk(
   "ticket/getMyTicket",
-  async () => {
+  async (sortOptions) => {
     try {
-      const response = await getMyTickets();
+      const response = await getMyTickets(sortOptions);
       return response; // console.log("RES trong redux:", res);
       // return res;
     } catch (error) {
