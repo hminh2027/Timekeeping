@@ -36,7 +36,7 @@ const CheckInContent = () => {
   }, [checkOutStatus, checkInInfo]);
 
   if (error) {
-    console.log("Error: ", error);
+    console.error("Error: ", error);
   }
   const notCheckedCard = (
     <Space

@@ -1,7 +1,12 @@
 // import Modal from "@/components/Common/Modal";
 import UseModal from "@/utils/hooks/UseModal";
-import api from "@/api/api";
-import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchMyTickets,
+  cancelTicket,
+  setTickets,
+  selectTickets,
+} from "@/redux/feature/ticket/ticketSlice";
 
 import { Col, Row } from "antd";
 import { useState, useEffect } from "react";
@@ -12,21 +17,21 @@ import { TicketList } from "./TicketList";
 import { DesktopFilter, MobileFilter } from "./Filters";
 const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
+  const tickets = useSelector(selectTickets);
+  const dispatch = useDispatch();
   const [newTicketSubmitted, setNewTicketSubmitted] = useState(false);
-  const [tickets, setTickets] = useState([]);
+
   const [filterOptions, setFilterOptions] = useState([]);
+  const [sortOption, setSortOption] = useState({
+    sortBy: "createdAt",
+    orderBy: "ASC",
+  });
   useEffect(() => {
     const fetchTicketData = async () => {
-      const res = await api.get(`ticket/me`);
-      const resTickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
-      setTickets(resTickets);
-      setNewTicketSubmitted(false);
+      dispatch(fetchMyTickets());
     };
     fetchTicketData();
-    return () => {
-      setTickets([]);
-    };
-  }, [newTicketSubmitted]);
+  }, []);
   // Gọi api khi filter option thay đổi
   return (
     <>
@@ -49,7 +54,11 @@ const TicketContent = () => {
               className="lg:hidden"
             />
 
-            <TicketList tickets={tickets} />
+            <TicketList
+              tickets={tickets}
+              onSort={(option) => setSortOption(option)}
+              sortOption={sortOption}
+            />
           </div>
         </Col>
 

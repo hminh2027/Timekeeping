@@ -1,4 +1,8 @@
-import { Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { User, UserFillableFields } from '../entities/user.entity';
 import { UserPayload } from '../payload/user.payload';
 import { UserRepository } from '../repositories/user.repository';
@@ -97,22 +101,15 @@ export class UserService {
     const offset = (params.page - 1) * params.limit;
     let users: User[];
 
-    if (params.textSearch) {
-      users = await this.userRepository
-        .createQueryBuilder('users')
-        .where('users.email like :email', { email: `%${params.textSearch}%` })
-        .orderBy('users.id', 'DESC')
-        .skip(offset)
-        .take(params.limit)
-        .execute();
-    } else {
-      users = await this.userRepository
-        .createQueryBuilder('users')
-        .orderBy('users.id', 'DESC')
-        .skip(offset)
-        .take(params.limit)
-        .execute();
-    }
+    users = await this.userRepository
+      .createQueryBuilder('users')
+      .where('users.email like :email', {
+        email: `%${params.textSearch || ' '}%`,
+      })
+      .orderBy('users.id', 'DESC')
+      .skip(offset)
+      .take(params.limit)
+      .execute();
 
     return users;
   }
@@ -123,7 +120,7 @@ export class UserService {
 
   public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
     const user = await this.getById(id);
-    console.log(user);
+    if (!user) throw new NotFoundException('User not found!');
     return user.role === role;
   }
 }

@@ -8,8 +8,9 @@ import { CheckinModule } from './modules/checkin/checkinout.module';
 import { ConfigModule } from './common/config/config.module';
 import { AwsModule } from './common/aws/aws.module';
 import { ConfigService } from './common/config/config.service';
-import { join } from 'path';
 import { CommentModule } from './modules/comment/comment.module';
+import { AppGateway } from './common/socket/app.gateway';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CommentModule } from './modules/comment/comment.module';
       rootPath: join(__dirname, '..', 'images'),
     }),
   ],
+  providers: [AppGateway],
 })
 export class AppModule {
   static port: string | number;

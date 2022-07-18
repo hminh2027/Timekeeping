@@ -69,16 +69,20 @@ const CheckInContent = () => {
     </div>
   );
   const redirectCheckOut = (
-    <div className="flex items-center">
-      <div>Already checked in! Wanna Checkout?</div>
-      <button
-        className="v-btn-primary"
-        onClick={() => {
-          Router.push("/dashboard/checkout");
-        }}
-      >
-        Go to Checkout
-      </button>
+    <div className="card w-max">
+      <div className="card-body">
+        <div className="flex items-center gap-4">
+          <div>Already checked in! Wanna Checkout?</div>
+          <button
+            className="v-btn-primary px-4 py-1 rounded"
+            onClick={() => {
+              Router.push("/dashboard/checkout");
+            }}
+          >
+            Go to Checkout
+          </button>
+        </div>
+      </div>
     </div>
   );
   const content = (

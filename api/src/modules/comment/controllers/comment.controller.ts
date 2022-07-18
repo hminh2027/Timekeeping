@@ -34,7 +34,6 @@ export class CommentController {
 
   @Post()
   @ApiOperation({
-    summary: '(ADMIN only)',
     description: 'cancel ticket',
   })
   async create(@ReqUser() user: User, @Body() data: CommentPayload) {
@@ -47,6 +46,9 @@ export class CommentController {
   }
 
   @Get(':id')
+  @ApiOperation({
+    description: 'get all comments by ticket id',
+  })
   async getAllByTicketId(
     @Param(
       'id',
@@ -58,6 +60,9 @@ export class CommentController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    description: 'update a comment by id',
+  })
   async update(
     @Param(
       'id',
@@ -76,13 +81,17 @@ export class CommentController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    description: 'delete a comment by id',
+  })
   async remove(
+    @ReqUser() user: User,
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
   ) {
-    return this.commentService.remove(id);
+    return this.commentService.remove(id, user.id);
   }
 }
