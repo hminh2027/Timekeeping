@@ -18,7 +18,7 @@ import { RolePayload } from '../payloads/role.payload';
 import { RoleService } from '../services/role.service';
 
 @Controller('role')
-@ApiTags('role')
+// @ApiTags('role')
 @ApiBearerAuth()
 @UsePipes(ValidationPipe)
 @UseGuards(JwtAuthGuard)
