@@ -18,7 +18,7 @@ import { UserService } from '../../user/services/user.service';
 import { ForgotPayload } from '../payloads/forgot.payload';
 import { ResetPayload } from '../payloads/reset.payload';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
-import { TokenQueryDto } from '../dto/Token.dto';
+import { TokenQueryDto } from '../dto/token.dto';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
 import { ReqCookie } from 'src/common/decorators/cookie.decorator';

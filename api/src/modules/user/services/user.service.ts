@@ -29,7 +29,9 @@ export class UserService {
   }
 
   async getAdmin() {
-    return await this.userRepository.find({ where: { role: UserRole.ADMIN } });
+    return await this.userRepository.find({
+      where: { role: UserRole.ADMIN },
+    });
   }
 
   async create(payload: UserFillableFields): Promise<User> {
@@ -91,10 +93,6 @@ export class UserService {
     });
 
     return await this.userRepository.save(userUpdate);
-  }
-
-  async getRole(): Promise<string[]> {
-    return Object.values(UserRole);
   }
 
   async search(params): Promise<User[]> {

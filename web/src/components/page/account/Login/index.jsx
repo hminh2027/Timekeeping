@@ -50,7 +50,7 @@ const LoginForm = () => {
             // console.log(userInfo);
             dispatch(setUserInfo({ userInfo: userInfo }));
             auth.setToken(res.data.accessToken);
-            // auth.setRefreshToken(res.data.refreshToken);
+            auth.setRefreshToken(res.data.refreshToken);
             setLoginSuccess(true);
 
             setTimeout(() => Router.push("/"), 3000);
@@ -82,7 +82,7 @@ const LoginForm = () => {
             style={{ width: "100%", paddingBottom: "1em" }}
           >
             {errors.map((error, i) => (
-              <div style={{ color: error.color, fontWeight: "500" }}>
+              <div key={i} style={{ color: error.color, fontWeight: "500" }}>
                 {error.message}
               </div>
             ))}

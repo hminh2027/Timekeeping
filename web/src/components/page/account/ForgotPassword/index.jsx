@@ -48,8 +48,8 @@ const ForgotPassword = () => {
       <div className="flex flex-col gap-6 w-full ">
         {errors && (
           <div className="flex flex-col">
-            {errors.map((err) => (
-              <span style={{ color: err.color }} className="error">
+            {errors.map((err, index) => (
+              <span key={index} style={{ color: err.color }} className="error">
                 {err.message}
               </span>
             ))}

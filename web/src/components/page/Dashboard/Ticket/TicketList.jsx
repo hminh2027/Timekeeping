@@ -1,30 +1,61 @@
 import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
-import { useReducer, useState } from "react";
-
-const initSort = { createAt: false, startDate: false, endDate: false };
+import React, { useReducer, useState, useEffect } from "react";
+const initSort = {
+  createdAt: false,
+  startDate: false,
+  endDate: false,
+};
 function reducer(state, action) {
   switch (action.type) {
-    case "createAt":
-      return { count: state.count + 1 };
-    case "decrement":
-      return { count: state.count - 1 };
+    case "SORT_CREATED_AT": {
+      // state = { ...initSort, createdAt: action.data };
+      // state.createdAt = action.data;
+      return { ...initSort, createdAt: action.data };
+    }
+    case "SORT_START_DATE": {
+      state = { ...initSort };
+      state.startDate = action.data;
+      return state;
+    }
+    case "SORT_END_DATE": {
+      state = { ...initSort };
+      state.endDate = action.data;
+      return state;
+    }
     default:
-      throw new Error();
+      return state;
   }
 }
-const TicketList = (props) => {
+const TicketList = React.memo((props) => {
   const tickets = props.tickets;
-  // const [state, dispatch] = useReducer(first, second, third);
-  const [sortOption, setSortOption] = useState({
-    createAt: "ASC",
-    startDate: "ASC",
-    endDate: "ASC",
-  });
-  const sortHandler = (key) => {
-    sortOption[key] = "ASC";
+  const [state, dispatch] = useReducer(reducer, initSort);
+  // const [sortOption, setSortOption] = useState({
+  //   sortBy: "createdAt",
+  //   orderBy: true,
+  // });
+  const { createdAt, startDate, endDate } = state;
+  console.log(state);
+  // useEffect(() => {
+  //   for (let key in state) {
+  //     if (state[key]) {
+  //       setSortOption({
+  //         sortBy: key,
+  //         orderBy: state[key],
+  //       });
+  //     }
+  //   }
+  //   props.onSort(sortOption);
+
+  // }, [state]);
+  const sortHandle = (sortBy, orderBy) => {
+    const sortOption = {
+      sortBy,
+      orderBy,
+    };
+    props.onSort(sortOption);
   };
-  // const tickets = props.tickets;
+
   return (
     <>
       {/* Table Header */}
@@ -46,31 +77,40 @@ const TicketList = (props) => {
         <div
           className="font-semibold flex"
           style={{ flex: "1 0 8em" }}
-          onClick={() => sortHandler("createdAt")}
+          onClick={() => {
+            dispatch({ type: "SORT_CREATED_AT", data: !createdAt });
+            sortHandle("createdAt", !createdAt);
+          }}
         >
           <div>Created At</div>
           <div className="ml-4">
-            {sortOption === "createdAt" ? arrow_down_icon : arrow_up_icon}
+            {createdAt ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
         <div
           className="font-semibold flex"
           style={{ flex: "1 0 8em" }}
-          onClick={() => sortHandler("startDate")}
+          onClick={() => {
+            dispatch({ type: "SORT_START_DATE", data: !startDate });
+            sortHandle("startDate", !startDate);
+          }}
         >
           <div>Start Date</div>
           <div className="ml-4">
-            {sortOption === "startDate" ? arrow_down_icon : arrow_up_icon}
+            {startDate ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
         <div
           className="font-semibold flex"
           style={{ flex: "1 0 8em" }}
-          onClick={() => sortHandler("endDate")}
+          onClick={() => {
+            dispatch({ type: "SORT_END_DATE", data: !endDate });
+            sortHandle("endDate", !endDate);
+          }}
         >
           <div>End Date</div>
           <div className="ml-4">
-            {sortOption === "endDate" ? arrow_down_icon : arrow_up_icon}
+            {endDate ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
@@ -86,7 +126,7 @@ const TicketList = (props) => {
       ))}
     </>
   );
-};
+});
 const TicketListItem = (props) => {
   // console.log("PROPS: ", props);
   const dispatch = useDispatch();

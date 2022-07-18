@@ -25,8 +25,36 @@ export class TicketService {
     private readonly userRepository: UserService,
   ) {}
 
-  async getAll(): Promise<Ticket[]> {
-    return this.ticketRepository.find();
+  async getAll(params: SearchQueryDto): Promise<Ticket[]> {
+    const offset = (params.page - 1) * params.limit;
+    try {
+      return await this.ticketRepository
+        .createQueryBuilder('tickets')
+        .where('tickets.title like :title', {
+          title: `%${params.textSearch || ''}%`,
+        })
+        .andWhere(
+          params.ticketType ? 'tickets.ticketType = :ticketType' : '1=1',
+          {
+            ticketType: params.ticketType,
+          },
+        )
+        .andWhere(
+          params.ticketStatus ? 'tickets.ticketStatus = :ticketStatus' : '1=1',
+          {
+            ticketStatus: params.ticketStatus,
+          },
+        )
+        .orderBy(
+          `tickets.${params.sortBy}`,
+          params.orderBy === 'true' ? 'ASC' : 'DESC',
+        )
+        .skip(offset)
+        .take(params.limit)
+        .getMany();
+    } catch (err) {
+      throw new BadRequestException('Bad query parameters.');
+    }
   }
 
   async getByUserId(userId: number, params: SearchQueryDto): Promise<Ticket[]> {
@@ -35,7 +63,7 @@ export class TicketService {
       return await this.ticketRepository
         .createQueryBuilder('tickets')
         .where('tickets.title like :title', {
-          title: `%${params.textSearch || ' '}%`,
+          title: `%${params.textSearch || ''}%`,
         })
         .andWhere('tickets.authorId = :authorId', { authorId: userId })
         .andWhere(
@@ -50,7 +78,10 @@ export class TicketService {
             ticketStatus: params.ticketStatus,
           },
         )
-        .orderBy(`tickets.${params.sortBy}`, params.orderBy ? 'ASC' : 'DESC')
+        .orderBy(
+          `tickets.${params.sortBy}`,
+          params.orderBy === 'true' ? 'ASC' : 'DESC',
+        )
         .skip(offset)
         .take(params.limit)
         .getMany();
@@ -97,8 +128,7 @@ export class TicketService {
     const isValid = this.validateTicketTime(data);
     if (!isValid) throw new NotAcceptableException('Ticket date is invalid.');
     const newTicket = await this.ticketRepository.create(data);
-    return;
-    // return this.ticketRepository.save(newTicket);
+    return await this.ticketRepository.save(newTicket);
   }
 
   async update(id: number, data: UpdateTicketPayload): Promise<void> {
