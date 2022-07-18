@@ -10,6 +10,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TicketStatus } from '../enums/ticket-status.enum';
+import { TicketType } from '../enums/ticket-type.enum';
 
 @Entity('tickets')
 export class Ticket {
@@ -34,11 +36,11 @@ export class Ticket {
   @Column()
   authorId!: number;
 
-  @Column()
-  ticketType!: string;
+  @Column({ type: 'enum', enum: TicketType, default: TicketType.SHORT_TERM })
+  ticketType!: TicketType;
 
-  @Column()
-  ticketStatus!: string;
+  @Column({ type: 'enum', enum: TicketStatus, default: TicketStatus.PENDING })
+  ticketStatus!: TicketStatus;
 
   @CreateDateColumn()
   createdAt: Date;

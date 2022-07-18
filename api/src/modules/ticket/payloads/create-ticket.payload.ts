@@ -24,14 +24,14 @@ export class CreateTicketPayload {
   @IsNotEmpty()
   content: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: TicketType })
   @IsString()
   @IsNotEmpty()
-  ticketType: string = TicketType.SHORT_TERM;
+  ticketType: TicketType;
 
   @IsString()
   @IsNotEmpty()
-  ticketStatus: string = TicketStatus.PENDING;
+  ticketStatus: TicketStatus;
 
   @ApiProperty({ type: Number })
   @IsNotEmpty()
