@@ -54,8 +54,10 @@ const TicketList = () => {
                 value={ticketTypes[0]}
                 style={{ flex: "1 0 8em", minWidth: "8em" }}
               >
-                {ticketTypes.map((ticketType) => (
-                  <Option value={ticketType}>{ticketType}</Option>
+                {ticketTypes.map((ticketType, index) => (
+                  <Option key={index} value={ticketType}>
+                    {ticketType}
+                  </Option>
                 ))}
               </Select>
             </Space>
@@ -106,8 +108,9 @@ const TicketList = () => {
         <div style={{ flex: "1 0 10em" }}>End Date</div>
         <div style={{ flex: "1 0 5em" }}>Action</div>
       </div>
-      {tickets.map((ticket) => (
+      {tickets.map((ticket, index) => (
         <TicketListItem
+          key={index}
           id={ticket.id}
           content={ticket.content}
           style={{ width: "100%" }}

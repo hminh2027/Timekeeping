@@ -19,20 +19,27 @@ const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
   const tickets = useSelector(selectTickets);
   const dispatch = useDispatch();
-  const [newTicketSubmitted, setNewTicketSubmitted] = useState(false);
 
-  const [filterOptions, setFilterOptions] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({
+    title: "",
+    type: "short term",
+    status: "pending",
+  });
   const [sortOption, setSortOption] = useState({
     sortBy: "createdAt",
-    orderBy: "ASC",
+    orderBy: true,
   });
+  console.log(sortOption);
   useEffect(() => {
+    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortBy=${sortOption.sortBy}&orderBy=${sortOption.orderBy}`;
+    console.log("SORT:", sortOptions);
     const fetchTicketData = async () => {
-      dispatch(fetchMyTickets());
+      dispatch(fetchMyTickets(sortOptions));
     };
     fetchTicketData();
-  }, []);
+  }, [sortOption, filterOptions]);
   // Gọi api khi filter option thay đổi
+
   return (
     <>
       <Row>
@@ -63,10 +70,7 @@ const TicketContent = () => {
         </Col>
 
         <Modal isShowing={isShowing} hide={toggle}>
-          <SubmitTicket
-            hide={toggle}
-            onSubmit={() => setNewTicketSubmitted(true)}
-          />
+          <SubmitTicket hide={toggle} />
         </Modal>
       </Row>
     </>

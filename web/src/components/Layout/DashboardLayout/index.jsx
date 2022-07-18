@@ -37,7 +37,7 @@ const DashboardLayout = (props) => {
     };
     const getUserInfo = () => {
       if (Object.keys(userInfo).length === 0) {
-        const res = dispatch(fetchMe());
+        dispatch(fetchMe());
       }
     };
     const getCheckInStatus = () => {
