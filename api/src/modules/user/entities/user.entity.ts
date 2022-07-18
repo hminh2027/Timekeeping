@@ -32,16 +32,16 @@ export class User {
   password!: string;
 
   @Column()
-  roleId!: number;
+  role!: string;
 
   @Column({ length: 355, select: false })
   resetToken: string;
 
   /* RELATIONSHIPS */
-  /* N-1 */
-  @ManyToOne(() => Role, (role) => role.users)
-  @JoinColumn({ name: 'roleId' })
-  role: Role;
+  // /* N-1 */
+  // @ManyToOne(() => Role, (role) => role.users)
+  // @JoinColumn({ name: 'roleId' })
+  // role: Role;
 
   /* 1-N */
   @OneToMany(() => Ticket, (ticket) => ticket.id)

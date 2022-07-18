@@ -30,7 +30,7 @@ export class UserService {
 
   async getAdmin() {
     return await this.userRepository.find({
-      where: { roleId: UserRole.ADMIN },
+      where: { role: UserRole.ADMIN },
     });
   }
 
@@ -119,6 +119,6 @@ export class UserService {
   public async checkUserRole(id: number, role: UserRole): Promise<boolean> {
     const user = await this.getById(id);
     if (!user) throw new NotFoundException('User not found!');
-    return user.roleId === role;
+    return user.role === role;
   }
 }

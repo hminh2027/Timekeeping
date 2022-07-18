@@ -1,4 +1,5 @@
 import { User } from 'src/modules/user/entities/user.entity';
+import { UserRole } from 'src/modules/user/enums/role.enum';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class init1658113004560 implements MigrationInterface {
@@ -8,7 +9,7 @@ export class init1658113004560 implements MigrationInterface {
       lastName: 'admin',
       email: 'admin@vdtsol.com',
       password: 'Vcheck1@',
-      roleId: 1,
+      role: UserRole.ADMIN,
       resetToken: '',
     });
     await queryRunner.manager.save(admin);

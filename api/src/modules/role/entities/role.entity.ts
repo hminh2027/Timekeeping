@@ -1,7 +1,7 @@
 import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('roles')
+@Entity('temp')
 export class Role {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -11,6 +11,6 @@ export class Role {
 
   /* RELATIONSHIPS */
   /* 1-N */
-  @OneToMany(() => User, (user) => user.role)
-  users: User[];
+  // @OneToMany(() => User, (user) => user.role)
+  // users: User[];
 }
