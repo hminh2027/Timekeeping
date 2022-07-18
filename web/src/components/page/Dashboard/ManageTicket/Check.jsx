@@ -37,7 +37,6 @@ const CheckTicket = (props) => {
       setApprove(false);
     }
   };
-
   const reject = async () => {
     setReject(true);
     try {

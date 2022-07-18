@@ -17,6 +17,7 @@ const MenuLabel = (props) => {
   if (curItem === props.id) {
     color.push("rgb(205, 240, 234)");
   }
+  console.log(props.id)
   return (
     <Link href={href}>
       <div

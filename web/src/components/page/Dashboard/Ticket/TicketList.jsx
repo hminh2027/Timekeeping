@@ -1,4 +1,3 @@
-import { Button } from "antd";
 const TicketList = (props) => {
   const tickets = props.tickets;
   return (
@@ -36,11 +35,11 @@ const TicketListItem = (props) => {
   // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
   switch (status) {
-    case 0: {
+    case "rejected": {
       statusIcon.push("🔴");
       break;
     }
-    case 1: {
+    case "approved": {
       statusIcon.push("🟢");
       break;
     }
