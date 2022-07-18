@@ -29,7 +29,7 @@ export class RegisterPayload {
   password!: string;
 
   @IsNotEmpty()
-  role: string = UserRole.USER;
+  roleId: number = UserRole.USER;
 
   resetToken: string = '';
 }
