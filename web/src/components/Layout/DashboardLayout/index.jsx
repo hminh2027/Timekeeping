@@ -54,6 +54,7 @@ const DashboardLayout = (props) => {
   const MobileHeader = () => {
     return (
       <div
+       
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -101,7 +102,7 @@ const DashboardLayout = (props) => {
     );
   };
   const content = (
-    <Row className={styles[`dashboard-container`]}>
+    <div className="h-screen w-screen flex flex-row flex-wrap">
       {/* Header */}
       <Col
         xs={0}
@@ -114,7 +115,6 @@ const DashboardLayout = (props) => {
       >
         <DesktopHeader />
       </Col>
-
       <Col
         xs={24}
         sm={24}
@@ -173,7 +173,7 @@ const DashboardLayout = (props) => {
         />
         <MobileMenu />
       </Col>
-    </Row>
+    </div>
   );
 
   return loading ? <>Loading...</> : content;

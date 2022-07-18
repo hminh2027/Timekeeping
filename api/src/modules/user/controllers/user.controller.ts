@@ -46,14 +46,6 @@ export class UserController {
     return await this.userService.search(params);
   }
 
-  @Get('/role')
-  @ApiOperation({
-    description: 'get all user roles',
-  })
-  async getRoles() {
-    return this.userService.getRole();
-  }
-
   @Get('/admin')
   @ApiOperation({
     description: 'get all admin users information',

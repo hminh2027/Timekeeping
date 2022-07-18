@@ -1,11 +1,14 @@
 import { createHmac } from 'crypto';
 import { Notification } from 'src/modules/notification/entities/notification.entity';
+import { Role } from 'src/modules/role/entities/role.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Checkin } from '../../checkin/entities/checkinout.entity';
 import { LoginHistory } from '../../login-history/entities/login-history.entity';
@@ -28,13 +31,18 @@ export class User {
   @Column({ length: 255, select: false })
   password!: string;
 
-  @Column({ length: 255 })
-  role!: string;
+  @Column()
+  roleId!: number;
 
   @Column({ length: 355, select: false })
   resetToken: string;
 
   /* RELATIONSHIPS */
+  /* N-1 */
+  @ManyToOne(() => Role, (role) => role.users)
+  @JoinColumn({ name: 'roleId' })
+  role: Role;
+
   /* 1-N */
   @OneToMany(() => Ticket, (ticket) => ticket.id)
   tickets: Ticket[];

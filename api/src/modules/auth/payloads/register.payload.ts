@@ -6,7 +6,7 @@ export class RegisterPayload {
   @ApiProperty({ default: 'test@vdtsol.com' })
   @IsEmail()
   @Matches(/^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/, {
-    message: `Email domain must be vdtsol`,
+    message: `email domain must be vdtsol`,
   })
   email!: string;
 
@@ -23,13 +23,13 @@ export class RegisterPayload {
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     {
-      message: `Password must contains at least 8 characters, including at least 1 number, 1 uppercase letter, 1 lowercase letter and 1 special character.`,
+      message: `password must contains at least 8 characters, including at least 1 number, 1 uppercase letter, 1 lowercase letter and 1 special character.`,
     },
   )
   password!: string;
 
   @IsNotEmpty()
-  role: string = UserRole.USER;
+  roleId: number = UserRole.USER;
 
   resetToken: string = '';
 }
