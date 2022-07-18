@@ -1,7 +1,29 @@
 import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
+import { useReducer, useState } from "react";
+
+const initSort = { createAt: false, startDate: false, endDate: false };
+function reducer(state, action) {
+  switch (action.type) {
+    case "createAt":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
 const TicketList = (props) => {
   const tickets = props.tickets;
+  // const [state, dispatch] = useReducer(first, second, third);
+  const [sortOption, setSortOption] = useState({
+    createAt: "ASC",
+    startDate: "ASC",
+    endDate: "ASC",
+  });
+  const sortHandler = (key) => {
+    sortOption[key] = "ASC";
+  };
   // const tickets = props.tickets;
   return (
     <>
@@ -21,17 +43,35 @@ const TicketList = (props) => {
         <div className="font-semibold" style={{ flex: "1 1 2em" }}>
           Status
         </div>
-        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => sortHandler("createdAt")}
+        >
           <div>Created At</div>
-          <div className="ml-4">{arrow_down_icon}</div>
+          <div className="ml-4">
+            {sortOption === "createdAt" ? arrow_down_icon : arrow_up_icon}
+          </div>
         </div>
-        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => sortHandler("startDate")}
+        >
           <div>Start Date</div>
-          <div className="ml-4">{arrow_down_icon}</div>
+          <div className="ml-4">
+            {sortOption === "startDate" ? arrow_down_icon : arrow_up_icon}
+          </div>
         </div>
-        <div className="font-semibold flex" style={{ flex: "1 0 8em" }}>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => sortHandler("endDate")}
+        >
           <div>End Date</div>
-          <div className="ml-4">{arrow_down_icon}</div>
+          <div className="ml-4">
+            {sortOption === "endDate" ? arrow_down_icon : arrow_up_icon}
+          </div>
         </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Action
