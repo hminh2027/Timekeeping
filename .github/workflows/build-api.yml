@@ -72,7 +72,7 @@ jobs:
             echo $PROJECT_FOLDER
             cd $PROJECT_FOLDER
             git stash --include-untracked
-            git reset --hard origin/deploy/api
+            git reset --hard deploy/api
             git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME --allow-unrelated-histories
             cp .env.temp .env.development
             pm2 reload apivcheck
