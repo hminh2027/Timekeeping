@@ -51,7 +51,7 @@ const CheckTicket = (props) => {
   return (
     <div className="card">
       <div className="card-body">
-        <div  className = " text-xl font-bold text-center justify-center" style={{ fontSize: "1.25em", fontWeight: "bold" }}>
+        <div  className = " text-xl font-bold text-center justify-center">
           Ticket Content
         </div>
         <div className={styles[`input-wrapper`]}>

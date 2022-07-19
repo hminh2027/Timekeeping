@@ -53,25 +53,14 @@ const DashboardLayout = (props) => {
 
   const MobileHeader = () => {
     return (
-      <div
-       
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0.5em 1em",
-          // backgroundColor: "rgb(205, 240, 234)",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-          <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
-            Welcome {userInfo.lastName}
-          </div>
+      <div className="flex justify-between items-center py-2 px-1">
+        <div className="flex flex-col flex-grow">
+          <div className="text-2xl font-bold">Welcome {userInfo.lastName}</div>
           <div>Greeting!</div>
         </div>
-        <div style={{ flexGrow: 1, textAlign: "right" }}>
+        <div className="flex-grow text-right">
           <MenuOutlined
-            style={{ fontSize: "2em" }}
+            className="text-3xl"
             onClick={() => setOpenDrawer(true)}
           />
         </div>
@@ -80,9 +69,9 @@ const DashboardLayout = (props) => {
   };
   const DesktopHeader = () => {
     return (
-      <Space style={{ width: "100%", justifyContent: "space-between" }}>
-        <Space wrap>
-          <div style={{ width: "10em", display: "flex", alignItems: "center" }}>
+      <div className="flex items-center w-full h-full ">
+        <div className="flex flex-wrap items-center">
+          <div className="w-40 flex items-center">
             <Image
               src="/Image/logo.png"
               width="200"
@@ -93,12 +82,14 @@ const DashboardLayout = (props) => {
             />
           </div>
 
-          <div style={{ flexGrow: 1 }}>
-            <Title style={{ margin: 0 }}>Hello {userInfo.lastName}</Title>
-            <Text type="secondary">Welcome back!</Text>
+          <div className="flex-grow">
+            <div className="font-semibold text-5xl" style={{ margin: 0 }}>
+              Hello {userInfo.lastName} {userInfo.firstName}
+            </div>
+            <div className="text-gray-500 ">Welcome back!</div>
           </div>
-        </Space>
-      </Space>
+        </div>
+      </div>
     );
   };
   const content = (
