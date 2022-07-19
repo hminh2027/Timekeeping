@@ -50,14 +50,14 @@ const CheckTicket = (props) => {
   };
   return (
     <div className="card">
-      <div className="card-body">
+      <div className="card-body ">
         <div  className = " text-xl font-bold text-center justify-center">
           Ticket Content
         </div>
         <div className={styles[`input-wrapper`]}>
           <div className={styles[`input-list`]}>
             <input
-              className="w-full border border-solid border-gray-300 p-2"
+              className="w-full border border-solid border-gray-300 p-2 text-gray-500"
               disabled
               type="text"
               name="title"
@@ -112,7 +112,7 @@ const CheckTicket = (props) => {
                 </input>
             </div>
             <textarea
-              className=" flex-grow w-full border border-solid border-gray-300 p-2 h-auto"
+              className=" flex-grow w-full border border-solid border-gray-300 p-2 h-auto text-gray-500"
               disabled
               type="text"
               name="content"
