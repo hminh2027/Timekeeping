@@ -55,11 +55,11 @@ jobs:
       - name: deploy to server
         uses: appleboy/ssh-action@master
         env:
-          PROJECT_FOLDER: '${{secrets.PROJECT_FOLDER_API}}'
+          PROJECT_FOLDER_API: '${{secrets.PROJECT_FOLDER_API}}'
           GIT_ACCOUNT_USERNAME: '${{secrets.GIT_ACCOUNT_USERNAME}}'
           GIT_ACCOUNT_TOKEN: '${{secrets.GIT_ACCOUNT_TOKEN}}'
           GIT_URL: '${{secrets.GIT_URL}}'
-          GIT_BRANCH_NAME: '${{secrets.GIT_BRANCH_NAME_API}}'
+          GIT_BRANCH_NAME_API: '${{secrets.GIT_BRANCH_NAME_API}}'
           SERVER_USER_SERVICE: '${{secrets.SERVER_USER_SERVICE}}'
           GIT_REPO: '${{secrets.GIT_REPO}}'
         with:
@@ -67,16 +67,16 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           password: ${{secrets.SSH_PASSWORD }}
           port: ${{secrets.SSH_PORT}}
-          envs: PROJECT_FOLDER,GIT_ACCOUNT_USERNAME,GIT_ACCOUNT_TOKEN,GIT_URL,GIT_BRANCH_NAME,SERVER_USER_SERVICE,GIT_REPO
+          envs: PROJECT_FOLDER_API,GIT_ACCOUNT_USERNAME,GIT_ACCOUNT_TOKEN,GIT_URL,GIT_BRANCH_NAME_API,SERVER_USER_SERVICE,GIT_REPO
           script: |
-            echo $PROJECT_FOLDER
-            cd $PROJECT_FOLDER
+            echo $PROJECT_FOLDER_API
+            cd $PROJECT_FOLDER_API
             git reset --mixed
             git stash --include-untracked
             git reset --hard deploy/api
-            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME --allow-unrelated-histories
+            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME_API --allow-unrelated-histories
             git reset --hard deploy/api
-            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME --allow-unrelated-histories
+            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME_API --allow-unrelated-histories
             cp .env.temp .env.development
             pm2 reload apivcheck
             

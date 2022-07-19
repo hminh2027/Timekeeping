@@ -60,11 +60,11 @@ jobs:
       - name: deploy to server
         uses: appleboy/ssh-action@master
         env:
-          PROJECT_FOLDER: '${{secrets.PROJECT_FOLDER_WEB}}'
+          PROJECT_FOLDER_WEB: '${{secrets.PROJECT_FOLDER_WEB}}'
           GIT_ACCOUNT_USERNAME: '${{secrets.GIT_ACCOUNT_USERNAME}}'
           GIT_ACCOUNT_TOKEN: '${{secrets.GIT_ACCOUNT_TOKEN}}'
           GIT_URL: '${{secrets.GIT_URL}}'
-          GIT_BRANCH_NAME: '${{secrets.GIT_BRANCH_NAME_WEB}}'
+          GIT_BRANCH_NAME_WEB: '${{secrets.GIT_BRANCH_NAME_WEB}}'
           SERVER_USER_SERVICE: '${{secrets.SERVER_USER_SERVICE}}'
           GIT_REPO: '${{secrets.GIT_REPO}}'
         with:
@@ -72,15 +72,15 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           password: ${{secrets.SSH_PASSWORD }}
           port: ${{secrets.SSH_PORT}}
-          envs: PROJECT_FOLDER,GIT_ACCOUNT_USERNAME,GIT_ACCOUNT_TOKEN,GIT_URL,GIT_BRANCH_NAME,SERVER_USER_SERVICE,GIT_REPO
+          envs: PROJECT_FOLDER_WEB,GIT_ACCOUNT_USERNAME,GIT_ACCOUNT_TOKEN,GIT_URL,GIT_BRANCH_NAME_WEB,SERVER_USER_SERVICE,GIT_REPO
           script: |
-            echo $PROJECT_FOLDER
-            cd $PROJECT_FOLDER
+            echo $PROJECT_FOLDER_WEB
+            cd $PROJECT_FOLDER_WEB
             git reset --mixed
             git stash --include-untracked
             git reset --hard deploy/web
-            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME --allow-unrelated-histories
+            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME_WEB --allow-unrelated-histories
             git reset --hard deploy/web
-            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME --allow-unrelated-histories
+            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME_WEB --allow-unrelated-histories
             cp .env.example .env.production
             pm2 reload vcheck
