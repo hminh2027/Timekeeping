@@ -1,5 +1,5 @@
 import styles from "@/styles/Layout/menu.module.scss";
-// import { menuItems } from "./Menu.config";
+import { menuItems } from "./Menu.config";
 import MenuLabel from "./MenuLabel";
 const SidebarMenu = () => {
   return (
@@ -49,3 +49,4 @@ const MobileMenu = () => {
     </div>
   );
 };
+export { SidebarMenu, MobileMenu };

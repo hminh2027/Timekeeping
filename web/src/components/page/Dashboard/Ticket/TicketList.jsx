@@ -29,6 +29,7 @@ function reducer(state, action) {
 }
 const TicketList = React.memo((props) => {
   const tickets = props.tickets;
+  console.log(tickets)
   const [state, dispatch] = useReducer(reducer, initSort);
   // const [sortOption, setSortOption] = useState({
   //   sortBy: "createdAt",
@@ -117,7 +118,7 @@ const TicketList = React.memo((props) => {
           Action
         </div>
       </div>
-      {tickets.map((ticket) => (
+      {tickets?.map((ticket) => (
         <TicketListItem
           key={ticket.id}
           id={ticket.id}
