@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import React from "react";
 import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
@@ -11,12 +10,14 @@ const Approve = ({ num, id }) => {
     return (
       <div>
         <button  
-          className="w-4/5 border border-solid border-teal-700 p-1 bg-teal-700 text-stone-100 hover:text-gray-400"
-        onClick={toggle}>Approve</button>
+          className="w-4/5 border border-solid border-teal-700 p-1 bg-teal-700 text-stone-100 hover:text-gray-400 rounded-lg"
+          onClick={toggle}>
+          Approve
+        </button>
         <Modal isShowing={isShowing} hide={toggle}>
           <div className="flex">
             <CheckTicket id={id} hide={toggle} /> 
-            <CommentTicket />
+            <CommentTicket id={id}/>
           </div>
         </Modal>
       </div>
@@ -25,7 +26,7 @@ const Approve = ({ num, id }) => {
     return (
       <div>
         <button 
-          className="w-4/5 border border-solid border-teal-700 p-1 bg-teal-700 text-stone-100"
+          className="w-4/5 border border-solid border-teal-700 p-1 bg-teal-700 text-stone-100 rounded-lg"
           disabled 
           onClick={toggle}>
           Not Approve

@@ -7,6 +7,12 @@ const filter = () => {};
 
 const DesktopFilter = (props) => {
   const [ticketTypes, setTicketTypes] = useState([]);
+  const [data, setData] = useState({
+    title: "",
+    type: "",
+    status: "",
+  });
+
   useEffect(() => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
@@ -16,19 +22,36 @@ const DesktopFilter = (props) => {
 
     fetchTicketTypes();
   }, []);
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+    // console.log("DATA:", data);
+  };
+  const submit = () => {
+    props.onSubmit(data);
+  };
   return (
     <div className={`p-4 bg-white flex ${props.className}`}>
       <div className="flex flex-row justify-between gap-4 w-full">
         <div className="flex flex-row gap-8">
           <div className="flex items-center w-auto gap-4">
             <div className="w-auto">Title:</div>
-            <Input placeholder="Title" onChange={filter} className="flex-1" />
+            <Input
+              name="title"
+              placeholder="Title"
+              value={data.title}
+              onChange={(e) => handleChange(e)}
+              className="flex-1"
+            />
           </div>
 
           <div className="flex items-center w-auto gap-4">
             <div className="w-auto">Type:</div>
             <Select
-              value={ticketTypes[0]}
+              value={data.type}
+              onChange={(value, option) => {
+                const e = { target: { name: "type", value: value } };
+                handleChange(e);
+              }}
               style={{ flex: "1 0 8em", minWidth: "8em" }}
               className="flex-1"
             >
@@ -42,6 +65,11 @@ const DesktopFilter = (props) => {
               <div className="w-auto">Status:</div>
               <Select
                 defaultValue="all"
+                value={data.status}
+                onChange={(value, option) => {
+                  const e = { target: { name: "status", value: value } };
+                  handleChange(e);
+                }}
                 className=" w-32"
                 // className="flex-1"
                 options={status}
@@ -68,7 +96,14 @@ const DesktopFilter = (props) => {
           </div>
         </div>
         <div className="text-right">
-          <button className="v-btn-primary">Apply</button>
+          <button
+            className="v-btn-primary"
+            onClick={() => {
+              submit();
+            }}
+          >
+            Apply
+          </button>
         </div>
       </div>
     </div>

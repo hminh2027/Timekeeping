@@ -28,6 +28,9 @@ const TicketList = () => {
     fetchTicketTypes();
     fetchTicketData();
   }, []);
+  const deleteTicket = () => {
+
+  }
   const filter = () => {};
   return (
     <div
@@ -37,14 +40,9 @@ const TicketList = () => {
         boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", padding: "1em" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", gap: "2em" }}>
+      <div className = "flex flex-col p-4">
+        <div className="flex justify-between">
+          <div className="flex gap-8">
             <Space>
               <div>Title:</div>
               <Input
@@ -59,8 +57,10 @@ const TicketList = () => {
                 value={ticketTypes[0]}
                 style={{ flex: "1 0 8em", minWidth: "8em" }}
               >
-                {ticketTypes.map((ticketType) => (
-                  <Option value={ticketType}>{ticketType}</Option>
+                {ticketTypes.map((ticketType, index) => (
+                  <Option key={index} value={ticketType}>
+                    {ticketType}
+                  </Option>
                 ))}
               </Select>
             </Space>
@@ -75,7 +75,7 @@ const TicketList = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-2 flex-1" style={{ margin: "2px 10px" }}>
+          <div className="flex gap-2 flex-1 mx-1 my-3" >
             <div className="flex justify-between gap-1">
               <div className="">🟢</div>
               <div className="">Approved</div>
@@ -96,19 +96,14 @@ const TicketList = () => {
           <div>
             <button 
               type="primary" 
-              className="border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500 mr-4"
-            >
+              className=" w-full border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-2 hover:text-zinc-500 rounded-lg">
               Apply
             </button>
           </div>
         </div>
       </div>
       <div
-        style={{
-          backgroundColor: "#99e2b4",
-        }}
-        className="hidden p-4 font-semibold lg:flex"
-      >
+        className=" bg-emerald-400 hidden p-4 font-semibold lg:flex">
         <div style={{ flex: "1 0 12em" }}>Title</div>
         <div style={{ flex: "1 0 5em" }}>Type</div>
         <div style={{ flex: "1 1 50px" }}>Status</div>
@@ -116,8 +111,9 @@ const TicketList = () => {
         <div style={{ flex: "1 0 10em" }}>End Date</div>
         <div style={{ flex: "1 0 5em" }}>Action</div>
       </div>
-      {tickets.map((ticket) => (
+      {tickets.map((ticket, index) => (
         <TicketListItem
+          key={index}
           id={ticket.id}
           content={ticket.content}
           style={{ width: "100%" }}
@@ -151,7 +147,7 @@ const TicketListItem = (props) => {
   // const { isShowing, toggle } = UseModal();
   return (
     <div className="py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
-      <div
+      <div 
         style={{ flex: "1 0 12em" }}
         className="flex font-semibold text-sky-800"
       >

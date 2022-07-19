@@ -11,6 +11,7 @@ import { ConfigService } from './common/config/config.service';
 import { CommentModule } from './modules/comment/comment.module';
 import { AppGateway } from './common/socket/app.gateway';
 import { join } from 'path';
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { join } from 'path';
     DatabaseModule,
     CommentModule,
     TicketModule,
+    RoleModule,
     CheckinModule,
     AwsModule.register(),
     ServeStaticModule.forRoot({

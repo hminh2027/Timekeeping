@@ -67,7 +67,7 @@ const RecoverPassword = (props) => {
       {errors && (
         <div className="flex flex-col w-full pb-4">
           {errors.map((error, i) => (
-            <div style={{ color: error.color, fontWeight: "500" }}>
+            <div key={i} style={{ color: error.color, fontWeight: "500" }}>
               {error.message}
             </div>
           ))}
