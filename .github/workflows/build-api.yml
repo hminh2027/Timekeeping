@@ -71,12 +71,5 @@ jobs:
           script: |
             echo $PROJECT_FOLDER_API
             cd $PROJECT_FOLDER_API
-            git reset --mixed
-            git stash --include-untracked
-            git reset --hard deploy/api
-            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME_API --allow-unrelated-histories
-            git reset --hard deploy/api
-            git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME_API --allow-unrelated-histories
-            cp .env.temp .env.development
-            pm2 reload apivcheck
+            bash ./bin/deploy.sh
             
