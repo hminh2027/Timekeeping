@@ -104,7 +104,7 @@ const WorkCalendar = () => {
   }, [selectedDate]);
 
   const modalContent = checkInInfo ? (
-    <div>
+    <div className="card">
       {/* <Space style={{ textAlign: "center", display: "flex" }}>
         <div>UserID:</div>
         <div>{checkInInfo.userId}</div>
@@ -116,6 +116,7 @@ const WorkCalendar = () => {
           flexDirection: "column",
           gap: "1em",
         }}
+        className="card-body"
       >
         <Space direction="vertical">
           <Space>
@@ -133,7 +134,7 @@ const WorkCalendar = () => {
       </div>
     </div>
   ) : (
-    <div style={{ padding: "5em" }}>No Info</div>
+    <div className="card p-20">No Info</div>
   );
   const content = (
     <Calendar
