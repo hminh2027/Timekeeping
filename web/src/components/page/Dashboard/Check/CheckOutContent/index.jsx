@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 import {
   selectUserCheckInInfo,
   selectUserCheckOutStatus,
-} from "../../../../../redux/feature/user/userSlice";
-import styles from "../../../../../styles/pages/dashboard/checkin.module.scss";
-import UseTrans from "../../../../../utils/hooks/UseTrans";
+} from "@/redux/feature/user/userSlice";
+import styles from "@/styles/pages/dashboard/checkin.module.scss";
+import UseTrans from "@/utils/hooks/UseTrans";
 import CheckingCard from "../CheckingCard";
 
 const CheckInContent = () => {
@@ -136,18 +136,10 @@ const CheckInContent = () => {
         justifyContent: "center",
         height: "100%",
       }}
-      className={styles.checkin}
+      className="flex justify-center h-full"
+      // className={styles.checkin}
     >
-      <div
-        style={{
-          display: "flex",
-          flexFlow: "column wrap",
-          width: "100%",
-          margin: "0 auto",
-          padding: "2em",
-          gap: "0.5em",
-        }}
-      >
+      <div className="flex flex-col flex-wrap w-full mx-auto p-8 gap-2">
         {content}
       </div>
     </div>
