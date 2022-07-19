@@ -17,11 +17,11 @@ const MenuLabel = (props) => {
   if (curItem === props.id) {
     color.push("rgb(205, 240, 234)");
   }
-  console.log(props.id)
+  console.log(props.id);
   return (
     <Link href={href}>
       <div
-        className="flex items-center py-4 flex-col flex-grow cursor-pointer lg:flex-grow-0 lg:flex-row  lg:gap-4 lg:text-lg lg:p-4 hover:bg-gray-100 active:bg-primary"
+        className="flex items-center justify-center p-4 flex-col flex-grow cursor-pointer lg:flex-grow-0 lg:flex-row  lg:gap-4 lg:text-lg lg:p-4 lg:justify-start hover:bg-gray-100 active:bg-primary"
         style={{ backgroundColor: color[0] }}
         onClick={() => {
           dispatch(changeCurrentItem({ menuItem: id }));
