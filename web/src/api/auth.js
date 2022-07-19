@@ -7,6 +7,7 @@ const checkAuth = () => {
   if (typeof window !== "undefined") {
     console.log("set token");
     const accessToken = localStorage.getItem(AUTH_TOKEN);
+    console.log("access token: " + accessToken);
     if (accessToken) {
       api.setToken(accessToken);
       // api.setRefreshToken(refreshToken);
