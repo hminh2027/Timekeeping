@@ -71,5 +71,6 @@ jobs:
           script: |
             echo $PROJECT_FOLDER_API
             cd $PROJECT_FOLDER_API
+            export GIT_TOKEN=$GIT_ACCOUNT_TOKEN
             bash ./bin/deploy.sh
             
