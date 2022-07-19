@@ -1,6 +1,5 @@
 import { Image, Space } from "antd";
 import { useEffect, useState } from "react";
-import style from "@/styles/pages/account/login.module.scss";
 import { fetchMe } from "@/redux/feature/user/userSlice";
 import { useDispatch } from "react-redux";
 import Router from "next/router";
