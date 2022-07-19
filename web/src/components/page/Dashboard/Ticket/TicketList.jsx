@@ -9,8 +9,6 @@ const initSort = {
 function reducer(state, action) {
   switch (action.type) {
     case "SORT_CREATED_AT": {
-      // state = { ...initSort, createdAt: action.data };
-      // state.createdAt = action.data;
       return { ...initSort, createdAt: action.data };
     }
     case "SORT_START_DATE": {
@@ -30,24 +28,9 @@ function reducer(state, action) {
 const TicketList = React.memo((props) => {
   const tickets = props.tickets;
   const [state, dispatch] = useReducer(reducer, initSort);
-  // const [sortOption, setSortOption] = useState({
-  //   sortBy: "createdAt",
-  //   orderBy: true,
-  // });
+
   const { createdAt, startDate, endDate } = state;
   console.log(state);
-  // useEffect(() => {
-  //   for (let key in state) {
-  //     if (state[key]) {
-  //       setSortOption({
-  //         sortBy: key,
-  //         orderBy: state[key],
-  //       });
-  //     }
-  //   }
-  //   props.onSort(sortOption);
-
-  // }, [state]);
   const sortHandle = (sortBy, orderBy) => {
     const sortOption = {
       sortBy,

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button, Input, Select, Space } from "antd";
 import api from "@/api/api";
 const { Option } = Select;
-const Filters = () => {};
-const filter = () => {};
 
 const DesktopFilter = (props) => {
   const [ticketTypes, setTicketTypes] = useState([]);
