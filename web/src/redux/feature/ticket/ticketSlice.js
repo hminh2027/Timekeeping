@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getMyTickets, cancelMyTicket } from "@/api/service/ticket.service";
+import {
+  getMyTickets,
+  cancelMyTicket,
+  addMyTicket,
+} from "@/api/service/ticket.service";
 const initialState = {
   tickets: [],
 };
@@ -17,6 +21,21 @@ export const cancelTicket = createAsyncThunk(
     }
   }
 );
+
+export const addTicket = createAsyncThunk(
+  "ticket/addTicket",
+  async (ticketContent) => {
+    console.log("TICKET:", ticketContent);
+    try {
+      await addMyTicket(ticketContent);
+      const response = await getMyTickets();
+      return response;
+    } catch (error) {
+      console.error("Error occur while adding ticket: ", error);
+    }
+  }
+);
+
 export const fetchMyTickets = createAsyncThunk(
   "ticket/getMyTicket",
   async (sortOptions) => {
@@ -46,6 +65,10 @@ export const ticketSlice = createSlice({
       state.tickets = action.payload;
     });
     builder.addCase(cancelTicket.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.tickets = action.payload;
+    });
+    builder.addCase(addTicket.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.tickets = action.payload;
     });

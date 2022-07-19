@@ -9,10 +9,13 @@ const getMyTickets = async (sortOptions) => {
   // console.log("RES:", resTickets);
   return resTickets;
 };
-
+const addMyTicket = async (ticketContent) => {
+  const res = await api.post("ticket", ticketContent);
+  return res;
+};
 const cancelMyTicket = async (ticketID) => {
   console.log(ticketID);
   const res = await api.patch(`ticket/${ticketID}/cancel`);
   console.log(res);
 };
-export { getMyTickets, cancelMyTicket };
+export { getMyTickets, cancelMyTicket, addMyTicket };

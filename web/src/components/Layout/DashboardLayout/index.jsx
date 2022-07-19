@@ -1,5 +1,5 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Col, Row, Space, Typography } from "antd";
+import { Col, Space, Typography } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

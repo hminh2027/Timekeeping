@@ -2,10 +2,10 @@ import { Skeleton, Typography } from "antd";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Webcam from "react-webcam";
-import api from "../../../../api/api";
-import { fetchCheckInStatus } from "../../../../redux/feature/user/userSlice";
-import styles from "../../../../styles/pages/dashboard/checkin.module.scss";
-import UseTrans from "../../../../utils/hooks/UseTrans";
+import api from "@/api/api";
+import { fetchCheckInStatus } from "@/redux/feature/user/userSlice";
+import styles from "@/styles/pages/dashboard/checkin.module.scss";
+import UseTrans from "@/utils/hooks/UseTrans";
 const { Text } = Typography;
 const CheckingCard = (props) => {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const CheckingCard = (props) => {
   };
 
   const content = (
-    <div style={{ display: "flex", width: "100%", flexFlow: "column wrap" }}>
+    <div className="flex flex-col flex-wrap w-full">
       {noCam && (
         <Text style={{ color: "rgb(255,0,0)" }}>
           {trans.check.error_no_camera}
