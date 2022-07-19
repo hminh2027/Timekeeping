@@ -3,6 +3,8 @@ import "antd/dist/antd.css";
 import { appWithTranslation } from "next-i18next";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import "react-calendar/dist/Calendar.css";
+
 import "../styles/globals.css";
 import "../styles/globals.scss";
 function MyApp(props) {
