@@ -1,19 +1,13 @@
 import { Image, Space } from "antd";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "@/styles/pages/account/login.module.scss";
-import auth from "@/api/auth";
 import { fetchMe } from "@/redux/feature/user/userSlice";
 import { useDispatch } from "react-redux";
 import Router from "next/router";
 const RecoveryLayout = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  useLayoutEffect(() => {
-    setLoading(true);
-    // const authed = auth.checkAuth();
-    // if (authed) {
-    //   Router.push("/dashboard");
-    // }
+  useEffect(() => {
     const getUserInfo = () => {
       const res = dispatch(fetchMe());
       console.log(res);

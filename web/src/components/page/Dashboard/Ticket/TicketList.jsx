@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
-import React, { useReducer, useState, useEffect } from "react";
+import React, { useReducer } from "react";
 const initSort = {
   createdAt: false,
   startDate: false,

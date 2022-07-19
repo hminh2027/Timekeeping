@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Router } from "next/router";
 
 axios.interceptors.response.use(
   function (response) {
@@ -15,6 +16,7 @@ axios.interceptors.response.use(
     if (status === 401) {
       const refreshToken = localStorage.getItem("refreshToken");
       console.log("Refresh token", refreshToken);
+      Router.push("/account/login");
       // Get new token
     }
     return Promise.reject(error);
