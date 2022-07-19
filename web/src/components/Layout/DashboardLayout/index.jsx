@@ -1,10 +1,11 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Col, Row, Space, Typography } from "antd";
+import { Col, Space } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import auth from "@/api/auth";
+import { logOut } from "@/api/service/auth.service";
 import {
   changeCheckInStatus,
   fetchCheckInStatus,
@@ -16,8 +17,6 @@ import styles from "@/styles/Layout/Dashboard.module.scss";
 import { MobileMenu, SidebarMenu } from "@/components/page/Dashboard/Menu";
 import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 
-// MobileMenu,
-const { Title, Text } = Typography;
 const DashboardLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -70,30 +69,39 @@ const DashboardLayout = (props) => {
   const DesktopHeader = () => {
     return (
       <div className="flex items-center w-full h-full ">
-        <div className="flex flex-wrap items-center">
-          <div className="w-40 flex items-center">
-            <Image
-              src="/Image/logo.png"
-              width="200"
-              height="100"
-              layout="intrinsic"
-              alt="Đây là Logo"
-              fallback="Đây là Logo"
-            />
-          </div>
-
-          <div className="flex-grow">
-            <div className="font-semibold text-5xl" style={{ margin: 0 }}>
-              Hello {userInfo.lastName} {userInfo.firstName}
+        <div className="flex justify-between items-center w-full">
+          <div className="flex flex-wrap items-center">
+            <div className="w-40 flex items-center">
+              <Image
+                src="/Image/logo.png"
+                width="200"
+                height="100"
+                layout="intrinsic"
+                alt="Đây là Logo"
+                fallback="Đây là Logo"
+              />
             </div>
-            <div className="text-gray-500 ">Welcome back!</div>
+
+            <div className="flex-grow">
+              <div className="font-semibold text-5xl" style={{ margin: 0 }}>
+                Hello {userInfo.lastName} {userInfo.firstName}
+              </div>
+              <div className="text-gray-500 ">Welcome back!</div>
+            </div>
+          </div>
+          <div
+            className="flex gap-2 items-center cursor-pointer"
+            onClick={async () => await logOut()}
+          >
+            <div className="font-bold">Logout</div>
+            <div className="text-4xl">{exitIcon}</div>
           </div>
         </div>
       </div>
     );
   };
   const content = (
-    <div className="h-screen w-screen flex flex-row flex-wrap">
+    <div className="h-screen flex flex-row flex-wrap">
       {/* Header */}
       <Col
         xs={0}
@@ -171,3 +179,4 @@ const DashboardLayout = (props) => {
 };
 
 export default DashboardLayout;
+const exitIcon = "⛔";
