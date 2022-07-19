@@ -9,6 +9,15 @@ const getMyTickets = async (sortOptions) => {
   // console.log("RES:", resTickets);
   return resTickets;
 };
+
+const getTickets = async(sortOptions) => {
+  const url = `ticket?${sortOptions}`;
+  const res = await api.get(url);
+  const resTickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
+  // console.log("RES:", resTickets);
+  return resTickets;
+}
+
 const addMyTicket = async (ticketContent) => {
   const res = await api.post("ticket", ticketContent);
   return res;
@@ -18,4 +27,4 @@ const cancelMyTicket = async (ticketID) => {
   const res = await api.patch(`ticket/${ticketID}/cancel`);
   console.log(res);
 };
-export { getMyTickets, cancelMyTicket, addMyTicket };
+export { getMyTickets, cancelMyTicket, getTickets, addMyTicket };

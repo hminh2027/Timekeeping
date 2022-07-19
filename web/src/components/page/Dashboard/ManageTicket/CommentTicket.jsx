@@ -16,7 +16,7 @@ const CommentTicket = ({id}) => {
   //   fetchComments();
   // },[]);
   return (
-    <div className="border border-solid border-gray-400 shadow-xl m-3 w-96 rounded bg-white">
+    <div className="border border-solid border-gray-400 shadow-xl m-3 w-96 rounded-2xl bg-white">
       <div className="p-2 h-full flex flex-col">
         <div className="text-xl font-bold text-center ">Comment</div>
         <div className="flex flex-col mt-1 flex-1">
@@ -39,7 +39,7 @@ const CommentTicket = ({id}) => {
             // }}
           /> */}
           <button
-            className="bg-teal-600 flex-1 text-gray-100 hover:text-zinc-500"
+            className="bg-teal-600 flex-1 text-gray-100 hover:text-zinc-500 ml-[3px] rounded-lg"
             onClick={() => {
               submit();
             }}
