@@ -76,6 +76,7 @@ jobs:
           script: |
             echo $PROJECT_FOLDER
             cd $PROJECT_FOLDER
+            git reset --mixed
             git stash --include-untracked
             git reset --hard deploy/web
             git pull https://${GIT_ACCOUNT_TOKEN}@github.com/${GIT_ACCOUNT_USERNAME}/${GIT_REPO} $GIT_BRANCH_NAME --allow-unrelated-histories
