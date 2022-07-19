@@ -42,7 +42,10 @@ jobs:
       #     directory: web
       #     file_name: .env.production
       #     fail_on_empty: false
-          
+
+      - name: Copy env
+        run: cp ./web/.env.example ./web/.env.production 
+      
       - name: Build web
         run: npm run build:web
       
