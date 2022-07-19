@@ -1,4 +1,4 @@
-import { User } from 'src/modules/user/entities/user.entity';
+import { User } from '../modules/user/entities/user.entity';
 import { UserRole } from 'src/modules/user/enums/role.enum';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 

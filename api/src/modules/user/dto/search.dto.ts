@@ -16,5 +16,5 @@ export class SearchQueryDto {
   @ApiPropertyOptional({
     type: String,
   })
-  textSearch?: string;
+  search?: string;
 }

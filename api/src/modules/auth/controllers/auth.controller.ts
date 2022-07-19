@@ -10,7 +10,7 @@ import {
   Get,
   Res,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';
 import { LoginPayload } from '../payloads/login.payload';
 import { RegisterPayload } from '../payloads/register.payload';
@@ -23,7 +23,6 @@ import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
 import { ReqCookie } from 'src/common/decorators/cookie.decorator';
 import { Response } from 'express';
-// import { LoginHistoryService } from 'src/modules/login-history/services/login-history.service';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -31,17 +30,23 @@ import { Response } from 'express';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UserService, // private readonly loginHistoryService: LoginHistoryService,
+    private readonly userService: UserService,
   ) {}
 
   @Get('me')
+  @ApiOperation({
+    description: 'get current login users informations',
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async decodingToken(@ReqUser() user): Promise<User> {
+  async decodingToken(@ReqUser() user: User): Promise<User> {
     return user;
   }
 
   @Post('login')
+  @ApiOperation({
+    description: 'user login with credentials',
+  })
   async login(
     @Body() credentials: LoginPayload,
     @Res({ passthrough: true }) res: Response,
@@ -58,11 +63,17 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout(@ReqUser() user): Promise<any> {
+  @ApiOperation({
+    description: 'user logout to revoke jwt',
+  })
+  async logout(@ReqUser() user: User): Promise<any> {
     // push jwt to redis to revoke it
   }
 
   @Post('register')
+  @ApiOperation({
+    description: 'user register with input',
+  })
   async register(
     @Body() payload: RegisterPayload,
     @Res({ passthrough: true }) res: Response,
@@ -80,6 +91,9 @@ export class AuthController {
   }
 
   @Post('refresh')
+  @ApiOperation({
+    description: 'refresh the access token',
+  })
   async refreshToken(@ReqCookie() token: string): Promise<Object> {
     return {
       accessToken: await this.authService.refreshToken(token),
@@ -87,6 +101,9 @@ export class AuthController {
   }
 
   @Post('forgot')
+  @ApiOperation({
+    description: 'send reset password request',
+  })
   async forgot(@Body() payload: ForgotPayload): Promise<Object> {
     return {
       statusCode: HttpStatus.OK,
@@ -95,6 +112,9 @@ export class AuthController {
   }
 
   @Post('reset')
+  @ApiOperation({
+    description: 'reset user password',
+  })
   async reset(
     @Body() payload: ResetPayload,
     @Query() params: TokenQueryDto,

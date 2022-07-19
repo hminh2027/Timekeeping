@@ -7,6 +7,7 @@ import { User, UserFillableFields } from '../entities/user.entity';
 import { UserPayload } from '../payload/user.payload';
 import { UserRepository } from '../repositories/user.repository';
 import { UserRole } from '../enums/role.enum';
+import { SearchQueryDto } from '../dto/search.dto';
 
 @Injectable()
 export class UserService {
@@ -76,17 +77,6 @@ export class UserService {
       throw new NotAcceptableException('User does not exists.');
     }
 
-    // const checkEmailExistence = await this.userRepository.checkEmailExistence(
-    //   payload.email,
-    //   id,
-    // );
-
-    // if (checkEmailExistence) {
-    //   throw new NotAcceptableException(
-    //     'Another user with provided email already exists.',
-    //   );
-    // }
-
     const userUpdate = await this.userRepository.create({
       id,
       ...payload,
@@ -95,21 +85,8 @@ export class UserService {
     return await this.userRepository.save(userUpdate);
   }
 
-  async search(params): Promise<User[]> {
-    const offset = (params.page - 1) * params.limit;
-    let users: User[];
-
-    users = await this.userRepository
-      .createQueryBuilder('users')
-      .where('users.email like :email', {
-        email: `%${params.textSearch || ' '}%`,
-      })
-      .orderBy('users.id', 'DESC')
-      .skip(offset)
-      .take(params.limit)
-      .execute();
-
-    return users;
+  async search(params: SearchQueryDto): Promise<User[]> {
+    return await this.userRepository.pagination(params);
   }
 
   async remove(id: number): Promise<void> {

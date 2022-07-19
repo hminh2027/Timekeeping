@@ -112,7 +112,7 @@ export class TicketController {
     @Body() data: UpdateTicketPayload,
   ) {
     data.authorId = user.id;
-    data.ticketType = TicketStatus.PENDING;
+    data.ticketStatus = TicketStatus.PENDING;
     this.ticketService.update(id, data);
     return {
       statusCode: HttpStatus.OK,
