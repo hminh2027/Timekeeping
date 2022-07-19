@@ -1,6 +1,6 @@
 import { createHmac } from 'crypto';
 import { Notification } from 'src/modules/notification/entities/notification.entity';
-import { Role } from 'src/modules/role/entities/role.entity';
+// import { Role } from 'src/modules/role/entities/role.entity';
 import {
   Entity,
   Column,
@@ -13,6 +13,7 @@ import {
 import { Checkin } from '../../checkin/entities/checkinout.entity';
 import { LoginHistory } from '../../login-history/entities/login-history.entity';
 import { Ticket } from '../../ticket/entities/ticket.entity';
+import { UserRole } from '../enums/role.enum';
 
 @Entity({ name: 'users' })
 export class User {
@@ -31,17 +32,11 @@ export class User {
   @Column({ length: 255, select: false })
   password!: string;
 
-  @Column()
-  role!: string;
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  role!: UserRole;
 
   @Column({ length: 355, select: false })
   resetToken: string;
-
-  /* RELATIONSHIPS */
-  // /* N-1 */
-  // @ManyToOne(() => Role, (role) => role.users)
-  // @JoinColumn({ name: 'roleId' })
-  // role: Role;
 
   /* 1-N */
   @OneToMany(() => Ticket, (ticket) => ticket.id)

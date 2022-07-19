@@ -10,6 +10,6 @@ export const connectionSource = new DataSource({
   database: 'companycheckin',
   logging: true,
   synchronize: true,
-  // entities: ['dist/module/**/*.entity{.ts,.js}'],
+  entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/**/*{.ts,.js}'],
 });
