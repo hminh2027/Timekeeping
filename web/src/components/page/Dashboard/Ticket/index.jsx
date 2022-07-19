@@ -31,7 +31,7 @@ const TicketContent = () => {
   });
   console.log(sortOption);
   useEffect(() => {
-    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortBy=${sortOption.sortBy}&orderBy=${sortOption.orderBy}`;
+    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
     console.log("SORT:", sortOptions);
     const fetchTicketData = async () => {
       dispatch(fetchMyTickets(sortOptions));

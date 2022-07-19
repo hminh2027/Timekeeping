@@ -1,6 +1,5 @@
-import { Image, Space } from "antd";
+import { Image } from "antd";
 import { useEffect, useState } from "react";
-import style from "@/styles/pages/account/login.module.scss";
 import { fetchMe } from "@/redux/feature/user/userSlice";
 import { useDispatch } from "react-redux";
 import Router from "next/router";
@@ -20,24 +19,15 @@ const RecoveryLayout = (props) => {
     getUserInfo();
   }, []);
   const content = (
-    <Space
-      style={{
-        width: "100%",
-        minHeight: "100vh",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "1em",
-      }}
-      className={style.loginPage}
-    >
+    <div className="flex w-full min-h-screen justify-center items-center px-1 flex-wrap">
       <Image
         src="https://img.freepik.com/free-vector/tiny-people-protecting-business-data-legal-information-isolated-flat-illustration_74855-11121.jpg"
         preview={false}
         alt="image"
-        className={style.image}
+        className="lg:border-solid lg:border-r-2 lg:border-r-gray-100"
       />
       {props.children}
-    </Space>
+    </div>
   );
   return loading ? <></> : content;
 };

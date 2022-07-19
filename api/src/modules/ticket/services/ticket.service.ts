@@ -85,17 +85,15 @@ export class TicketService {
   }
 
   async update(id: number, data: UpdateTicketPayload): Promise<void> {
+    // check this!
     let ticket: Ticket;
     // Check ticket existance
-    if (data.authorId) {
-      ticket = await this.ticketRepository.findOne({
-        where: { id, authorId: data.authorId },
-      });
-    } else {
-      ticket = await this.ticketRepository.findOne({
-        where: { id, recipientId: data.recipientId },
-      });
-    }
+    ticket = await this.ticketRepository.findOne({
+      where: [
+        { id, authorId: data.authorId },
+        { id, recipientId: data.recipientId },
+      ],
+    });
 
     if (!ticket) throw new NotFoundException('Ticket is not found');
 
@@ -122,7 +120,10 @@ export class TicketService {
 
   async checkTicketTimeConflict(data: CreateTicketPayload): Promise<boolean> {
     const lastestTicket = await this.ticketRepository.findOne({
-      where: { authorId: data.authorId },
+      where: [
+        { authorId: data.authorId, ticketStatus: TicketStatus.APPROVED },
+        { authorId: data.authorId, ticketStatus: TicketStatus.PENDING },
+      ],
       order: { endDate: 'DESC' },
     });
     if (!lastestTicket) return false;
