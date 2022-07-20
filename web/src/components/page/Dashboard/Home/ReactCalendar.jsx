@@ -105,36 +105,34 @@ const ReactCalendar = () => {
   const infoCard = (
     <>
       <div className="flex flex-col items-center gap-4">
-        <div className="flex items-center">
-          <div>CheckIn time:</div>{" "}
-          <div className="flex-auto">
-            {checkInInfo && checkInInfo.checkInTime}
-          </div>
+        <div className="flex items-center gap-4">
+          <div>CheckIn time:</div>
+          <div>{checkInInfo && checkInInfo.checkInTime}</div>
         </div>
-        <Image
-          src={`${process.env.APP_URL}${
-            checkInInfo && checkInInfo.checkInImage
-          }`}
-          width={4}
-          height={3}
-          layout="responsive"
-        />
+        <div className="max-w-xs">
+          <img
+            src={`${process.env.APP_URL}${
+              checkInInfo && checkInInfo.checkInImage
+            }`}
+            className="w-full h-full aspect-video"
+            crossOrigin="anonymous"
+          />
+        </div>
       </div>
       <div className="flex flex-col items-center">
-        <div className="flex items-center">
-          <div>CheckOut time:</div>{" "}
-          <div className="flex-auto">
-            {checkInInfo && checkInInfo.checkOutTime}
-          </div>
+        <div className="flex items-center gap-4">
+          <div>CheckOut time:</div>
+          <div>{checkInInfo && checkInInfo.checkOutTime}</div>
         </div>
-        <Image
-          src={`${process.env.APP_URL}${
-            checkInInfo && checkInInfo.checkOutImage
-          }`}
-          width={4}
-          height={3}
-          layout="responsive"
-        />
+        <div className="max-w-xs">
+          <img
+            src={`${process.env.APP_URL}${
+              checkInInfo && checkInInfo.checkOutImage
+            }`}
+            className="w-full h-full aspect-video"
+            crossOrigin="anonymous"
+          />
+        </div>
       </div>
     </>
   );
