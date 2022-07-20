@@ -107,7 +107,7 @@ const LoginForm = () => {
           />
         </div>
         <div className="flex flex-col gap-2 items-center">
-          <div className="flex w-full items-center">
+          <div className="flex w-full gap-2 items-center">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Password"

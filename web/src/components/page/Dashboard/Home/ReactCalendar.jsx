@@ -80,7 +80,7 @@ const ReactCalendar = () => {
       dispatch(fetchMyTickets());
     };
     fetchTicketData();
-  }, []);
+  }, [curDate]);
   useEffect(() => {
     const fetchCheckInInfo = async () => {
       try {

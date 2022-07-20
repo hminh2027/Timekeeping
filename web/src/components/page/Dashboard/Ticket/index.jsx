@@ -1,5 +1,6 @@
 // import Modal from "@/components/Common/Modal";
 import UseModal from "@/utils/hooks/UseModal";
+import { TICKET_FILTER } from "@/utils/constants";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchMyTickets,
@@ -31,8 +32,7 @@ const TicketContent = () => {
   });
   console.log(sortOption);
   useEffect(() => {
-    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
-    console.log("SORT:", sortOptions);
+    const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
     const fetchTicketData = async () => {
       dispatch(fetchMyTickets(sortOptions));
     };
