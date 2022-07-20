@@ -29,7 +29,7 @@ const Approve = ({ num, id }) => {
         <button 
           className="w-4/5 border border-solid border-teal-700 p-1 bg-gray-600 text-stone-100 rounded-lg"
           onClick={toggle}>
-          Infor
+          View
         </button>
         <Modal isShowing={isShowing} hide={toggle}>   
           <div className="flex">

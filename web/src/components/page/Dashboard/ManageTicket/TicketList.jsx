@@ -131,8 +131,12 @@ const TicketListItem = (props) => {
       statusIcon.push("🟢");
       break;
     }
-    default: {
+    case "pending": {
       statusIcon.push("🟡");
+      break;
+    }
+    default: {
+      statusIcon.push("⚪");
       break;
     }
   }
@@ -174,7 +178,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{startDate}</div>
       </div>
       <div
-        style={{ flex: "1 0 8em" }}
+        style={{ flex: "1 0 7em" }}
         className="flex font-light text-gray-500 "
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -183,7 +187,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{startDate}</div>
       </div>
       <div
-        style={{ flex: "1 0 8em" }}
+        style={{ flex: "1 0 7em" }}
         className="flex font-light text-gray-500"
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
