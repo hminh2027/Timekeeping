@@ -11,6 +11,12 @@ module.exports = {
         16: "4em",
         32: "8em",
       },
+      maxWidth: {
+        4: "1em",
+        8: "2em",
+        16: "4em",
+        32: "8em",
+      },
       colors: {
         black: "rgb(31,31,31)",
         primary: "rgb(205, 240, 234)",

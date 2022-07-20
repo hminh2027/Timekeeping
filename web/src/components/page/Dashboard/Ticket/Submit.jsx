@@ -6,6 +6,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTicket } from "@/redux/feature/ticket/ticketSlice";
+import { TICKET_TYPES } from "@/utils/constants";
 const { TextArea } = Input;
 const { Option } = Select;
 const SubmitTicket = (props) => {
@@ -16,20 +17,13 @@ const SubmitTicket = (props) => {
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     title: "",
     content: "",
-    ticketType: "",
+    ticketType: TICKET_TYPES[0].labeL,
     recipientId: 0,
   });
-  const [ticketTypes, setTicketTypes] = useState([]);
+  const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
   const [managers, setManagers] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      console.log(data);
-      setTicketTypes(data);
-      // setTicketData({ ...ticketData, ticketType: data[0] });
-    };
     const fetchManagers = async () => {
       const res = await api.get("user/admin");
       const { data } = res;
@@ -37,7 +31,6 @@ const SubmitTicket = (props) => {
       // setTicketData({ ...ticketData, recipientId: data[0]?.id });
     };
     fetchManagers();
-    fetchTicketTypes();
   }, []);
   const handleChange = (e) => {
     setTicketData({ ...ticketData, [e.target.name]: e.target.value });
@@ -48,12 +41,24 @@ const SubmitTicket = (props) => {
 
     try {
       // await api.post("ticket", ticketData);
-      dispatch(addTicket(ticketData));
+      const { startDate, endDate, title, recipientId, content, ticketType } =
+        ticketData;
+      dispatch(
+        addTicket({
+          startDate,
+          endDate,
+          title,
+          recipientId,
+          content,
+          ticketType: ticketType.value,
+        })
+      );
       props.hide();
 
       // console.log("Ticket:", ticketData);
       // Router.reload(window.location.pathname);
     } catch (err) {
+      console.error(err);
       const newErrors = [];
       const {
         response: {
@@ -70,6 +75,7 @@ const SubmitTicket = (props) => {
       setIsSubmitting(false);
     }
   };
+  console.log("TICKETDATA", ticketData);
   return (
     <div className="card">
       <div className="card-body">
@@ -129,11 +135,19 @@ const SubmitTicket = (props) => {
                 className="flex-grow"
                 name="ticketType"
                 value={ticketData.ticketType}
+                options={TICKET_TYPES}
                 // value={ticketTypes[0]}
                 placeholder="Search to Select"
                 onChange={(value, option) => {
                   // console.log(value, option);
-                  const e = { target: { name: "ticketType", value: value } };
+                  const e = {
+                    target: {
+                      name: "ticketType",
+                      value: TICKET_TYPES.filter(
+                        (type) => type.value === value
+                      )[0],
+                    },
+                  };
                   handleChange(e);
                 }}
                 onPressEnter={() => {
