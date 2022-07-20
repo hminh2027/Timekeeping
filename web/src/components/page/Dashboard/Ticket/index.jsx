@@ -22,7 +22,7 @@ const TicketContent = () => {
 
   const [filterOptions, setFilterOptions] = useState({
     title: "",
-    type: "short term",
+    type: "",
     status: "pending",
   });
   const [sortOption, setSortOption] = useState({
@@ -31,7 +31,7 @@ const TicketContent = () => {
   });
   console.log(sortOption);
   useEffect(() => {
-    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortBy=${sortOption.sortBy}&orderBy=${sortOption.orderBy}`;
+    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
     console.log("SORT:", sortOptions);
     const fetchTicketData = async () => {
       dispatch(fetchMyTickets(sortOptions));
@@ -78,8 +78,3 @@ const TicketContent = () => {
 };
 
 export default TicketContent;
-{
-  /* <Col sm={24} xs={24} md={24} lg={0} xxl={0}>
-        <MobileTicketList />
-</Col>*/
-}

@@ -1,10 +1,11 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Col, Row, Space, Typography } from "antd";
+import { Col, Space } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import auth from "@/api/auth";
+import { logOut } from "@/api/service/auth.service";
 import {
   changeCheckInStatus,
   fetchCheckInStatus,
@@ -16,8 +17,6 @@ import styles from "@/styles/Layout/Dashboard.module.scss";
 import { MobileMenu, SidebarMenu } from "@/components/page/Dashboard/Menu";
 import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 
-// MobileMenu,
-const { Title, Text } = Typography;
 const DashboardLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -53,25 +52,14 @@ const DashboardLayout = (props) => {
 
   const MobileHeader = () => {
     return (
-      <div
-       
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0.5em 1em",
-          // backgroundColor: "rgb(205, 240, 234)",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-          <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>
-            Welcome {userInfo.lastName}
-          </div>
+      <div className="flex justify-between items-center p-4">
+        <div className="flex flex-col flex-grow">
+          <div className="text-2xl font-bold">Welcome {userInfo.lastName}</div>
           <div>Greeting!</div>
         </div>
-        <div style={{ flexGrow: 1, textAlign: "right" }}>
+        <div className="flex-grow text-right">
           <MenuOutlined
-            style={{ fontSize: "2em" }}
+            className="text-3xl"
             onClick={() => setOpenDrawer(true)}
           />
         </div>
@@ -80,29 +68,40 @@ const DashboardLayout = (props) => {
   };
   const DesktopHeader = () => {
     return (
-      <Space style={{ width: "100%", justifyContent: "space-between" }}>
-        <Space wrap>
-          <div style={{ width: "10em", display: "flex", alignItems: "center" }}>
-            <Image
-              src="/Image/logo.png"
-              width="200"
-              height="100"
-              layout="intrinsic"
-              alt="Đây là Logo"
-              fallback="Đây là Logo"
-            />
-          </div>
+      <div className="flex items-center w-full h-full ">
+        <div className="flex justify-between items-center w-full">
+          <div className="flex flex-wrap items-center">
+            <div className="w-40 flex items-center">
+              <Image
+                src="/Image/logo.png"
+                width="200"
+                height="100"
+                layout="intrinsic"
+                alt="Đây là Logo"
+                fallback="Đây là Logo"
+              />
+            </div>
 
-          <div style={{ flexGrow: 1 }}>
-            <Title style={{ margin: 0 }}>Hello {userInfo.lastName}</Title>
-            <Text type="secondary">Welcome back!</Text>
+            <div className="flex-grow">
+              <div className="font-semibold text-5xl" style={{ margin: 0 }}>
+                Hello {userInfo.lastName} {userInfo.firstName}
+              </div>
+              <div className="text-gray-500 ">Welcome back!</div>
+            </div>
           </div>
-        </Space>
-      </Space>
+          <div
+            className="flex gap-2 items-center cursor-pointer"
+            onClick={async () => await logOut()}
+          >
+            <div className="font-bold">Logout</div>
+            <div className="text-4xl">{exitIcon}</div>
+          </div>
+        </div>
+      </div>
     );
   };
   const content = (
-    <div className="h-screen w-screen flex flex-row flex-wrap">
+    <div className="h-screen flex flex-row flex-wrap">
       {/* Header */}
       <Col
         xs={0}
@@ -180,3 +179,4 @@ const DashboardLayout = (props) => {
 };
 
 export default DashboardLayout;
+const exitIcon = "⛔";

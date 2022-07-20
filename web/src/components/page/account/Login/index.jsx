@@ -70,25 +70,22 @@ const LoginForm = () => {
   };
   return (
     <Form title="Login">
-      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+      <div className="flex flex-col  gap-10 w-full">
         {loginSuccess && (
           <div style={{ color: "rgb(108, 196, 161)", fontSize: "1.1rem" }}>
             Login successful! Redirecting...
           </div>
         )}
         {errors && (
-          <Space
-            direction="vertical"
-            style={{ width: "100%", paddingBottom: "1em" }}
-          >
+          <div className="flex flex-col items-center pb-4">
             {errors.map((error, i) => (
               <div key={i} style={{ color: error.color, fontWeight: "500" }}>
                 {error.message}
               </div>
             ))}
-          </Space>
+          </div>
         )}
-        <Space>
+        <div className="flex gap-2 items-center">
           <UserOutlined style={{ fontSize: "1.5rem" }} />
           <Input
             placeholder="email"
@@ -108,9 +105,9 @@ const LoginForm = () => {
               loginHandler();
             }}
           />
-        </Space>
-        <Space direction="vertical" size="small">
-          <Space>
+        </div>
+        <div className="flex flex-col gap-2 items-center">
+          <div className="flex w-full items-center">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Password"
@@ -130,12 +127,12 @@ const LoginForm = () => {
                 loginHandler();
               }}
             />
-          </Space>
+          </div>
 
-          <Space style={{ flexDirection: "row-reverse", width: "100%" }}>
+          <div className="flex items-center flex-row-reverse w-full">
             <Link href="/account/forgot">Forgot Password?</Link>
-          </Space>
-        </Space>
+          </div>
+        </div>
 
         <button
           className="v-btn-primary w-full"
@@ -147,7 +144,7 @@ const LoginForm = () => {
         >
           Login
         </button>
-      </Space>
+      </div>
     </Form>
   );
 };

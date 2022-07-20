@@ -112,11 +112,11 @@ export class TicketController {
     @Body() data: UpdateTicketPayload,
   ) {
     data.authorId = user.id;
-    data.ticketType = TicketStatus.PENDING;
-    this.ticketService.update(id, data);
+    data.ticketStatus = TicketStatus.PENDING;
     return {
       statusCode: HttpStatus.OK,
       message: 'Ticket updated successfully',
+      data: await this.ticketService.update(id, data),
     };
   }
 
@@ -204,7 +204,7 @@ export class TicketController {
     )
     id: number,
   ) {
-    this.ticketService.remove(id);
+    await this.ticketService.remove(id);
     return {
       statusCode: HttpStatus.OK,
       message: 'Ticket deleted successfully',

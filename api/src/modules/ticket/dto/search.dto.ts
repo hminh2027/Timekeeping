@@ -17,9 +17,9 @@ export class SearchQueryDto {
 
   @ApiPropertyOptional({
     type: String,
-    default: ' ',
+    default: '',
   })
-  textSearch?: string;
+  search?: string;
 
   @ApiPropertyOptional({
     type: String,
@@ -37,11 +37,11 @@ export class SearchQueryDto {
     type: String,
     default: 'createdAt',
   })
-  sortBy?: string = 'createdAt';
+  sortField?: string = 'createdAt';
 
   @ApiPropertyOptional({
     type: Boolean,
     default: true,
   })
-  orderBy?: string = 'true';
+  sortType?: string = 'true';
 }

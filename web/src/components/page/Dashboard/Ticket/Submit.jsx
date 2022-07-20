@@ -4,7 +4,8 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { Input, Select, Spin } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import Router from "next/router";
+import { useDispatch } from "react-redux";
+import { addTicket } from "@/redux/feature/ticket/ticketSlice";
 const { TextArea } = Input;
 const { Option } = Select;
 const SubmitTicket = (props) => {
@@ -20,6 +21,7 @@ const SubmitTicket = (props) => {
   });
   const [ticketTypes, setTicketTypes] = useState([]);
   const [managers, setManagers] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
@@ -45,8 +47,10 @@ const SubmitTicket = (props) => {
     setIsSubmitting(true);
 
     try {
-      await api.post("ticket", ticketData);
+      // await api.post("ticket", ticketData);
+      dispatch(addTicket(ticketData));
       props.hide();
+
       // console.log("Ticket:", ticketData);
       // Router.reload(window.location.pathname);
     } catch (err) {

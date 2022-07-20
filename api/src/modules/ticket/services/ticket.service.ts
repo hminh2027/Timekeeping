@@ -26,64 +26,17 @@ export class TicketService {
   ) {}
 
   async getAll(params: SearchQueryDto): Promise<Ticket[]> {
-    const offset = (params.page - 1) * params.limit;
     try {
-      return await this.ticketRepository
-        .createQueryBuilder('tickets')
-        .where('tickets.title like :title', {
-          title: `%${params.textSearch || ''}%`,
-        })
-        .andWhere(
-          params.ticketType ? 'tickets.ticketType = :ticketType' : '1=1',
-          {
-            ticketType: params.ticketType,
-          },
-        )
-        .andWhere(
-          params.ticketStatus ? 'tickets.ticketStatus = :ticketStatus' : '1=1',
-          {
-            ticketStatus: params.ticketStatus,
-          },
-        )
-        .orderBy(
-          `tickets.${params.sortBy}`,
-          params.orderBy === 'true' ? 'ASC' : 'DESC',
-        )
-        .skip(offset)
-        .take(params.limit)
-        .getMany();
+      return await (await this.ticketRepository.pagination(params)).getMany();
     } catch (err) {
       throw new BadRequestException('Bad query parameters.');
     }
   }
 
   async getByUserId(userId: number, params: SearchQueryDto): Promise<Ticket[]> {
-    const offset = (params.page - 1) * params.limit;
     try {
-      return await this.ticketRepository
-        .createQueryBuilder('tickets')
-        .where('tickets.title like :title', {
-          title: `%${params.textSearch || ''}%`,
-        })
+      return await (await this.ticketRepository.pagination(params))
         .andWhere('tickets.authorId = :authorId', { authorId: userId })
-        .andWhere(
-          params.ticketType ? 'tickets.ticketType = :ticketType' : '1=1',
-          {
-            ticketType: params.ticketType,
-          },
-        )
-        .andWhere(
-          params.ticketStatus ? 'tickets.ticketStatus = :ticketStatus' : '1=1',
-          {
-            ticketStatus: params.ticketStatus,
-          },
-        )
-        .orderBy(
-          `tickets.${params.sortBy}`,
-          params.orderBy === 'true' ? 'ASC' : 'DESC',
-        )
-        .skip(offset)
-        .take(params.limit)
         .getMany();
     } catch (err) {
       throw new BadRequestException('Bad query parameters.');
@@ -132,17 +85,15 @@ export class TicketService {
   }
 
   async update(id: number, data: UpdateTicketPayload): Promise<void> {
+    // check this!
     let ticket: Ticket;
     // Check ticket existance
-    if (data.authorId) {
-      ticket = await this.ticketRepository.findOne({
-        where: { id, authorId: data.authorId },
-      });
-    } else {
-      ticket = await this.ticketRepository.findOne({
-        where: { id, recipientId: data.recipientId },
-      });
-    }
+    ticket = await this.ticketRepository.findOne({
+      where: [
+        { id, authorId: data.authorId },
+        { id, recipientId: data.recipientId },
+      ],
+    });
 
     if (!ticket) throw new NotFoundException('Ticket is not found');
 
@@ -169,7 +120,10 @@ export class TicketService {
 
   async checkTicketTimeConflict(data: CreateTicketPayload): Promise<boolean> {
     const lastestTicket = await this.ticketRepository.findOne({
-      where: { authorId: data.authorId },
+      where: [
+        { authorId: data.authorId, ticketStatus: TicketStatus.APPROVED },
+        { authorId: data.authorId, ticketStatus: TicketStatus.PENDING },
+      ],
       order: { endDate: 'DESC' },
     });
     if (!lastestTicket) return false;

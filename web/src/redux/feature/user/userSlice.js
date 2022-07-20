@@ -90,6 +90,13 @@ export const userSlice = createSlice({
         state.userInfo = action.payload.data;
       } catch (err) {}
     });
+    builder.addCase(fetchMe.rejected, (state, action) => {
+      state.status = "rejected";
+      try {
+        // Add userInfo
+        localStorage.removeItem(process.env.AUTH_TOKEN);
+      } catch (err) {}
+    });
   },
 });
 

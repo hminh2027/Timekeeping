@@ -35,9 +35,12 @@ export const getMyInfo = async (body) => {
       const res = await api.get("auth/me");
       return res;
     } catch (error) {
-      // if (error.response.status === 401) {
-      //   // window.location.replace(`/account/login`);
-      // }
+      if (error.response.status === 401) {
+        // window.location.replace(`/account/login`);
+        auth.clearToken();
+      }
     }
+  } else {
+    return null;
   }
 };
