@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Select, Space } from "antd";
 import api from "@/api/api";
+import { TICKET_TYPES } from "@/utils/constants";
 const { Option } = Select;
 
 const DesktopFilter = (props) => {
-  const [ticketTypes, setTicketTypes] = useState([]);
+  const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
   const [data, setData] = useState({
     title: "",
-    type: "",
+    type: TICKET_TYPES[0],
     status: "",
   });
 
-  useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      setTicketTypes(data);
-    };
-
-    fetchTicketTypes();
-  }, []);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     // console.log("DATA:", data);

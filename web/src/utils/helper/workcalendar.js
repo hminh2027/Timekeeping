@@ -1,8 +1,8 @@
 import moment from "moment";
 
 export const getDateArray = (ticket) => {
-  const startDate = moment(ticket.content.startDate);
-  const endDate = moment(ticket.content.endDate);
+  const startDate = moment(ticket.content.startDate).subtract(1, "d");
+  const endDate = moment(ticket.content.endDate).add(1, "d");
 
   const diff = endDate.diff(startDate, "days");
   const res = [];
