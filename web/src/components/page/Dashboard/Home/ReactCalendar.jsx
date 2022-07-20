@@ -12,6 +12,7 @@ import { getDateArray } from "@/utils/helper/workcalendar";
 import Modal from "@/components/Common/Modal";
 import UseModal from "@/utils/hooks/UseModal";
 import { checkInInfoFormatter } from "@/utils/Formatter/CheckInInfo";
+import Image from "next/image";
 function isSameDay(a, b) {
   return moment(a).isSame(moment(b), "date");
 }
@@ -110,10 +111,13 @@ const ReactCalendar = () => {
             {checkInInfo && checkInInfo.checkInTime}
           </div>
         </div>
-        <img
+        <Image
           src={`${process.env.APP_URL}${
             checkInInfo && checkInInfo.checkInImage
           }`}
+          width={4}
+          height={3}
+          layout="responsive"
         />
       </div>
       <div className="flex flex-col items-center">
@@ -123,10 +127,13 @@ const ReactCalendar = () => {
             {checkInInfo && checkInInfo.checkOutTime}
           </div>
         </div>
-        <img
+        <Image
           src={`${process.env.APP_URL}${
             checkInInfo && checkInInfo.checkOutImage
           }`}
+          width={4}
+          height={3}
+          layout="responsive"
         />
       </div>
     </>
