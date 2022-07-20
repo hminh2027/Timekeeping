@@ -52,7 +52,7 @@ const DashboardLayout = (props) => {
 
   const MobileHeader = () => {
     return (
-      <div className="flex justify-between items-center py-2 px-1">
+      <div className="flex justify-between items-center p-4">
         <div className="flex flex-col flex-grow">
           <div className="text-2xl font-bold">Welcome {userInfo.lastName}</div>
           <div>Greeting!</div>

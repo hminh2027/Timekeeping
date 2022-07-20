@@ -1,0 +1,80 @@
+# This is a basic workflow to help you get started with Actions
+
+name: build-web
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the $default-branch branch
+  push:
+    branches: [ deploy/develop ]
+  pull_request:
+    branches: [ deploy/develop]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          # cache: 'npm'
+
+      # - name: Make envfile
+      #   uses: SpicyPizza/create-envfile@v1.3
+      #   with:
+      #     envkey_DEBUG: false
+      #     envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      #     directory: web
+      #     file_name: .env.production
+      #     fail_on_empty: false
+
+      - name: Copy env
+        run: cp ./web/.env.example ./web/.env.production 
+      
+      - name: Build web
+        run: npm run build:web
+      
+      - name: Push web
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: deploy/web # The branch name where you want to push the assets
+          FOLDER: web # The directory where your assets are generated
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
+          MESSAGE: "Build: ({sha}) {msg}" # The commit message
+      - name: deploy to server
+        uses: appleboy/ssh-action@master
+        env:
+          PROJECT_FOLDER_WEB: '${{secrets.PROJECT_FOLDER_WEB}}'
+          GIT_ACCOUNT_USERNAME: '${{secrets.GIT_ACCOUNT_USERNAME}}'
+          GIT_ACCOUNT_TOKEN: '${{secrets.GIT_ACCOUNT_TOKEN}}'
+          GIT_URL: '${{secrets.GIT_URL}}'
+          GIT_BRANCH_NAME_WEB: '${{secrets.GIT_BRANCH_NAME_WEB}}'
+          SERVER_USER_SERVICE: '${{secrets.SERVER_USER_SERVICE}}'
+          GIT_REPO: '${{secrets.GIT_REPO}}'
+        with:
+          host: ${{secrets.SERVER_IP}}
+          username: ${{secrets.SSH_USERNAME}}
+          password: ${{secrets.SSH_PASSWORD }}
+          port: ${{secrets.SSH_PORT}}
+          envs: PROJECT_FOLDER_WEB,GIT_ACCOUNT_USERNAME,GIT_ACCOUNT_TOKEN,GIT_URL,GIT_BRANCH_NAME_WEB,SERVER_USER_SERVICE,GIT_REPO
+          script: |
+            echo $PROJECT_FOLDER_WEB
+            cd $PROJECT_FOLDER_WEB
+            export GIT_TOKEN=$GIT_ACCOUNT_TOKEN
+            bash ./bin/deploy.sh

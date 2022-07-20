@@ -1,134 +1,120 @@
 import { Button, Input, Select, Space } from "antd";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import api from "../../../../api/api";
-import { selectUserInfo } from "../../../../redux/feature/user/userSlice";
-import styles from "../../../../styles/pages/dashboard/ticket.module.scss";
-import { TicketInfoFormatter } from "../../../../utils/Formatter/TicketInfo";
-import UseModal from "../../../../utils/hooks/UseModal";
-import Modal from "@/components/Common/Modal";
-// import SubmitTicket from "../Ticket/Submit";
+import React, {useReducer} from "react";
 import Approve from "./Approve";
+import { useDispatch } from "react-redux";
 const { Option } = Select;
-const TicketList = () => {
-  const [tickets, setTickets] = useState(demoTickets);
-  const [ticketTypes, setTicketTypes] = useState([]);
-  const userInfo = useSelector(selectUserInfo);
-  useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      setTicketTypes(data);
-    };
-    const fetchTicketData = async () => {
-      const res = await api.get(`ticket`);
-      const tickets = res.data.map((ticket) => TicketInfoFormatter(ticket));
-      setTickets(tickets);
-    };
-    fetchTicketTypes();
-    fetchTicketData();
-  }, []);
-  const deleteTicket = () => {
-
+const initSort = {
+  createdAt: false,
+  startDate: false,
+  endDate: false,
+};
+function reducer(state, action) {
+  switch (action.type) {
+    case "SORT_CREATED_AT": {
+      return { ...initSort, createdAt: action.data };
+    }
+    case "SORT_START_DATE": {
+      state = { ...initSort };
+      state.startDate = action.data;
+      return state;
+    }
+    case "SORT_END_DATE": {
+      state = { ...initSort };
+      state.endDate = action.data;
+      return state;
+    }
+    default:
+      return state;
   }
+}
+const TicketList = React.memo((props) => {
+  const tickets = props.tickets
+  const [state, dispatch] = useReducer(reducer, initSort);
+  const {createdAt, startDate, endDate} = state;
+
+  const sortHandle = (sortBy, orderBy) => {
+    const sortOption = {
+      sortBy,
+      orderBy,
+    };
+    props.onSort(sortOption);
+  };
+
   const filter = () => {};
   return (
-    <div
-      className={styles[`desktop-ticket-list`]}
-      style={{
-        backgroundColor: "#fff",
-        boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-      }}
-    >
-      <div className = "flex flex-col p-4">
-        <div className="flex justify-between">
-          <div className="flex gap-8">
-            <Space>
-              <div>Title:</div>
-              <Input
-                placeholder="Title"
-                onChange={filter}
-                style={{ flex: "1 0 5em" }}
-              />
-            </Space>
-            <Space>
-              <div>Type:</div>
-              <Select
-                value={ticketTypes[0]}
-                style={{ flex: "1 0 8em", minWidth: "8em" }}
-              >
-                {ticketTypes.map((ticketType, index) => (
-                  <Option key={index} value={ticketType}>
-                    {ticketType}
-                  </Option>
-                ))}
-              </Select>
-            </Space>
-            <div className="flex items-center justify-between ">
-              <div className="flex flex-1 items-center w-80">
-                <div>Status:</div>
-                <Select
-                  defaultValue="all"
-                  className=" w-32"
-                  options={status}
-                ></Select>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-2 flex-1 mx-1 my-3" >
-            <div className="flex justify-between gap-1">
-              <div className="">🟢</div>
-              <div className="">Approved</div>
-            </div>
-            <div className="flex gap-1">
-              <div className="">🔴</div>
-              <div className="">Rejected</div>
-            </div>
-            <div className="flex gap-1">
-              <div className="">🟡</div>
-              <div className="">Pending</div>
-            </div>
-            <div className="flex gap-1">
-              <div className="">⚪</div>
-              <div className="">Cancel</div>
-            </div>
-          </div>
-          <div>
-            <button 
-              type="primary" 
-              className=" w-full border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-2 hover:text-zinc-500 rounded-lg">
-              Apply
-            </button>
+    <>
+      <div
+        className="hidden p-4 font-semibold lg:flex"
+        style={{background: "rgb(153, 226, 180)"}}
+      >
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+          Title
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+          Type
+        </div>
+        <div className="font-semibold" style={{ flex: "1 1 2em" }}>
+          Status
+        </div>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => {
+            dispatch({ type: "SORT_CREATED_AT", data: !createdAt });
+            sortHandle("createdAt", !createdAt);
+          }}
+        >
+          <div>Created At</div>
+          <div className="ml-4">
+            {createdAt ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => {
+            dispatch({ type: "SORT_START_DATE", data: !startDate });
+            sortHandle("startDate", !startDate);
+          }}
+        >
+          <div>Start Date</div>
+          <div className="ml-4">
+            {startDate ? arrow_down_icon : arrow_up_icon}
+          </div>
+        </div>
+        <div
+          className="font-semibold flex"
+          style={{ flex: "1 0 8em" }}
+          onClick={() => {
+            dispatch({ type: "SORT_END_DATE", data: !endDate });
+            sortHandle("endDate", !endDate);
+          }}
+        >
+          <div>End Date</div>
+          <div className="ml-4">
+            {endDate ? arrow_down_icon : arrow_up_icon}
+          </div>
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+          Action
+        </div>
       </div>
-      <div
-        className=" bg-emerald-400 hidden p-4 font-semibold lg:flex">
-        <div style={{ flex: "1 0 12em" }}>Title</div>
-        <div style={{ flex: "1 0 5em" }}>Type</div>
-        <div style={{ flex: "1 1 50px" }}>Status</div>
-        <div style={{ flex: "1 0 10em" }}>Start Date</div>
-        <div style={{ flex: "1 0 10em" }}>End Date</div>
-        <div style={{ flex: "1 0 5em" }}>Action</div>
-      </div>
-      {tickets.map((ticket, index) => (
+      {tickets?.map((ticket) => (
         <TicketListItem
-          key={index}
+          key={ticket.id}
           id={ticket.id}
           content={ticket.content}
-          style={{ width: "100%" }}
         />
       ))}
-    </div>
+    </>
   );
-};
+});
 const TicketListItem = (props) => {
   const {
     id,
     style,
     content: { status, title, type, startDate, endDate, actions },
   } = props;
-  // const { status, title, type, createdDate, respondedDate, action } = content;
   const statusIcon = [];
   switch (status) {
     case "rejected": {
@@ -144,20 +130,16 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  // const { isShowing, toggle } = UseModal();
   return (
-    <div className="py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
-      <div 
-        style={{ flex: "1 0 12em" }}
-        className="flex font-semibold text-sky-800"
-      >
+    <div className="font-medium py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
+      <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Title:
         </div>
-        <div className="flex-1">{title}</div>
+        <div className="flex-1 font-semibold">{title}</div>
       </div>
       <div
-        style={{ flex: "1 0 5em" }}
+        style={{ flex: "1 0 4em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -165,14 +147,28 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">{type}</div>
       </div>
-      <div style={{ flex: "1 1 50px" }} className="flex">
+      <div
+        style={{ flex: "1 1 1em" }}
+        className="flex font-light text-gray-500 "
+      >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Status:
         </div>
-        <div className="flex-1">{statusIcon[0]}</div>
+        <div className="flex-1">
+          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+        </div>
       </div>
       <div
-        style={{ flex: "1 0 10em" }}
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          Created at:
+        </div>
+        <div className="flex-1">{startDate}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -181,7 +177,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{startDate}</div>
       </div>
       <div
-        style={{ flex: "1 0 10em" }}
+        style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500"
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -189,16 +185,14 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">{endDate}</div>
       </div>
-      <div style={{ flex: "1 0 5em" }} className="font-light text-gray-500">
+      <div style={{ flex: "1 0 3em" }} className="font-light text-gray-500">
         <Approve id={id} num={status}></Approve>
       </div>
     </div>
   );
 };
 export { TicketListItem, TicketList };
-
 const demoTickets = [];
-
 const status = [
   {
     label: (
@@ -246,3 +240,32 @@ const status = [
     value: "cancelled",
   },
 ];
+
+const arrow_down_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
+const arrow_up_icon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);

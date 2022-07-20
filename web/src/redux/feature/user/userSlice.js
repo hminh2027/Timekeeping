@@ -108,7 +108,6 @@ export const {
 } = userSlice.actions;
 
 export const selectUser = (state) => state.user;
-
 //Selectors
 export const selectUserName = (state) => state.user.name;
 export const selectUserCheckInStatus = (state) => state.user.checkInStatus;
