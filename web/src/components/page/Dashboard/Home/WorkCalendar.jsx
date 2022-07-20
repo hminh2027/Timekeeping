@@ -122,6 +122,7 @@ const WorkCalendar = () => {
           <Space>
             <div>CheckIn time:</div> <div>{checkInInfo.checkInTime}</div>
           </Space>
+
           <img src={`${process.env.APP_URL}${checkInInfo.checkInImage}`} />
         </Space>
 
