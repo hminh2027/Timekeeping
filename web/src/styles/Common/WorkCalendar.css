@@ -17,6 +17,9 @@
     line-height: 1.125em;
  
 }
-.react-calendar__month-view__days button{
-
+.react-calendar__month-view__days__day--weekend{
+  color: black;
+}
+.react-calendar__tile--active{
+  color: black
 }

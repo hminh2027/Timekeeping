@@ -15,37 +15,29 @@ import { checkInInfoFormatter } from "@/utils/Formatter/CheckInInfo";
 function isSameDay(a, b) {
   return moment(a).isSame(moment(b), "date");
 }
-
-//List các ngày nghỉ
-// const disabledDates = [
-//   "15 July 2022 00:00:00 GMT",
-//   "16 July 2022 00:00:00 GMT",
-//   "20 July 2022 00:00:00 GMT",
-//   "21 July 2022 00:00:00 GMT",
-//   "22 July 2022 00:00:00 GMT",
-// ];
-
+const checkInInfoInit = {
+  id: "NULL",
+  checkinImage: "NULL",
+  checkinLatitude: "NULL",
+  checkinLongitude: "NULL",
+  checkoutImage: "NULL",
+  checkoutLatitude: "NULL",
+  checkoutLongitude: "NULL",
+  checkInTime: new Date(Date.now()),
+  checkOutTime: new Date(Date.now()),
+  userId: "NULL",
+};
 const ReactCalendar = () => {
   const dispatch = useDispatch();
   const { isShowing, toggle } = UseModal();
   const [curDate, setCurDate] = useState(new Date());
+  const [loadingInfo, setLoadingInfo] = useState(false);
   const [data, setData] = useState({
     accepted: [],
     denied: [],
     approved: [],
   });
-  const [checkInInfo, setCheckInInfo] = useState({
-    id: "NULL",
-    checkinImage: "NULL",
-    checkinLatitude: "NULL",
-    checkinLongitude: "NULL",
-    checkoutImage: "NULL",
-    checkoutLatitude: "NULL",
-    checkoutLongitude: "NULL",
-    checkInTime: new Date(Date.now()),
-    checkOutTime: new Date(Date.now()),
-    userId: "NULL",
-  });
+  const [checkInInfo, setCheckInInfo] = useState(checkInInfoInit);
   const tickets = useSelector(selectTickets);
 
   function tileClassName({ date, view }) {
@@ -60,7 +52,7 @@ const ReactCalendar = () => {
       }
       if (data.approved) {
         if (data.approved.find((dDate) => isSameDay(dDate, date))) {
-          return "calendar-bg-gray";
+          return "calendar-bg-gray hover:text-black";
         }
       }
     }
@@ -100,12 +92,47 @@ const ReactCalendar = () => {
         setCheckInInfo(res);
       } catch (err) {
         setCheckInInfo(undefined);
+      } finally {
+        setLoadingInfo(false);
       }
     };
     fetchCheckInInfo();
   }, [curDate]);
-  const modalContent = checkInInfo ? (
-    <div className="card">
+
+  const noInfoCard = <div className="p-20">No Info</div>;
+  const infoCard = (
+    <>
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex items-center">
+          <div>CheckIn time:</div>{" "}
+          <div className="flex-auto">
+            {checkInInfo && checkInInfo.checkInTime}
+          </div>
+        </div>
+        <img
+          src={`${process.env.APP_URL}${
+            checkInInfo && checkInInfo.checkInImage
+          }`}
+        />
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="flex items-center">
+          <div>CheckOut time:</div>{" "}
+          <div className="flex-auto">
+            {checkInInfo && checkInInfo.checkOutTime}
+          </div>
+        </div>
+        <img
+          src={`${process.env.APP_URL}${
+            checkInInfo && checkInInfo.checkOutImage
+          }`}
+        />
+      </div>
+    </>
+  );
+
+  const modalContent = (
+    <div className={`card `}>
       <div
         style={{
           textAlign: "left",
@@ -115,29 +142,27 @@ const ReactCalendar = () => {
         }}
         className="card-body"
       >
-        <div className="flex flex-col items-center">
-          <div className="flex items-center">
-            <div>CheckIn time:</div> <div>{checkInInfo.checkInTime}</div>
-          </div>
-          <img src={`${process.env.APP_URL}${checkInInfo.checkInImage}`} />
-        </div>
-
-        <div className="flex flex-col items-center">
-          <div className="flex items-center">
-            <div>CheckOut time:</div> <div>{checkInInfo.checkOutTime}</div>
-          </div>
-          <img src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`} />
+        <div className="flex justify-center items-center p-20 flex-col">
+          {loadingInfo ? (
+            <div className="animate-spin text-3xl">⏳</div>
+          ) : checkInInfo ? (
+            infoCard
+          ) : (
+            noInfoCard
+          )}
         </div>
       </div>
     </div>
-  ) : (
-    <div className="card p-20">No Info</div>
   );
+
   return (
     <>
       <Calendar
         onClickDay={(day, event) => {
+          setCheckInInfo(null);
+          setLoadingInfo(true);
           setCurDate(day);
+
           toggle();
         }}
         value={curDate}

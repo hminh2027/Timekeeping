@@ -3,4 +3,3 @@ export const TICKET_TYPES = {
   1: "long term",
   2: "short term",
 };
-// export ticketTypes
