@@ -88,9 +88,10 @@ const ReactCalendar = () => {
           fromDate: moment(curDate).format("YYYY-MM-DD"),
           toDate: moment(curDate).add(1, "d").format("YYYY-MM-DD"),
         });
-        res = checkInInfoFormatter(res.data[0]);
-        setCheckInInfo(res);
+
+        setCheckInInfo(checkInInfoFormatter(res.data[0]));
       } catch (err) {
+        console.error(err);
         setCheckInInfo(undefined);
       } finally {
         setLoadingInfo(false);

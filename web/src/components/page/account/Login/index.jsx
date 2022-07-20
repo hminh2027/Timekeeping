@@ -53,7 +53,7 @@ const LoginForm = () => {
             auth.setRefreshToken(res.data.refreshToken);
             setLoginSuccess(true);
 
-            setTimeout(() => Router.push("/"), 3000);
+            Router.push("/");
           }
         }
       } catch (err) {
