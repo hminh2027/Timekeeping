@@ -7,6 +7,9 @@ import * as fs from 'fs';
 export class CheckinRepository extends Repository<Checkin> {
   async saveBase64ToFile(base64string: String) {
     const base64Data = base64string.replace(/^data:image\/png;base64,/, '');
+    fs.mkdir('images/', { recursive: true }, (err) => {
+      if (err) throw err;
+    });
     const imageName = `${+new Date()}.png`;
     fs.writeFile(`images/${imageName}`, base64Data, 'base64', function (err) {
       return null;

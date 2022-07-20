@@ -59,7 +59,7 @@ const ReactCalendar = () => {
   }
   useEffect(() => {
     const approvedDays = [];
-    tickets.forEach((ticket) => {
+    tickets?.forEach((ticket) => {
       const res = getDateArray(ticket);
       return approvedDays.push(...res);
     });
@@ -142,9 +142,9 @@ const ReactCalendar = () => {
         }}
         className="card-body"
       >
-        <div className="flex justify-center items-center p-20 flex-col">
+        <div className="flex flex-col items-center justify-center p-20">
           {loadingInfo ? (
-            <div className="animate-spin text-3xl">⏳</div>
+            <div className="text-3xl animate-spin">⏳</div>
           ) : checkInInfo ? (
             infoCard
           ) : (

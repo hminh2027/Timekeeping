@@ -13,8 +13,8 @@ const ApproveTicket = () => {
   const dispatch = useDispatch();
   const [filterOptions, setFilterOptions] = useState({
     title: "",
-    type: "short",
-    status: "pending",
+    type: "",
+    status: "",
   });
   const [sortOption, setSortOption] = useState({
     sortBy: "createdAt",
@@ -31,36 +31,34 @@ const ApproveTicket = () => {
   // Gọi api khi filter option thay đổi
 
   return (
-    <>
-      <Row>
-        <div className="flex justify-between items-center bg-white w-full px-4 py-6">
-          <div className="text-3xl font-bold">Manage Ticket</div>
+    <div className="flex-1">
+      <div className="flex items-center justify-between w-full px-4 py-6 bg-white">
+        <div className="text-3xl font-bold">Manage Ticket</div>
+      </div>
+      <div span={24}>
+        <div
+          className="flex flex-col m-1 overflow-auto rounded-lg"
+          style={{
+            backgroundColor: "#fff",
+            boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
+          }}
+        >
+          <DesktopFilter
+            onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+            className="hidden lg:flex"
+          />
+          <MobileFilter
+            onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+            className="lg:hidden"
+          />
+          <TicketList
+            tickets={tickets}
+            onSort={(option) => setSortOption(option)}
+            sortOption={sortOption}
+          />
         </div>
-        <Col span={24}>
-          <div
-            className="flex flex-col overflow-auto rounded-lg m-1"
-            style={{
-              backgroundColor: "#fff",
-              boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-            }}
-          >
-            <DesktopFilter
-              onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
-              className="hidden lg:flex"
-            />
-            <MobileFilter
-              onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
-              className="lg:hidden"
-            />
-            <TicketList
-              tickets={tickets}
-              onSort={(option) => setSortOption(option)}
-              sortOption={sortOption}
-            />
-          </div>
-        </Col>
-      </Row>
-    </>
+      </div>
+    </div>
   );
 };
 
