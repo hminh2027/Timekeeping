@@ -13,8 +13,8 @@ const ApproveTicket = () => {
   const dispatch = useDispatch();
   const [filterOptions, setFilterOptions] = useState({
     title: "",
-    type: "short",
-    status: "pending",
+    type: "",
+    status: "",
   });
   const [sortOption, setSortOption] = useState({
     sortBy: "createdAt",

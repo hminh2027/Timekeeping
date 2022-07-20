@@ -123,7 +123,7 @@ const CheckTicket = (props) => {
         </div>
         <div className="w-full flex items-center justify-center">
           <button
-            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500 mr-4"
+            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500 mr-4"
             type="primary"
             onClick={() => {
               approve();
@@ -139,7 +139,7 @@ const CheckTicket = (props) => {
             )}
           </button>
           <button
-            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500"
+            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500"
             type="primary"
             onClick={() => {
               reject();

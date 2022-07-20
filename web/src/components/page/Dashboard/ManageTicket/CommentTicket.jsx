@@ -27,7 +27,7 @@ const CommentTicket = ({id}) => {
 
         </div>
         <div className="flex">
-          <input type="text" placeholder="comment" class="input input-bordered input-accent w-full max-w-xs" />
+          <textarea type="text" placeholder="comment" class="input input-bordered input-accent w-full max-w-xs" />
           {/* <textarea className=" row-span-2 w-10/12"          
             name="comment"
             // value= {ticketData.comment}
