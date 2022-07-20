@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { selectUserCheckInStatus } from "../../../../redux/feature/user/userSlice";
 import styles from "../../../../styles/pages/dashboard/home.module.scss";
+import ReactCalendar from "./ReactCalendar";
 
 import WorkCalendar from "./WorkCalendar";
 const Home = () => {
@@ -33,9 +34,10 @@ const Home = () => {
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={16}>
-          <div className="card w-full h-96">
+          <div className="card w-full">
             <div className="card-body">
-              <WorkCalendar />
+              {/* <WorkCalendar /> */}
+              <ReactCalendar />
             </div>
           </div>
         </Col>

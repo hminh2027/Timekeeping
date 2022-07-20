@@ -19,7 +19,7 @@ const RecoveryLayout = (props) => {
     getUserInfo();
   }, []);
   const content = (
-    <div className="flex w-full min-h-screen justify-center items-center px-1 flex-wrap">
+    <div className="flex flex-wrap items-center justify-center w-full min-h-screen px-1">
       <Image
         src="https://img.freepik.com/free-vector/tiny-people-protecting-business-data-legal-information-isolated-flat-illustration_74855-11121.jpg"
         preview={false}

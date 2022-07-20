@@ -1,5 +1,8 @@
 # vCheck
 
+[![build-api](https://github.com/vdtsol/vCheck/actions/workflows/build-api.yml/badge.svg?branch=deploy%2Fdevelop)](https://github.com/vdtsol/vCheck/actions/workflows/build-api.yml)
+[![build-web](https://github.com/vdtsol/vCheck/actions/workflows/build-web.yml/badge.svg)](https://github.com/vdtsol/vCheck/actions/workflows/build-web.yml)
+
 Yêu cầu công nghệ:
 + Công nghệ Nestjs/nextjs
 

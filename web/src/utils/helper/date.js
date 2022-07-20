@@ -6,7 +6,7 @@ const generateDateArray = (startDate, endDate) => {
   // console.log(diff);
   const res = [];
   const start = startDateMoment.date();
-  console.log(start);
+
   for (let i = 0; i < diff; i++) {
     res.push(start + i);
   }

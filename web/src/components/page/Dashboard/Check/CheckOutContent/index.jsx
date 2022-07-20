@@ -39,11 +39,7 @@ const CheckInContent = () => {
     console.error("Error: ", error);
   }
   const notCheckedCard = (
-    <Space
-      style={{ width: "100%" }}
-      direction="vertical"
-      className={styles.card}
-    >
+    <div className="flex flex-col items-center gap-4 p-4 card">
       {!checkOutStatus ? (
         <>
           <div>{trans.check.checkout.not_checked_out}</div>
@@ -54,51 +50,53 @@ const CheckInContent = () => {
           <div>
             {trans.check.checkout.checked_out} {checkOutTime}
           </div>
-          <div>{trans.check.greeting}</div>
+          <div>{trans.check.greeting} ¯\_(ツ)_/¯</div>
         </>
       )}
 
-      <Button
-        type="primary"
+      <button
+        className="px-4 py-1 rounded v-btn-primary"
         onClick={() => {
           setIsChecking(true);
         }}
         disabled={checkOutLimit && checkOutLimit}
       >
         {trans.check.checkout.checkout_now}
-      </Button>
-    </Space>
+      </button>
+    </div>
   );
   const checkedCard = (
     <>
-      <Space
-        style={{ width: "100%" }}
-        direction="vertical"
-        className={styles.card}
-      >
+      <div className="flex flex-col gap-4 p-4 card">
         <div>
           <div>
             {trans.check.checkout.checked_out} {checkOutTime}
           </div>
           <div>{trans.check.checkout.greeting}</div>
         </div>
-      </Space>
+      </div>
     </>
   );
-  const url = `http://localhost:3000/${checkedImg}`;
+  const url = `${process.env.APP_URL}${checkedImg}`;
 
   const checkedImage = (
-    <div className={styles.card} style={{ padding: "0.5em" }}>
-      <img src={url} width="300" height="300" layout="fill" />
+    <div className="p-4 card" style={{ padding: "0.5em" }}>
+      <img
+        crossOrigin="anonymous"
+        src={url}
+        width="300"
+        height="300"
+        layout="fill"
+      />
     </div>
   );
   const checkOutContent = (
     <>
-      <Space>
+      <div className="flex flex-col items-center gap-4 lg:flex-row">
         {notCheckedCard}
         {checkOutStatus && <div>Here's your image 👉</div>}
         {checkOutStatus && checkedImage}
-      </Space>
+      </div>
       {error && (
         <div style={{ color: "rgb(230,30,10)" }}>
           Lỗi rồi : {error.message} 😔😔😔
@@ -115,31 +113,23 @@ const CheckInContent = () => {
     </>
   );
   const failedCheckIn = (
-    <div>
+    <div className="p-4 card ">
       Haven't checked in yet! Wanna checkin?
-      <Button
-        type="primary"
+      <button
+        className="px-2 rounded v-btn-primary"
         onClick={() => {
           Router.push("dashboard/checkin");
         }}
       >
         Go to Checkin
-      </Button>
+      </button>
     </div>
   );
   const content = checkInStatus === false ? failedCheckIn : checkOutContent;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "100%",
-      }}
-      className="flex justify-center h-full"
-      // className={styles.checkin}
-    >
-      <div className="flex flex-col flex-wrap w-full mx-auto p-8 gap-2">
+    <div className="flex justify-center h-full">
+      <div className="flex flex-col flex-wrap w-full gap-2 p-4 mx-auto">
         {content}
       </div>
     </div>

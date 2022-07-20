@@ -8,7 +8,8 @@
       "@/styles/*": ["src/styles/*"],
       "@/api/*": ["src/api/*"],
       "@/redux/*": ["src/redux/*"],
-      "@/pages/*": ["src/pages/*"]
+      "@/pages/*": ["src/pages/*"],
+      "@/assets/*": ["src/assets/*"]
     }
   }
 }

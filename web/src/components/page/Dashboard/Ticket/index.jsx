@@ -22,7 +22,7 @@ const TicketContent = () => {
 
   const [filterOptions, setFilterOptions] = useState({
     title: "",
-    type: "short term",
+    type: "",
     status: "pending",
   });
   const [sortOption, setSortOption] = useState({
@@ -41,45 +41,38 @@ const TicketContent = () => {
   // Gọi api khi filter option thay đổi
 
   return (
-    <>
-      <Row>
-        <Header toggleModal={toggle} />
-        <Col span={24}>
-          <div
-            className="flex flex-col overflow-auto rounded-lg m-1"
-            style={{
-              backgroundColor: "#fff",
-              boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-            }}
-          >
-            <DesktopFilter
-              onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
-              className="hidden lg:flex"
-            />
-            <MobileFilter
-              onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
-              className="lg:hidden"
-            />
+    <div className="flex-1">
+      <Header toggleModal={toggle} />
+      <div span={24}>
+        <div
+          className="flex flex-col m-1 overflow-auto rounded-lg"
+          style={{
+            backgroundColor: "#fff",
+            boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
+          }}
+        >
+          <DesktopFilter
+            onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+            className="hidden lg:flex"
+          />
+          <MobileFilter
+            onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+            className="lg:hidden"
+          />
 
-            <TicketList
-              tickets={tickets}
-              onSort={(option) => setSortOption(option)}
-              sortOption={sortOption}
-            />
-          </div>
-        </Col>
+          <TicketList
+            tickets={tickets}
+            onSort={(option) => setSortOption(option)}
+            sortOption={sortOption}
+          />
+        </div>
+      </div>
 
-        <Modal isShowing={isShowing} hide={toggle}>
-          <SubmitTicket hide={toggle} />
-        </Modal>
-      </Row>
-    </>
+      <Modal isShowing={isShowing} hide={toggle}>
+        <SubmitTicket hide={toggle} />
+      </Modal>
+    </div>
   );
 };
 
 export default TicketContent;
-{
-  /* <Col sm={24} xs={24} md={24} lg={0} xxl={0}>
-        <MobileTicketList />
-</Col>*/
-}

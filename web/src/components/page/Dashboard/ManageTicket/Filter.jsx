@@ -16,7 +16,7 @@ const DesktopFilter = (props) => {
   useEffect(() => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
-      const { data } = res;
+      const data = ["",...res.data];
       setTicketTypes(data);
     };
 
@@ -121,14 +121,14 @@ const MobileFilter = (props) => {
   useEffect(() => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
-      const { data } = res;
+      const data = ["",...res.data];
+      console.log("TICKET TYPE", data)
       setTicketTypes(data);
     };
     fetchTicketTypes();
   }, []);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-    // console.log("DATA:", data);
   };
   const submit = () => {
     props.onSubmit(data);
@@ -204,7 +204,7 @@ const MobileFilter = (props) => {
               </div>
             </div>
           </div>
-          <div className="text-right ">
+          <div className="text-right">
             <button
               class="v-btn-primary"
               onClick={() => {
@@ -239,7 +239,7 @@ const status = [
         <div className=""></div>
       </div>
     ),
-    value: "all",
+    value: "",
   },
   {
     label: (
