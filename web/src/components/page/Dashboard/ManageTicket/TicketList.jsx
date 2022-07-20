@@ -32,10 +32,10 @@ const TicketList = React.memo((props) => {
   const [state, dispatch] = useReducer(reducer, initSort);
   const {createdAt, startDate, endDate} = state;
 
-  const sortHandle = (sortBy, orderBy) => {
+  const sortHandle = (sortField, sortType) => {
     const sortOption = {
-      sortBy,
-      orderBy,
+      sortField,
+      sortType,
     };
     props.onSort(sortOption);
   };

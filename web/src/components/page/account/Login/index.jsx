@@ -60,7 +60,7 @@ const LoginForm = () => {
         console.error(err);
         newErrors.push({
           title: "login-failed",
-          message: err.response?.data.message,
+          message: err.response?.data?.message,
           color: "red",
         });
         setErrors(newErrors);

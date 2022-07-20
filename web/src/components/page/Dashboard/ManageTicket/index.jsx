@@ -17,11 +17,11 @@ const ApproveTicket = () => {
     status: "",
   });
   const [sortOption, setSortOption] = useState({
-    sortBy: "createdAt",
-    orderBy: true,
+    sortField: "createdAt",
+    sortType: true,
   });
   useEffect(() => {
-    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortBy=${sortOption.sortBy}&orderBy=${sortOption.orderBy}`;
+    const sortOptions = `limit=10&page=1&textSearch=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
     console.log("SORT:", sortOptions);
     const fetchTicketData = async () => {
       dispatch(fetchTickets(sortOptions));
