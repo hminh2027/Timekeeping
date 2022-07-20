@@ -9,7 +9,7 @@ import { DesktopFilter, MobileFilter } from "./Filter";
 const ApproveTicket = () => {
   const { isShowing, toggle } = UseModal();
   const tickets = useSelector(selectTickets);
-  console.log("Tickets",tickets)
+  console.log("Tickets", tickets);
   const dispatch = useDispatch();
   const [filterOptions, setFilterOptions] = useState({
     title: "",
@@ -33,12 +33,8 @@ const ApproveTicket = () => {
   return (
     <>
       <Row>
-        <div
-          className="flex justify-between items-center bg-white w-full px-4 py-6"
-        >
-          <div className="text-3xl font-bold">
-            Manage Ticket
-          </div>
+        <div className="flex justify-between items-center bg-white w-full px-4 py-6">
+          <div className="text-3xl font-bold">Manage Ticket</div>
         </div>
         <Col span={24}>
           <div
