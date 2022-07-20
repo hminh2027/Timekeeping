@@ -25,7 +25,7 @@ import { SearchQueryDto } from '../dto/search.dto';
 @ApiBearerAuth()
 @UsePipes(ValidationPipe)
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.USER)
+@Roles(UserRole.USER, UserRole.ADMIN)
 export class CheckinController {
   constructor(private readonly checkinService: CheckinService) {}
 
