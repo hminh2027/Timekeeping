@@ -39,7 +39,7 @@ const CheckInContent = () => {
     console.error("Error: ", error);
   }
   const notCheckedCard = (
-    <div className="flex flex-col gap-4 items-center card p-4">
+    <div className="flex flex-col items-center gap-4 p-4 card">
       {!checkOutStatus ? (
         <>
           <div>{trans.check.checkout.not_checked_out}</div>
@@ -55,7 +55,7 @@ const CheckInContent = () => {
       )}
 
       <button
-        className="v-btn-primary px-4 py-1 rounded"
+        className="px-4 py-1 rounded v-btn-primary"
         onClick={() => {
           setIsChecking(true);
         }}
@@ -67,7 +67,7 @@ const CheckInContent = () => {
   );
   const checkedCard = (
     <>
-      <div className="card p-4  flex flex-col gap-4">
+      <div className="flex flex-col gap-4 p-4 card">
         <div>
           <div>
             {trans.check.checkout.checked_out} {checkOutTime}
@@ -77,11 +77,17 @@ const CheckInContent = () => {
       </div>
     </>
   );
-  const url = `http://localhost:3000/${checkedImg}`;
+  const url = `${process.env.APP_URL}${checkedImg}`;
 
   const checkedImage = (
-    <div className="card p-4" style={{ padding: "0.5em" }}>
-      <img src={url} width="300" height="300" layout="fill" />
+    <div className="p-4 card" style={{ padding: "0.5em" }}>
+      <img
+        crossOrigin="anonymous"
+        src={url}
+        width="300"
+        height="300"
+        layout="fill"
+      />
     </div>
   );
   const checkOutContent = (
@@ -107,10 +113,10 @@ const CheckInContent = () => {
     </>
   );
   const failedCheckIn = (
-    <div className="card p-4 ">
+    <div className="p-4 card ">
       Haven't checked in yet! Wanna checkin?
       <button
-        className="v-btn-primary rounded px-2"
+        className="px-2 rounded v-btn-primary"
         onClick={() => {
           Router.push("dashboard/checkin");
         }}
@@ -123,7 +129,7 @@ const CheckInContent = () => {
 
   return (
     <div className="flex justify-center h-full">
-      <div className="flex flex-col flex-wrap w-full mx-auto p-4 gap-2">
+      <div className="flex flex-col flex-wrap w-full gap-2 p-4 mx-auto">
         {content}
       </div>
     </div>

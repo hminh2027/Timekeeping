@@ -60,7 +60,7 @@ const LoginForm = () => {
         console.error(err);
         newErrors.push({
           title: "login-failed",
-          message: err.response.data.message,
+          message: err.response?.data.message,
           color: "red",
         });
         setErrors(newErrors);
@@ -70,7 +70,7 @@ const LoginForm = () => {
   };
   return (
     <Form title="Login">
-      <div className="flex flex-col  gap-10 w-full">
+      <div className="flex flex-col w-full gap-10">
         {loginSuccess && (
           <div style={{ color: "rgb(108, 196, 161)", fontSize: "1.1rem" }}>
             Login successful! Redirecting...
@@ -85,7 +85,7 @@ const LoginForm = () => {
             ))}
           </div>
         )}
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <UserOutlined style={{ fontSize: "1.5rem" }} />
           <Input
             placeholder="email"
@@ -106,8 +106,8 @@ const LoginForm = () => {
             }}
           />
         </div>
-        <div className="flex flex-col gap-2 items-center">
-          <div className="flex w-full items-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center w-full">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Password"
@@ -129,13 +129,13 @@ const LoginForm = () => {
             />
           </div>
 
-          <div className="flex items-center flex-row-reverse w-full">
+          <div className="flex flex-row-reverse items-center w-full">
             <Link href="/account/forgot">Forgot Password?</Link>
           </div>
         </div>
 
         <button
-          className="v-btn-primary w-full"
+          className="w-full v-btn-primary"
           // style={{ width: "100%", borderRadius: "6px" }}
           onClick={(e) => {
             e.preventDefault();
