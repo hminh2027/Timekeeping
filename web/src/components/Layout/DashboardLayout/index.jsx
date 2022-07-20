@@ -1,6 +1,7 @@
 import auth from "@/api/auth";
 import Loading from "@/components/Common/Loading";
-import { SidebarMenu } from "@/components/page/Dashboard/Menu";
+import { MobileMenu, SidebarMenu } from "@/components/page/Dashboard/Menu";
+import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 import {
   changeCheckInStatus,
   fetchCheckInStatus,
@@ -57,6 +58,13 @@ const DashboardLayout = (props) => {
         <SidebarMenu />
         {/* Content */}
         <div className="flex flex-1">{props.children}</div>
+      </div>
+      <div>
+        <MobileDrawer
+          visible={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+        />
+        <MobileMenu />
       </div>
     </div>
   );
