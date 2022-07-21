@@ -16,6 +16,9 @@ export class CheckoutHistory {
   @Column()
   date: Number;
 
+  @Column({ length: 255, default: '' })
+  image!: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
