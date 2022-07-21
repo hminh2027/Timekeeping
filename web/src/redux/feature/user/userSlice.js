@@ -5,6 +5,7 @@ import {
   getMyInfo,
   logOut as authLogOut,
 } from "@/api/service/auth.service";
+import * as moment from "moment";
 const initialState = {
   name: "",
   checkInStatus: false,
@@ -17,10 +18,18 @@ const initialState = {
 export const fetchCheckInStatus = createAsyncThunk(
   "user/fetchCheckInStatus",
   async () => {
+
+    console.log("moment",moment().format("YYYY-MM-DD"))
+
     try {
       const response = await getCheckInStatus({
-        fromDate: new Date(Date.now()).toISOString().split("T")[0],
-        toDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+        fromDate: moment().format("YYYY-MM-DD"),
+        toDate: moment().add(1,'d').format("YYYY-MM-DD"),
+      });
+      console.log("response", {
+        response,
+        froDate: moment().format("YYYY-MM-DD"),
+        toDate: moment().add(1,'d').format("YYYY-MM-DD"),
       });
       return response;
     } catch (error) {

@@ -15,19 +15,4 @@ const SidebarMenu = () => {
     </div>
   );
 };
-const MobileMenu = () => {
-  return (
-    <div className="flex w-full text-sm justify-evenly lg:hidden">
-      {menuItems.map((menuItem) => (
-        <MenuLabel
-          key={menuItem.value}
-          href={menuItem.value}
-          icon={menuItem.icon}
-          label={menuItem.label}
-          id={menuItem.id}
-        />
-      ))}
-    </div>
-  );
-};
-export { SidebarMenu, MobileMenu };
+export default SidebarMenu;

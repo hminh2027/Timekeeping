@@ -1,7 +1,7 @@
 import React from "react";
 import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
-import CheckTicket from "../ManageTicket/Check";
+import CheckTicket from "./Check";
 import CommentTicket from "./CommentTicket";
 const Approve = ({ num, id }) => {
   const { isShowing, toggle } = UseModal();

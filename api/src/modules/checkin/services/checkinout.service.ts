@@ -1,6 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { SearchQueryDto } from '../dto/search.dto';
-import { Between, DataSource } from 'typeorm';
+import { Between } from 'typeorm';
 import { CheckinoutPayload } from '../payloads/checkinout.payload';
 import { CheckOutHistoryService } from './checkout-history.service';
 import { CheckinRepository } from '../repositories/checkinout.repository';
@@ -9,7 +9,7 @@ import { CheckinRepository } from '../repositories/checkinout.repository';
 export class CheckinService {
   constructor(
     private readonly checkinRepository: CheckinRepository,
-    private readonly checkoutHistoryService: CheckOutHistoryService, // private readonly dataSource: DataSource
+    private readonly checkoutHistoryService: CheckOutHistoryService,
   ) {}
 
   async getByUserId(id: number) {
@@ -113,28 +113,8 @@ export class CheckinService {
       checkoutLongitude: data.longitude,
     });
 
-    await this.checkoutHistoryService.create(checkinUpdated.id);
+    await this.checkoutHistoryService.create(checkinUpdated.id, imageName);
 
     return checkinUpdated;
-
-    // const runner = await this.dataSource.createQueryRunner();
-    // await runner.connect();
-    // await runner.startTransaction();
-
-    // try {
-
-    //   // const checkinUpdated = await runner.manager.save({
-    //   //   id: checkedInToday.id,
-    //   //   checkoutImage: data.image,
-    //   //   checkoutLatitude: data.latitude,
-    //   //   checkoutLongitude: data.longitude
-    //   // })
-
-    // } catch (err) {
-    //   await runner.rollbackTransaction();
-
-    // } finally {
-    //   await runner.release();
-    // }
   }
 }
