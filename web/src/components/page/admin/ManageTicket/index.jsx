@@ -18,7 +18,7 @@ const ApproveTicket = () => {
   });
   const [sortOption, setSortOption] = useState({
     sortField: "createdAt",
-    sortType: true,
+    sortType: false,
   });
   useEffect(() => {
     const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
