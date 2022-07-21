@@ -1,7 +1,7 @@
 export const TICKET_TYPES = [
   { label: "All", value: "" },
   { label: "long term", value: "long term" },
-  { labeL: "short term", value: "short term" },
+  { label: "short term", value: "short term" },
 ];
 
 export const TICKET_FILTER = {

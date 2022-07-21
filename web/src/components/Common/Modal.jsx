@@ -8,7 +8,7 @@ const Modal = (props) => {
     ? ReactDOM.createPortal(
         <React.Fragment>
           <div
-            className="modal-overlay            "
+            className="modal-overlay "
             style={{
               position: "fixed",
               top: 0,
@@ -18,7 +18,7 @@ const Modal = (props) => {
             onClick={() => hide()}
           >
             <div
-              className="card absolute w-screen h-screen space justify-center bg-mirror rounded-none"
+              className="absolute justify-center w-screen h-screen rounded-none card space bg-mirror"
               onClick={() => hide()}
               style={{
                 // backgroundColor: "rgba(0,0,0,0.5)",
@@ -26,7 +26,7 @@ const Modal = (props) => {
               }}
             >
               <div
-                className="card-body items-center justify-center flex-grow-0"
+                className="items-center justify-center flex-grow-0 card-body"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div>{children}</div>

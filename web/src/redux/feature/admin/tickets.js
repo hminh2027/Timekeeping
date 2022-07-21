@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getTickets } from "@/api/service/ticket.service";
+import { 
+  getTickets,
+  cancelTicket,
+  approveTicket,
+  rejectTicket,
+} from "@/api/service/ticket.service";
 const initialState = {
     tickets: [],
 };
@@ -17,6 +22,48 @@ export const fetchTickets = createAsyncThunk(
       }
 )
 
+export const cancelTickets = createAsyncThunk (
+  "ticket/cancelTicket",
+  async (ticketID) => {
+    try{
+      await cancelTicket(ticketID);
+      const response = await getTickets();
+      return response
+    }
+    catch (error) {
+      console.error("Error occur while cancelling ticket: ", error);
+    }
+  }
+)
+
+export const approveTickets = createAsyncThunk (
+  "ticket/approveTicket",
+  async (ticketID) => {
+    try{
+      await approveTicket(ticketID);
+      const response = await getTickets();
+      return response
+    }
+    catch (error) {
+      console.error("Error occur while cancelling ticket: ", error);
+    }
+  }
+)
+
+export const rejectTickets = createAsyncThunk (
+  "ticket/rejectTicket",
+  async (ticketID) => {
+    try{
+      await rejectTicket(ticketID);
+      const response = await getTickets();
+      return response
+    }
+    catch (error) {
+      console.error("Error occur while cancelling ticket: ", error);
+    }
+  }
+)
+
 export const ticketsSlice = createSlice({
     name: "ticket",
     initialState,
@@ -31,6 +78,18 @@ export const ticketsSlice = createSlice({
           state.status = "succeeded";
           state.tickets = action.payload;
           console.log("TICKETS:", state.tickets)
+        });
+        builder.addCase(cancelTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+        builder.addCase(rejectTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+        builder.addCase(approveTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
         });
     },
 })

@@ -8,7 +8,7 @@ const Header = () => {
   const userInfo = useSelector(selectUserInfo);
 
   return (
-    <div className="flex items-center w-full max-h-28 p-5 bg-gradient-to-r from-[#a5e3e3] to-[#b5e8e9]">
+    <div className="flex items-center w-full max-h-28 px-5 py-2 bg-gradient-to-r from-[#a5e3e3] to-[#b5e8e9]">
       <div className="flex items-center justify-between w-full">
         <div className="flex flex-wrap items-center">
           <div className="flex items-center w-40">

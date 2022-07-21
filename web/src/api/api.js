@@ -90,6 +90,15 @@ const api = {
     });
   },
 
+  delete: (url, params) => {
+    console.log("url:", getURL(url));
+    console.log("delete header",HEADERS)
+    axios.defaults.headers.delete["Authorization"] = HEADERS.Authorization;
+    return axios.delete(getURL(url), params, {
+      headers: HEADERS,
+    });
+  },
+
   postMultiplePart: (url, params) => {
     console.log("url:", getURL(url));
     return axios.post(getURL(url), params, {
