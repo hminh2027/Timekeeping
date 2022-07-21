@@ -1,5 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Button, Input, Select, Space, Spin } from "antd";
+import { useDispatch } from "react-redux";
+import { cancelTickets, approveTickets, rejectTickets } from "@/redux/feature/admin/tickets";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import api from "@/api/api";
@@ -105,8 +107,14 @@ const CheckTicket = (props) => {
 };
 
 
-const ButtonTicket = ({disabled,id, status}) => {
-  console.log("status",status)
+const ButtonTicket = ({disabled, id, status}) => {
+  const dispatch = useDispatch();
+  const approveHandler = (id) => {
+    dispatch(approveTickets(id));
+  }
+  const rejectHandler = (id) => {
+    dispatch(rejectTickets(id));
+  }
   const [isReject, setReject] = useState(false);
   const [errors, setErrors] = useState()
   const reject = async () => {
@@ -175,7 +183,7 @@ const ButtonTicket = ({disabled,id, status}) => {
     return(
       <div className="w-full flex items-center justify-center">
         <button
-          className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500"
+          className="w-1/2 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500 mr-2"
           type="primary"
           onClick={() => {
             reject();
@@ -190,9 +198,30 @@ const ButtonTicket = ({disabled,id, status}) => {
             "Reject"
           )}
         </button>
+        <Cancel id={id}></Cancel>
       </div>
     )
+    else{
+      return (
+        <Cancel id={id}></Cancel>
+      )
+    }
+
   }
 }
-
+const Cancel = ({id}) => {
+  const dispatch = useDispatch();
+  const cancelHandler = (id) => {
+    dispatch(cancelTickets(id));
+  }
+  return (
+    <button
+        className="flex-1 border border-solid border-gray-500 shadow-xl bg-gray-400 text-black p-1 rounded-lg hover:text-white"
+        type="primary"
+        onClick={() => {
+          cancelHandler(id);
+        }}
+    >cancel</button>
+  )
+}
 export default CheckTicket;
