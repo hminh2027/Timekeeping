@@ -13,7 +13,7 @@ export class TicketRepository extends Repository<Ticket> {
     return count > 0;
   }
 
-  public async pagination(params: SearchQueryDto) {
+  public async paginationAndSearch(params: SearchQueryDto) {
     const offset = (params.page - 1) * params.limit;
     return this.createQueryBuilder('tickets')
       .where('tickets.title like :title', {
