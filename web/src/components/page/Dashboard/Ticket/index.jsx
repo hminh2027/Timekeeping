@@ -38,12 +38,12 @@ const TicketContent = () => {
     };
     fetchTicketData();
   }, [sortOption, filterOptions]);
+  
   // Gọi api khi filter option thay đổi
-
   return (
     <div className="flex-1">
       <Header toggleModal={toggle} />
-      <div span={24}>
+      <div>
         <div
           className="flex flex-col m-1 overflow-auto rounded-lg"
           style={{
