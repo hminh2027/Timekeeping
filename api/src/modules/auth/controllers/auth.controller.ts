@@ -9,6 +9,7 @@ import {
   UseGuards,
   Get,
   Res,
+  Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';
@@ -23,6 +24,8 @@ import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
 import { ReqCookie } from 'src/common/decorators/cookie.decorator';
 import { Response } from 'express';
+import { GoogleAuthGuard } from 'src/common/guards/google.guard';
+import { GoogleService } from '../services/google.service';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -31,6 +34,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly googleService: GoogleService,
   ) {}
 
   @Get('me')
@@ -41,6 +45,16 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   async decodingToken(@ReqUser() user: User): Promise<User> {
     return user;
+  }
+
+  @Get('google')
+  @UseGuards(GoogleAuthGuard)
+  async googleAuth(@Req() req) {}
+
+  @Get('google/redirect')
+  @UseGuards(GoogleAuthGuard)
+  googleAuthRedirect(@Req() req) {
+    return this.googleService.googleLogin(req);
   }
 
   @Post('login')
