@@ -1,6 +1,6 @@
 import auth from "@/api/auth";
 import Loading from "@/components/Common/Loading";
-import { MobileMenu, SidebarMenu } from "@/components/page/Dashboard/Menu";
+import SidebarMenu from "./Menu/SidebarMenu";
 import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 import {
   changeCheckInStatus,
@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
 
-const DashboardLayout = (props) => {
+const AdminLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const checkInStatus = useSelector(selectUserCheckInStatus);
@@ -24,6 +24,7 @@ const DashboardLayout = (props) => {
   useEffect(() => {
     const checkAuthStatus = () => {
       const authed = auth.checkAuth();
+      console.log("userInfo", userInfo);
       console.log("Auth:", authed);
       if (!authed) {
         router.push("/account/login");
@@ -57,17 +58,17 @@ const DashboardLayout = (props) => {
       <div className="flex flex-row flex-1">
         <SidebarMenu />
         {/* Content */}
-        <div className="flex flex-1">{props.children}</div>
+        <div className="flex flex-1 p-3">{props.children}</div>
       </div>
       <div>
-        <MobileDrawer
+        {/* <MobileDrawer
           visible={openDrawer}
           onClose={() => setOpenDrawer(false)}
         />
-        <MobileMenu />
+        <MobileMenu /> */}
       </div>
     </div>
   );
 };
 
-export default DashboardLayout;
+export default AdminLayout;

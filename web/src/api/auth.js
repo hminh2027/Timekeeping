@@ -18,16 +18,16 @@ const checkAuth = () => {
 };
 
 const setToken = (accessToken) => {
-  if (typeof window !== "undefined") {
-    api.setToken(accessToken);
-    localStorage.setItem(AUTH_TOKEN, accessToken);
-  }
+  if (typeof window === "undefined") return;
+  api.setToken(accessToken);
+  localStorage.setItem(AUTH_TOKEN, accessToken);
+  Cookies.set("AUTH_TOKEN", accessToken);
 };
 const setRefreshToken = (refreshToken) => {
   if (typeof window !== "undefined") {
     // api.setRefreshToken(refreshToken);
     // document.cookie = `refresh_token=${refreshToken}; SameSite=None; Secure`;
-    Cookies.set("abc", refreshToken, { domain: ".localhost" });
+    Cookies.set("REFRESH_TOKEN", refreshToken);
     localStorage.setItem("refreshToken", refreshToken);
   }
 };
