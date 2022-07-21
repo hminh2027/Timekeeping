@@ -27,7 +27,7 @@ const Approve = ({ num, id }) => {
     return (
       <div>
         <button 
-          className="w-4/5 border border-solid border-teal-700 p-1 bg-gray-600 text-stone-100 rounded-lg"
+          className="w-4/5 border border-solid border-teal-700 p-1 bg-gray-600 text-stone-100 rounded-lg hover:text-gray-400"
           onClick={toggle}>
           View
         </button>
