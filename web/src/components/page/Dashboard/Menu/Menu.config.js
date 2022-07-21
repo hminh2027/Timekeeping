@@ -30,13 +30,7 @@ export const menuItems = [
     label: "My Tickets",
     value: "/dashboard/ticket",
     id: "ticket",
-  },
-  {
-    icon: <div>🖥️</div>,
-    label: "Manage Ticket",
-    value: "/dashboard/manage",
-    id: "manage",
-  },
+  }
 ];
 
 export const drawerItems = [

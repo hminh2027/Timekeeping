@@ -90,6 +90,14 @@ const api = {
     });
   },
 
+  delete: (url, params) => {
+    console.log("url:", getURL(url));
+    console.log("delete header",HEADERS)
+    return axios.delete(getURL(url), params, {
+      headers:{ ...HEADERS,Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiTGluaCIsImxhc3ROYW1lIjoiSG_DoG5nIiwiZW1haWwiOiJseW5AdmR0c29sLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY1ODM3OTI1MCwiZXhwIjoxNjU4MzkwMDUwfQ.GGy9ZpMy5I5ydvTdMe2_Yzb90WEiHer8GchFMAZQZbo`},
+    });
+  },
+
   postMultiplePart: (url, params) => {
     console.log("url:", getURL(url));
     return axios.post(getURL(url), params, {
