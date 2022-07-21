@@ -98,21 +98,21 @@ const CheckTicket = (props) => {
             />
           </div>
         </div>
-        <ButtonTicket disabled={props.disabled} status={ticketData.ticketStatus}></ButtonTicket>
+        <ButtonTicket disabled={props.disabled} id={props.id} status={ticketData.ticketStatus}></ButtonTicket>
       </div>
     </div>
   );
 };
 
 
-const ButtonTicket = ({disabled, status}) => {
+const ButtonTicket = ({disabled,id, status}) => {
   console.log("status",status)
   const [isReject, setReject] = useState(false);
   const [errors, setErrors] = useState()
   const reject = async () => {
     setReject(true);
     try {
-      await api.patch(`ticket/${props.id}/reject`);
+      await api.patch(`ticket/${id}/reject`);
       Router.reload(window.location.pathname);
     } catch (err) {
       setErrors(err);
@@ -125,7 +125,7 @@ const ButtonTicket = ({disabled, status}) => {
     const approve = async () => {
       setApprove(true);
       try {
-          await api.patch(`ticket/${props.id}/approve`);
+          await api.patch(`ticket/${id}/approve`);
           Router.reload(window.location.pathname);     
       } catch (err) {
         setErrors(err);
