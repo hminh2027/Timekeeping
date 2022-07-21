@@ -6,66 +6,78 @@ const { Option } = Select;
 
 const DesktopFilter = (props) => {
   const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
+
+
+  console.log("TICKET_TYPES:", ticketTypes);
   const [data, setData] = useState({
     title: "",
-    type: TICKET_TYPES[0],
+    type: "",
     status: "",
   });
 
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-    // console.log("DATA:", data);
+  const handleChange = (key,value) => {
+    setData({ ...data, [key]: value });
+    
+    console.log("DATA:", data);
   };
   const submit = () => {
     props.onSubmit(data);
   };
   return (
     <div className={`p-4 bg-white flex ${props.className}`}>
-      <div className="flex flex-row justify-between gap-4 w-full">
+      <div className="flex flex-row justify-between w-full gap-4">
         <div className="flex flex-row gap-8">
           <div className="flex items-center w-auto gap-4">
             <div className="w-auto">Title:</div>
-            <Input
+            <input
               name="title"
               placeholder="Title"
               value={data.title}
               onChange={(e) => handleChange(e)}
-              className="flex-1"
+              className="flex-1 p-2 border focus:outline-none"
             />
           </div>
 
           <div className="flex items-center w-auto gap-4">
             <div className="w-auto">Type:</div>
-            <Select
-              value={data.type}
-              onChange={(value, option) => {
-                const e = { target: { name: "type", value: value } };
-                handleChange(e);
+            <select
+              onChange={(e) => {
+                
+                handleChange("type", e.target.value);
               }}
               style={{ flex: "1 0 8em", minWidth: "8em" }}
-              className="flex-1"
+              className="flex-1 w-full max-w-xs select-md select-primary"
             >
-              {ticketTypes.map((ticketType) => (
-                <Option value={ticketType}>{ticketType}</Option>
-              ))}
-            </Select>
+              {ticketTypes &&
+                ticketTypes.map((e,i) => (
+                  <option key={i} value={e.value}>
+                    {e.label}
+                  </option>
+                ))}
+            </select>
           </div>
-          <div className="flex items-center justify-between flex-row">
-            <div className="flex flex-1 items-center w-80 gap-4">
+          <div className="flex flex-row items-center justify-between">
+            <div className="flex items-center flex-1 gap-4 w-80">
               <div className="w-auto">Status:</div>
-              <Select
-                defaultValue="all"
+              <select        
                 value={data.status}
-                onChange={(value, option) => {
-                  const e = { target: { name: "status", value: value } };
-                  handleChange(e);
+                onChange={e => {
+                  // const e = { target: { name: "status", value: value } };
+                  // handleChange(e);
+                  handleChange("status", e.target.value);
+                  console.log(e.target.value);
                 }}
-                className=" w-32"
-                // className="flex-1"
-                options={status}
-              ></Select>
+                className="w-32 select-md"
+      
+              >
+                {status.map((e,i) => (
+                  <option key={i} value={e.value}>
+                    {e.label}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="flex gap-2  w-auto">
+            <div className="flex w-auto gap-2">
               <div className="flex justify-between gap-1">
                 <div className="">🟢</div>
                 <div className="">Approved</div>
@@ -130,20 +142,21 @@ const MobileFilter = (props) => {
           <div className="flex flex-col gap-4">
             <div className="flex items-center w-full">
               <div className="w-20 ">Title:</div>
-              <Input
+              <input
                 placeholder="Title"
                 name="title"
                 value={data.title}
                 // onChange={filter}
                 // style={{ flex: "1 0 5em" }}
-                className="flex-1"
+                className="flex-1 border border-gray-200 input-xs focus:outline-none"
                 onChange={(e) => handleChange(e)}
               />
             </div>
 
-            <div className="flex  items-center w-full">
+            {/* Filter by type */}
+            <div className="flex items-center w-full">
               <div className="w-20">Type:</div>
-              <Select
+              <select
                 name="type"
                 value={data.type}
                 style={{ flex: "1 0 8em", minWidth: "8em" }}
@@ -154,27 +167,35 @@ const MobileFilter = (props) => {
                 }}
               >
                 {ticketTypes.map((ticketType) => (
-                  <Option value={ticketType}>{ticketType}</Option>
+                  <option key={ticketType} value={ticketType}>
+                    {ticketType}
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
             <div className="flex flex-col items-center justify-between gap-4">
-              <div className="flex flex-1 items-center  w-full">
+              <div className="flex items-center flex-1 w-full">
                 <div className="w-20">Status:</div>
-                <Select
+                <select
                   name="status"
                   // defaultValue="all"
                   value={data.status}
                   className="flex-1"
-                  options={status}
                   onChange={(value, option) => {
                     const e = { target: { name: "status", value: value } };
                     handleChange(e);
                   }}
-                ></Select>
+                >
+                  {status.map((e) => (
+                    <option key={e} value={e.value}>
+                      {e.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div className="flex gap-2 flex-1 w-full flex-wrap">
+              {/* Status description */}
+              <div className="flex flex-wrap flex-1 w-full gap-2">
                 <div className="flex justify-between gap-1">
                   <div className="">🟢</div>
                   <div className="">Approved</div>
@@ -196,7 +217,7 @@ const MobileFilter = (props) => {
           </div>
           <div className="text-right ">
             <button
-              class="v-btn-primary"
+              className="v-btn-primary"
               onClick={() => {
                 submit();
                 setUsingFilter(!usingFilter);
@@ -207,13 +228,14 @@ const MobileFilter = (props) => {
           </div>
         </div>
       )}
+      
       {!usingFilter && (
         <div className="text-center">
           <button
             className="v-btn-primary"
             onClick={() => setUsingFilter(!usingFilter)}
           >
-            Filter nè
+            Filter
           </button>
         </div>
       )}
@@ -229,7 +251,7 @@ const status = [
         <div className=""></div>
       </div>
     ),
-    value: "all",
+    value: "",
   },
   {
     label: (
