@@ -41,8 +41,8 @@ export class TicketController {
     description: 'get all tickets',
   })
   @Roles(UserRole.ADMIN)
-  async getAll(@Query() params: SearchQueryDto) {
-    return await this.ticketService.getAll(params);
+  async getAll(@ReqUser() user: User, @Query() params: SearchQueryDto) {
+    return await this.ticketService.getByRecipientId(user.id, params);
   }
 
   @Get('/me')
@@ -54,7 +54,7 @@ export class TicketController {
     @ReqUser() user: User,
     @Query() params: SearchQueryDto,
   ): Promise<any> {
-    return await this.ticketService.getByUserId(user.id, params);
+    return await this.ticketService.getByAuthorId(user.id, params);
   }
 
   @Get('/type')
@@ -160,10 +160,11 @@ export class TicketController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Ticket rejected successfully',
-      data: await this.ticketService.update(id, {
-        recipientId: user.id,
-        ticketStatus: TicketStatus.REJECTED,
-      }),
+      data: await this.ticketService.adminUpdate(
+        id,
+        user.id,
+        TicketStatus.REJECTED,
+      ),
     };
   }
 
@@ -184,10 +185,11 @@ export class TicketController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Ticket approved successfully',
-      data: await this.ticketService.update(id, {
-        recipientId: user.id,
-        ticketStatus: TicketStatus.APPROVED,
-      }),
+      data: await this.ticketService.adminUpdate(
+        id,
+        user.id,
+        TicketStatus.APPROVED,
+      ),
     };
   }
 
