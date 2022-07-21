@@ -6,6 +6,7 @@ import api from "@/api/api";
 import { fetchCheckInStatus } from "@/redux/feature/user/userSlice";
 import styles from "@/styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "@/utils/hooks/UseTrans";
+import { info } from "daisyui/src/colors/colorNames";
 const { Text } = Typography;
 const CheckingCard = (props) => {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ const CheckingCard = (props) => {
         image,
       };
       try {
+        if (!image) {
+          throw new Error("No image sent");
+        }
         props.state === "checkin"
           ? await api.post("checkin", payload)
           : await api.patch("checkin", payload);
@@ -39,7 +43,8 @@ const CheckingCard = (props) => {
         dispatch(fetchCheckInStatus());
       } catch (err) {
         console.error(err);
-        props.setError(err.response.data);
+        if (err.response) props.setError(err.response.data);
+        else props.setError(err);
       }
     });
   };

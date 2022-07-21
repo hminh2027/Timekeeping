@@ -46,6 +46,7 @@ export class TicketController {
   }
 
   @Get('/me')
+  @Roles(UserRole.USER,UserRole.ADMIN )
   @ApiOperation({
     summary: '(USER only)',
     description: 'get all tickets of current user',

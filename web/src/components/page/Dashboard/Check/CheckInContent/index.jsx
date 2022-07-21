@@ -1,4 +1,3 @@
-import { Button, Space } from "antd";
 import moment from "moment";
 import Router from "next/router";
 import { useEffect, useState } from "react";
@@ -7,7 +6,6 @@ import {
   selectUserCheckInInfo,
   selectUserCheckInStatus,
 } from "../../../../../redux/feature/user/userSlice";
-import styles from "../../../../../styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "../../../../../utils/hooks/UseTrans";
 import CheckingCard from "../CheckingCard";
 const CheckInContent = () => {

@@ -32,10 +32,10 @@ const TicketList = React.memo((props) => {
   const [state, dispatch] = useReducer(reducer, initSort);
   const {createdAt, startDate, endDate} = state;
 
-  const sortHandle = (sortBy, orderBy) => {
+  const sortHandle = (sortField, sortType) => {
     const sortOption = {
-      sortBy,
-      orderBy,
+      sortField,
+      sortType,
     };
     props.onSort(sortOption);
   };
@@ -99,13 +99,19 @@ const TicketList = React.memo((props) => {
           Action
         </div>
       </div>
-      {tickets?.map((ticket) => (
-        <TicketListItem
-          key={ticket.id}
-          id={ticket.id}
-          content={ticket.content}
-        />
-      ))}
+      {/* <div className="flex flex-1"> */}
+        <div className="h-[500px] overflow-auto pb-1">
+          {tickets?.map((ticket) => (
+            <TicketListItem
+              key={ticket.id}
+              id={ticket.id}
+              content={ticket.content}
+            />
+          ))}
+        </div>
+      {/* </div> */}
+      
+      
     </>
   );
 });
@@ -125,21 +131,25 @@ const TicketListItem = (props) => {
       statusIcon.push("🟢");
       break;
     }
-    default: {
+    case "pending": {
       statusIcon.push("🟡");
+      break;
+    }
+    default: {
+      statusIcon.push("⚪");
       break;
     }
   }
   return (
     <div className="font-medium py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
-      <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
+      <div style={{ flex: "1 0 9em" }} className="flex text-sky-800">
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
           Title:
         </div>
         <div className="flex-1 font-semibold">{title}</div>
       </div>
       <div
-        style={{ flex: "1 0 4em" }}
+        style={{ flex: "1 0 5em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -168,7 +178,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{startDate}</div>
       </div>
       <div
-        style={{ flex: "1 0 8em" }}
+        style={{ flex: "1 0 7em" }}
         className="flex font-light text-gray-500 "
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -177,7 +187,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{startDate}</div>
       </div>
       <div
-        style={{ flex: "1 0 8em" }}
+        style={{ flex: "1 0 7em" }}
         className="flex font-light text-gray-500"
       >
         <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
@@ -192,55 +202,6 @@ const TicketListItem = (props) => {
   );
 };
 export { TicketListItem, TicketList };
-const demoTickets = [];
-const status = [
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">All</div>
-        <div className=""></div>
-      </div>
-    ),
-    value: "all",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Approved</div>
-        <div className="">🟢</div>
-      </div>
-    ),
-    value: "approved",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Pending</div>
-        <div className="">🟡</div>
-      </div>
-    ),
-    value: "pending",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Rejected</div>
-        <div className="">🔴</div>
-      </div>
-    ),
-    value: "rejected",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Cancelled</div>
-        <div className="">⚪</div>
-      </div>
-    ),
-    value: "cancelled",
-  },
-];
-
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -6,8 +6,7 @@ import api from "@/api/api";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import Router from "next/router";
 const CheckTicket = (props) => {
-  const [isApprove, setApprove] = useState(false);
-  const [isReject, setReject] = useState(false);
+  
   const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
@@ -26,28 +25,6 @@ const CheckTicket = (props) => {
     fetchTikect();
   }, []);
   
-  const approve = async () => {
-    setApprove(true);
-    try {
-        await api.patch(`ticket/${props.id}/approve`);
-        Router.reload(window.location.pathname);     
-    } catch (err) {
-      setErrors([]);
-    } finally {
-      setApprove(false);
-    }
-  };
-  const reject = async () => {
-    setReject(true);
-    try {
-      await api.patch(`ticket/${props.id}/reject`);
-      Router.reload(window.location.pathname);
-    } catch (err) {
-      setErrors([]);
-    } finally {
-      setReject(false);
-    }
-  };
   return (
     <div className="card">
       <div className="card-body ">
@@ -121,43 +98,101 @@ const CheckTicket = (props) => {
             />
           </div>
         </div>
-        <div className="w-full flex items-center justify-center">
-          <button
-            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500 mr-4"
-            type="primary"
-            onClick={() => {
-              approve();
-            }}
-          >
-            {isApprove ? (
-              <Space>
-                <Spin indicator={<LoadingOutlined />} />
-                <div>Approve</div>
-              </Space>
-            ) : (
-              "Approve"
-            )}
-          </button>
-          <button
-            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 hover:text-zinc-500"
-            type="primary"
-            onClick={() => {
-              reject();
-            }}
-          >
-            {isReject ? (
-              <Space>
-                <Spin indicator={<LoadingOutlined />} />
-                <div>Reject</div>
-              </Space>
-            ) : (
-              "Reject"
-            )}
-          </button>
-        </div>
+        <ButtonTicket disabled={props.disabled} status={ticketData.ticketStatus}></ButtonTicket>
       </div>
     </div>
   );
 };
+
+
+const ButtonTicket = ({disabled, status}) => {
+  console.log("status",status)
+  const [isReject, setReject] = useState(false);
+  const [errors, setErrors] = useState()
+  const reject = async () => {
+    setReject(true);
+    try {
+      await api.patch(`ticket/${props.id}/reject`);
+      Router.reload(window.location.pathname);
+    } catch (err) {
+      setErrors(err);
+    } finally {
+      setReject(false);
+    }
+  };
+  if(!disabled) {
+    const [isApprove, setApprove] = useState(false);
+    const approve = async () => {
+      setApprove(true);
+      try {
+          await api.patch(`ticket/${props.id}/approve`);
+          Router.reload(window.location.pathname);     
+      } catch (err) {
+        setErrors(err);
+      } finally {
+        setApprove(false);
+      }
+    };
+    return (
+      <div className="w-full flex items-center justify-center">
+        <button
+          className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500 mr-4"
+          type="primary"
+          onClick={() => {
+            approve();
+          }}
+        >
+          {isApprove ? (
+            <Space>
+              <Spin indicator={<LoadingOutlined />} />
+              <div>Approve</div>
+            </Space>
+          ) : (
+            "Approve"
+          )}
+        </button>
+        <button
+          className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500"
+          type="primary"
+          onClick={() => {
+            reject();
+          }}
+        >
+          {isReject ? (
+            <Space>
+              <Spin indicator={<LoadingOutlined />} />
+              <div>Reject</div>
+            </Space>
+          ) : (
+            "Reject"
+          )}
+        </button>
+      </div>
+    )
+  }
+  else{
+    if(status=="approved")
+    return(
+      <div className="w-full flex items-center justify-center">
+        <button
+          className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500"
+          type="primary"
+          onClick={() => {
+            reject();
+          }}
+        >
+          {isReject ? (
+            <Space>
+              <Spin indicator={<LoadingOutlined />} />
+              <div>Reject</div>
+            </Space>
+          ) : (
+            "Reject"
+          )}
+        </button>
+      </div>
+    )
+  }
+}
 
 export default CheckTicket;

@@ -53,14 +53,14 @@ const LoginForm = () => {
             auth.setRefreshToken(res.data.refreshToken);
             setLoginSuccess(true);
 
-            setTimeout(() => Router.push("/"), 3000);
+            Router.push("/");
           }
         }
       } catch (err) {
         console.error(err);
         newErrors.push({
           title: "login-failed",
-          message: err.response?.data.message,
+          message: err.response?.data?.message,
           color: "red",
         });
         setErrors(newErrors);
@@ -106,8 +106,8 @@ const LoginForm = () => {
             }}
           />
         </div>
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center w-full">
+        <div className="flex flex-col gap-2 items-center">
+          <div className="flex w-full gap-2 items-center">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Password"

@@ -12,6 +12,7 @@ import { getDateArray } from "@/utils/helper/workcalendar";
 import Modal from "@/components/Common/Modal";
 import UseModal from "@/utils/hooks/UseModal";
 import { checkInInfoFormatter } from "@/utils/Formatter/CheckInInfo";
+import Image from "next/image";
 function isSameDay(a, b) {
   return moment(a).isSame(moment(b), "date");
 }
@@ -80,7 +81,7 @@ const ReactCalendar = () => {
       dispatch(fetchMyTickets());
     };
     fetchTicketData();
-  }, []);
+  }, [curDate]);
   useEffect(() => {
     const fetchCheckInInfo = async () => {
       try {
@@ -88,9 +89,10 @@ const ReactCalendar = () => {
           fromDate: moment(curDate).format("YYYY-MM-DD"),
           toDate: moment(curDate).add(1, "d").format("YYYY-MM-DD"),
         });
-        res = checkInInfoFormatter(res.data[0]);
-        setCheckInInfo(res);
+
+        setCheckInInfo(checkInInfoFormatter(res.data[0]));
       } catch (err) {
+        console.error(err);
         setCheckInInfo(undefined);
       } finally {
         setLoadingInfo(false);
@@ -103,30 +105,34 @@ const ReactCalendar = () => {
   const infoCard = (
     <>
       <div className="flex flex-col items-center gap-4">
-        <div className="flex items-center">
-          <div>CheckIn time:</div>{" "}
-          <div className="flex-auto">
-            {checkInInfo && checkInInfo.checkInTime}
-          </div>
+        <div className="flex items-center gap-4">
+          <div>CheckIn time:</div>
+          <div>{checkInInfo && checkInInfo.checkInTime}</div>
         </div>
-        <img
-          src={`${process.env.APP_URL}${
-            checkInInfo && checkInInfo.checkInImage
-          }`}
-        />
+        <div className="max-w-xs">
+          <img
+            src={`${process.env.APP_URL}${
+              checkInInfo && checkInInfo.checkInImage
+            }`}
+            className="w-full h-full aspect-video"
+            crossOrigin="anonymous"
+          />
+        </div>
       </div>
       <div className="flex flex-col items-center">
-        <div className="flex items-center">
-          <div>CheckOut time:</div>{" "}
-          <div className="flex-auto">
-            {checkInInfo && checkInInfo.checkOutTime}
-          </div>
+        <div className="flex items-center gap-4">
+          <div>CheckOut time:</div>
+          <div>{checkInInfo && checkInInfo.checkOutTime}</div>
         </div>
-        <img
-          src={`${process.env.APP_URL}${
-            checkInInfo && checkInInfo.checkOutImage
-          }`}
-        />
+        <div className="max-w-xs">
+          <img
+            src={`${process.env.APP_URL}${
+              checkInInfo && checkInInfo.checkOutImage
+            }`}
+            className="w-full h-full aspect-video"
+            crossOrigin="anonymous"
+          />
+        </div>
       </div>
     </>
   );

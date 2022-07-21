@@ -16,23 +16,26 @@ const Approve = ({ num, id }) => {
         </button>
         <Modal isShowing={isShowing} hide={toggle}>
           <div className="flex">
-            <CheckTicket id={id} hide={toggle} /> 
-            <CommentTicket id={id}/>
+            <CheckTicket id={id} hide={toggle} disabled={false}/> 
+            <CommentTicket id={id} disabled={false}/>
           </div>
         </Modal>
       </div>
     );
-  } else {
+  } 
+  else {
     return (
       <div>
         <button 
-          className="w-4/5 border border-solid border-teal-700 p-1 bg-teal-700 text-stone-100 rounded-lg"
-          disabled 
+          className="w-4/5 border border-solid border-teal-700 p-1 bg-gray-600 text-stone-100 rounded-lg"
           onClick={toggle}>
-          Not Approve
+          View
         </button>
-        <Modal isShowing={isShowing} hide={toggle}>
-          <CheckTicket hide={toggle} />
+        <Modal isShowing={isShowing} hide={toggle}>   
+          <div className="flex">
+            <CheckTicket id={id} hide={toggle} disabled={true}/>
+            <CommentTicket id={id} disabled={true}/>
+          </div>
         </Modal>
       </div>
     );
