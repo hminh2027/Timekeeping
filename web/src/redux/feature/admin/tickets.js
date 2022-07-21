@@ -14,6 +14,7 @@ export const fetchTickets = createAsyncThunk(
     async (sortOptions) => {
         try {
           const response = await getTickets(sortOptions);
+          console.log("RESPONSE", response)
           return response; 
 
         } catch (error) {
