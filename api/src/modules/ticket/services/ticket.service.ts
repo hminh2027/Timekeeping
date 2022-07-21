@@ -25,20 +25,37 @@ export class TicketService {
     private readonly userRepository: UserService,
   ) {}
 
-  async getAll(params: SearchQueryDto): Promise<Ticket[]> {
+  async getByRecipientId(
+    id: number,
+    params: SearchQueryDto,
+  ): Promise<Ticket[]> {
     try {
-      return await (await this.ticketRepository.pagination(params)).getMany();
+      const tickets = await (
+        await this.ticketRepository.paginationAndSearch(params)
+      )
+        .andWhere('tickets.recipientId = :id', { id })
+        .leftJoinAndSelect('tickets.author', 'user')
+        .getMany();
+      return tickets.filter(
+        (ticket) => ticket.ticketStatus !== TicketStatus.CANCELLED,
+      );
     } catch (err) {
+      console.log(err);
       throw new BadRequestException('Bad query parameters.');
     }
   }
 
-  async getByUserId(userId: number, params: SearchQueryDto): Promise<Ticket[]> {
+  async getByAuthorId(
+    userId: number,
+    params: SearchQueryDto,
+  ): Promise<Ticket[]> {
     try {
-      return await (await this.ticketRepository.pagination(params))
+      return await (await this.ticketRepository.paginationAndSearch(params))
         .andWhere('tickets.authorId = :authorId', { authorId: userId })
+        .leftJoinAndSelect('tickets.recipient', 'user')
         .getMany();
     } catch (err) {
+      console.log(err);
       throw new BadRequestException('Bad query parameters.');
     }
   }
@@ -84,15 +101,34 @@ export class TicketService {
     return await this.ticketRepository.save(newTicket);
   }
 
+  async adminUpdate(
+    id: number,
+    recipientId: number,
+    ticketStatus: TicketStatus,
+  ) {
+    const ticket = await this.ticketRepository.findOne({
+      where: { id, recipientId },
+    });
+    if (!ticket) throw new NotFoundException('Ticket is not found');
+
+    if (
+      ticket.ticketStatus === TicketStatus.CANCELLED ||
+      ticket.ticketStatus === TicketStatus.APPROVED
+    )
+      throw new NotAcceptableException(
+        'This ticket is no longer be able to modify.',
+      );
+
+    await this.ticketRepository.save({
+      id,
+      ticketStatus,
+    });
+  }
+
   async update(id: number, data: UpdateTicketPayload): Promise<void> {
-    // check this!
-    let ticket: Ticket;
     // Check ticket existance
-    ticket = await this.ticketRepository.findOne({
-      where: [
-        { id, authorId: data.authorId },
-        { id, recipientId: data.recipientId },
-      ],
+    const ticket = await this.ticketRepository.findOne({
+      where: { id, authorId: data.authorId },
     });
 
     if (!ticket) throw new NotFoundException('Ticket is not found');
