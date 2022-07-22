@@ -10,16 +10,12 @@ const initialState = {
 };
 
 export const fetchTickets = createAsyncThunk(
-  "ticket/getTicket",
-  async (sortOptions) => {
-    try {
-      const response = await getTickets(sortOptions);
-      return response;
-    } catch (error) {
-      console.error("Error occur while fetching tickets: ", error);
-    }
-  }
-);
+    "ticket/getTicket",
+    async (sortOptions) => {
+        try {
+          const response = await getTickets(sortOptions);
+          console.log("RESPONSE", response)
+          return response; 
 
 export const cancelTickets = createAsyncThunk (
   "ticket/cancelTicket",

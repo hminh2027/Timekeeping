@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 import { TicketList } from "./TicketList";
 import { DesktopFilter, MobileFilter } from "./Filter";
 const ApproveTicket = () => {
-  const { isShowing, toggle } = UseModal();
   const tickets = useSelector(selectTickets);
   console.log("Tickets", tickets);
   const dispatch = useDispatch();
