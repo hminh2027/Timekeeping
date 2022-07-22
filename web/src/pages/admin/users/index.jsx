@@ -53,4 +53,4 @@ const AdminUserPage = () => {
 
 
 AdminUserPage.layout = AdminLayout;
-export default AdminUserPage
+export default AdminUserPage;

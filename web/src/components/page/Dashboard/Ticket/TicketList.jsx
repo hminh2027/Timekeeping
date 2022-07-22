@@ -27,11 +27,9 @@ function reducer(state, action) {
 }
 const TicketList = React.memo((props) => {
   const tickets = props.tickets;
-  console.log(tickets)
   const [state, dispatch] = useReducer(reducer, initSort);
 
   const { createdAt, startDate, endDate } = state;
-  console.log(state);
   const sortHandle = (sortBy, orderBy) => {
     const sortOption = {
       sortBy,

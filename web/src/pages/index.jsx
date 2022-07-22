@@ -9,7 +9,7 @@ index.layout = DashboardLayout;
 export default index;
 export async function getServerSideProps(ctx) {
   const { token, user } = getAuthCredentials(ctx);
-  if(!token) {
+  if (!token) {
     return {
       redirect: {
         destination: "/account/login",

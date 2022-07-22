@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import api from "@/api/api";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
 const CheckTicket = (props) => {
-  
   const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
@@ -20,16 +19,16 @@ const CheckTicket = (props) => {
       const res = await api.get(`ticket/${props.id}`);
       const { data } = res;
       setTicketData(data);
-      console.log("data",data.startDate);
+      console.log("data", data.startDate);
     };
     fetchTikect();
   }, []);
-  
+
   return (
     <>
     <div className="card">
       <div className="card-body ">
-        <div  className = " text-xl font-bold text-center justify-center">
+        <div className=" text-xl font-bold text-center justify-center">
           Ticket Content
         </div>
         <div className={styles[`input-wrapper`]}>
@@ -47,7 +46,7 @@ const CheckTicket = (props) => {
                 Start Date
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="startDate"
@@ -59,7 +58,7 @@ const CheckTicket = (props) => {
                 End Date
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="endDate"
@@ -71,7 +70,7 @@ const CheckTicket = (props) => {
                 Ticket Type
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="ticketType"
@@ -193,4 +192,5 @@ const Cancel = ({id,toggle}) => {
     >cancel</button>
   )
 }
+
 export default CheckTicket;

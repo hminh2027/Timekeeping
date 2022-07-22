@@ -6,7 +6,7 @@ import {
   rejectTicket,
 } from "@/api/service/ticket.service";
 const initialState = {
-    tickets: [],
+  tickets: [],
 };
 
 export const fetchTickets = createAsyncThunk(
@@ -16,12 +16,6 @@ export const fetchTickets = createAsyncThunk(
           const response = await getTickets(sortOptions);
           console.log("RESPONSE", response)
           return response; 
-
-        } catch (error) {
-          console.error("Error occur while fetching tickets: ", error);
-        }
-      }
-)
 
 export const cancelTickets = createAsyncThunk (
   "ticket/cancelTicket",
@@ -93,13 +87,21 @@ export const ticketsSlice = createSlice({
           state.tickets = action.payload;
         });
     },
-})
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchTickets.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.tickets = action.payload;
+      console.log("TICKETS:", state.tickets);
+    });
+  },
+});
 
 export const { setTickets } = ticketsSlice.actions;
 
 export const selectTicket = (state) => state.tickets;
 
 //Selectors
-export const selectTickets = (state) => state.tickets.tickets
+export const selectTickets = (state) => state.tickets.tickets;
 
 export default ticketsSlice.reducer;

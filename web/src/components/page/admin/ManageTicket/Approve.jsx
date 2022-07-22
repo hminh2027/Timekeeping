@@ -17,14 +17,13 @@ const Approve = ({ num, id }) => {
         </button>
         <Modal isShowing={isShowing} hide={toggle}>
           <div className="flex">
-            <CheckTicket id={id} hide={toggle} disabled={false}/> 
-            <CommentTicket id={id} disabled={false}/>
+            <CheckTicket id={id} hide={toggle} disabled={false} />
+            <CommentTicket id={id} disabled={false} />
           </div>
         </Modal>
       </div>
     );
-  } 
-  else {
+  } else {
     return (
       <div className="flex">
         <button 
@@ -32,10 +31,10 @@ const Approve = ({ num, id }) => {
           onClick={toggle}>
           View
         </button>
-        <Modal isShowing={isShowing} hide={toggle}>   
+        <Modal isShowing={isShowing} hide={toggle}>
           <div className="flex">
-            <CheckTicket id={id} hide={toggle} disabled={true}/>
-            <CommentTicket id={id} disabled={true}/>
+            <CheckTicket id={id} hide={toggle} disabled={true} />
+            <CommentTicket id={id} disabled={true} />
           </div>
         </Modal>
       </div>

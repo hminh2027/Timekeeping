@@ -7,7 +7,6 @@ const { Option } = Select;
 const DesktopFilter = (props) => {
   const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
 
-
   console.log("TICKET_TYPES:", ticketTypes);
   const [data, setData] = useState({
     title: "",
@@ -15,10 +14,10 @@ const DesktopFilter = (props) => {
     status: "",
   });
 
-  const handleChange = (key,value) => {
+  const handleChange = (key, value) => {
     setData({ ...data, [key]: value });
-    
-    console.log("DATA:", data);
+
+    // console.log("DATA:", data);
   };
   const submit = () => {
     props.onSubmit(data);
@@ -33,8 +32,8 @@ const DesktopFilter = (props) => {
               name="title"
               placeholder="Title"
               value={data.title}
-              onChange={(e) => handleChange(e)}
-              className="flex-1 p-2 border focus:outline-none"
+              onChange={(e) => handleChange("title", e.target.value)}
+              className="flex-1 p-2 border input input-bordered rounded-none w-full max-w-xs focus:outline-none"
             />
           </div>
 
@@ -42,14 +41,13 @@ const DesktopFilter = (props) => {
             <div className="w-auto">Type:</div>
             <select
               onChange={(e) => {
-                
                 handleChange("type", e.target.value);
               }}
               style={{ flex: "1 0 8em", minWidth: "8em" }}
-              className="flex-1 w-full max-w-xs select-md select-primary"
+              className="flex-1 select select-bordered rounded-none w-full max-w-xs focus:border-none"
             >
               {ticketTypes &&
-                ticketTypes.map((e,i) => (
+                ticketTypes.map((e, i) => (
                   <option key={i} value={e.value}>
                     {e.label}
                   </option>
@@ -59,19 +57,22 @@ const DesktopFilter = (props) => {
           <div className="flex flex-row items-center justify-between">
             <div className="flex items-center flex-1 gap-4 w-80">
               <div className="w-auto">Status:</div>
-              <select        
+              <select
                 value={data.status}
-                onChange={e => {
+                onChange={(e) => {
                   // const e = { target: { name: "status", value: value } };
                   // handleChange(e);
                   handleChange("status", e.target.value);
                   console.log(e.target.value);
                 }}
-                className="w-32 select-md"
-      
+                className="w-40 select-md select select-bordered rounded-none max-w-xs focus:border-none"
               >
-                {status.map((e,i) => (
-                  <option key={i} value={e.value}>
+                {status.map((e, i) => (
+                  <option
+                    key={i}
+                    value={e.value}
+                    className="flex justify-between"
+                  >
                     {e.label}
                   </option>
                 ))}
@@ -97,7 +98,7 @@ const DesktopFilter = (props) => {
             </div>
           </div>
         </div>
-        <div className="text-right">
+        <div className="text-right flex items-center ">
           <button
             className="v-btn-primary"
             onClick={() => {
@@ -228,7 +229,7 @@ const MobileFilter = (props) => {
           </div>
         </div>
       )}
-      
+
       {!usingFilter && (
         <div className="text-center">
           <button

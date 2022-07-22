@@ -16,7 +16,7 @@ const DesktopFilter = (props) => {
   useEffect(() => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
-      const data = ["",...res.data];
+      const data = ["", ...res.data];
       setTicketTypes(data);
     };
 
@@ -121,8 +121,8 @@ const MobileFilter = (props) => {
   useEffect(() => {
     const fetchTicketTypes = async () => {
       const res = await api.get("ticket/type");
-      const data = ["",...res.data];
-      console.log("TICKET TYPE", data)
+      const data = ["", ...res.data];
+      console.log("TICKET TYPE", data);
       setTicketTypes(data);
     };
     fetchTicketTypes();
