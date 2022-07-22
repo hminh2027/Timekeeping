@@ -102,4 +102,4 @@ const UserItem = (props) => {
     </div>
   );
 };
-export { UserItem, TableUsers };
+export default TableUsers ;

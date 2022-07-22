@@ -147,3 +147,4 @@ const MobileFilter = (props) => {
   );
 };
 export { DesktopFilter, MobileFilter };
+export default DesktopFilter;
