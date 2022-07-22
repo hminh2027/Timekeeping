@@ -9,7 +9,7 @@ import {
 } from "@/redux/feature/ticket/ticketSlice";
 
 import { useState, useEffect } from "react";
-import SubmitTicket from "./Submit";
+import SubmitTicket from "./TicketInfo";
 import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";
 import { TicketList } from "./TicketList";

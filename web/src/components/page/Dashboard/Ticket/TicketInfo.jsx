@@ -3,16 +3,22 @@ import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Input, Select, Spin } from "antd";
 import moment from "moment";
-import { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTicket } from "@/redux/feature/ticket/ticketSlice";
+import {
+  fetchMyTickets,
+  updateTicket,
+} from "@/redux/feature/ticket/ticketSlice";
 import { TICKET_TYPES } from "@/utils/constants";
 import { extractMessages } from "@/utils/Formatter/ApiError";
-const { TextArea } = Input;
+import { getTicket, updateMyTicket } from "@/api/service/ticket.service";
+
 const { Option } = Select;
 
 const SUBMIT_TICKET_TYPES = TICKET_TYPES.filter((type) => type.value !== "");
-const SubmitTicket = (props) => {
+const TicketInfo = React.memo((props) => {
+  const ticketID = props.ticketID;
+  console.log("TICKETID:", ticketID);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const [ticketData, setTicketData] = useState({
@@ -23,7 +29,35 @@ const SubmitTicket = (props) => {
     ticketType: SUBMIT_TICKET_TYPES[0].label,
     recipientId: managers,
   });
-  const [ticketTypes, setTicketTypes] = useState(SUBMIT_TICKET_TYPES);
+  const ticketTypes = SUBMIT_TICKET_TYPES;
+  useEffect(() => {
+    const fetchTicketData = async () => {
+      const result = await getTicket(ticketID);
+      console.log(result);
+      const {
+        title,
+        type,
+        startDate,
+        endDate,
+        recipient: { id },
+        content,
+      } = result.content;
+      const ticketType = TICKET_TYPES.filter(
+        (TICKET_TYPE) => TICKET_TYPE.value === type
+      )[0];
+      setTicketData({
+        title,
+        ticketType,
+        startDate,
+        endDate,
+        recipientId: id,
+        content,
+      });
+      // setTicketData(result.content);
+    };
+    fetchTicketData();
+  }, []);
+
   const [managers, setManagers] = useState([]);
   const dispatch = useDispatch();
   useLayoutEffect(() => {
@@ -43,16 +77,31 @@ const SubmitTicket = (props) => {
     setIsSubmitting(true);
 
     try {
-      const { startDate, endDate, title, recipientId, content, ticketType } =
-        ticketData;
+      const {
+        startDate,
+        endDate,
+        title,
+        recipientId,
+        content,
+        ticketType: { value },
+      } = ticketData;
+      const t = await updateMyTicket(ticketID, {
+        startDate,
+        endDate,
+        title,
+        recipientId,
+        content,
+        value,
+      });
+      console.log("T", t);
       dispatch(
-        addTicket({
+        updateTicket(ticketID, {
           startDate,
           endDate,
           title,
           recipientId,
           content,
-          ticketType: ticketType.value,
+          value,
         })
       );
       props.hide();
@@ -186,7 +235,7 @@ const SubmitTicket = (props) => {
             name="content"
             value={ticketData.content}
             style={{ width: "100%" }}
-            className={styles[`ticket-content`]}
+            className="textarea textarea-accent focus:outline-none"
             placeholder="Ticket Content"
             onChange={(e) => {
               handleChange(e);
@@ -205,12 +254,12 @@ const SubmitTicket = (props) => {
               <div>Submitting</div>
             </div>
           ) : (
-            "Submit Ticket"
+            "Update"
           )}
         </button>
       </div>
     </div>
   );
-};
+});
 
-export default SubmitTicket;
+export default TicketInfo;
