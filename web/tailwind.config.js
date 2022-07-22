@@ -10,13 +10,25 @@ module.exports = {
         8: "2em",
         16: "4em",
         32: "8em",
+        mobile: "330px",
+        sm: "480px",
+        md: "640px",
       },
       maxWidth: {
         4: "1em",
         8: "2em",
         16: "4em",
         32: "8em",
+        sm: "480px",
+        md: "640px",
+        mobile: "330px",
       },
+      minHeight: {
+        sm: "480px",
+        md: "640px",
+        mobile: "330px",
+      },
+
       colors: {
         black: "rgb(31,31,31)",
         primary: "rgb(205, 240, 234)",

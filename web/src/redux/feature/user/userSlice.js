@@ -18,19 +18,16 @@ const initialState = {
 export const fetchCheckInStatus = createAsyncThunk(
   "user/fetchCheckInStatus",
   async () => {
-
-    console.log("moment",moment().format("YYYY-MM-DD"))
-
     try {
       const response = await getCheckInStatus({
         fromDate: moment().format("YYYY-MM-DD"),
-        toDate: moment().add(1,'d').format("YYYY-MM-DD"),
+        toDate: moment().add(1, "d").format("YYYY-MM-DD"),
       });
-      console.log("response", {
-        response,
-        froDate: moment().format("YYYY-MM-DD"),
-        toDate: moment().add(1,'d').format("YYYY-MM-DD"),
-      });
+      // console.log("response", {
+      //   response,
+      //   froDate: moment().format("YYYY-MM-DD"),
+      //   toDate: moment().add(1, "d").format("YYYY-MM-DD"),
+      // });
       return response;
     } catch (error) {
       if (error.status === 401) {

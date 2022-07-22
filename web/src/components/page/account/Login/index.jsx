@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Input, Space } from "antd";
+import { Input } from "antd";
 import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import api from "@/api/api";
 import auth from "@/api/auth";
 import { setUserInfo } from "@/redux/feature/user/userSlice";
 import Form from "../Common/Form";
+import { extractMessages } from "@/utils/Formatter/ApiError";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -57,14 +58,16 @@ const LoginForm = () => {
           }
         }
       } catch (err) {
-        console.error(err);
+        const messages = extractMessages(err);
         newErrors.push({
           title: "login-failed",
-          message: err.response?.data?.message,
+          message: messages.reduce(
+            (message, text) => message + "\n" + text,
+            ""
+          ),
           color: "red",
         });
         setErrors(newErrors);
-      } finally {
       }
     }
   };
@@ -77,7 +80,7 @@ const LoginForm = () => {
           </div>
         )}
         {errors && (
-          <div className="flex flex-col items-center pb-4">
+          <div className="flex flex-col items-start pb-4">
             {errors.map((error, i) => (
               <div key={i} style={{ color: error.color, fontWeight: "500" }}>
                 {error.message}
@@ -151,5 +154,7 @@ const LoginForm = () => {
 
 export default LoginForm;
 const emailRegex = /^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/;
+// const emailRegex = /^\w+$/;
 
 const passwordRegex = /^.{4,}$/;
+// const passwordRegex = /^\w+$/;
