@@ -20,7 +20,7 @@ const CheckInContent = () => {
   const [isChecking, setIsChecking] = useState(false);
   const [checkedImg, setCheckedImg] = useState("");
   const [checkOutTime, setCheckOutTime] = useState();
-  const [error, setError] = useState();
+  const [errors, setErrors] = useState();
   useEffect(() => {
     const getStatus = async () => {
       try {
@@ -34,10 +34,6 @@ const CheckInContent = () => {
     };
     getStatus();
   }, [checkOutStatus, checkInInfo]);
-
-  if (error) {
-    console.error("Error: ", error);
-  }
   const notCheckedCard = (
     <div className="flex flex-col items-center gap-4 p-4 card">
       {!checkOutStatus ? (
@@ -97,9 +93,13 @@ const CheckInContent = () => {
         {checkOutStatus && <div>Here's your image 👉</div>}
         {checkOutStatus && checkedImage}
       </div>
-      {error && (
+      {errors && (
         <div style={{ color: "rgb(230,30,10)" }}>
-          Lỗi rồi : {error.message} 😔😔😔
+          Lỗi rồi :{" "}
+          {errors.map((error) => (
+            <span>{error}</span>
+          ))}
+          😔😔😔
         </div>
       )}
 
@@ -107,7 +107,7 @@ const CheckInContent = () => {
         <CheckingCard
           state={"checkout"}
           setIsChecking={setIsChecking}
-          setError={setError}
+          setErrors={setErrors}
         />
       )}
     </>

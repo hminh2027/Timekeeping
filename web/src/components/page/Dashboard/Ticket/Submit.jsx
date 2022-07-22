@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTicket } from "@/redux/feature/ticket/ticketSlice";
 import { TICKET_TYPES } from "@/utils/constants";
+import { extractMessages } from "@/utils/Formatter/ApiError";
 const { TextArea } = Input;
 const { Option } = Select;
 const SubmitTicket = (props) => {
@@ -58,16 +59,11 @@ const SubmitTicket = (props) => {
       // console.log("Ticket:", ticketData);
       // Router.reload(window.location.pathname);
     } catch (err) {
-      console.error(err);
+      const messages = extractMessages(err);
       const newErrors = [];
-      const {
-        response: {
-          data: { message },
-        },
-      } = err;
       newErrors.push({
         id: "submit-error",
-        message: message,
+        message: messages.reduce((message, text) => message + "\n" + text, ""),
         color: "red",
       });
       setErrors(newErrors);
@@ -78,15 +74,15 @@ const SubmitTicket = (props) => {
   console.log("TICKETDATA", ticketData);
   return (
     <div className="card">
-      <div className="card-body">
+      <div className="card-body min-w-mobile lg:min-w-md">
+        <div style={{ fontSize: "1.25em", fontWeight: "bold" }}>
+          Ticket Content
+        </div>
         <div className="space">
           {errors &&
             errors.map((error) => (
               <div style={{ color: error.color }}>{error.message}</div>
             ))}
-        </div>
-        <div style={{ fontSize: "1.25em", fontWeight: "bold" }}>
-          Ticket Content
         </div>
         <div className={styles[`input-wrapper`]}>
           <div className={styles[`input-list`]}>
