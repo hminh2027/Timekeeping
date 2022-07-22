@@ -22,13 +22,31 @@ const getTickets = async (sortOptions) => {
   // console.log("RES:", resTickets);
   return resTickets;
 };
+const getTicket = async (id) => {
+  const url = `ticket/${id}`;
+  const res = await api.get(url);
+  const ticket = TicketInfoFormatter(res.data);
+  return ticket;
+};
 
 const addMyTicket = async (ticketContent) => {
   const res = await api.post("ticket", ticketContent);
+  return res;
+};
+const updateMyTicket = async (ticketID, ticketContent) => {
+  const res = await api.patch(`ticket/${ticketID}`, ticketContent);
   return res;
 };
 const cancelMyTicket = async (ticketID) => {
   const res = await api.patch(`ticket/${ticketID}/cancel`);
   console.log(res);
 };
-export { getMyTickets, cancelMyTicket, getTickets, addMyTicket };
+
+export {
+  getMyTickets,
+  cancelMyTicket,
+  getTickets,
+  addMyTicket,
+  updateMyTicket,
+  getTicket,
+};

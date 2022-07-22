@@ -16,6 +16,7 @@ const TicketInfoFormatter = (ticket) => {
       endDate,
       createDate: ticket.createdAt,
       recipient: ticket.recipient,
+      content: ticket.content,
       actions,
     },
   };
