@@ -6,7 +6,6 @@ import { ConfigService } from 'src/common/config/config.service';
 import { LoginHistoryModule } from '../login-history/login-history.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './controllers/auth.controller';
-import { GoogleController } from './controllers/google.controller';
 import { AuthService } from './services/auth.service';
 import { GoogleService } from './services/google.service';
 import { GoogleStrategy } from './strategies/google.strategy';
@@ -31,7 +30,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AuthController, GoogleController],
+  controllers: [AuthController],
   providers: [AuthService, GoogleService, JwtStrategy, GoogleStrategy],
   exports: [PassportModule.register({ defaultStrategy: 'jwt' })],
 })

@@ -27,8 +27,25 @@ const addMyTicket = async (ticketContent) => {
   const res = await api.post("ticket", ticketContent);
   return res;
 };
+
 const cancelMyTicket = async (ticketID) => {
   const res = await api.patch(`ticket/${ticketID}/cancel`);
   console.log(res);
 };
-export { getMyTickets, cancelMyTicket, getTickets, addMyTicket };
+
+const cancelTicket = async (ticketID) => {
+  const res = await api.delete (`ticket/${ticketID}`);
+  
+};
+
+const approveTicket = async (ticketID) => {
+  const res = await api.patch(`ticket/${ticketID}/approve`);
+  console.log(res)
+};
+
+const rejectTicket = async (ticketID) => {
+  const res = await api.patch(`ticket/${ticketID}/reject`);
+  console.log(res)
+};
+
+export { getMyTickets, cancelMyTicket, getTickets, addMyTicket, cancelTicket, approveTicket, rejectTicket };
