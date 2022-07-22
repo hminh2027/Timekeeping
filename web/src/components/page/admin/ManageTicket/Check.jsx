@@ -4,7 +4,6 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import api from "@/api/api";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
-import Router from "next/router";
 const CheckTicket = (props) => {
   
   const [ticketData, setTicketData] = useState({
@@ -99,26 +98,28 @@ const CheckTicket = (props) => {
             />
           </div>
         </div>
-        <ButtonTicket disabled={props.disabled} id={props.id} status={ticketData.ticketStatus}></ButtonTicket>
+        <ButtonTicket disabled={props.disabled} toggle={props.hide} id={props.id} status={ticketData.ticketStatus}></ButtonTicket>
       </div>
     </div>
   );
 };
 
 
-const ButtonTicket = ({disabled, id, status}) => {
+const ButtonTicket = ({disabled, id, status, toggle}) => {
   const dispatch = useDispatch();
   const approveHandler = (id) => {
     dispatch(approveTickets(id));
+    toggle(false);
   }
   const rejectHandler = (id) => {
     dispatch(rejectTickets(id));
+    toggle(false)
   }
   if(!disabled) {
     return (
       <div className="w-full flex items-center justify-center">
         <button
-          className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-white p-1 rounded-lg hover:text-gray-400 mr-4"
+          className="w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black mr-2"
           type="primary"
           onClick={() => {
             approveHandler(id);
@@ -127,7 +128,7 @@ const ButtonTicket = ({disabled, id, status}) => {
           Approve
         </button>
         <button
-          className="w-1/3 border border-solid border-red-500 shadow-xl bg-red-500 text-white p-1 rounded-lg hover:text-gray-400"
+          className="w-1/3 border border-solid border-red-500 shadow-xl hover:bg-red-500 hover:text-white p-1 rounded-lg text-black"
           type="primary"
           onClick={() => {
             rejectHandler(id);
@@ -141,9 +142,9 @@ const ButtonTicket = ({disabled, id, status}) => {
   else{
     if(status=="approved")
     return(
-      <div className="max-w flex items-center justify-center">
+      <div className="w-full flex items-center justify-center">
         <button
-          className="w-1/2 border border-solid border-red-500 shadow-xl bg-red-500 text-gray-100 p-1 rounded-lg hover:text-zinc-500 mr-2"
+          className="w-1/3 border border-solid border-red-500 shadow-xl hover:bg-red-500 hover:text-white p-1 rounded-lg text-black mr-2"
           type="primary"
           onClick={() => {
             rejectHandler(id);
@@ -151,14 +152,14 @@ const ButtonTicket = ({disabled, id, status}) => {
         >
           Reject
         </button>
-        <Cancel id={id}></Cancel>
+        <Cancel id={id} toggle={toggle}></Cancel>
       </div>
     )
     else{
       return (
-        <div className="max-w flex items-center justify-center">
+        <div className="w-full flex items-center justify-center">
         <button
-          className="w-1/2 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500 mr-2"
+          className="w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black mr-2"
           type="primary"
           onClick={() => {
             approveHandler(id);
@@ -166,24 +167,25 @@ const ButtonTicket = ({disabled, id, status}) => {
         >
           Approve
         </button>
-        <Cancel id={id}></Cancel>
+        <Cancel id={id} toggle={toggle}></Cancel>
       </div>
       )
     }
 
   }
 }
-const Cancel = ({id}) => {
+const Cancel = ({id,toggle}) => {
   const dispatch = useDispatch();
   const cancelHandler = (id) => {
     dispatch(cancelTickets(id));
   }
   return (
     <button
-        className="flex-1 border border-solid border-gray-500 shadow-xl bg-gray-400 text-black p-1 rounded-lg hover:text-white"
+        className="w-1/3 border border-solid border-gray-500 shadow-xl bg-slate-200 hover:bg-gray-400 text-black p-1 rounded-lg hover:text-white"
         type="primary"
         onClick={() => {
           cancelHandler(id);
+          toggle(false);
         }}
     >cancel</button>
   )
