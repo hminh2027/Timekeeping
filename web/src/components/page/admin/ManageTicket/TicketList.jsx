@@ -29,6 +29,7 @@ function reducer(state, action) {
 }
 const TicketList = React.memo((props) => {
   const tickets = props.tickets;
+  console.log("TICKETS LIST ",tickets)
   const [state, dispatch] = useReducer(reducer, initSort);
   const { createdAt, startDate, endDate } = state;
 
@@ -47,13 +48,19 @@ const TicketList = React.memo((props) => {
         className="hidden p-4 font-semibold lg:flex"
         style={{ background: "rgb(153, 226, 180)" }}
       >
-        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+        <div className="font-semibold" style={{ flex: "1 0 2em" }}>
+          Id
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 8em" }}>
           Title
+        </div>
+        <div className="font-semibold" style={{ flex: "1 0 5em" }}>
+          Author
         </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Type
         </div>
-        <div className="font-semibold" style={{ flex: "1 1 2em" }}>
+        <div className="font-semibold" style={{ flex: "1 1 3em" }}>
           Status
         </div>
         <div
@@ -69,41 +76,15 @@ const TicketList = React.memo((props) => {
             {createdAt ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
-        <div
-          className="flex font-semibold"
-          style={{ flex: "1 0 8em" }}
-          onClick={() => {
-            dispatch({ type: "SORT_START_DATE", data: !startDate });
-            sortHandle("startDate", !startDate);
-          }}
-        >
-          <div>Start Date</div>
-          <div className="ml-4">
-            {startDate ? arrow_down_icon : arrow_up_icon}
-          </div>
-        </div>
-        <div
-          className="flex font-semibold"
-          style={{ flex: "1 0 8em" }}
-          onClick={() => {
-            dispatch({ type: "SORT_END_DATE", data: !endDate });
-            sortHandle("endDate", !endDate);
-          }}
-        >
-          <div>End Date</div>
-          <div className="ml-4">
-            {endDate ? arrow_down_icon : arrow_up_icon}
-          </div>
-        </div>
-        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+        <div className="font-semibold" style={{ flex: "1 0 2em" }}>
           Action
         </div>
       </div>
       {/* <div className="flex flex-1"> */}
       <div className="h-[500px] overflow-auto pb-1">
-        {tickets?.map((ticket) => (
+        {tickets?.map((ticket,i) => (
           <TicketListItem
-            key={ticket.id}
+            key={i}
             id={ticket.id}
             content={ticket.content}
           />
@@ -114,10 +95,10 @@ const TicketList = React.memo((props) => {
   );
 });
 const TicketListItem = (props) => {
+  console.log("props",props)
   const {
     id,
-    style,
-    content: { status, title, type, startDate, endDate, actions },
+    content: { status, title, type ,author, startDate, actions },
   } = props;
   const statusIcon = [];
   switch (status) {
@@ -140,11 +121,29 @@ const TicketListItem = (props) => {
   }
   return (
     <div className="items-center w-full py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
-      <div style={{ flex: "1 0 9em" }} className="flex text-sky-800">
+      <div style={{ flex: "1 0 2em" }} className="flex text-sky-800">
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Id:
+        </div>
+        <div className="flex-1 font-semibold">{id}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 8em" }}
+        className={`flex font-light text-gray-500`}
+      >
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 font-semibold">{title}</div>
+        <div className="flex-1">{title}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 5em" }}
+        className={`flex font-light text-gray-500`}
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Author:
+        </div>
+        <div className="flex-1">{author.lastName+" "+author.firstName}</div>
       </div>
       <div
         style={{ flex: "1 0 5em" }}
@@ -156,7 +155,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{type}</div>
       </div>
       <div
-        style={{ flex: "1 1 1em" }}
+        style={{ flex: "1 1 2em" }}
         className="flex font-light text-gray-500 "
       >
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
@@ -175,25 +174,7 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">{startDate}</div>
       </div>
-      <div
-        style={{ flex: "1 0 7em" }}
-        className="flex font-light text-gray-500 "
-      >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-          Start date:
-        </div>
-        <div className="flex-1">{startDate}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 7em" }}
-        className="flex font-light text-gray-500"
-      >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-          End date:
-        </div>
-        <div className="flex-1">{endDate}</div>
-      </div>
-      <div style={{ flex: "1 0 3em" }} className="font-light text-gray-500">
+      <div style={{ flex: "1 0 2em" }} className="font-light text-gray-500">
         <Approve id={id} num={status}></Approve>
       </div>
     </div>
