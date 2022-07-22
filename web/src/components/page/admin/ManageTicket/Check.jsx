@@ -26,6 +26,7 @@ const CheckTicket = (props) => {
   }, []);
   
   return (
+    <>
     <div className="card">
       <div className="card-body ">
         <div  className = " text-xl font-bold text-center justify-center">
@@ -101,6 +102,8 @@ const CheckTicket = (props) => {
         <ButtonTicket disabled={props.disabled} toggle={props.hide} id={props.id} status={ticketData.ticketStatus}></ButtonTicket>
       </div>
     </div>
+    </>
+    
   );
 };
 
