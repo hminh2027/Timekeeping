@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "antd";
 import { useEffect } from "react";
 import { ApiFilled } from "@ant-design/icons";
-const CommentTicket = ({id}) => {
+const CommentTicket = ({ id }) => {
   const [isAddComment, setAddComment] = useState(false);
   const [listComment, setListComment] = useState([]);
   // useEffect(()=> {
@@ -24,10 +24,13 @@ const CommentTicket = ({id}) => {
           <CommentChild id={2} content={"hellllo"}></CommentChild>
           <CommentChild id={1} content={"hellllo"}></CommentChild>
           <CommentChild id={2} content={"hellllo"}></CommentChild>
-
         </div>
         <div className="flex">
-          <textarea type="text" placeholder="comment" class="input input-bordered input-accent w-full max-w-xs" />
+          <textarea
+            type="text"
+            placeholder="comment"
+            class="input input-bordered input-accent w-full max-w-xs"
+          />
           {/* <textarea className=" row-span-2 w-10/12"          
             name="comment"
             // value= {ticketData.comment}

@@ -15,4 +15,4 @@ const MobileMenu = () => {
     </div>
   );
 };
-export default MobileMenu
+export default MobileMenu;

@@ -1,4 +1,3 @@
-// import Modal from "@/components/Common/Modal";
 import UseModal from "@/utils/hooks/UseModal";
 import { TICKET_FILTER } from "@/utils/constants";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,7 +8,6 @@ import {
   selectTickets,
 } from "@/redux/feature/ticket/ticketSlice";
 
-import { Col, Row } from "antd";
 import { useState, useEffect } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
@@ -38,37 +36,36 @@ const TicketContent = () => {
     };
     fetchTicketData();
   }, [sortOption, filterOptions]);
-  
+
   // Gọi api khi filter option thay đổi
   return (
-    <div className="flex-1">
+    <div className="flex-1 flex-col gap-8">
       <Header toggleModal={toggle} />
-      <div>
-        <div
-          className="flex flex-col m-1 overflow-auto rounded-lg"
-          style={{
-            backgroundColor: "#fff",
-            boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-          }}
-        >
-          <DesktopFilter
-            onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
-            className="hidden lg:flex"
-          />
-          <MobileFilter
-            onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
-            className="lg:hidden"
-          />
 
-          <TicketList
-            tickets={tickets}
-            onSort={(option) => setSortOption(option)}
-            sortOption={sortOption}
-          />
-        </div>
+      <div
+        className="flex flex-col m-1 overflow-auto rounded-lg"
+        style={{
+          backgroundColor: "#fff",
+          boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
+        }}
+      >
+        <DesktopFilter
+          onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+          className="hidden lg:flex"
+        />
+        <MobileFilter
+          onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+          className="lg:hidden"
+        />
+
+        <TicketList
+          tickets={tickets}
+          onSort={(option) => setSortOption(option)}
+          sortOption={sortOption}
+        />
       </div>
 
-      <Modal isShowing={isShowing} hide={toggle}>
+      <Modal isShowing={isShowing} hide={toggle} closeButton={true}>
         <SubmitTicket hide={toggle} />
       </Modal>
     </div>

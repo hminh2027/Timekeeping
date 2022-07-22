@@ -1,12 +1,12 @@
 .btn {
-    @apply min-h-0 h-8 p-4 rounded-md;
-  }
-.card {
-    @apply bg-white shadow-lg
+  @apply min-h-0 h-8 p-4 rounded-md;
 }
-.card-body{
-    @apply gap-4
+.card {
+  @apply bg-white shadow-lg;
+}
+.card-body {
+  @apply gap-4;
 }
 .space {
-    @apply flex items-center
+  @apply flex items-center;
 }
