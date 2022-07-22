@@ -3,13 +3,15 @@ import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Input, Select, Spin } from "antd";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTicket } from "@/redux/feature/ticket/ticketSlice";
 import { TICKET_TYPES } from "@/utils/constants";
 import { extractMessages } from "@/utils/Formatter/ApiError";
 const { TextArea } = Input;
 const { Option } = Select;
+
+const SUBMIT_TICKET_TYPES = TICKET_TYPES.filter((type) => type.value !== "");
 const SubmitTicket = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -18,18 +20,18 @@ const SubmitTicket = (props) => {
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     title: "",
     content: "",
-    ticketType: TICKET_TYPES[0].labeL,
-    recipientId: 0,
+    ticketType: SUBMIT_TICKET_TYPES[0].label,
+    recipientId: managers,
   });
-  const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
+  const [ticketTypes, setTicketTypes] = useState(SUBMIT_TICKET_TYPES);
   const [managers, setManagers] = useState([]);
   const dispatch = useDispatch();
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchManagers = async () => {
       const res = await api.get("user/admin");
       const { data } = res;
       setManagers(data);
-      // setTicketData({ ...ticketData, recipientId: data[0]?.id });
+      setTicketData({ ...ticketData, recipientId: data[0]?.id });
     };
     fetchManagers();
   }, []);
@@ -71,7 +73,6 @@ const SubmitTicket = (props) => {
       setIsSubmitting(false);
     }
   };
-  console.log("TICKETDATA", ticketData);
   return (
     <div className="card">
       <div className="card-body min-w-mobile lg:min-w-md">
@@ -87,6 +88,7 @@ const SubmitTicket = (props) => {
         <div className={styles[`input-wrapper`]}>
           <div className={styles[`input-list`]}>
             <Input
+              autoFocus={true}
               type="text"
               name="title"
               value={ticketData.title}
@@ -131,7 +133,7 @@ const SubmitTicket = (props) => {
                 className="flex-grow"
                 name="ticketType"
                 value={ticketData.ticketType}
-                options={TICKET_TYPES}
+                options={SUBMIT_TICKET_TYPES}
                 // value={ticketTypes[0]}
                 placeholder="Search to Select"
                 onChange={(value, option) => {
@@ -139,7 +141,7 @@ const SubmitTicket = (props) => {
                   const e = {
                     target: {
                       name: "ticketType",
-                      value: TICKET_TYPES.filter(
+                      value: SUBMIT_TICKET_TYPES.filter(
                         (type) => type.value === value
                       )[0],
                     },

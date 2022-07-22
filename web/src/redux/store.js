@@ -8,7 +8,7 @@ export const store = configureStore({
     user: userSlice,
     menu: menuSlice,
     ticket: ticketSlice,
-    tickets: tickets
+    tickets: tickets,
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: true }),

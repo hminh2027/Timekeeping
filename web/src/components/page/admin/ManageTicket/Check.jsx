@@ -6,7 +6,6 @@ import api from "@/api/api";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import Router from "next/router";
 const CheckTicket = (props) => {
-  
   const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
@@ -20,15 +19,15 @@ const CheckTicket = (props) => {
       const res = await api.get(`ticket/${props.id}`);
       const { data } = res;
       setTicketData(data);
-      console.log("data",data.startDate);
+      console.log("data", data.startDate);
     };
     fetchTikect();
   }, []);
-  
+
   return (
     <div className="card">
       <div className="card-body ">
-        <div  className = " text-xl font-bold text-center justify-center">
+        <div className=" text-xl font-bold text-center justify-center">
           Ticket Content
         </div>
         <div className={styles[`input-wrapper`]}>
@@ -46,7 +45,7 @@ const CheckTicket = (props) => {
                 Start Date
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="startDate"
@@ -58,7 +57,7 @@ const CheckTicket = (props) => {
                 End Date
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="endDate"
@@ -70,23 +69,28 @@ const CheckTicket = (props) => {
                 Ticket Type
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="ticketType"
                 value={ticketData.ticketType}
               />
             </div>
-            <div className="flex" >
-                <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">Recipient Name</div>
-                <input
-                  className=" flex-1 border border-solid border-gray-300 p-2 text-gray-500"
-                  disabled
-                  name="recipientId"
-                  value={ticketData.recipient.firstName+" "+ticketData.recipient.lastName}
-                  placeholder="Search to Select"
-                >
-                </input>
+            <div className="flex">
+              <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                Recipient Name
+              </div>
+              <input
+                className=" flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                disabled
+                name="recipientId"
+                value={
+                  ticketData.recipient.firstName +
+                  " " +
+                  ticketData.recipient.lastName
+                }
+                placeholder="Search to Select"
+              ></input>
             </div>
             <textarea
               className=" flex-grow w-full border border-solid border-gray-300 p-2 h-auto text-gray-500"
@@ -98,17 +102,19 @@ const CheckTicket = (props) => {
             />
           </div>
         </div>
-        <ButtonTicket disabled={props.disabled} status={ticketData.ticketStatus}></ButtonTicket>
+        <ButtonTicket
+          disabled={props.disabled}
+          status={ticketData.ticketStatus}
+        ></ButtonTicket>
       </div>
     </div>
   );
 };
 
-
-const ButtonTicket = ({disabled, status}) => {
-  console.log("status",status)
+const ButtonTicket = ({ disabled, status }) => {
+  console.log("status", status);
   const [isReject, setReject] = useState(false);
-  const [errors, setErrors] = useState()
+  const [errors, setErrors] = useState();
   const reject = async () => {
     setReject(true);
     try {
@@ -120,13 +126,13 @@ const ButtonTicket = ({disabled, status}) => {
       setReject(false);
     }
   };
-  if(!disabled) {
+  if (!disabled) {
     const [isApprove, setApprove] = useState(false);
     const approve = async () => {
       setApprove(true);
       try {
-          await api.patch(`ticket/${props.id}/approve`);
-          Router.reload(window.location.pathname);     
+        await api.patch(`ticket/${props.id}/approve`);
+        Router.reload(window.location.pathname);
       } catch (err) {
         setErrors(err);
       } finally {
@@ -168,31 +174,30 @@ const ButtonTicket = ({disabled, status}) => {
           )}
         </button>
       </div>
-    )
+    );
+  } else {
+    if (status == "approved")
+      return (
+        <div className="w-full flex items-center justify-center">
+          <button
+            className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500"
+            type="primary"
+            onClick={() => {
+              reject();
+            }}
+          >
+            {isReject ? (
+              <Space>
+                <Spin indicator={<LoadingOutlined />} />
+                <div>Reject</div>
+              </Space>
+            ) : (
+              "Reject"
+            )}
+          </button>
+        </div>
+      );
   }
-  else{
-    if(status=="approved")
-    return(
-      <div className="w-full flex items-center justify-center">
-        <button
-          className="w-1/3 border border-solid border-teal-600 shadow-xl bg-teal-600 text-gray-100 p-1 rounded-lg hover:text-zinc-500"
-          type="primary"
-          onClick={() => {
-            reject();
-          }}
-        >
-          {isReject ? (
-            <Space>
-              <Spin indicator={<LoadingOutlined />} />
-              <div>Reject</div>
-            </Space>
-          ) : (
-            "Reject"
-          )}
-        </button>
-      </div>
-    )
-  }
-}
+};
 
 export default CheckTicket;
