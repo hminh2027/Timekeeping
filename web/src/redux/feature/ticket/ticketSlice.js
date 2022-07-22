@@ -49,7 +49,6 @@ export const fetchMyTickets = createAsyncThunk(
   }
 );
 
-
 export const ticketSlice = createSlice({
   name: "ticket",
   initialState,

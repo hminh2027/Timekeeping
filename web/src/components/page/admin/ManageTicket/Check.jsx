@@ -8,7 +8,6 @@ import api from "@/api/api";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import Router from "next/router";
 const CheckTicket = (props) => {
-  
   const [ticketData, setTicketData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
@@ -22,15 +21,15 @@ const CheckTicket = (props) => {
       const res = await api.get(`ticket/${props.id}`);
       const { data } = res;
       setTicketData(data);
-      console.log("data",data.startDate);
+      console.log("data", data.startDate);
     };
     fetchTikect();
   }, []);
-  
+
   return (
     <div className="card">
       <div className="card-body ">
-        <div  className = " text-xl font-bold text-center justify-center">
+        <div className=" text-xl font-bold text-center justify-center">
           Ticket Content
         </div>
         <div className={styles[`input-wrapper`]}>
@@ -48,7 +47,7 @@ const CheckTicket = (props) => {
                 Start Date
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="startDate"
@@ -60,7 +59,7 @@ const CheckTicket = (props) => {
                 End Date
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="endDate"
@@ -72,23 +71,28 @@ const CheckTicket = (props) => {
                 Ticket Type
               </div>
               <input
-                className = "flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                className="flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="ticketType"
                 value={ticketData.ticketType}
               />
             </div>
-            <div className="flex" >
-                <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">Recipient Name</div>
-                <input
-                  className=" flex-1 border border-solid border-gray-300 p-2 text-gray-500"
-                  disabled
-                  name="recipientId"
-                  value={ticketData.recipient.firstName+" "+ticketData.recipient.lastName}
-                  placeholder="Search to Select"
-                >
-                </input>
+            <div className="flex">
+              <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                Recipient Name
+              </div>
+              <input
+                className=" flex-1 border border-solid border-gray-300 p-2 text-gray-500"
+                disabled
+                name="recipientId"
+                value={
+                  ticketData.recipient.firstName +
+                  " " +
+                  ticketData.recipient.lastName
+                }
+                placeholder="Search to Select"
+              ></input>
             </div>
             <textarea
               className=" flex-grow w-full border border-solid border-gray-300 p-2 h-auto text-gray-500"
@@ -107,6 +111,7 @@ const CheckTicket = (props) => {
 };
 
 
+
 const ButtonTicket = ({disabled, id, status}) => {
   const dispatch = useDispatch();
   const approveHandler = (id) => {
@@ -116,7 +121,7 @@ const ButtonTicket = ({disabled, id, status}) => {
     dispatch(rejectTickets(id));
   }
   const [isReject, setReject] = useState(false);
-  const [errors, setErrors] = useState()
+  const [errors, setErrors] = useState();
   const reject = async () => {
     setReject(true);
     try {
@@ -128,7 +133,7 @@ const ButtonTicket = ({disabled, id, status}) => {
       setReject(false);
     }
   };
-  if(!disabled) {
+  if (!disabled) {
     const [isApprove, setApprove] = useState(false);
     const approve = async () => {
       setApprove(true);
@@ -224,4 +229,5 @@ const Cancel = ({id}) => {
     >cancel</button>
   )
 }
+
 export default CheckTicket;
