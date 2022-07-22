@@ -1,23 +1,5 @@
 import { Image } from "antd";
-import { useEffect, useState } from "react";
-import { fetchMe } from "@/redux/feature/user/userSlice";
-import { useDispatch } from "react-redux";
-import Router from "next/router";
 const RecoveryLayout = (props) => {
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const getUserInfo = () => {
-      const res = dispatch(fetchMe());
-      console.log(res);
-      if (res !== null) {
-        Router.push("/dashboard");
-      } else {
-        setLoading(false);
-      }
-    };
-    getUserInfo();
-  }, []);
   const content = (
     <div className="flex flex-wrap items-center justify-center w-full min-h-screen px-1">
       <Image
@@ -29,7 +11,7 @@ const RecoveryLayout = (props) => {
       {props.children}
     </div>
   );
-  return loading ? <></> : content;
+  return content;
 };
 
 export default RecoveryLayout;
