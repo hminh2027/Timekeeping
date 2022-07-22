@@ -17,6 +17,13 @@ export const fetchTickets = createAsyncThunk(
           console.log("RESPONSE", response)
           return response; 
 
+        }
+        catch (error) {
+          console.error("Error occur while cancelling ticket: ", error);
+        }
+      }
+)
+
 export const cancelTickets = createAsyncThunk (
   "ticket/cancelTicket",
   async (ticketID) => {
@@ -87,14 +94,6 @@ export const ticketsSlice = createSlice({
           state.tickets = action.payload;
         });
     },
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-      console.log("TICKETS:", state.tickets);
-    });
-  },
 });
 
 export const { setTickets } = ticketsSlice.actions;
