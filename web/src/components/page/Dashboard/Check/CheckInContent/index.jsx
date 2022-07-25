@@ -15,7 +15,7 @@ const CheckInContent = () => {
   const [isChecking, setIsChecking] = useState(false);
   const [checkedImg, setCheckedImg] = useState("");
   const [checkInTime, setCheckInTime] = useState();
-  const [error, setError] = useState();
+  const [errors, setErrors] = useState();
   useEffect(() => {
     const getStatus = async () => {
       try {
@@ -96,16 +96,20 @@ const CheckInContent = () => {
         {checkInStatus && <div>Here's your image 👉</div>}
         {checkInStatus && checkedImage}
       </div>
-      {error && (
+      {errors && (
         <div style={{ color: "rgb(230,30,10)" }}>
-          Lỗi rồi : {error.message} 😔😔😔
+          Lỗi rồi :{" "}
+          {errors.map((error) => (
+            <span>{error}</span>
+          ))}
+          😔😔😔
         </div>
       )}
       {checkInStatus && redirectCheckOut}
       {isChecking && (
         <CheckingCard
           setIsChecking={setIsChecking}
-          setError={setError}
+          setErrors={setErrors}
           state={"checkin"}
         />
       )}

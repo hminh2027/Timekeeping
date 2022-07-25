@@ -1,6 +1,6 @@
-import { getAuthCredentials } from "@/utils/auth-utils";
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import Dashboard from "../components/page/Dashboard/Home";
+import { getAuthCredentials } from "@/utils/auth-utils";
 const index = () => {
   return <Dashboard />;
 };
@@ -9,7 +9,8 @@ index.layout = DashboardLayout;
 export default index;
 export async function getServerSideProps(ctx) {
   const { token, user } = getAuthCredentials(ctx);
-  if(!token) {
+  console.log("CTX:", ctx);
+  if (!token) {
     return {
       redirect: {
         destination: "/account/login",

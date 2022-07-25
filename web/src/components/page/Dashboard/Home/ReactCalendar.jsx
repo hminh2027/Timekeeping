@@ -148,7 +148,7 @@ const ReactCalendar = () => {
         }}
         className="card-body"
       >
-        <div className="flex flex-col items-center justify-center p-20">
+        <div className="flex flex-col items-center justify-center min-w-mobile">
           {loadingInfo ? (
             <div className="text-3xl animate-spin">⏳</div>
           ) : checkInInfo ? (

@@ -50,14 +50,14 @@ const DashboardLayout = (props) => {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex flex-col w-screen h-screen">
+    <div className="flex flex-col min-h-screen">
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}
-      <div className="flex flex-row flex-1">
+      <div className="flex flex-1">
         <SidebarMenu />
         {/* Content */}
-        <div className="flex flex-1">{props.children}</div>
+        <div className="flex flex-1 ">{props.children}</div>
       </div>
       <div>
         <MobileDrawer

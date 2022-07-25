@@ -6,20 +6,20 @@ import {
   rejectTicket,
 } from "@/api/service/ticket.service";
 const initialState = {
-    tickets: [],
+  tickets: [],
 };
 
 export const fetchTickets = createAsyncThunk(
     "ticket/getTicket",
     async (sortOptions) => {
-        try {
-          const response = await getTickets(sortOptions);
-          return response; 
-
-        } catch (error) {
-          console.error("Error occur while fetching tickets: ", error);
-        }
+      try{
+        const response = await getTickets(sortOptions);
+        return response
       }
+      catch (error) {
+        console.error("Error occur while cancelling ticket: ", error);
+      }
+  }
 )
 
 export const cancelTickets = createAsyncThunk (
@@ -65,13 +65,12 @@ export const rejectTickets = createAsyncThunk (
 )
 
 export const ticketsSlice = createSlice({
-    name: "ticket",
-    initialState,
-    reducers: {
-        setTickets: (state, action) => {
-            const tickets = action.payload;
-            return {...state,tickets};
-        },
+  name: "ticket",
+  initialState,
+  reducers: {
+    setTickets: (state, action) => {
+      const tickets = action.payload;
+      return { ...state, tickets };
     },
     extraReducers(builder) {
         builder.addCase(fetchTickets.fulfilled, (state, action) => {
@@ -92,13 +91,14 @@ export const ticketsSlice = createSlice({
           state.tickets = action.payload;
         });
     },
-})
+  }
+});
 
 export const { setTickets } = ticketsSlice.actions;
 
 export const selectTicket = (state) => state.tickets;
 
 //Selectors
-export const selectTickets = (state) => state.tickets.tickets
+export const selectTickets = (state) => state.tickets.tickets;
 
 export default ticketsSlice.reducer;

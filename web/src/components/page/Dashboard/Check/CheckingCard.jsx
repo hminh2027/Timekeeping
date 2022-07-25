@@ -6,7 +6,8 @@ import api from "@/api/api";
 import { fetchCheckInStatus } from "@/redux/feature/user/userSlice";
 import styles from "@/styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "@/utils/hooks/UseTrans";
-import { info } from "daisyui/src/colors/colorNames";
+import { extractMessages } from "@/utils/Formatter/ApiError";
+
 const { Text } = Typography;
 const CheckingCard = (props) => {
   const dispatch = useDispatch();
@@ -15,10 +16,11 @@ const CheckingCard = (props) => {
 
   const [noCam, setNoCam] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
+  const [captured, setCaptured] = useState(false);
+  const [capturing, setCapturing] = useState(true);
 
   const capture = React.useCallback(() => {
     const imageSrc = webCamRef.current.getScreenshot();
-
     setImageSrc(imageSrc);
   }, [webCamRef, setImageSrc]);
 
@@ -39,12 +41,10 @@ const CheckingCard = (props) => {
         props.state === "checkin"
           ? await api.post("checkin", payload)
           : await api.patch("checkin", payload);
-        // console.log(res);
         dispatch(fetchCheckInStatus());
       } catch (err) {
-        console.error(err);
-        if (err.response) props.setError(err.response.data);
-        else props.setError(err);
+        const message = extractMessages(err);
+        props.setErrors(message);
       }
     });
   };
@@ -62,23 +62,38 @@ const CheckingCard = (props) => {
           avatar={{ active: true, shape: "square", size: 500 }}
         ></Skeleton>
       ) : (
-        <div className="flex flex-row flex-wrap items-center w-full">
-          <div>
-            <Webcam
-              ref={webCamRef}
-              screenshotFormat="image/jpg"
-              onUserMediaError={() => setNoCam(true)}
-              screenshotQuality={1}
-              className="w-full"
-            />
-          </div>
+        <div className="flex flex-row flex-wrap items-center w-full min-h-md min-w-sm">
+          {capturing && (
+            <div>
+              <Webcam
+                ref={webCamRef}
+                screenshotFormat="image/jpg"
+                onUserMediaError={() => setNoCam(true)}
+                screenshotQuality={1}
+                width={480}
+                height={640}
+                className={`w-full`}
+              />
+            </div>
+          )}
 
+          {captured && !capturing && (
+            <div>
+              <img src={imageSrc} className={styles[`preview-image`]} />
+            </div>
+          )}
           <div className="flex flex-col flex-wrap items-center gap-12">
             <button
               className="v-btn btn-outline btn-primary"
-              onClick={() => capture()}
+              onClick={() => {
+                capturing && capture();
+                setCaptured(true);
+                setCapturing(!capturing);
+              }}
             >
-              {trans.check.capture}
+              {capturing && !captured && "Capture"}
+              {capturing && captured && "Capture"}
+              {!capturing && captured && "Re Capture"}
             </button>
             <button
               className="v-btn-primary"
@@ -91,9 +106,9 @@ const CheckingCard = (props) => {
               {trans.check.finish}
             </button>
           </div>
-          <div>
+          {/* <div>
             <img src={imageSrc} className={styles[`preview-image`]} />
-          </div>
+          </div> */}
         </div>
       )}
     </div>

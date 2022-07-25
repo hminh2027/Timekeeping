@@ -29,9 +29,7 @@ export const menuItems = [
     label: "Tickets",
     value: "/admin/ticket",
     id: "Ticket",
-  }
-
-
+  },
 ];
 
 export const drawerItems = [

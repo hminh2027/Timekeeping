@@ -5,7 +5,6 @@ import { selectUserCheckInStatus } from "../../../../redux/feature/user/userSlic
 import styles from "../../../../styles/pages/dashboard/home.module.scss";
 import ReactCalendar from "./ReactCalendar";
 
-import WorkCalendar from "./WorkCalendar";
 const Home = () => {
   const checkInStatus = useSelector(selectUserCheckInStatus);
   const notCheckedContent = (

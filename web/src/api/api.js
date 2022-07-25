@@ -1,6 +1,8 @@
+import { message } from "antd";
 import axios from "axios";
+import { info } from "daisyui/src/colors";
 import Cookies from "js-cookie";
-import { Router } from "next/router";
+import Router from "next/router";
 
 axios.interceptors.response.use(
   function (response) {
@@ -11,8 +13,9 @@ axios.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    console.log("ERROR", error);
-    const { status } = error.response;
+    // console.log("ERROR", error);
+    const { response } = error;
+    const status = response.status;
     if (status === 401) {
       const refreshToken = localStorage.getItem("refreshToken");
       console.log("Refresh token", refreshToken);

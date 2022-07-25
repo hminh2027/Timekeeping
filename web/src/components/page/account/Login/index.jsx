@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Input, Space } from "antd";
+import { Input } from "antd";
 import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
@@ -8,12 +8,17 @@ import api from "@/api/api";
 import auth from "@/api/auth";
 import { setUserInfo } from "@/redux/feature/user/userSlice";
 import Form from "../Common/Form";
+import { extractMessages } from "@/utils/Formatter/ApiError";
+import { useLoginMutation } from "src/rest/auth/auth.query";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({ email: "", password: "" });
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [errors, setErrors] = useState([]);
+
+  const { mutate: doLogin } = useLoginMutation();
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setErrors([]);
@@ -44,6 +49,19 @@ const LoginForm = () => {
       try {
         const res = await api.post("auth/login", { email, password });
 
+        // test mutation
+        // await doLogin(
+        //   {
+        //     email,
+        //     password,
+        //   },
+        //   {
+        //     onSuccess: async (response) => {
+        //       console.log("response", response);
+        //     },
+        //   }
+        // );
+
         if (res) {
           if (res.status === 201) {
             const { user: userInfo } = res.data;
@@ -57,14 +75,16 @@ const LoginForm = () => {
           }
         }
       } catch (err) {
-        console.error(err);
+        const messages = extractMessages(err);
         newErrors.push({
           title: "login-failed",
-          message: err.response?.data?.message,
+          message: messages.reduce(
+            (message, text) => message + "\n" + text,
+            ""
+          ),
           color: "red",
         });
         setErrors(newErrors);
-      } finally {
       }
     }
   };
@@ -77,7 +97,7 @@ const LoginForm = () => {
           </div>
         )}
         {errors && (
-          <div className="flex flex-col items-center pb-4">
+          <div className="flex flex-col items-start pb-4">
             {errors.map((error, i) => (
               <div key={i} style={{ color: error.color, fontWeight: "500" }}>
                 {error.message}
@@ -106,8 +126,8 @@ const LoginForm = () => {
             }}
           />
         </div>
-        <div className="flex flex-col gap-2 items-center">
-          <div className="flex w-full gap-2 items-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center w-full gap-2">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Password"
@@ -151,5 +171,7 @@ const LoginForm = () => {
 
 export default LoginForm;
 const emailRegex = /^[\w-\.]+@(vdtsol\.)+[\w-]{2,4}$/;
+// const emailRegex = /^\w+$/;
 
 const passwordRegex = /^.{4,}$/;
+// const passwordRegex = /^\w+$/;

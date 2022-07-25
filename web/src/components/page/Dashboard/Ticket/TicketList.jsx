@@ -1,6 +1,11 @@
 import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
 import React, { useReducer } from "react";
+import UseModal from "@/utils/hooks/UseModal";
+import Modal from "@/components/Common/Modal";
+import CommentTicket from "./CommentTicket";
+import TicketInfo from "./TicketInfo";
+
 const initSort = {
   createdAt: false,
   startDate: false,
@@ -25,13 +30,11 @@ function reducer(state, action) {
       return state;
   }
 }
-const TicketList = React.memo((props) => {
+const TicketList = (props) => {
   const tickets = props.tickets;
-  console.log(tickets)
   const [state, dispatch] = useReducer(reducer, initSort);
 
   const { createdAt, startDate, endDate } = state;
-  console.log(state);
   const sortHandle = (sortBy, orderBy) => {
     const sortOption = {
       sortBy,
@@ -59,7 +62,7 @@ const TicketList = React.memo((props) => {
           Status
         </div>
         <div
-          className="font-semibold flex"
+          className="flex font-semibold"
           style={{ flex: "1 0 8em" }}
           onClick={() => {
             dispatch({ type: "SORT_CREATED_AT", data: !createdAt });
@@ -72,7 +75,7 @@ const TicketList = React.memo((props) => {
           </div>
         </div>
         <div
-          className="font-semibold flex"
+          className="flex font-semibold"
           style={{ flex: "1 0 8em" }}
           onClick={() => {
             dispatch({ type: "SORT_START_DATE", data: !startDate });
@@ -85,7 +88,7 @@ const TicketList = React.memo((props) => {
           </div>
         </div>
         <div
-          className="font-semibold flex"
+          className="flex font-semibold"
           style={{ flex: "1 0 8em" }}
           onClick={() => {
             dispatch({ type: "SORT_END_DATE", data: !endDate });
@@ -110,9 +113,9 @@ const TicketList = React.memo((props) => {
       ))}
     </>
   );
-});
+};
 const TicketListItem = (props) => {
-  // console.log("PROPS: ", props);
+  const { isShowing, toggle } = UseModal();
   const dispatch = useDispatch();
   const {
     id,
@@ -140,145 +143,97 @@ const TicketListItem = (props) => {
   const cancelHandler = (id) => {
     dispatch(cancelTicket(id));
   };
+  const openModal = (id) => {
+    toggle();
+  };
   return (
-    <div className="font-medium py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
-      <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
-        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
-          Title:
-        </div>
-        <div className="flex-1 font-semibold">{title}</div>
-      </div>
+    <>
       <div
-        style={{ flex: "1 0 3em" }}
-        className={`flex font-light text-gray-500`}
+        className="items-center py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
+        onClick={() => openModal(id)}
       >
-        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
-          Type:
+        <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+            Title:
+          </div>
+          <div className="flex-1 font-semibold">{title}</div>
         </div>
-        <div className="flex-1">{type}</div>
-      </div>
-      <div
-        style={{ flex: "1 1 2em" }}
-        className="flex font-light text-gray-500 "
-      >
-        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
-          Status:
+        <div
+          style={{ flex: "1 0 3em" }}
+          className={`flex font-light text-gray-500`}
+        >
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+            Type:
+          </div>
+          <div className="flex-1">{type}</div>
         </div>
-        <div className="flex-1">
-          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+        <div
+          style={{ flex: "1 1 2em" }}
+          className="flex font-light text-gray-500 "
+        >
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+            Status:
+          </div>
+          <div className="flex-1">
+            {statusIcon[0]}{" "}
+            <span className="text-black lg:hidden">{status}</span>
+          </div>
+        </div>
+        <div
+          style={{ flex: "1 0 8em" }}
+          className="flex font-light text-gray-500 "
+        >
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+            Created at:
+          </div>
+          <div className="flex-1">{startDate}</div>
+        </div>
+        <div
+          style={{ flex: "1 0 8em" }}
+          className="flex font-light text-gray-500 "
+        >
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+            Start date:
+          </div>
+          <div className="flex-1">{startDate}</div>
+        </div>
+        <div
+          style={{ flex: "1 0 8em" }}
+          className="flex font-light text-gray-500"
+        >
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+            End date:
+          </div>
+          <div className="flex-1">{endDate}</div>
+        </div>
+        <div
+          style={{ flex: "1 0 3em" }}
+          className="flex justify-end font-light text-gray-500 lg:justify-start"
+        >
+          {actions.map((action) => {
+            const style = action.style;
+            if (action.title.trim() !== "") {
+              return (
+                <button
+                  className="v-btn-third"
+                  onClick={() => cancelHandler(id)}
+                >
+                  {action.title}
+                </button>
+              );
+            }
+          })}
         </div>
       </div>
-      <div
-        style={{ flex: "1 0 8em" }}
-        className="flex font-light text-gray-500 "
-      >
-        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
-          Created at:
-        </div>
-        <div className="flex-1">{startDate}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 8em" }}
-        className="flex font-light text-gray-500 "
-      >
-        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
-          Start date:
-        </div>
-        <div className="flex-1">{startDate}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 8em" }}
-        className="flex font-light text-gray-500"
-      >
-        <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
-          End date:
-        </div>
-        <div className="flex-1">{endDate}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 3em" }}
-        className="flex justify-end font-light text-gray-500 lg:justify-start"
-      >
-        {actions.map((action) => {
-          const style = action.style;
-          if (action.title.trim() !== "") {
-            return (
-              <button className="v-btn-third" onClick={() => cancelHandler(id)}>
-                {action.title}
-              </button>
-            );
-          }
-        })}
-      </div>
-    </div>
+      <Modal isShowing={isShowing} hide={toggle} closeButton={true}>
+        <TicketInfo hide={toggle} ticketID={id} />
+        <CommentTicket ticketID={id} />
+      </Modal>
+    </>
   );
 };
 export { TicketListItem, TicketList };
 
-const status = [
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">All</div>
-        <div className=""></div>
-      </div>
-    ),
-    value: "all",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Approved</div>
-        <div className="">🟢</div>
-      </div>
-    ),
-    value: "approved",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Pending</div>
-        <div className="">🟡</div>
-      </div>
-    ),
-    value: "pending",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Rejected</div>
-        <div className="">🔴</div>
-      </div>
-    ),
-    value: "rejected",
-  },
-  {
-    label: (
-      <div className="flex justify-between gap-1">
-        <div className="">Cancelled</div>
-        <div className="">⚪</div>
-      </div>
-    ),
-    value: "cancelled",
-  },
-];
-// const MobileTicketList = () => {
-//   return (
-//     <div
-//       style={{ minWidth: "100%", minHeight: "5em" }}
-//       className={styles[`mobile-ticket-list`]}
-//     >
-//       {tickets.map((ticket) => (
-//         <TicketListItem
-//           key={ticket.id}
-//           status={ticket.status}
-//           type={ticket.type}
-//           title={ticket.title}
-//         />
-//       ))}
-//     </div>
-//   );
-// };
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
