@@ -3,6 +3,7 @@ import {
   getMyTickets,
   cancelMyTicket,
   addMyTicket,
+  updateMyTicket,
 } from "@/api/service/ticket.service";
 const initialState = {
   tickets: [],
@@ -14,6 +15,18 @@ export const cancelTicket = createAsyncThunk(
     try {
       console.log("ID:", ticketID);
       await cancelMyTicket(ticketID);
+      const response = await getMyTickets();
+      return response;
+    } catch (error) {
+      console.error("Error occur while cancelling ticket: ", error);
+    }
+  }
+);
+export const updateTicket = createAsyncThunk(
+  "ticket/updateMyTicket",
+  async (ticketID, ticketContent) => {
+    try {
+      await updateMyTicket(ticketID, ticketContent);
       const response = await getMyTickets();
       return response;
     } catch (error) {
@@ -69,6 +82,10 @@ export const ticketSlice = createSlice({
       state.tickets = action.payload;
     });
     builder.addCase(addTicket.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.tickets = action.payload;
+    });
+    builder.addCase(updateTicket.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.tickets = action.payload;
     });

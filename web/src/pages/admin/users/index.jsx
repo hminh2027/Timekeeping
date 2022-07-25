@@ -5,6 +5,7 @@ import { DesktopFilter, MobileFilter } from './Filter';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUsers } from '@/redux/feature/admin/users';
 
+import { getAuthCredentials } from "@/utils/auth-utils";
 const AdminUserPage = () => {
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
@@ -22,7 +23,7 @@ const AdminUserPage = () => {
   },[filterOptions])
   return (
     // <div>AdminUserPage</div>
-    <div className='w-full'>
+    <div className="w-full">
       <div className="flex items-center justify-between w-full px-4 py-6 bg-white">
         <div className="text-3xl font-bold">Manage User</div>
       </div>
@@ -42,15 +43,12 @@ const AdminUserPage = () => {
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
           />
-         <TableUsers/>
+          <TableUsers />
         </div>
       </div>
     </div>
-    
-  )
-}
-
-
+  );
+};
 
 AdminUserPage.layout = AdminLayout;
 export default AdminUserPage;

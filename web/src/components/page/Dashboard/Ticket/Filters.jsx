@@ -114,21 +114,13 @@ const DesktopFilter = (props) => {
 };
 const MobileFilter = (props) => {
   const [usingFilter, setUsingFilter] = useState(false);
-  const [ticketTypes, setTicketTypes] = useState([]);
+  const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
   const [data, setData] = useState({
     title: "",
     type: "",
     status: "",
   });
 
-  useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const { data } = res;
-      setTicketTypes(data);
-    };
-    fetchTicketTypes();
-  }, []);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     // console.log("DATA:", data);

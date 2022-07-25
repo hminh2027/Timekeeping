@@ -9,12 +9,16 @@ import auth from "@/api/auth";
 import { setUserInfo } from "@/redux/feature/user/userSlice";
 import Form from "../Common/Form";
 import { extractMessages } from "@/utils/Formatter/ApiError";
+import { useLoginMutation } from "src/rest/auth/auth.query";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({ email: "", password: "" });
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [errors, setErrors] = useState([]);
+
+  const { mutate: doLogin } = useLoginMutation();
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setErrors([]);
@@ -44,6 +48,19 @@ const LoginForm = () => {
     if (emailRegex.test(email) && passwordRegex.test(password)) {
       try {
         const res = await api.post("auth/login", { email, password });
+
+        // test mutation
+        // await doLogin(
+        //   {
+        //     email,
+        //     password,
+        //   },
+        //   {
+        //     onSuccess: async (response) => {
+        //       console.log("response", response);
+        //     },
+        //   }
+        // );
 
         if (res) {
           if (res.status === 201) {
@@ -109,8 +126,8 @@ const LoginForm = () => {
             }}
           />
         </div>
-        <div className="flex flex-col gap-2 items-center">
-          <div className="flex w-full gap-2 items-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center w-full gap-2">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Password"

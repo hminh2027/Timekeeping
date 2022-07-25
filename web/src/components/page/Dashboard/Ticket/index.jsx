@@ -9,11 +9,12 @@ import {
 } from "@/redux/feature/ticket/ticketSlice";
 
 import { useState, useEffect } from "react";
-import SubmitTicket from "./Submit";
+import SubmitTicket from "./TicketInfo";
 import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";
 import { TicketList } from "./TicketList";
 import { DesktopFilter, MobileFilter } from "./Filters";
+import { useGetMeTicketQuery } from "src/rest/ticket/ticket.query";
 const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
   const tickets = useSelector(selectTickets);
@@ -37,9 +38,13 @@ const TicketContent = () => {
     fetchTicketData();
   }, [sortOption, filterOptions]);
 
+  const { data: myTicket } = useGetMeTicketQuery();
+
+  console.log("myTicket", myTicket, tickets);
+
   // Gọi api khi filter option thay đổi
   return (
-    <div className="flex-1 flex-col gap-8">
+    <div className="flex-col flex-1 gap-8">
       <Header toggleModal={toggle} />
 
       <div
