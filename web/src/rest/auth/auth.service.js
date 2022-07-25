@@ -12,6 +12,9 @@ class Auth extends BaseService {
       .post(`${this.basePath}/login`, input)
       .then(res => res.data);
   }
+  postUser(data) {
+    return this.http.post(`${this.basePath}/register`, data);
+  }
 }
 
 export const AuthService = new Auth('auth');
