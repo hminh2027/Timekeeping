@@ -22,7 +22,12 @@ export const fetchTickets = createAsyncThunk(
     }
   );
 
-          
+        }
+        catch (error) {
+          console.error("Error occur while cancelling ticket: ", error);
+        }
+      }
+)
 
 export const cancelTickets = createAsyncThunk (
   "ticket/cancelTicket",
@@ -74,33 +79,25 @@ export const ticketsSlice = createSlice({
       const tickets = action.payload;
       return { ...state, tickets };
     },
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-      console.log("TICKETS:", state.tickets);
-    });
-    builder.addCase(cancelTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-    });
-    builder.addCase(rejectTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-    });
-    builder.addCase(approveTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-    });
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-      console.log("TICKETS:", state.tickets);
-    });
-  },
+    extraReducers(builder) {
+        builder.addCase(fetchTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+          console.log("TICKETS:", state.tickets)
+        });
+        builder.addCase(cancelTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+        builder.addCase(rejectTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+        builder.addCase(approveTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+    },
 });
 
 export const { setTickets } = ticketsSlice.actions;
