@@ -1,6 +1,5 @@
 import { createHmac } from 'crypto';
 import { Notification } from 'src/modules/notification/entities/notification.entity';
-import { Permission } from 'src/modules/permission/entities/permission.entity';
 // import { Role } from 'src/modules/role/entities/role.entity';
 import {
   Entity,
@@ -8,16 +7,11 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
-  ManyToOne,
-  JoinColumn,
-  ManyToMany,
-  JoinTable,
   CreateDateColumn,
 } from 'typeorm';
 import { Checkin } from '../../checkin/entities/checkinout.entity';
 import { LoginHistory } from '../../login-history/entities/login-history.entity';
 import { Ticket } from '../../ticket/entities/ticket.entity';
-import { UserPermission } from '../enums/permission.enum';
 import { UserRole } from '../enums/role.enum';
 
 @Entity({ name: 'users' })
@@ -58,11 +52,6 @@ export class User {
 
   @CreateDateColumn()
   createdAt: Date;
-
-  /* N-N */
-  // @ManyToMany(() => Permission)
-  // @JoinTable()
-  // permissions: Permission[];
 
   @BeforeInsert()
   async setPassword(password: string | undefined): Promise<void> {

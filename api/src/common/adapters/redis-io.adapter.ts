@@ -10,7 +10,6 @@ export class RedisIoAdapter extends IoAdapter {
     super();
   }
   async connectToRedis(): Promise<void> {
-    console.log(this.configService.get('REDIS_URI'));
     const pubClient = createClient({
       url: this.configService.get('REDIS_URI'),
     });
