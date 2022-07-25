@@ -62,7 +62,7 @@ const TicketList = (props) => {
           Status
         </div>
         <div
-          className="font-semibold flex"
+          className="flex font-semibold"
           style={{ flex: "1 0 8em" }}
           onClick={() => {
             dispatch({ type: "SORT_CREATED_AT", data: !createdAt });
@@ -75,7 +75,7 @@ const TicketList = (props) => {
           </div>
         </div>
         <div
-          className="font-semibold flex"
+          className="flex font-semibold"
           style={{ flex: "1 0 8em" }}
           onClick={() => {
             dispatch({ type: "SORT_START_DATE", data: !startDate });
@@ -88,7 +88,7 @@ const TicketList = (props) => {
           </div>
         </div>
         <div
-          className="font-semibold flex"
+          className="flex font-semibold"
           style={{ flex: "1 0 8em" }}
           onClick={() => {
             dispatch({ type: "SORT_END_DATE", data: !endDate });
@@ -149,11 +149,11 @@ const TicketListItem = (props) => {
   return (
     <>
       <div
-        className="font-medium py-4 border-b border-b-orange-600 lg:flex items-center lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
+        className="items-center py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
         onClick={() => openModal(id)}
       >
         <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
-          <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
             Title:
           </div>
           <div className="flex-1 font-semibold">{title}</div>
@@ -162,7 +162,7 @@ const TicketListItem = (props) => {
           style={{ flex: "1 0 3em" }}
           className={`flex font-light text-gray-500`}
         >
-          <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
             Type:
           </div>
           <div className="flex-1">{type}</div>
@@ -171,7 +171,7 @@ const TicketListItem = (props) => {
           style={{ flex: "1 1 2em" }}
           className="flex font-light text-gray-500 "
         >
-          <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
             Status:
           </div>
           <div className="flex-1">
@@ -183,7 +183,7 @@ const TicketListItem = (props) => {
           style={{ flex: "1 0 8em" }}
           className="flex font-light text-gray-500 "
         >
-          <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
             Created at:
           </div>
           <div className="flex-1">{startDate}</div>
@@ -192,7 +192,7 @@ const TicketListItem = (props) => {
           style={{ flex: "1 0 8em" }}
           className="flex font-light text-gray-500 "
         >
-          <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
             Start date:
           </div>
           <div className="flex-1">{startDate}</div>
@@ -201,7 +201,7 @@ const TicketListItem = (props) => {
           style={{ flex: "1 0 8em" }}
           className="flex font-light text-gray-500"
         >
-          <div className="mx-4 text-sky-800 w-32 font-semibold lg:hidden">
+          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
             End date:
           </div>
           <div className="flex-1">{endDate}</div>
