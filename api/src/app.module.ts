@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { join } from 'path';
 import { DatabaseModule } from './common/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TicketModule } from './modules/ticket/ticket.module';
@@ -9,8 +10,8 @@ import { ConfigModule } from './common/config/config.module';
 import { AwsModule } from './common/aws/aws.module';
 import { ConfigService } from './common/config/config.service';
 import { CommentModule } from './modules/comment/comment.module';
-import { AppGateway } from './common/socket/app.gateway';
-import { join } from 'path';
+import { SocketModule } from './modules/socket/socket.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -21,12 +22,13 @@ import { join } from 'path';
     CommentModule,
     TicketModule,
     CheckinModule,
+    SocketModule,
+    NotificationModule,
     AwsModule.register(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'images'),
     }),
   ],
-  providers: [AppGateway],
 })
 export class AppModule {
   static port: string | number;

@@ -34,10 +34,13 @@ async function bootstrap() {
   app.enableCors();
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+  // Socket
   // const configService = app.get(ConfigService);
   // const redisIoAdapter: any = new RedisIoAdapter(configService);
   // await redisIoAdapter.connectToRedis();
   // app.useWebSocketAdapter(redisIoAdapter);
+
   setupSwagger(app);
   await app.listen(AppModule.port);
   // for Hot Module Reload
