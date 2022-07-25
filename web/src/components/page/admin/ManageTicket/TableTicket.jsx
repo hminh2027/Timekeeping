@@ -25,7 +25,7 @@ switch (action.type) {
     return state;
 }
 }
-const TableTicket = React.memo(() => {
+const TableTicket = React.memo((props) => {
     const tickets = props.tickets;
     console.log("TICKETS LIST ",tickets)
     const [state, dispatch] = useReducer(reducer, initSort);

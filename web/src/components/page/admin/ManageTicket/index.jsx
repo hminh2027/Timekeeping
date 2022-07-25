@@ -51,12 +51,12 @@ const ApproveTicket = () => {
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
           />
-          {/* <TicketList
+          <TicketList
             tickets={tickets}
             onSort={(option) => setSortOption(option)}
             sortOption={sortOption}
-          /> */}
-          <TableTicket/>
+          />
+          {/* <TableTicket/> */}
         </div>
       </div>
     </div>
