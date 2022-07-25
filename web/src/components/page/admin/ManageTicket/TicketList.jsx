@@ -86,7 +86,12 @@ const TicketList = React.memo((props) => {
           <TicketListItem
             key={i}
             id={ticket.id}
+            author = {ticket.author}
             content={ticket.content}
+            title = {ticket.title}
+            createdAt = {ticket.createdAt}
+            status = {ticket.ticketStatus}
+            type = {ticket.ticketType}
           />
         ))}
       </div>
@@ -98,7 +103,8 @@ const TicketListItem = (props) => {
   console.log("props",props)
   const {
     id,
-    content: { status, title, type ,author, startDate, actions },
+    status, title, type, author, content, createdAt, 
+    // content: { status, title, type ,author, startDate, actions },
   } = props;
   const statusIcon = [];
   switch (status) {
@@ -143,7 +149,8 @@ const TicketListItem = (props) => {
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Author:
         </div>
-        <div className="flex-1">{author.lastName+" "+author.firstName}</div>
+        {/* <div className="flex-1">{author.lastName+" "+author.firstName}</div> */}
+        <div className="flex-1">{"Linh"}</div>
       </div>
       <div
         style={{ flex: "1 0 5em" }}
@@ -172,7 +179,7 @@ const TicketListItem = (props) => {
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
-        <div className="flex-1">{startDate}</div>
+        <div className="flex-1">{new Date(createdAt).toLocaleDateString()}</div>
       </div>
       <div style={{ flex: "1 0 2em" }} className="font-light text-gray-500">
         <Approve id={id} num={status}></Approve>
