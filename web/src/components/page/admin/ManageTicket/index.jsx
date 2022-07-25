@@ -5,6 +5,8 @@ import { fetchTickets, selectTickets } from "@/redux/feature/admin/tickets";
 import { Col, Row } from "antd";
 import { useState, useEffect } from "react";
 import { TicketList } from "./TicketList";
+import TableTicket from "./TableTicket";
+import { useGetTicketQuery } from "src/rest/ticket/ticket.query";
 import { DesktopFilter, MobileFilter } from "./Filter";
 const ApproveTicket = () => {
   const tickets = useSelector(selectTickets);
@@ -15,20 +17,31 @@ const ApproveTicket = () => {
     type: "",
     status: "",
   });
+  // const [Tickets, setTickets] = useState([])
   const [sortOption, setSortOption] = useState({
     sortField: "createdAt",
     sortType: false,
   });
-  useEffect(() => {
-    const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
-    console.log("SORT:", sortOptions);
-    const fetchTicketData = async () => {
-      dispatch(fetchTickets(sortOptions));
-    };
-    fetchTicketData();
-  }, [sortOption, filterOptions]);
+  // const [ticketList, setTicketList] = useState([])
+  // // useEffect(() => {
+  // //   const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
+  // //   console.log("SORT:", sortOptions);
+  // // //   const fetchTicketData = async () => {
+  // // //     // dispatch(fetchTickets(sortOptions));
+  // // //     const { data: Ticket } = useGetTicketQuery(sortOptions);
+  // // //     console.log("ticket sort",Ticket)
+  // // //     setTickets(Ticket)
+  // // //   };
+  // // //   fetchTicketData();
+  // // const { data: Tickets } = useGetTicketQuery(sortOption);
+  // // console.log("TICKET",Tickets);
+  // // setTicketList(Tickets);
+  // // }, [sortOption, filterOptions]);
   // Gọi api khi filter option thay đổi
-
+  const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
+  console.log("SORT:", sortOptions);
+  const { data: Tickets } = useGetTicketQuery(sortOptions);
+  console.log("getTicket", Tickets);
   return (
     <div className="flex-1">
       <div className="flex items-center justify-between w-full px-4 py-6 bg-white">
@@ -51,10 +64,11 @@ const ApproveTicket = () => {
             className="lg:hidden"
           />
           <TicketList
-            tickets={tickets}
+            tickets={Tickets}
             onSort={(option) => setSortOption(option)}
             sortOption={sortOption}
           />
+          {/* <TableTicket/> */}
         </div>
       </div>
     </div>

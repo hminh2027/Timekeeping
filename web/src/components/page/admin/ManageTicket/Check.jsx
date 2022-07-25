@@ -4,26 +4,30 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import api from "@/api/api";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
+import { useGetTicketQueryId } from "src/rest/ticket/ticket.query";
 const CheckTicket = (props) => {
-  const [ticketData, setTicketData] = useState({
-    startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
-    endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
-    title: "",
-    content: "",
-    ticketType: 0,
-    author: {},
-    recipient: {},
-  });
-  useEffect(() => {
-    const fetchTikect = async () => {
-      const res = await api.get(`ticket/${props.id}`);
-      const { data } = res;
-      setTicketData(data);
-      console.log("data", data.startDate);
-    };
-    fetchTikect();
-  }, []);
-
+  // const [ticketData, setTicketData] = useState({
+  //   startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
+  //   endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
+  //   title: "",
+  //   content: "",
+  //   ticketType: 0,
+  //   author: {},
+  //   recipient: {},
+  // });
+ 
+  // useEffect(() => {
+  //   const fetchTikect = () => {
+  //     const res = useGetTicketQueryId(props.id);
+  //     const { data } = res;
+  //     console.log("KQ TRA VE",res,data)
+  //     setTicketData(data);
+  //     console.log("data", data.startDate);
+  //   };
+  //   fetchTikect();
+  // }, []);
+  const {data: ticketData} = useGetTicketQueryId(props.id);
+  console.log("dataTICKET", ticketData);
   return (
     <>
     <div className="card">
@@ -38,7 +42,7 @@ const CheckTicket = (props) => {
               disabled
               type="text"
               name="title"
-              value={ticketData.title}
+              value={ticketData?.title}
               placeholder="Ticket title"
             />
             <div className="flex ">
@@ -50,7 +54,7 @@ const CheckTicket = (props) => {
                 disabled
                 type="text"
                 name="startDate"
-                value={new Date(ticketData.startDate).toLocaleDateString()}
+                value={new Date(ticketData?.startDate).toLocaleDateString()}
               />
             </div>
             <div className="flex ">
@@ -62,7 +66,7 @@ const CheckTicket = (props) => {
                 disabled
                 type="text"
                 name="endDate"
-                value={new Date(ticketData.endDate).toLocaleDateString()}
+                value={new Date(ticketData?.endDate).toLocaleDateString()}
               />
             </div>
             <div className="flex ">
@@ -74,7 +78,7 @@ const CheckTicket = (props) => {
                 disabled
                 type="text"
                 name="ticketType"
-                value={ticketData.ticketType}
+                value={ticketData?.ticketType}
               />
             </div>
             <div className="flex" >
@@ -83,7 +87,7 @@ const CheckTicket = (props) => {
                   className=" flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                   disabled
                   name="authorId"
-                  value={ticketData.author.lastName+" "+ticketData.author.firstName}
+                  value={ticketData?.author.lastName+" "+ticketData?.author.firstName}
                   placeholder="Search to Select"
                 >
                 </input>
@@ -93,12 +97,12 @@ const CheckTicket = (props) => {
               disabled
               type="text"
               name="content"
-              value={ticketData.content}
+              value={ticketData?.content}
               placeholder="Ticket title"
             />
           </div>
         </div>
-        <ButtonTicket disabled={props.disabled} toggle={props.hide} id={props.id} status={ticketData.ticketStatus}></ButtonTicket>
+        <ButtonTicket disabled={props.disabled} toggle={props.hide} id={props.id} status={ticketData?.ticketStatus}></ButtonTicket>
       </div>
     </div>
     </>
