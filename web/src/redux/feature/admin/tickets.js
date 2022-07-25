@@ -12,17 +12,15 @@ const initialState = {
 export const fetchTickets = createAsyncThunk(
     "ticket/getTicket",
     async (sortOptions) => {
-        try {
-          const response = await getTickets(sortOptions);
-          console.log("RESPONSE", response)
-          return response; 
-        } catch (error) {
-          console.error("Error occur while fetching tickets: ", error);
-        }
-    }
-  );
-
-          
+      try{
+        const response = await getTickets(sortOptions);
+        return response
+      }
+      catch (error) {
+        console.error("Error occur while cancelling ticket: ", error);
+      }
+  }
+)
 
 export const cancelTickets = createAsyncThunk (
   "ticket/cancelTicket",
@@ -74,33 +72,26 @@ export const ticketsSlice = createSlice({
       const tickets = action.payload;
       return { ...state, tickets };
     },
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-      console.log("TICKETS:", state.tickets);
-    });
-    builder.addCase(cancelTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-    });
-    builder.addCase(rejectTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-    });
-    builder.addCase(approveTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-    });
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-      console.log("TICKETS:", state.tickets);
-    });
-  },
+    extraReducers(builder) {
+        builder.addCase(fetchTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+          console.log("TICKETS:", state.tickets)
+        });
+        builder.addCase(cancelTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+        builder.addCase(rejectTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+        builder.addCase(approveTickets.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.tickets = action.payload;
+        });
+    },
+  }
 });
 
 export const { setTickets } = ticketsSlice.actions;

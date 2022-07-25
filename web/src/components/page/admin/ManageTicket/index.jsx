@@ -5,6 +5,7 @@ import { fetchTickets, selectTickets } from "@/redux/feature/admin/tickets";
 import { Col, Row } from "antd";
 import { useState, useEffect } from "react";
 import { TicketList } from "./TicketList";
+import TableTicket from "./TableTicket";
 import { DesktopFilter, MobileFilter } from "./Filter";
 const ApproveTicket = () => {
   const tickets = useSelector(selectTickets);
@@ -55,6 +56,7 @@ const ApproveTicket = () => {
             onSort={(option) => setSortOption(option)}
             sortOption={sortOption}
           />
+          {/* <TableTicket/> */}
         </div>
       </div>
     </div>

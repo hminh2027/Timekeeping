@@ -5,7 +5,6 @@ const AdminPage = () => {
   return <Home />;
 };
 AdminPage.layout = AdminLayout;
-
 export default AdminPage;
 export async function getServerSideProps(ctx) {
   const { token, user } = getAuthCredentials(ctx);
@@ -18,19 +17,10 @@ export async function getServerSideProps(ctx) {
       },
     };
   }
-  console.log(token, user);
-  if (!user) {
+  if (user.role !== "admin") {
     return {
       redirect: {
-        destination: "/account/login",
-        permanent: false,
-      },
-    };
-  }
-  if (user.role === "admin") {
-    return {
-      redirect: {
-        destination: "/admin",
+        destination: "/",
         permanent: false,
       },
     };
@@ -39,3 +29,4 @@ export async function getServerSideProps(ctx) {
     props: {}, // will be passed to the page component as props
   };
 }
+

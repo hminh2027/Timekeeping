@@ -6,3 +6,9 @@ export const useGetMeTicketQuery = () => {
     return TicketService.getMyTicket();
   });
 };
+
+export const useGetTicketQuery = () => {
+  return useQuery(["get-ticket"], () => {
+    return TicketService.getTicket();
+  });
+}
