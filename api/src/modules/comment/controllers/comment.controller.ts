@@ -19,6 +19,7 @@ import { CommentPayload } from '../payloads/comment.payload';
 import { UpdateCommentPayload } from '../payloads/update-comment.payload';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
+import { PermissionGuard } from 'src/common/guards/permissions.guard';
 
 @Controller('comment')
 @ApiTags('comment')
@@ -33,6 +34,7 @@ export class CommentController {
   @ApiOperation({
     description: 'cancel ticket',
   })
+  @UseGuards(PermissionGuard)
   async create(@ReqUser() user: User, @Body() data: CommentPayload) {
     data.userId = user.id;
     return {
