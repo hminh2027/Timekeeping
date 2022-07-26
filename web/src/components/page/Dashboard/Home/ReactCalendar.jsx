@@ -137,9 +137,9 @@ const ReactCalendar = () => {
               className="w-full h-full aspect-video object-contain"
               crossOrigin="anonymous"
             />
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 
