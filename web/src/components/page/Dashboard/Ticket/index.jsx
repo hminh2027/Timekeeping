@@ -1,25 +1,20 @@
 import UseModal from "@/utils/hooks/UseModal";
-import { TICKET_FILTER } from "@/utils/constants";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchMyTickets,
-  cancelTicket,
-  setTickets,
-  selectTickets,
-} from "@/redux/feature/ticket/ticketSlice";
-
+import { TICKET_FILTER } from "@/utils/constants/ticket_constants";
 import { useState, useEffect } from "react";
-import SubmitTicket from "./TicketInfo";
+import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";
 import { TicketList } from "./TicketList";
 import { DesktopFilter, MobileFilter } from "./Filters";
-import { useGetMeTicketQuery } from "src/rest/ticket/ticket.query";
+import {
+  useGetMeTicketQuery,
+  useGetMyTicketWithSortQuery,
+} from "src/rest/ticket/ticket.query";
+
 const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
-  const tickets = useSelector(selectTickets);
-  const dispatch = useDispatch();
 
+  const [needFetch, setNeedFetch] = useState(true);
   const [filterOptions, setFilterOptions] = useState({
     title: "",
     type: "",
@@ -29,18 +24,20 @@ const TicketContent = () => {
     sortBy: "createdAt",
     orderBy: true,
   });
-  console.log(sortOption);
+  const onSuccessTickets = () => setNeedFetch(false);
+  const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
+  const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(
+    sortOptions,
+    onSuccessTickets,
+    needFetch
+  );
   useEffect(() => {
-    const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
-    const fetchTicketData = async () => {
-      dispatch(fetchMyTickets(sortOptions));
-    };
-    fetchTicketData();
+    setNeedFetch(true);
   }, [sortOption, filterOptions]);
 
-  const { data: myTicket } = useGetMeTicketQuery();
+  // const { data: myTicket } = useGetMeTicketQuery();
 
-  console.log("myTicket", myTicket, tickets);
+  // console.log("myTicket", myTicket, tickets);
 
   // Gọi api khi filter option thay đổi
   return (
@@ -48,7 +45,7 @@ const TicketContent = () => {
       <Header toggleModal={toggle} />
 
       <div
-        className="flex flex-col m-1 overflow-auto rounded-lg"
+        className="flex flex-col m-1 overflow-auto rounded-lg "
         style={{
           backgroundColor: "#fff",
           boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
@@ -64,7 +61,7 @@ const TicketContent = () => {
         />
 
         <TicketList
-          tickets={tickets}
+          tickets={ticketsWithSort}
           onSort={(option) => setSortOption(option)}
           sortOption={sortOption}
         />

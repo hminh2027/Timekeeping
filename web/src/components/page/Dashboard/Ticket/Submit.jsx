@@ -1,62 +1,44 @@
-import api from "@/api/api";
-import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Input, Select, Spin } from "antd";
-import moment from "moment";
-import { useLayoutEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTicket } from "@/redux/feature/ticket/ticketSlice";
-import { TICKET_TYPES } from "@/utils/constants";
+import React, { useState } from "react";
 import { extractMessages } from "@/utils/Formatter/ApiError";
-const { TextArea } = Input;
+import { useGetManagers } from "src/rest/user/user.query";
+import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
+import moment from "moment";
 const { Option } = Select;
 
-const SUBMIT_TICKET_TYPES = TICKET_TYPES.filter((type) => type.value !== "");
-const SubmitTicket = (props) => {
+const SubmitTicket = React.memo(() => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [ticketData, setTicketData] = useState({
+  const { data: managers } = useGetManagers();
+  const [data, setData] = useState({
     startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     title: "",
     content: "",
-    ticketType: SUBMIT_TICKET_TYPES[0].label,
-    recipientId: managers,
+    type: SUBMIT_TICKET_TYPES[0].label,
+    recipientId: "",
   });
-  const [ticketTypes, setTicketTypes] = useState(SUBMIT_TICKET_TYPES);
-  const [managers, setManagers] = useState([]);
-  const dispatch = useDispatch();
-  useLayoutEffect(() => {
-    const fetchManagers = async () => {
-      const res = await api.get("user/admin");
-      const { data } = res;
-      setManagers(data);
-      setTicketData({ ...ticketData, recipientId: data[0]?.id });
-    };
-    fetchManagers();
-  }, []);
   const handleChange = (e) => {
-    setTicketData({ ...ticketData, [e.target.name]: e.target.value });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
-
+  // console.log(data.recipient.id);
   const submit = async () => {
     setIsSubmitting(true);
-
+    const newInfo = {
+      startDate: data.startDate,
+      endDate: data.endDate,
+      title: data.title,
+      recipientId: data.recipientId,
+      content: data.content,
+      type: data.type,
+    };
     try {
-      const { startDate, endDate, title, recipientId, content, ticketType } =
-        ticketData;
-      dispatch(
-        addTicket({
-          startDate,
-          endDate,
-          title,
-          recipientId,
-          content,
-          ticketType: ticketType.value,
-        })
-      );
-      props.hide();
+      console.log("NEW", newInfo);
     } catch (err) {
+      console.log("NEW", newInfo);
+
+      console.log(err);
       const messages = extractMessages(err);
       const newErrors = [];
       newErrors.push({
@@ -69,9 +51,10 @@ const SubmitTicket = (props) => {
       setIsSubmitting(false);
     }
   };
-  return (
+
+  const ticketContent = (
     <div className="card">
-      <div className="card-body min-w-mobile lg:min-w-md">
+      <div className="card-body min-w-mobile lg:min-w-md ">
         <div style={{ fontSize: "1.25em", fontWeight: "bold" }}>
           Ticket Content
         </div>
@@ -81,15 +64,15 @@ const SubmitTicket = (props) => {
               <div style={{ color: error.color }}>{error.message}</div>
             ))}
         </div>
-        <div className={styles[`input-wrapper`]}>
-          <div className={styles[`input-list`]}>
+        <div className="flex flex-col w-full justify-center gap-5">
+          <div className="flex flex-col flex-wrap w-full justify-start gap-4">
             <Input
               autoFocus={true}
               type="text"
               name="title"
-              value={ticketData.title}
+              value={data.title}
               placeholder="Ticket title"
-              className={styles[`info-input`]}
+              className="w-full"
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -100,9 +83,9 @@ const SubmitTicket = (props) => {
             <Input
               type="date"
               name="startDate"
-              value={ticketData.startDate}
+              value={data.startDate}
               addonBefore={<div style={{ minWidth: "6em" }}>Start Date</div>}
-              className={styles[`info-input`]}
+              className="w-full"
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -113,9 +96,9 @@ const SubmitTicket = (props) => {
             <Input
               type="date"
               name="endDate"
-              value={ticketData.endDate}
+              value={data.endDate}
               addonBefore={<div style={{ minWidth: "6em" }}>End Date</div>}
-              className={styles[`info-input`]}
+              className="w-full"
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -127,13 +110,11 @@ const SubmitTicket = (props) => {
               <div style={{ minWidth: "6em" }}>Ticket Type:</div>
               <Select
                 className="flex-grow"
-                name="ticketType"
-                value={ticketData.ticketType}
+                name="type"
+                value={data.type}
                 options={SUBMIT_TICKET_TYPES}
-                // value={ticketTypes[0]}
                 placeholder="Search to Select"
                 onChange={(value, option) => {
-                  // console.log(value, option);
                   const e = {
                     target: {
                       name: "ticketType",
@@ -147,13 +128,7 @@ const SubmitTicket = (props) => {
                 onPressEnter={() => {
                   submit();
                 }}
-              >
-                {ticketTypes.map((ticketType, index) => (
-                  <Option key={index} value={ticketType}>
-                    {ticketType}
-                  </Option>
-                ))}
-              </Select>
+              />
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "1em" }}>
               <div style={{ minWidth: "6em" }}>Recipient Name:</div>
@@ -162,10 +137,11 @@ const SubmitTicket = (props) => {
                   flexGrow: 2,
                 }}
                 name="recipientId"
-                value={ticketData.recipientId}
+                value={data.recipientId}
                 placeholder="Search to Select"
                 onChange={(value, option) => {
-                  // console.log(value, option);
+                  console.log(value, option);
+
                   const e = { target: { name: "recipientId", value: value } };
                   handleChange(e);
                 }}
@@ -184,9 +160,9 @@ const SubmitTicket = (props) => {
           <textarea
             rows={5}
             name="content"
-            value={ticketData.content}
+            value={data.content}
             style={{ width: "100%" }}
-            className={styles[`ticket-content`]}
+            className="textarea textarea-accent focus:outline-none"
             placeholder="Ticket Content"
             onChange={(e) => {
               handleChange(e);
@@ -205,12 +181,14 @@ const SubmitTicket = (props) => {
               <div>Submitting</div>
             </div>
           ) : (
-            "Submit Ticket"
+            "Submit"
           )}
         </button>
       </div>
     </div>
   );
-};
+
+  if (data) return ticketContent;
+});
 
 export default SubmitTicket;

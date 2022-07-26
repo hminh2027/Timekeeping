@@ -5,6 +5,7 @@ import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
 import CommentTicket from "./CommentTicket";
 import TicketInfo from "./TicketInfo";
+import Link from "next/link";
 
 const initSort = {
   createdAt: false,
@@ -147,10 +148,10 @@ const TicketListItem = (props) => {
     toggle();
   };
   return (
-    <>
+    <Link href={`/dashboard/ticket/${id}`}>
       <div
         className="items-center py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
-        onClick={() => openModal(id)}
+        // onClick={() => openModal(id)}
       >
         <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
           <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
@@ -225,11 +226,13 @@ const TicketListItem = (props) => {
           })}
         </div>
       </div>
-      <Modal isShowing={isShowing} hide={toggle} closeButton={true}>
-        <TicketInfo hide={toggle} ticketID={id} />
-        <CommentTicket ticketID={id} />
-      </Modal>
-    </>
+      {/* <Modal isShowing={isShowing} hide={toggle} closeButton={true}>
+        <div className="flex">
+          <TicketInfo hide={toggle} ticketID={id} />
+          <CommentTicket ticketID={id} />
+        </div>
+      </Modal> */}
+    </Link>
   );
 };
 export { TicketListItem, TicketList };

@@ -79,7 +79,7 @@ const api = {
 
   post: (url, body = {}, params = {}) => {
     console.log("url:", getURL(url));
-    console.log(HEADERS);
+    // console.log(HEADERS);
     return axios.post(getURL(url), body, {
       params,
       headers: HEADERS,
@@ -95,7 +95,7 @@ const api = {
 
   delete: (url, params) => {
     console.log("url:", getURL(url));
-    console.log("delete header",HEADERS)
+    console.log("delete header", HEADERS);
     axios.defaults.headers.delete["Authorization"] = HEADERS.Authorization;
     return axios.delete(getURL(url), params, {
       headers: HEADERS,
