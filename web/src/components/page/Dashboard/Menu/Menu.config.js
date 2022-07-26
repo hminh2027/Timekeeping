@@ -2,7 +2,7 @@ export const menuItems = [
   {
     icon: <div>🏠</div>,
     label: "Home",
-    value: "/dashboard/home",
+    value: "/dashboard/",
     id: "home",
   },
   {

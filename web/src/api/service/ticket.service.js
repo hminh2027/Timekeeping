@@ -1,6 +1,6 @@
 import api from "@/api/api";
 import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
-import { TICKET_FILTER } from "@/utils/constants";
+import { TICKET_FILTER } from "@/utils/constants/ticket_constants";
 const getMyTickets = async (sortOptions) => {
   try {
     const ticketSortOptions =
@@ -23,10 +23,12 @@ const getTickets = async (sortOptions) => {
   return resTickets;
 };
 const getTicket = async (id) => {
+  console.log("ID nhan dc:", id);
   const url = `ticket/${id}`;
   const res = await api.get(url);
   const ticket = TicketInfoFormatter(res.data);
-  return ticket;
+  // console.log("ticket:", ticket);
+  // return JSON.stringify(ticket);
 };
 
 const addMyTicket = async (ticketContent) => {

@@ -1,5 +1,9 @@
-export const TICKET_TYPES = [
+export const ALL_TICKET_TYPES = [
   { label: "All", value: "" },
+  { label: "long term", value: "long term" },
+  { label: "short term", value: "short term" },
+];
+export const SUBMIT_TICKET_TYPES = [
   { label: "long term", value: "long term" },
   { label: "short term", value: "short term" },
 ];

@@ -47,7 +47,7 @@ const CheckInContent = () => {
   );
   const checkedCard = (
     <>
-      <div className="card bg-secondary">
+      <div className="card bg-secondary w-full lg:w-max">
         <div className="card-body">
           <div>
             {trans.check.checkin.checked_in} {checkInTime}
@@ -58,16 +58,16 @@ const CheckInContent = () => {
     </>
   );
   const url = `${process.env.APP_URL}${checkedImg}`;
-  console.log(url);
   const checkedImage = (
-    <div className="card bg-secondary">
+    <div className="card bg-secondary w-full lg:w-max">
       <div className="card-body">
         <img
           crossOrigin="anonymous"
           src={url}
-          width="300"
-          height="300"
-          layout="fill"
+          // width="16"
+          // height="9"
+          // layout="responsive"
+          className="aspect-video"
         />
       </div>
     </div>
@@ -76,14 +76,14 @@ const CheckInContent = () => {
     <div className="card w-max">
       <div className="card-body">
         <div className="flex items-center gap-4">
-          <div>Already checked in! Wanna Checkout?</div>
+          <div>Already checked in! Go to Checkout?</div>
           <button
             className="px-4 py-1 rounded v-btn-primary"
             onClick={() => {
               Router.push("/dashboard/checkout");
             }}
           >
-            Go to Checkout
+            Checkout
           </button>
         </div>
       </div>
@@ -91,14 +91,18 @@ const CheckInContent = () => {
   );
   const content = (
     <>
-      <div className="flex items-center">
-        {checkInStatus ? checkedCard : notCheckedCard}
-        {checkInStatus && <div>Here's your image 👉</div>}
-        {checkInStatus && checkedImage}
-      </div>
-      {errors && (
+      {!isChecking && (
+        <div className="flex items-center flex-wrap">
+          {checkInStatus ? checkedCard : notCheckedCard}
+          {checkInStatus && (
+            <div className="hidden lg:flex">Here's your image 👉</div>
+          )}
+          {checkInStatus && checkedImage}
+        </div>
+      )}
+      {!isChecking && errors && (
         <div style={{ color: "rgb(230,30,10)" }}>
-          Lỗi rồi :{" "}
+          Lỗi rồi :
           {errors.map((error) => (
             <span>{error}</span>
           ))}
@@ -116,7 +120,7 @@ const CheckInContent = () => {
     </>
   );
   return (
-    <div className="flex justify-center h-full">
+    <div className="flex justify-center w-full h-full">
       <div className="flex flex-col w-full gap-2 p-8 mx-auto">{content}</div>
     </div>
   );
