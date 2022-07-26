@@ -1,14 +1,11 @@
-import AdminLayout from "@/layout/AdminLayout/AdminLayout";
-import React, { useEffect, useState } from "react";
-import { TableUsers } from "./TableUser";
-import { DesktopFilter, MobileFilter } from "./Filter";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "@/redux/feature/admin/users";
-
-import { getAuthCredentials } from "@/utils/auth-utils";
+import AdminLayout from '@/layout/AdminLayout/AdminLayout';
+import React, { useEffect, useState } from 'react'
+import TableUsers from './TableUser';
+import { DesktopFilter, MobileFilter } from './Filter';
+import { useGetUserQuery } from 'src/rest/user/user.query';
 const AdminUserPage = () => {
   // const dispatch = useDispatch();
-  // const users = useSelector(selectUser);
+  // const users = useSelector(selectUsers);
   // console.log("USER", users)
   const [filterOptions, setFilterOptions] = useState({
     search: "",
@@ -21,6 +18,9 @@ const AdminUserPage = () => {
   //   };
   //   fetchUserData();
   // },[filterOptions])
+  const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
+  console.log("SORT USER", sortOptions)
+  const { data: Users } = useGetUserQuery(sortOptions);
   return (
     // <div>AdminUserPage</div>
     <div className="w-full">
@@ -43,7 +43,7 @@ const AdminUserPage = () => {
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
           />
-          <TableUsers />
+          <TableUsers Users = {Users}/>
         </div>
       </div>
     </div>

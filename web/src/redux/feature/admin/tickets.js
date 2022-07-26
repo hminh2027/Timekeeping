@@ -11,7 +11,20 @@ export const fetchTickets = createAsyncThunk(
       const response = await getTickets(sortOptions);
       return response;
     } catch (error) {
-      console.error("Error occur while fetching tickets: ", error);
+      console.error("Error occur while cancelling ticket: ", error);
+    }
+  }
+);
+
+export const cancelTickets = createAsyncThunk(
+  "ticket/cancelTicket",
+  async (ticketID) => {
+    try {
+      await cancelTicket(ticketID);
+      const response = await getTickets();
+      return response;
+    } catch (error) {
+      console.error("Error occur while cancelling ticket: ", error);
     }
   }
 );
@@ -24,13 +37,25 @@ export const ticketsSlice = createSlice({
       const tickets = action.payload;
       return { ...state, tickets };
     },
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchTickets.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.tickets = action.payload;
-      console.log("TICKETS:", state.tickets);
-    });
+    extraReducers(builder) {
+      builder.addCase(fetchTickets.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.tickets = action.payload;
+        console.log("TICKETS:", state.tickets);
+      });
+      builder.addCase(cancelTickets.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.tickets = action.payload;
+      });
+      builder.addCase(rejectTickets.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.tickets = action.payload;
+      });
+      builder.addCase(approveTickets.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.tickets = action.payload;
+      });
+    },
   },
 });
 

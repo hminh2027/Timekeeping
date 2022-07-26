@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Select, Space } from "antd";
 import api from "@/api/api";
+import { useGetTicketTypeQuery } from "src/rest/ticket/ticket.query";
 const { Option } = Select;
 const Filters = () => {};
 const filter = () => {};

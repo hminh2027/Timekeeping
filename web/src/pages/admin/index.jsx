@@ -5,7 +5,6 @@ const AdminPage = () => {
   return <Home />;
 };
 AdminPage.layout = AdminLayout;
-
 export default AdminPage;
 // export async function getServerSideProps(ctx) {
 //   const { token, user } = getAuthCredentials(ctx);

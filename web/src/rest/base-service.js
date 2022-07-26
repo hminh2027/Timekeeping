@@ -11,7 +11,6 @@ export class BaseService {
   find() {
     return this.http.get(`${this.basePath}`).then((res) => res.data);
   }
-
   findOne(id) {
     return this.http.get(`${this.basePath}${id}`).then((res) => res.data);
   }
@@ -22,7 +21,9 @@ export class BaseService {
     return this.http.put(`${this.basePath}${id}`, data).then((res) => res.data);
   }
   patch(id, data) {
-    return this.http.put(`${this.basePath}${id}`, data).then((res) => res.data);
+    return this.http
+      .patch(`${this.basePath}${id}`, data)
+      .then((res) => res.data);
   }
   delete(id) {
     return this.http.delete(`${this.basePath}${id}`);

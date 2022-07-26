@@ -25,15 +25,16 @@ export const usersSlice = createSlice({
       const users = action.payload;
       return { ...state, users };
     },
-  },
-  extraReducers(builder) {
-    builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.users = action.payload;
-      console.log("USERS STATE:", state.users);
-    });
-  },
-});
+    extraReducers(builder) {
+        builder.addCase(fetchUsers.fulfilled, (state, action) => {
+          state.status = "succeeded";
+          state.users= action.payload;
+          console.log("HELLO USERS");
+          console.log("USERS STATE:", state.users);
+        });
+        
+    },
+})
 
 export const { setUsers } = usersSlice.actions;
 
