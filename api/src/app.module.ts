@@ -12,7 +12,6 @@ import { ConfigService } from './common/config/config.service';
 import { CommentModule } from './modules/comment/comment.module';
 import { SocketModule } from './modules/socket/socket.module';
 import { NotificationModule } from './modules/notification/notification.module';
-import { PermissionModule } from './modules/permission/permission.module';
 
 @Module({
   imports: [
@@ -25,7 +24,6 @@ import { PermissionModule } from './modules/permission/permission.module';
     CheckinModule,
     SocketModule,
     NotificationModule,
-    // PermissionModule,
     AwsModule.register(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'images'),
