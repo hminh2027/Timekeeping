@@ -8,7 +8,7 @@ import moment from "moment";
 import { useAddTicketMutation } from "@/rest/ticket/ticket.query";
 const { Option } = Select;
 
-const SubmitTicket = React.memo(() => {
+const SubmitTicket = React.memo((props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const { data: managers } = useGetManagers();
@@ -17,21 +17,34 @@ const SubmitTicket = React.memo(() => {
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     title: "",
     content: "",
-    ticketType: SUBMIT_TICKET_TYPES[0].value,
+    ticketType: SUBMIT_TICKET_TYPES[0],
     recipientId: "",
   });
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+  console.log(data);
   // console.log(data.recipient.id);
   const { mutate: addTicket } = useAddTicketMutation();
 
   const submit = async () => {
     setIsSubmitting(true);
     try {
-      addTicket(data, {
+      const submitData = {
+        startDate: data.startDate,
+        endDate: data.endDate,
+        title: data.title,
+        content: data.content,
+        ticketType: data.ticketType.value,
+        recipientId: data.recipientId,
+      };
+      addTicket(submitData, {
         onSuccess: () => {
-          //Gọi noti
+          console.log("Success!");
+          props.hide();
+        },
+        onError: (err) => {
+          throw new Error(err);
         },
       });
     } catch (err) {
