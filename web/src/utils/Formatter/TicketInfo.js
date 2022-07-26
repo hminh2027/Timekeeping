@@ -1,7 +1,7 @@
 import moment from "moment";
 const TicketInfoFormatter = (ticket) => {
-  const startDate = moment(ticket.startDate).format("YYYY-MM-DD");
-  const endDate = moment(ticket.endDate).format("YYYY-MM-DD");
+  const startDate = moment(ticket.startDate).format("yyyy-MM-DD");
+  const endDate = moment(ticket.endDate).format("yyyy-MM-DD");
   const actions = [{ title: " ", style: "" }];
   if (ticket.ticketStatus === "pending")
     actions.push({ title: "Cancel", style: "v-btn-third" });
@@ -15,7 +15,7 @@ const TicketInfoFormatter = (ticket) => {
       startDate,
       endDate,
       createDate: ticket.createdAt,
-      recipient: ticket.recipient,
+      recipientId: ticket.recipient.id,
       author: ticket.author,
       content: ticket.content,
       actions,

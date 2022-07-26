@@ -9,7 +9,6 @@ index.layout = DashboardLayout;
 export default index;
 export async function getServerSideProps(ctx) {
   const { token, user } = getAuthCredentials(ctx);
-  console.log("CTX:", ctx);
   if (!token) {
     return {
       redirect: {

@@ -9,7 +9,8 @@
       "@/api/*": ["src/api/*"],
       "@/redux/*": ["src/redux/*"],
       "@/pages/*": ["src/pages/*"],
-      "@/assets/*": ["src/assets/*"]
+      "@/assets/*": ["src/assets/*"],
+      "@/rest/*": ["src/rest/*"]
     }
   }
 }

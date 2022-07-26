@@ -27,6 +27,7 @@ export class Notification {
   @Column()
   url: string;
 
+  // make it an array
   @Column({ default: false })
   isRead: boolean;
 

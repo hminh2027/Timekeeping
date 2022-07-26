@@ -20,8 +20,10 @@ export class BaseService {
   update(id, data) {
     return this.http.put(`${this.basePath}${id}`, data).then((res) => res.data);
   }
-  patch(id,data) {
-    return this.http.patch(`${this.basePath}${id}`,data).then((res)=> res.data);
+  patch(id, data) {
+    return this.http
+      .patch(`${this.basePath}${id}`, data)
+      .then((res) => res.data);
   }
   delete(id) {
     return this.http.delete(`${this.basePath}${id}`);

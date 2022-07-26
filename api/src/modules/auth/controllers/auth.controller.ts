@@ -26,6 +26,9 @@ import { ReqCookie } from 'src/common/decorators/cookie.decorator';
 import { Response } from 'express';
 import { GoogleAuthGuard } from 'src/common/guards/google.guard';
 import { GoogleService } from '../services/google.service';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { UserRole } from 'src/modules/user/enums/role.enum';
+import { RolesGuard } from 'src/common/guards/role.guard';
 
 @Controller('auth')
 @ApiTags('authentication')
@@ -88,6 +91,8 @@ export class AuthController {
   @ApiOperation({
     description: 'user register with input',
   })
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
   async register(
     @Body() payload: RegisterPayload,
     @Res({ passthrough: true }) res: Response,

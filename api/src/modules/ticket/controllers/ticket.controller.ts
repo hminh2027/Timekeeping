@@ -30,7 +30,7 @@ import { TicketService } from '../services/ticket.service';
 @ApiTags('ticket')
 @ApiBearerAuth()
 @UsePipes(ValidationPipe)
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(RolesGuard)
 @Roles(UserRole.USER)
 export class TicketController {
   constructor(private readonly ticketService: TicketService) {}
