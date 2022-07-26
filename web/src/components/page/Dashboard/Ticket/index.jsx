@@ -1,15 +1,7 @@
 import UseModal from "@/utils/hooks/UseModal";
 import { TICKET_FILTER } from "@/utils/constants/ticket_constants";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchMyTickets,
-  cancelTicket,
-  setTickets,
-  selectTickets,
-} from "@/redux/feature/ticket/ticketSlice";
-
 import { useState, useEffect } from "react";
-import SubmitTicket from "./TicketInfo";
+import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";
 import { TicketList } from "./TicketList";
@@ -18,10 +10,9 @@ import {
   useGetMeTicketQuery,
   useGetMyTicketWithSortQuery,
 } from "src/rest/ticket/ticket.query";
+
 const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
-  const [tickets, setTickets] = useState(ticketsWithSort);
-  const dispatch = useDispatch();
 
   const [needFetch, setNeedFetch] = useState(true);
   const [filterOptions, setFilterOptions] = useState({
@@ -34,7 +25,6 @@ const TicketContent = () => {
     orderBy: true,
   });
   const onSuccessTickets = () => setNeedFetch(false);
-  console.log(sortOption);
   const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
   const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(
     sortOptions,
@@ -55,7 +45,7 @@ const TicketContent = () => {
       <Header toggleModal={toggle} />
 
       <div
-        className="flex flex-col m-1 overflow-auto rounded-lg"
+        className="flex flex-col m-1 overflow-auto rounded-lg "
         style={{
           backgroundColor: "#fff",
           boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
