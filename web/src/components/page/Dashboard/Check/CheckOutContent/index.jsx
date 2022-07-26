@@ -1,4 +1,3 @@
-import { Button, Space } from "antd";
 import moment from "moment";
 import Router from "next/router";
 import { useEffect, useState } from "react";
@@ -7,7 +6,6 @@ import {
   selectUserCheckInInfo,
   selectUserCheckOutStatus,
 } from "@/redux/feature/user/userSlice";
-import styles from "@/styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "@/utils/hooks/UseTrans";
 import CheckingCard from "../CheckingCard";
 
@@ -88,12 +86,15 @@ const CheckInContent = () => {
   );
   const checkOutContent = (
     <>
-      <div className="flex flex-col items-center gap-4 lg:flex-row">
-        {notCheckedCard}
-        {checkOutStatus && <div>Here's your image 👉</div>}
-        {checkOutStatus && checkedImage}
-      </div>
-      {errors && (
+      {!isChecking && (
+        <div className="flex flex-col items-center gap-4 lg:flex-row">
+          {notCheckedCard}
+          {checkOutStatus && <div>Here's your image 👉</div>}
+          {checkOutStatus && checkedImage}
+        </div>
+      )}
+
+      {!isChecking && errors && (
         <div style={{ color: "rgb(230,30,10)" }}>
           Lỗi rồi :{" "}
           {errors.map((error) => (
@@ -128,7 +129,7 @@ const CheckInContent = () => {
   const content = checkInStatus === false ? failedCheckIn : checkOutContent;
 
   return (
-    <div className="flex justify-center h-full">
+    <div className="flex justify-center w-full h-full">
       <div className="flex flex-col flex-wrap w-full gap-2 p-4 mx-auto">
         {content}
       </div>

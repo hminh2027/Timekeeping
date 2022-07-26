@@ -47,7 +47,18 @@ const SubmitTicket = React.memo((props) => {
           props.hide();
         },
         onError: (err) => {
-          throw new Error(err);
+          // throw new Error(err);
+          const messages = extractMessages(err);
+          const newErrors = [];
+          newErrors.push({
+            id: "submit-error",
+            message: messages.reduce(
+              (message, text) => message + "\n" + text,
+              ""
+            ),
+            color: "red",
+          });
+          setErrors(newErrors);
         },
       });
     } catch (err) {

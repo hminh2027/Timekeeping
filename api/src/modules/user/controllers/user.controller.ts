@@ -26,6 +26,7 @@ import { UserService } from '../services/user.service';
 import { UserPayload } from '../payload/user.payload';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from '../entities/user.entity';
+import { AdminUserPayload } from '../payload/adminUser.payload';
 
 @Controller('user')
 @ApiTags('user')
@@ -97,33 +98,12 @@ export class UserController {
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
-    @Body() payload: UserPayload,
+    @Body() payload: AdminUserPayload,
   ): Promise<Object> {
     return {
       statusCode: HttpStatus.OK,
       message: 'User updated successfully',
       data: await this.userService.update(id, payload),
-    };
-  }
-
-  @Patch('password/:id')
-  @ApiOperation({
-    summary: '(ADMIN only)',
-    description: 'update a user password',
-  })
-  @Roles(UserRole.ADMIN)
-  async updateUserPassword(
-    @Param(
-      'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    )
-    id: number,
-    @Body() password: string,
-  ): Promise<Object> {
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'User updated successfully',
-      data: await this.userService.updatePassword(id, password),
     };
   }
 

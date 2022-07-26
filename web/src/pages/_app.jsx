@@ -7,6 +7,7 @@ import { store } from "../redux/store";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import "../styles/globals.css";
 import "../styles/globals.scss";
+import { Toaster } from "react-hot-toast";
 function MyApp(props) {
   const { Component, pageProps } = props;
   const Layout = Component.layout || DefaultLayout;
@@ -16,6 +17,7 @@ function MyApp(props) {
       <Provider store={store}>
         <Layout>
           <Component {...pageProps} />
+          <Toaster />
         </Layout>
       </Provider>
       <ReactQueryDevtools initialIsOpen={true} />
