@@ -70,7 +70,7 @@ const TicketList = (props) => {
             sortHandle("createdAt", !createdAt);
           }}
         >
-          <div>Created At</div>
+          Created At
           <div className="ml-4">
             {createdAt ? arrow_down_icon : arrow_up_icon}
           </div>
@@ -83,7 +83,7 @@ const TicketList = (props) => {
             sortHandle("startDate", !startDate);
           }}
         >
-          <div>Start Date</div>
+          Start Date
           <div className="ml-4">
             {startDate ? arrow_down_icon : arrow_up_icon}
           </div>
@@ -96,7 +96,7 @@ const TicketList = (props) => {
             sortHandle("endDate", !endDate);
           }}
         >
-          <div>End Date</div>
+          End Date
           <div className="ml-4">
             {endDate ? arrow_down_icon : arrow_up_icon}
           </div>
@@ -120,7 +120,7 @@ const TicketListItem = (props) => {
   const dispatch = useDispatch();
   const {
     id,
-    content: { status, title, type, startDate, endDate, actions },
+    content: { status, title, ticketType, startDate, endDate, actions },
   } = props;
   const statusIcon = [];
   switch (status) {
@@ -148,91 +148,81 @@ const TicketListItem = (props) => {
     toggle();
   };
   return (
-    <Link href={`/dashboard/ticket/${id}`}>
-      <div
-        className="items-center py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
-        // onClick={() => openModal(id)}
-      >
-        <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
-          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-            Title:
-          </div>
-          <div className="flex-1 font-semibold">{title}</div>
+    <div
+      className="items-center py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
+      // onClick={() => openModal(id)}
+    >
+      <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Title:
         </div>
-        <div
-          style={{ flex: "1 0 3em" }}
-          className={`flex font-light text-gray-500`}
-        >
-          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-            Type:
-          </div>
-          <div className="flex-1">{type}</div>
-        </div>
-        <div
-          style={{ flex: "1 1 2em" }}
-          className="flex font-light text-gray-500 "
-        >
-          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-            Status:
-          </div>
-          <div className="flex-1">
-            {statusIcon[0]}{" "}
-            <span className="text-black lg:hidden">{status}</span>
-          </div>
-        </div>
-        <div
-          style={{ flex: "1 0 8em" }}
-          className="flex font-light text-gray-500 "
-        >
-          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-            Created at:
-          </div>
-          <div className="flex-1">{startDate}</div>
-        </div>
-        <div
-          style={{ flex: "1 0 8em" }}
-          className="flex font-light text-gray-500 "
-        >
-          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-            Start date:
-          </div>
-          <div className="flex-1">{startDate}</div>
-        </div>
-        <div
-          style={{ flex: "1 0 8em" }}
-          className="flex font-light text-gray-500"
-        >
-          <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-            End date:
-          </div>
-          <div className="flex-1">{endDate}</div>
-        </div>
-        <div
-          style={{ flex: "1 0 3em" }}
-          className="flex justify-end font-light text-gray-500 lg:justify-start"
-        >
-          {actions.map((action) => {
-            const style = action.style;
-            if (action.title.trim() !== "") {
-              return (
-                <button
-                  className="v-btn-third"
-                  onClick={() => cancelHandler(id)}
-                >
-                  {action.title}
-                </button>
-              );
-            }
-          })}
+        <div className="flex-1 font-semibold text-ellipsis max-w-32 overflow-clip">
+          <Link href={`/dashboard/ticket/${id}`}>{title}</Link>
         </div>
       </div>
-      {/* <Modal isShowing={isShowing} hide={toggle} closeButton={true}>
-        <div className="flex">
-          <TicketInfo hide={toggle} ticketID={id} />
-          <CommentTicket ticketID={id} />
+      <div
+        style={{ flex: "1 0 3em" }}
+        className={`flex font-light text-gray-500`}
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Type:
         </div>
-      </Modal> */}
-    </Link>
+        <div className="flex-1">{ticketType}</div>
+      </div>
+      <div
+        style={{ flex: "1 1 2em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Status:
+        </div>
+        <div className="flex-1">
+          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+        </div>
+      </div>
+      <div
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Created at:
+        </div>
+        <div className="flex-1">{startDate}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Start date:
+        </div>
+        <div className="flex-1">{startDate}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 8em" }}
+        className="flex font-light text-gray-500"
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          End date:
+        </div>
+        <div className="flex-1">{endDate}</div>
+      </div>
+      <div
+        style={{ flex: "1 0 3em" }}
+        className="flex justify-end font-light text-gray-500 lg:justify-start"
+      >
+        {actions.map((action) => {
+          const style = action.style;
+          if (action.title.trim() !== "") {
+            return (
+              <button className="v-btn-third" onClick={() => cancelHandler(id)}>
+                {action.title}
+              </button>
+            );
+          }
+        })}
+      </div>
+    </div>
   );
 };
 export { TicketListItem, TicketList };
@@ -240,7 +230,7 @@ export { TicketListItem, TicketList };
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="h-5 w-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -254,7 +244,7 @@ const arrow_down_icon = (
 const arrow_up_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="h-5 w-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >

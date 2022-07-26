@@ -7,6 +7,7 @@ export const extractMessages = (err) => {
   }
   const status = response.status;
   if (status === 400) {
+    console.log("CALLED");
     const messages = response.data.message;
     const errors = messages.map((message) => {
       for (const property in message) {

@@ -5,9 +5,11 @@ import { extractMessages } from "@/utils/Formatter/ApiError";
 import { useGetManagers } from "src/rest/user/user.query";
 import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 import moment from "moment";
+import { useAddTicketMutation } from "@/rest/ticket/ticket.query";
+import { useQueryClient } from "@tanstack/react-query";
 const { Option } = Select;
 
-const SubmitTicket = React.memo(() => {
+const SubmitTicket = React.memo((props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const { data: managers } = useGetManagers();
@@ -16,28 +18,39 @@ const SubmitTicket = React.memo(() => {
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     title: "",
     content: "",
-    type: SUBMIT_TICKET_TYPES[0].label,
+    ticketType: SUBMIT_TICKET_TYPES[0],
     recipientId: "",
   });
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+  console.log(data);
   // console.log(data.recipient.id);
+  const queryClient = useQueryClient();
+  const { mutate: addTicket } = useAddTicketMutation();
+
   const submit = async () => {
     setIsSubmitting(true);
-    const newInfo = {
-      startDate: data.startDate,
-      endDate: data.endDate,
-      title: data.title,
-      recipientId: data.recipientId,
-      content: data.content,
-      type: data.type,
-    };
     try {
-      console.log("NEW", newInfo);
+      const submitData = {
+        startDate: data.startDate,
+        endDate: data.endDate,
+        title: data.title,
+        content: data.content,
+        ticketType: data.ticketType.value,
+        recipientId: data.recipientId,
+      };
+      addTicket(submitData, {
+        onSuccess: () => {
+          console.log("Success!");
+          queryClient.invalidateQueries(["get-my-tickets-with-sort"]);
+          props.hide();
+        },
+        onError: (err) => {
+          throw new Error(err);
+        },
+      });
     } catch (err) {
-      console.log("NEW", newInfo);
-
       console.log(err);
       const messages = extractMessages(err);
       const newErrors = [];
@@ -66,13 +79,13 @@ const SubmitTicket = React.memo(() => {
         </div>
         <div className="flex flex-col w-full justify-center gap-5">
           <div className="flex flex-col flex-wrap w-full justify-start gap-4">
-            <Input
+            <input
               autoFocus={true}
               type="text"
               name="title"
               value={data.title}
               placeholder="Ticket title"
-              className="w-full"
+              className="w-full v-input"
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -80,38 +93,43 @@ const SubmitTicket = React.memo(() => {
                 submit();
               }}
             />
-            <Input
-              type="date"
-              name="startDate"
-              value={data.startDate}
-              addonBefore={<div style={{ minWidth: "6em" }}>Start Date</div>}
-              className="w-full"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              onPressEnter={() => {
-                submit();
-              }}
-            />
-            <Input
-              type="date"
-              name="endDate"
-              value={data.endDate}
-              addonBefore={<div style={{ minWidth: "6em" }}>End Date</div>}
-              className="w-full"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              onPressEnter={() => {
-                submit();
-              }}
-            />
-            <div className="flex items-center gap-2">
-              <div style={{ minWidth: "6em" }}>Ticket Type:</div>
+            <div className="flex items-center gap-4">
+              <div style={{ minWidth: "9em" }}>Start Date</div>
+              <input
+                type="date"
+                name="startDate"
+                value={data.startDate}
+                className="flex-1 v-input"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                onPressEnter={() => {
+                  submit();
+                }}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <div style={{ minWidth: "9em" }}>End Date</div>
+              <input
+                type="date"
+                name="endDate"
+                value={data.endDate}
+                className="flex-1 v-input"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                onPressEnter={() => {
+                  submit();
+                }}
+              />
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div style={{ minWidth: "9em" }}>Ticket Type:</div>
               <Select
                 className="flex-grow"
                 name="type"
-                value={data.type}
+                value={data.ticketType}
                 options={SUBMIT_TICKET_TYPES}
                 placeholder="Search to Select"
                 onChange={(value, option) => {
@@ -131,7 +149,7 @@ const SubmitTicket = React.memo(() => {
               />
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "1em" }}>
-              <div style={{ minWidth: "6em" }}>Recipient Name:</div>
+              <div style={{ minWidth: "9em" }}>Recipient Name:</div>
               <Select
                 style={{
                   flexGrow: 2,
@@ -162,7 +180,7 @@ const SubmitTicket = React.memo(() => {
             name="content"
             value={data.content}
             style={{ width: "100%" }}
-            className="textarea textarea-accent focus:outline-none"
+            className="v-textarea"
             placeholder="Ticket Content"
             onChange={(e) => {
               handleChange(e);
