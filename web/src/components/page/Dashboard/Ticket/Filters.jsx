@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Select, Space } from "antd";
 import api from "@/api/api";
-import { TICKET_TYPES } from "@/utils/constants";
+import { ALL_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 const { Option } = Select;
 
 const DesktopFilter = (props) => {
-  const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
+  const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
 
-  console.log("TICKET_TYPES:", ticketTypes);
   const [data, setData] = useState({
     title: "",
     type: "",
@@ -114,7 +113,7 @@ const DesktopFilter = (props) => {
 };
 const MobileFilter = (props) => {
   const [usingFilter, setUsingFilter] = useState(false);
-  const [ticketTypes, setTicketTypes] = useState(TICKET_TYPES);
+  const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
   const [data, setData] = useState({
     title: "",
     type: "",

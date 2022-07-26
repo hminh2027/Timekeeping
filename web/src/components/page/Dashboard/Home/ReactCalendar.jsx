@@ -12,7 +12,8 @@ import { getDateArray } from "@/utils/helper/workcalendar";
 import Modal from "@/components/Common/Modal";
 import UseModal from "@/utils/hooks/UseModal";
 import { checkInInfoFormatter } from "@/utils/Formatter/CheckInInfo";
-import Image from "next/image";
+import "react-calendar/dist/Calendar.css";
+
 function isSameDay(a, b) {
   return moment(a).isSame(moment(b), "date");
 }

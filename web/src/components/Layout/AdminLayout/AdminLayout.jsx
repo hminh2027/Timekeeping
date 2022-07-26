@@ -25,7 +25,7 @@ const AdminLayout = (props) => {
     const checkAuthStatus = () => {
       const authed = auth.checkAuth();
       console.log("userInfo", userInfo);
-      console.log("Auth:", authed);
+      // console.log("Auth:", authed);
       if (!authed) {
         router.push("/account/login");
       } else {

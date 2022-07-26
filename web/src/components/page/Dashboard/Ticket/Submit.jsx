@@ -6,9 +6,8 @@ import moment from "moment";
 import { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTicket } from "@/redux/feature/ticket/ticketSlice";
-import { TICKET_TYPES } from "@/utils/constants";
+import { TICKET_TYPES } from "@/utils/constants/ticket_constants";
 import { extractMessages } from "@/utils/Formatter/ApiError";
-const { TextArea } = Input;
 const { Option } = Select;
 
 const SUBMIT_TICKET_TYPES = TICKET_TYPES.filter((type) => type.value !== "");

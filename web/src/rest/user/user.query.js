@@ -3,19 +3,32 @@ import { UserService } from "./user.service";
 import { AuthService } from "../auth/auth.service";
 
 export const useGetUserQuery = (sort) => {
-  return useQuery(["get-user",sort], () => {
+  return useQuery(["get-user", sort], () => {
     return UserService.getUser(sort);
   });
-}
+};
 
 export const useDeleteUserMutation = () => {
-  return useMutation((id)=> {
+  return useMutation((id) => {
     return UserService.deleteUser(id);
-  })
-}
+  });
+};
 
 export const usePostUserMutation = () => {
   return useMutation((data) => {
-    return AuthService.postUser(data)
-  })
-}
+    return AuthService.postUser(data);
+  });
+};
+
+export const useGetManagers = (id) => {
+  return useQuery(
+    ["get-managers"],
+    () => {
+      return UserService.getManagers(id);
+    },
+    {
+      initialData: [],
+      cacheTime: 60 * 60 * 60 * 24,
+    }
+  );
+};

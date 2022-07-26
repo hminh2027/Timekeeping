@@ -48,7 +48,24 @@ const CheckingCard = (props) => {
       }
     });
   };
-
+  const webCam = (
+    <div>
+      <Webcam
+        ref={webCamRef}
+        screenshotFormat="image/jpg"
+        onUserMediaError={() => setNoCam(true)}
+        screenshotQuality={1}
+        width={480}
+        height={640}
+        className={`w-full`}
+      />
+    </div>
+  );
+  const imagePreview = (
+    <div>
+      <img src={imageSrc} className={styles[`preview-image`]} />
+    </div>
+  );
   const content = (
     <div className="flex flex-col flex-wrap w-full">
       {noCam && (
@@ -62,27 +79,11 @@ const CheckingCard = (props) => {
           avatar={{ active: true, shape: "square", size: 500 }}
         ></Skeleton>
       ) : (
-        <div className="flex flex-row flex-wrap items-center w-full min-h-md min-w-sm">
-          {capturing && (
-            <div>
-              <Webcam
-                ref={webCamRef}
-                screenshotFormat="image/jpg"
-                onUserMediaError={() => setNoCam(true)}
-                screenshotQuality={1}
-                width={480}
-                height={640}
-                className={`w-full`}
-              />
-            </div>
-          )}
+        <div className="flex flex-col items-center w-full min-h-md min-w-sm">
+          {capturing && webCam}
 
-          {captured && !capturing && (
-            <div>
-              <img src={imageSrc} className={styles[`preview-image`]} />
-            </div>
-          )}
-          <div className="flex flex-col flex-wrap items-center gap-12">
+          {captured && !capturing && imagePreview}
+          <div className="flex items-center gap-12">
             <button
               className="v-btn btn-outline btn-primary"
               onClick={() => {
