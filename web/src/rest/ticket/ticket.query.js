@@ -1,8 +1,7 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import { TicketService } from "./ticket.service";
 
 import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
-import TicketInfo from "@/components/page/Dashboard/Ticket/TicketInfo";
 
 export const useGetMeTicketQuery = () => {
   return useQuery(["get-me-ticket"], () => {
@@ -56,13 +55,15 @@ export const useGetTicketInfoQuery = (id) => {
     }
   );
 };
-export const updateTicketInfoQuery = (id, ticketInfo) => {
-  return useMutation(TicketService.updateTicketInfo(id, ticketInfo));
+
+export const useAddTicketMutation = () => {
+  return useMutation((ticketInfo) => TicketService.addTicket(ticketInfo));
 };
-//   return useQuery(["get-ticket-type", () => {
-//     return TicketService.getTicketType();
-//   }])
-// }
+export const useUpdateTicketInfoQuery = () => {
+  return useMutation((id, ticketInfo) =>
+    TicketService.updateTicketInfo(id, ticketInfo)
+  );
+};
 
 export const useApproveTicketMutation = () => {
   return useMutation((id) => {

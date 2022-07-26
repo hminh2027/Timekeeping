@@ -158,9 +158,9 @@ const MobileFilter = (props) => {
                   handleChange(e);
                 }}
               >
-                {ticketTypes.map((ticketType) => (
-                  <option key={ticketType} value={ticketType}>
-                    {ticketType}
+                {ALL_TICKET_TYPES.map((ticketType) => (
+                  <option key={ticketType.value} value={ticketType.value}>
+                    {ticketType.label}
                   </option>
                 ))}
               </select>

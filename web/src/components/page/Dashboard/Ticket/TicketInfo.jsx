@@ -1,14 +1,17 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Input, Select, Spin } from "antd";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import { extractMessages } from "@/utils/Formatter/ApiError";
 import { useGetManagers } from "src/rest/user/user.query";
+import { useUpdateTicketInfoQuery } from "@/rest/ticket/ticket.query";
 import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
+import { useQueryClient } from "@tanstack/react-query";
 
 const { Option } = Select;
 
 const TicketInfo = React.memo((props) => {
   const ticketData = props.ticketData;
+  const ticketId = props.id;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const { data: managers } = useGetManagers();
@@ -16,7 +19,10 @@ const TicketInfo = React.memo((props) => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+  const queryClient = useQueryClient();
   // console.log(data.recipient.id);
+  const { mutate: updateTicketInfo } = useUpdateTicketInfoQuery();
+
   const submit = async () => {
     setIsSubmitting(true);
     const newInfo = {
@@ -25,21 +31,21 @@ const TicketInfo = React.memo((props) => {
       title: data.title,
       recipientId: data.recipientId,
       content: data.content,
-      type: data.type,
+      ticketType: data.ticketType,
     };
     try {
-      console.log("NEW", newInfo);
-      // const t = await updateMyTicket(ticketID, {
-      //   startDate,
-      //   endDate,
-      //   title,
-      //   recipientId,
-      //   content,
-      //   value,
-      // });
+      updateTicketInfo(
+        { id: ticketId, ticketInfo: newInfo },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries(["get-my-tickets-with-sort"]);
+          },
+          onError: (err) => {
+            throw new Error(err);
+          },
+        }
+      );
     } catch (err) {
-      console.log("NEW", newInfo);
-
       console.log(err);
       const messages = extractMessages(err);
       const newErrors = [];
@@ -55,7 +61,7 @@ const TicketInfo = React.memo((props) => {
   };
 
   const ticketContent = (
-    <div className="card">
+    <div className="card m-3">
       <div className="card-body min-w-mobile lg:min-w-md">
         <div style={{ fontSize: "1.25em", fontWeight: "bold" }}>
           Ticket Content
@@ -68,13 +74,13 @@ const TicketInfo = React.memo((props) => {
         </div>
         <div className="flex flex-col w-full justify-center gap-5">
           <div className="flex flex-col flex-wrap w-full justify-start gap-4">
-            <Input
+            <input
               autoFocus={true}
               type="text"
               name="title"
               value={data.title}
               placeholder="Ticket title"
-              className="w-full"
+              className="w-full v-input"
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -82,38 +88,43 @@ const TicketInfo = React.memo((props) => {
                 submit();
               }}
             />
-            <Input
-              type="date"
-              name="startDate"
-              value={data.startDate}
-              addonBefore={<div style={{ minWidth: "6em" }}>Start Date</div>}
-              className="w-full"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              onPressEnter={() => {
-                submit();
-              }}
-            />
-            <Input
-              type="date"
-              name="endDate"
-              value={data.endDate}
-              addonBefore={<div style={{ minWidth: "6em" }}>End Date</div>}
-              className="w-full"
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              onPressEnter={() => {
-                submit();
-              }}
-            />
-            <div className="flex items-center gap-2">
-              <div style={{ minWidth: "6em" }}>Ticket Type:</div>
+            <div className="flex items-center gap-4">
+              <div style={{ minWidth: "9em" }}>Start Date</div>
+              <input
+                type="date"
+                name="startDate"
+                value={data.startDate}
+                className="flex-1 v-input"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                onPressEnter={() => {
+                  submit();
+                }}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <div style={{ minWidth: "9em" }}>End Date</div>
+              <input
+                type="date"
+                name="endDate"
+                value={data.endDate}
+                className="flex-1 v-input"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                onPressEnter={() => {
+                  submit();
+                }}
+              />
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div style={{ minWidth: "9em" }}>Ticket Type:</div>
               <Select
                 className="flex-grow"
                 name="type"
-                value={data.type}
+                value={data.ticketType}
                 options={SUBMIT_TICKET_TYPES}
                 placeholder="Search to Select"
                 onChange={(value, option) => {
@@ -133,7 +144,7 @@ const TicketInfo = React.memo((props) => {
               />
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "1em" }}>
-              <div style={{ minWidth: "6em" }}>Recipient Name:</div>
+              <div style={{ minWidth: "9em" }}>Recipient Name:</div>
               <Select
                 style={{
                   flexGrow: 2,
@@ -164,7 +175,7 @@ const TicketInfo = React.memo((props) => {
             name="content"
             value={data.content}
             style={{ width: "100%" }}
-            className="textarea textarea-accent focus:outline-none"
+            className="v-textarea"
             placeholder="Ticket Content"
             onChange={(e) => {
               handleChange(e);
