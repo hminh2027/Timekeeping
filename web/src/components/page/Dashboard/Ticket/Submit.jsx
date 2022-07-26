@@ -6,6 +6,7 @@ import { useGetManagers } from "src/rest/user/user.query";
 import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 import moment from "moment";
 import { useAddTicketMutation } from "@/rest/ticket/ticket.query";
+import { useQueryClient } from "@tanstack/react-query";
 const { Option } = Select;
 
 const SubmitTicket = React.memo((props) => {
@@ -25,6 +26,7 @@ const SubmitTicket = React.memo((props) => {
   };
   console.log(data);
   // console.log(data.recipient.id);
+  const queryClient = useQueryClient();
   const { mutate: addTicket } = useAddTicketMutation();
 
   const submit = async () => {
@@ -41,6 +43,7 @@ const SubmitTicket = React.memo((props) => {
       addTicket(submitData, {
         onSuccess: () => {
           console.log("Success!");
+          queryClient.invalidateQueries(["get-my-tickets-with-sort"]);
           props.hide();
         },
         onError: (err) => {
