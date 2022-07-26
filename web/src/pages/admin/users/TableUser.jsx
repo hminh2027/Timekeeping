@@ -4,7 +4,7 @@ import {useDeleteUserMutation} from "src/rest/user/user.query"
 import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
 import { useQueryClient } from "@tanstack/react-query";
-import { CreditUser } from "./ModalUsers";
+import CreditUser from "@/components/page/admin/users/CreditUserModal";
 const { Option } = Select;
 
 const TableUsers = React.memo((props) => {

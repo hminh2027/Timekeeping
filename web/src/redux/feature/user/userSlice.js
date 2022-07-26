@@ -34,12 +34,10 @@ export const fetchCheckInStatus = createAsyncThunk(
         Router.replace("/account/login");
       }
     }
-    // console.log(response);
   }
 );
 export const fetchMe = createAsyncThunk("user/fetchMe", async () => {
   const response = await getMyInfo();
-  // console.log(response);
   return response;
 });
 
