@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
-import {CreateUser} from "./ModalUsers";
+import CreateUser from "@/components/page/admin/users/CreateUserModal";
 
 const DesktopFilter = (props) => {
   const [data, setData] = useState({
