@@ -24,7 +24,7 @@ const Home = () => {
   );
   return (
     <>
-      <Row style={{ padding: "1em " }} gutter={[16, 16]}>
+      <Row style={{ padding: 0, margin: 0 }} gutter={[16, 16]}>
         <Col xs={24} sm={24} md={24} lg={8}>
           <div className="card ">
             <div className="card-body">
@@ -33,7 +33,7 @@ const Home = () => {
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={16}>
-          <div className="card w-full">
+          <div className="w-full card">
             <div className="card-body">
               {/* <WorkCalendar /> */}
               <ReactCalendar />

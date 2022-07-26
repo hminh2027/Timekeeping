@@ -8,7 +8,9 @@ import { store } from "../redux/store";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import "../styles/globals.css";
 import "../styles/globals.scss";
+
 const queryClient = new QueryClient();
+
 function MyApp(props) {
   const { Component, pageProps } = props;
   const Layout = Component.layout || DefaultLayout;
