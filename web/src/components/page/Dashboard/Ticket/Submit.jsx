@@ -17,7 +17,7 @@ const SubmitTicket = React.memo(() => {
     title: "",
     content: "",
     type: SUBMIT_TICKET_TYPES[0].label,
-    recipientId: managers[0].id,
+    recipientId: "",
   });
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });

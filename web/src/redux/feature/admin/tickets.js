@@ -64,6 +64,6 @@ export const { setTickets } = ticketsSlice.actions;
 export const selectTicket = (state) => state.tickets;
 
 //Selectors
-export const selectTickets = (state) => state.tickets.tickets;
+export const selectTickets = (state) => state.adminTicket.tickets;
 
 export default ticketsSlice.reducer;
