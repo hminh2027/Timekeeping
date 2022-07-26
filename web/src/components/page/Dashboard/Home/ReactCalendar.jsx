@@ -39,7 +39,7 @@ const ReactCalendar = () => {
     denied: [],
     approved: [],
   });
-  const [checkInInfo, setCheckInInfo] = useState(checkInInfoInit);
+  const [checkInInfo, setCheckInInfo] = useState();
   const tickets = useSelector(selectTickets);
 
   function tileClassName({ date, view }) {
@@ -101,7 +101,7 @@ const ReactCalendar = () => {
     };
     fetchCheckInInfo();
   }, [curDate]);
-
+  // console.log(checkInInfo);
   const noInfoCard = <div className="p-20">No Info</div>;
   const infoCard = (
     <>
@@ -115,7 +115,7 @@ const ReactCalendar = () => {
             src={`${process.env.APP_URL}${
               checkInInfo && checkInInfo.checkInImage
             }`}
-            className="w-full h-full aspect-video"
+            className="w-full h-full aspect-video object-contain"
             crossOrigin="anonymous"
           />
         </div>
@@ -126,20 +126,20 @@ const ReactCalendar = () => {
           <div>CheckOut time:</div>
           <div>
             {checkInInfo &&
-              checkInInfo.checkoutImage &&
+              checkInInfo.checkOutImage &&
               checkInInfo.checkOutTime}
           </div>
         </div>
         <div className="max-w-xs">
-          {checkInInfo && checkInInfo.checkoutImage && (
+          {checkInInfo && checkInInfo.checkOutImage && (
             <img
               src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
-              className="w-full h-full aspect-video"
+              className="w-full h-full aspect-video object-contain"
               crossOrigin="anonymous"
             />
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 
