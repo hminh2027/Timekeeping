@@ -29,9 +29,20 @@ const SubmitTicket = React.memo(() => {
   const submit = async () => {
     setIsSubmitting(true);
     try {
-      addTicket(data, {
+      const submitData = {
+        startDate: data.startDate,
+        endDate: data.endDate,
+        title: data.title,
+        content: data.content,
+        ticketType: data.ticketType.value,
+        recipientId: data.recipientId,
+      };
+      addTicket(submitData, {
         onSuccess: () => {
-          //Gọi noti
+          console.log("Success!");
+        },
+        onError: (err) => {
+          console.error("Error!");
         },
       });
     } catch (err) {
