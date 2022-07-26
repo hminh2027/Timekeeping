@@ -27,7 +27,7 @@ const MenuLabel = (props) => {
           dispatch(changeCurrentItem({ menuItem: id }));
         }}
       >
-        <div className="px-4">{icon}</div>
+        <div className="p-4 lg:px-4 lg:py-0">{icon}</div>
         <div className="hidden pr-6 font-bold lg:flex">{label}</div>
       </div>
     </Link>
