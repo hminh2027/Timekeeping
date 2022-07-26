@@ -29,18 +29,12 @@ export const useGetTicketTypeQuery = () => {
     },
   ]);
 };
-export const useGetMyTicketWithSortQuery = (
-  sortOptions,
-  onSuccessTickets,
-  needFetch
-) => {
+export const useGetMyTicketWithSortQuery = (sortOptions) => {
   return useQuery(
     ["get-my-tickets-with-sort"],
     () => TicketService.getMyTicketWithSort(sortOptions),
     {
       select: (tickets) => tickets.map((ticket) => TicketInfoFormatter(ticket)),
-      onSuccess: onSuccessTickets,
-      enabled: !!needFetch,
     }
   );
 };

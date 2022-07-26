@@ -120,7 +120,7 @@ const TicketListItem = (props) => {
   const dispatch = useDispatch();
   const {
     id,
-    content: { status, title, type, startDate, endDate, actions },
+    content: { status, title, ticketType, startDate, endDate, actions },
   } = props;
   const statusIcon = [];
   switch (status) {
@@ -167,7 +167,7 @@ const TicketListItem = (props) => {
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Type:
         </div>
-        <div className="flex-1">{type}</div>
+        <div className="flex-1">{ticketType}</div>
       </div>
       <div
         style={{ flex: "1 1 2em" }}
