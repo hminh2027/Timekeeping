@@ -14,7 +14,6 @@ import {
 const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
 
-  const [needFetch, setNeedFetch] = useState(true);
   const [filterOptions, setFilterOptions] = useState({
     title: "",
     type: "",
@@ -24,16 +23,9 @@ const TicketContent = () => {
     sortBy: "createdAt",
     orderBy: true,
   });
-  const onSuccessTickets = () => setNeedFetch(false);
   const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
-  const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(
-    sortOptions,
-    onSuccessTickets,
-    needFetch
-  );
-  useEffect(() => {
-    setNeedFetch(true);
-  }, [sortOption, filterOptions]);
+  const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(sortOptions);
+
   return (
     <div className="flex-col flex-1 gap-8">
       <div
