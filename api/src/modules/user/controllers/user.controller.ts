@@ -106,6 +106,27 @@ export class UserController {
     };
   }
 
+  @Patch('password/:id')
+  @ApiOperation({
+    summary: '(ADMIN only)',
+    description: 'update a user password',
+  })
+  @Roles(UserRole.ADMIN)
+  async updateUserPassword(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+    @Body() password: string,
+  ): Promise<Object> {
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User updated successfully',
+      data: await this.userService.updatePassword(id, password),
+    };
+  }
+
   @Delete(':id')
   @ApiOperation({
     summary: '(ADMIN only)',
