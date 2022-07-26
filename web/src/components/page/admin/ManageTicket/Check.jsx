@@ -11,7 +11,6 @@ import {
   useDeleteTicketMutation,
   useRejectTicketMutation,
 } from "src/rest/ticket/ticket.query";
-import styles from "@/styles/pages/dashboard/ticket.module.scss";
 
 const CheckTicket = (props) => {
   const { data: ticketData } = useGetTicketQueryId(props.id);
@@ -23,8 +22,8 @@ const CheckTicket = (props) => {
           <div className=" text-xl font-bold text-center justify-center">
             Ticket Content
           </div>
-          <div className={styles[`input-wrapper`]}>
-            <div className={styles[`input-list`]}>
+          <div className="flex flex-col w-full justify-center gap-5">
+            <div className="flex flex-col flex-wrap w-full justify-start gap-4">
               <input
                 className="w-full border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
