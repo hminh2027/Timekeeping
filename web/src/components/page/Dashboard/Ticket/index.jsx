@@ -34,12 +34,6 @@ const TicketContent = () => {
   useEffect(() => {
     setNeedFetch(true);
   }, [sortOption, filterOptions]);
-
-  // const { data: myTicket } = useGetMeTicketQuery();
-
-  // console.log("myTicket", myTicket, tickets);
-
-  // Gọi api khi filter option thay đổi
   return (
     <div className="flex-col flex-1 gap-8">
       <Header toggleModal={toggle} />
