@@ -71,17 +71,8 @@ const CheckTicket = (props) => {
                 >
                 </input>
             </div>
-            <textarea
-              className=" flex-grow w-full border border-solid border-gray-300 p-2 h-auto text-gray-500"
-              disabled
-              type="text"
-              name="content"
-              value={ticketData?.content}
-              placeholder="Ticket title"
-            />
           </div>
         </div>
-        <ButtonTicket disabled={props.disabled} toggle={props.hide} id={props.id} status={ticketData?.ticketStatus}></ButtonTicket>
       </div>
     </div>
     </>
