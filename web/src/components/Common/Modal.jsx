@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import { IoClose } from "react-icons/io5";
 const Modal = (props) => {
   const { isShowing, hide, children, closeButton } = props;
 
@@ -49,7 +49,7 @@ const Modal = (props) => {
                       className="absolute p-2 text-3xl rounded cursor-pointer top-1 right-1"
                       onClick={() => hide()}
                     >
-                      ✖
+                      <IoClose />
                     </div>
                   )}
                 </div>

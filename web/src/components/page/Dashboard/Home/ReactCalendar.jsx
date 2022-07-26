@@ -115,7 +115,7 @@ const ReactCalendar = () => {
             src={`${process.env.APP_URL}${
               checkInInfo && checkInInfo.checkInImage
             }`}
-            className="w-full h-full aspect-video"
+            className="w-full h-full aspect-video object-contain"
             crossOrigin="anonymous"
           />
         </div>
@@ -126,15 +126,15 @@ const ReactCalendar = () => {
           <div>CheckOut time:</div>
           <div>
             {checkInInfo &&
-              checkInInfo.checkoutImage &&
+              checkInInfo.checkOutImage &&
               checkInInfo.checkOutTime}
           </div>
         </div>
         <div className="max-w-xs">
-          {checkInInfo && checkInInfo.checkoutImage && (
+          {checkInInfo && checkInInfo.checkOutImage && (
             <img
               src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
-              className="w-full h-full aspect-video"
+              className="w-full h-full aspect-video object-contain"
               crossOrigin="anonymous"
             />
           )}
