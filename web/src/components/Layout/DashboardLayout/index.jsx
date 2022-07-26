@@ -24,7 +24,7 @@ const DashboardLayout = (props) => {
   useEffect(() => {
     const checkAuthStatus = () => {
       const authed = auth.checkAuth();
-      console.log("Auth:", authed);
+      // console.log("Auth:", authed);
       if (!authed) {
         router.push("/account/login");
       } else {
@@ -54,10 +54,12 @@ const DashboardLayout = (props) => {
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}
-      <div className="flex flex-1">
+      <div className="z-10 flex flex-1 ">
         <SidebarMenu />
         {/* Content */}
-        <div className="flex flex-1 ">{props.children}</div>
+        <div className="w-full lg:flex lg:flex-1 bg-[#fafafa]">
+          {props.children}
+        </div>
       </div>
       <div>
         <MobileDrawer

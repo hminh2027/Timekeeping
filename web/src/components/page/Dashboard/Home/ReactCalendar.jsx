@@ -12,7 +12,8 @@ import { getDateArray } from "@/utils/helper/workcalendar";
 import Modal from "@/components/Common/Modal";
 import UseModal from "@/utils/hooks/UseModal";
 import { checkInInfoFormatter } from "@/utils/Formatter/CheckInInfo";
-import Image from "next/image";
+import "react-calendar/dist/Calendar.css";
+
 function isSameDay(a, b) {
   return moment(a).isSame(moment(b), "date");
 }
@@ -119,19 +120,24 @@ const ReactCalendar = () => {
           />
         </div>
       </div>
+
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-4">
           <div>CheckOut time:</div>
-          <div>{checkInInfo && checkInInfo.checkOutTime}</div>
+          <div>
+            {checkInInfo &&
+              checkInInfo.checkoutImage &&
+              checkInInfo.checkOutTime}
+          </div>
         </div>
         <div className="max-w-xs">
-          <img
-            src={`${process.env.APP_URL}${
-              checkInInfo && checkInInfo.checkOutImage
-            }`}
-            className="w-full h-full aspect-video"
-            crossOrigin="anonymous"
-          />
+          {checkInInfo && checkInInfo.checkoutImage && (
+            <img
+              src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
+              className="w-full h-full aspect-video"
+              crossOrigin="anonymous"
+            />
+          )}
         </div>
       </div>
     </>

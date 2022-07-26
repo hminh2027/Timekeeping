@@ -1,8 +1,8 @@
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePostUserMutation } from "src/rest/user/user.query";
-import moment from "moment";
+
 
 const CreateUser = (props) => {
     const [UserData, setUserData] = useState({
@@ -25,7 +25,7 @@ const CreateUser = (props) => {
     }
     const handleChange = (e) => {
         setUserData({ ...UserData, [e.target.name]: e.target.value });
-      };
+    };
     return (
     <>
       <div className="card">

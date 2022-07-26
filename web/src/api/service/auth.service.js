@@ -1,10 +1,14 @@
 import api from "@/api/api";
 import auth from "@/api/auth";
+import Cookies from "js-cookie";
+import { AUTH_CONSTANTS } from "@/utils/constants/auth_constants";
 export const logOut = async () => {
   const token = process.env.AUTH_TOKEN;
   // const role = process.env.USER_ROLE;
   api.clearToken();
   localStorage.removeItem(token);
+  Cookies.remove(AUTH_CONSTANTS.AUTH_TOKEN);
+  Cookies.remove(AUTH_CONSTANTS.REFRESH_TOKEN);
   window.location.replace(`/account/login`);
   // localStorage.removeItem(role);
 };
