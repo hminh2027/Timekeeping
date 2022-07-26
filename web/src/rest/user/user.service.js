@@ -9,9 +9,14 @@ class User extends BaseService {
     deleteUser(id) {
         return this.http.delete(`${this.basePath}/${id}`);
     }
-    updateUser(id, data) {
-        return this.http.put(`${this.basePath}/${id}`, data).then((res) => res.data);
+    updateUser(id,data) {
+        return this.http.patch(`${this.basePath}/${id}`, data).then((res) => res.data);
     }
+    getUserId(id) {
+        return this.http.get(`${this.basePath}/${id}`).then((res) => res.data);
+    }
+    
+    
 }
 
 export const UserService = new User("user");

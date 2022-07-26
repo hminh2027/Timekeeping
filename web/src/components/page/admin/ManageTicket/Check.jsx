@@ -1,31 +1,10 @@
 import { useDispatch } from "react-redux";
 import { cancelTickets, approveTickets, rejectTickets } from "@/redux/feature/admin/tickets";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import api from "@/api/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useApproveTicketMutation,useGetTicketQueryId, useDeleteTicketMutation, useRejectTicketMutation } from "src/rest/ticket/ticket.query";
 import styles from "@/styles/pages/dashboard/ticket.module.scss";
-import { useGetTicketQueryId } from "src/rest/ticket/ticket.query";
+
 const CheckTicket = (props) => {
-  // const [ticketData, setTicketData] = useState({
-  //   startDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
-  //   endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
-  //   title: "",
-  //   content: "",
-  //   ticketType: 0,
-  //   author: {},
-  //   recipient: {},
-  // });
- 
-  // useEffect(() => {
-  //   const fetchTikect = () => {
-  //     const res = useGetTicketQueryId(props.id);
-  //     const { data } = res;
-  //     console.log("KQ TRA VE",res,data)
-  //     setTicketData(data);
-  //     console.log("data", data.startDate);
-  //   };
-  //   fetchTikect();
-  // }, []);
   const {data: ticketData} = useGetTicketQueryId(props.id);
   console.log("dataTICKET", ticketData);
   return (
@@ -112,15 +91,27 @@ const CheckTicket = (props) => {
 
 
 const ButtonTicket = ({disabled, id, status, toggle}) => {
-  const dispatch = useDispatch();
-  const approveHandler = (id) => {
-    dispatch(approveTickets(id));
-    toggle(false);
-  }
-  const rejectHandler = (id) => {
-    dispatch(rejectTickets(id));
-    toggle(false)
-  }
+  const {mutate:  doApprove} = useApproveTicketMutation();
+    const queryClient = useQueryClient()
+    async function handleApprove(data){
+        await doApprove(data,{
+        onSuccess: ()=>{
+            console.log("success")
+            toggle(false)
+            queryClient.invalidateQueries(['get-ticket'])
+        }
+      })
+    }
+    const {mutate:  doReject} = useRejectTicketMutation();
+    async function handleReject(data){
+        await doReject(data,{
+        onSuccess: ()=>{
+            console.log("success")
+            toggle(false)
+            queryClient.invalidateQueries(['get-ticket'])
+        }
+      })
+    }
   if(!disabled) {
     return (
       <div className="w-full flex items-center justify-center">
@@ -128,7 +119,7 @@ const ButtonTicket = ({disabled, id, status, toggle}) => {
           className="w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black mr-2"
           type="primary"
           onClick={() => {
-            approveHandler(id);
+            handleApprove(id);
           }}
         >
           Approve
@@ -137,7 +128,7 @@ const ButtonTicket = ({disabled, id, status, toggle}) => {
           className="w-1/3 border border-solid border-red-500 shadow-xl hover:bg-red-500 hover:text-white p-1 rounded-lg text-black"
           type="primary"
           onClick={() => {
-            rejectHandler(id);
+            handleReject(id);
           }}
         >
           Reject
@@ -181,17 +172,23 @@ const ButtonTicket = ({disabled, id, status, toggle}) => {
   }
 }
 const Cancel = ({id,toggle}) => {
-  const dispatch = useDispatch();
-  const cancelHandler = (id) => {
-    dispatch(cancelTickets(id));
-  }
+  const {mutate:  doDelete} = useDeleteTicketMutation();
+    const queryClient = useQueryClient()
+    async function handleDelete(data){
+        await doDelete(data,{
+        onSuccess: ()=>{
+            console.log("success")
+            toggle(false)
+            queryClient.invalidateQueries(['get-ticket'])
+        }
+      })
+    }
   return (
     <button
         className="w-1/3 border border-solid border-gray-500 shadow-xl bg-slate-200 hover:bg-gray-400 text-black p-1 rounded-lg hover:text-white"
         type="primary"
         onClick={() => {
-          cancelHandler(id);
-          toggle(false);
+          handleDelete(id)
         }}
     >cancel</button>
   )
