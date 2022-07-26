@@ -1,9 +1,3 @@
-import { useDispatch } from "react-redux";
-import {
-  cancelTickets,
-  approveTickets,
-  rejectTickets,
-} from "@/redux/feature/admin/tickets";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useApproveTicketMutation,
