@@ -41,10 +41,12 @@ const SubmitTicket = React.memo((props) => {
       addTicket(submitData, {
         onSuccess: () => {
           console.log("Success!");
+
           props.hide();
         },
         onError: (err) => {
           throw new Error(err);
+
         },
       });
     } catch (err) {
