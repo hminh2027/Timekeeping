@@ -11,8 +11,6 @@ import {
   ValidationPipe,
   ParseIntPipe,
   HttpStatus,
-  Inject,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CommentService } from '../services/comment.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
@@ -21,7 +19,6 @@ import { CommentPayload } from '../payloads/comment.payload';
 import { UpdateCommentPayload } from '../payloads/update-comment.payload';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { User } from 'src/modules/user/entities/user.entity';
-import { TicketService } from 'src/modules/ticket/services/ticket.service';
 
 @Controller('comment')
 @ApiTags('comment')
@@ -50,13 +47,14 @@ export class CommentController {
     description: 'get all comments by ticket id',
   })
   async getAllByTicketId(
+    @ReqUser() user: User,
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
   ) {
-    return this.commentService.getAllByTicketId(id);
+    return this.commentService.getAllByTicketId(user.id, id);
   }
 
   @Patch(':id')

@@ -19,7 +19,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { UserRole } from '../enums/role.enum';
 import { SearchQueryDto } from '../dto/search.dto';
@@ -32,7 +31,7 @@ import { User } from '../entities/user.entity';
 @ApiTags('user')
 @ApiBearerAuth()
 @UsePipes(ValidationPipe)
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(RolesGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -113,7 +112,6 @@ export class UserController {
     description: 'delete a users',
   })
   @Roles(UserRole.ADMIN)
-  @UseGuards(RolesGuard)
   async deleteUser(
     @Param(
       'id',
