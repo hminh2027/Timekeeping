@@ -18,7 +18,7 @@ const TicketContent = () => {
   const [filterOptions, setFilterOptions] = useState({
     title: "",
     type: "",
-    status: "pending",
+    status: "",
   });
   const [sortOption, setSortOption] = useState({
     sortBy: "createdAt",
@@ -42,8 +42,6 @@ const TicketContent = () => {
   // Gọi api khi filter option thay đổi
   return (
     <div className="flex-col flex-1 gap-8">
-      <Header toggleModal={toggle} />
-
       <div
         className="flex flex-col m-1 overflow-auto rounded-lg "
         style={{
@@ -51,6 +49,7 @@ const TicketContent = () => {
           boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
         }}
       >
+        <Header toggleModal={toggle} />
         <DesktopFilter
           onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
           className="hidden lg:flex"
