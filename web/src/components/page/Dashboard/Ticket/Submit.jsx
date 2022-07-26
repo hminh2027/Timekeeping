@@ -6,9 +6,10 @@ import { useGetManagers } from "src/rest/user/user.query";
 import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 import moment from "moment";
 import { useAddTicketMutation } from "@/rest/ticket/ticket.query";
+import { useQueryClient } from "@tanstack/react-query";
 const { Option } = Select;
 
-const SubmitTicket = React.memo(() => {
+const SubmitTicket = React.memo((props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const { data: managers } = useGetManagers();
@@ -17,13 +18,15 @@ const SubmitTicket = React.memo(() => {
     endDate: moment(new Date(Date.now())).format("YYYY-MM-DD"),
     title: "",
     content: "",
-    ticketType: SUBMIT_TICKET_TYPES[0].value,
+    ticketType: SUBMIT_TICKET_TYPES[0],
     recipientId: "",
   });
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+  console.log(data);
   // console.log(data.recipient.id);
+  const queryClient = useQueryClient();
   const { mutate: addTicket } = useAddTicketMutation();
 
   const submit = async () => {
@@ -40,9 +43,11 @@ const SubmitTicket = React.memo(() => {
       addTicket(submitData, {
         onSuccess: () => {
           console.log("Success!");
+          queryClient.invalidateQueries(["get-my-tickets-with-sort"]);
+          props.hide();
         },
         onError: (err) => {
-          console.error("Error!");
+          throw new Error(err);
         },
       });
     } catch (err) {
