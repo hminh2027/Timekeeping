@@ -150,7 +150,7 @@ const TicketListItem = (props) => {
           Author:
         </div>
         {/* <div className="flex-1">{author.lastName+" "+author.firstName}</div> */}
-        <div className="flex-1">{"Linh"}</div>
+        <div className="flex-1">{author.lastName+" "+author.firstName}</div>
       </div>
       <div
         style={{ flex: "1 0 5em" }}
@@ -182,7 +182,7 @@ const TicketListItem = (props) => {
         <div className="flex-1">{new Date(createdAt).toLocaleDateString()}</div>
       </div>
       <div style={{ flex: "1 0 2em" }} className="font-light text-gray-500">
-        <Approve id={id} num={status}></Approve>
+        <Approve id={id} num={status} authorId={author.id}></Approve>
       </div>
     </div>
   );

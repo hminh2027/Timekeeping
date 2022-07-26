@@ -25,7 +25,7 @@ const CreateUser = (props) => {
     }
     const handleChange = (e) => {
         setUserData({ ...UserData, [e.target.name]: e.target.value });
-      };
+    };
     return (
     <>
       <div className="card">

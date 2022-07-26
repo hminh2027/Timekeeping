@@ -1,5 +1,5 @@
-const CommentChild = ({ id, content }) => {
-  if (id == 1) {
+const CommentChild = ({ id,userId, content }) => {
+  if (id == userId) {
     return (
       <div className="flex justify-start">
         <div className="w-min mt-1 border border-solid border-teal-500 rounded-2xl truncate p-2 bg-slate-100">
