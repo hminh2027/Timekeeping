@@ -8,6 +8,12 @@ export const useGetUserQuery = (sort) => {
   });
 };
 
+export const useGetUserIdQuery = (id) => {
+  return useQuery(["get-user-id"], () => {
+    return UserService.getUserId(id);
+  });
+};
+
 export const useDeleteUserMutation = () => {
   return useMutation((id) => {
     return UserService.deleteUser(id);
@@ -31,4 +37,10 @@ export const useGetManagers = (id) => {
       cacheTime: 60 * 60 * 60 * 24,
     }
   );
+};
+export const useUpdateUserMutation = () => {
+  return useMutation((data) => {
+    let { id, ...user } = data;
+    return UserService.updateUser(id, user);
+  });
 };

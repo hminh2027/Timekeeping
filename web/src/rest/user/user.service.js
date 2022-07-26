@@ -11,8 +11,11 @@ class User extends BaseService {
   }
   updateUser(id, data) {
     return this.http
-      .put(`${this.basePath}/${id}`, data)
+      .patch(`${this.basePath}/${id}`, data)
       .then((res) => res.data);
+  }
+  getUserId(id) {
+    return this.http.get(`${this.basePath}/${id}`).then((res) => res.data);
   }
   getManagers() {
     return this.http.get(`${this.basePath}/admin`).then((res) => res.data);

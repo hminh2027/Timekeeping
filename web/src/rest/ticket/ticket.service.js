@@ -30,6 +30,16 @@ class Ticket extends BaseService {
       .patch(`${this.basePath}/${id}`, ticketInfo)
       .then((res) => res.data);
   }
+  approveTicket(id) {
+    return this.http.patch(`${this.basePath}/${id}/approve`).then((res)=> res.data);
+  }
+  rejectTicket(id) {
+    return this.http.patch(`${this.basePath}/${id}/reject`).then((res) => res.data);
+  }
+  deleteTicket(id) {
+    return this.http.delete(`${this.basePath}/${id}`);
+  }
 }
+
 
 export const TicketService = new Ticket("ticket");
