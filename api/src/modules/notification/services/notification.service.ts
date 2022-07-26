@@ -1,28 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { SocketService } from 'src/modules/socket/socket.service';
 import { CreateNotificationDto } from '../dto/create-notification.dto';
-import { UpdateNotificationDto } from '../dto/update-notification.dto';
 import { NotificationRepository } from '../repositories/notification.repository';
 
 @Injectable()
 export class NotificationService {
   constructor(
     private readonly notificationRepository: NotificationRepository,
+    private readonly socketService: SocketService,
   ) {}
 
-  create(createNotificationDto: CreateNotificationDto) {
-    return 'This action adds a new notification';
+  async create(payload: CreateNotificationDto) {
+    // this.socketService.sendNoti(payload.content, payload.userId);
+    const noti = await this.notificationRepository.create(payload);
+    await this.notificationRepository.save(noti);
+
+    return;
   }
 
-  async findAll() {
-    return await this.notificationRepository.find();
+  getByRecipientId(id: number) {
+    return this.notificationRepository
+      .createQueryBuilder('notifications')
+      .leftJoinAndSelect('notifications.recipients', 'user')
+      .where('user.id = :id', { id })
+      .getMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notification`;
-  }
-
-  update(id: number, updateNotificationDto: UpdateNotificationDto) {
-    return `This action updates a #${id} notification`;
+  async updateReadNotification(id: number, userId: number) {
+    const noti = await this.notificationRepository
+      .createQueryBuilder('notifications')
+      .leftJoinAndSelect('notifications.recipients', 'user')
+      .where('user.id = :userId', { userId })
+      .andWhere('notifications.id = :id', { id })
+      .getOne();
+    if (!noti) throw new NotFoundException('Notification not found');
+    return;
   }
 
   remove(id: number) {

@@ -6,15 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
   UsePipes,
   ValidationPipe,
-  UseGuards,
+  ParseIntPipe,
+  HttpStatus,
 } from '@nestjs/common';
-import { NotificationService } from '../services/notification.service';
-import { CreateNotificationDto } from '../dto/create-notification.dto';
-import { UpdateNotificationDto } from '../dto/update-notification.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ReqUser } from 'src/common/decorators/user.decorator';
+import { User } from 'src/modules/user/entities/user.entity';
+import { NotificationService } from '../services/notification.service';
 
 @Controller('notification')
 @ApiTags('notification')
@@ -24,31 +26,34 @@ import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
-  @Post()
-  create(@Body() createNotificationDto: CreateNotificationDto) {
-    return this.notificationService.create(createNotificationDto);
-  }
-
   @Get()
-  findAll() {
-    return this.notificationService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notificationService.findOne(+id);
+  @ApiOperation({
+    description: 'get all notifications by user id',
+  })
+  async getAllByRecipientId(@ReqUser() user: User) {
+    return this.notificationService.getByRecipientId(user.id);
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateNotificationDto: UpdateNotificationDto,
-  ) {
-    return this.notificationService.update(+id, updateNotificationDto);
+  @ApiOperation({
+    description: 'mark is read a notification',
+  })
+  async updateReadNotification(@Param('id') id: number, @ReqUser() user: User) {
+    return this.notificationService.updateReadNotification(id, user.id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notificationService.remove(+id);
-  }
+  // @Delete(':id')
+  // @ApiOperation({
+  //   description: 'delete a comment by id',
+  // })
+  // async remove(
+  //   @ReqUser() user: User,
+  //   @Param(
+  //     'id',
+  //     new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+  //   )
+  //   id: number,
+  // ) {
+  //   return this.notificationService.remove(id, user.id);
+  // }
 }

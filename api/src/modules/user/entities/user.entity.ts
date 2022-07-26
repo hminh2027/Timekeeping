@@ -7,8 +7,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
-  ManyToOne,
-  JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Checkin } from '../../checkin/entities/checkinout.entity';
 import { LoginHistory } from '../../login-history/entities/login-history.entity';
@@ -50,6 +49,9 @@ export class User {
 
   @OneToMany(() => LoginHistory, (loginHistory) => loginHistory.id)
   loginHistories: LoginHistory[];
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   @BeforeInsert()
   async setPassword(password: string | undefined): Promise<void> {

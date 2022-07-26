@@ -1,10 +1,11 @@
 import { Button, Input, Select, Space } from "antd";
 import React from "react";
-import {useDeleteUserMutation} from "src/rest/user/user.query"
+
 import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
-import { useQueryClient } from "@tanstack/react-query";
-import { CreditUser } from "./ModalUsers";
+
+import CreditUser from "@/components/page/admin/users/CreditUserModal";
+import DeleteNotification from "@/components/page/admin/users/DeleteNotificationModal";
 const { Option } = Select;
 
 const TableUsers = React.memo((props) => {
@@ -56,18 +57,9 @@ const UserItem = (props) => {
     email,
     role,
   } = props;
-  const { isShowing, toggle } = UseModal();
+  
   const statusIcon = [];
-  const {mutate:  doDelete} = useDeleteUserMutation();
-  const queryClient = useQueryClient()
-  async function handleDelete(id){
-    await doDelete(id,{
-      onSuccess: ()=>{
-        console.log("success")
-        queryClient.invalidateQueries(['get-user'])
-      }
-    })
-  }
+  
   return (
     <div className="items-center w-full py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
       <div style={{ flex: "1 0 3em" }} className="flex text-sky-800">
@@ -111,16 +103,40 @@ const UserItem = (props) => {
           Action:
         </div>
         <div className="flex-1">
-          <button onClick={toggle} className="border border-solid border-teal-700 p-1 rounded-xl hover:bg-teal-600 mr-2">🖊️</button>
-          <Modal isShowing={isShowing} hide={toggle}>
-            <div className="flex">
-              <CreditUser hide={toggle} id={id} firstName={firstName} lastName={lastName} email={email} role={role}/>
-            </div>
-          </Modal>
-          <button onClick={()=>handleDelete(id)} className="border border-solid border-gray-500 p-1 rounded-xl hover:bg-gray-400">🗑️</button>
+          <Credit id={id} firstName={firstName} lastName={lastName} email={email} role={role}/>
+          <Delete id={id}/>
         </div>
       </div>
     </div>
   );
 };
+
+const Credit = ({id, firstName, lastName, email, role}) => {
+  const { isShowing, toggle } = UseModal();
+  return (
+    <>
+      <button onClick={toggle} className="border border-solid border-teal-700 p-1 rounded-xl hover:bg-teal-600 mr-2">🖊️</button>
+      <Modal isShowing={isShowing} hide={toggle}>
+        <div className="flex">
+          <CreditUser hide={toggle} id={id} firstName={firstName} lastName={lastName} email={email} role={role}/>
+        </div>
+      </Modal>
+    </>
+    
+  )
+}
+
+const Delete = ({id}) => {
+  const { isShowing, toggle } = UseModal();
+  return (
+    <>
+      <button onClick={toggle} className="border border-solid border-gray-500 p-1 rounded-xl hover:bg-gray-400">🗑️</button>
+      <Modal isShowing={isShowing} hide={toggle}>
+        <div className="flex">
+          <DeleteNotification hide={toggle} id={id}/>
+        </div>
+      </Modal>
+    </>
+  )
+}
 export default TableUsers ;

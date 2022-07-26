@@ -17,7 +17,7 @@ export class Comment {
   @Column({ length: 255 })
   content!: string;
 
-  @Column({ select: false })
+  @Column()
   ticketId!: number;
 
   @CreateDateColumn()

@@ -4,7 +4,7 @@ import Modal from "@/components/Common/Modal";
 import CheckTicket from "./Check";
 import CommentTicket from "./CommentTicket";
 
-const Approve = ({ num, id }) => {
+const Approve = ({ num, id, authorId}) => {
   const { isShowing, toggle } = UseModal();
   console.log("ticket", num, id);
   if (num == "pending") {
@@ -18,7 +18,7 @@ const Approve = ({ num, id }) => {
         <Modal isShowing={isShowing} hide={toggle}>
           <div className="flex">
             <CheckTicket id={id} hide={toggle} disabled={false} />
-            <CommentTicket id={id} disabled={false} />
+            <CommentTicket id={id} authorId={authorId} disabled={false} />
           </div>
         </Modal>
       </div>
@@ -34,7 +34,7 @@ const Approve = ({ num, id }) => {
         <Modal isShowing={isShowing} hide={toggle}>
           <div className="flex">
             <CheckTicket id={id} hide={toggle} disabled={true} />
-            <CommentTicket id={id} disabled={true} />
+            <CommentTicket id={id} authorId={authorId} disabled={true} />
           </div>
         </Modal>
       </div>
