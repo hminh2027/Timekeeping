@@ -8,6 +8,12 @@ export const useGetUserQuery = (sort) => {
   });
 }
 
+export const useGetUserIdQuery = (id) => {
+  return useQuery(["get-user-id"], () => {
+    return UserService.getUserId(id);
+  })
+}
+
 export const useDeleteUserMutation = () => {
   return useMutation((id)=> {
     return UserService.deleteUser(id);
@@ -19,3 +25,11 @@ export const usePostUserMutation = () => {
     return AuthService.postUser(data)
   })
 }
+
+export const useUpdateUserMutation = () => {
+  return useMutation((data) => {
+    let {id,...user} = data
+    return UserService.updateUser(id,user)
+  })
+}
+

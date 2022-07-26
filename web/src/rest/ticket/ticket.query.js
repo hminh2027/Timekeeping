@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { TicketService } from "./ticket.service";
 
 export const useGetMeTicketQuery = () => {
@@ -23,4 +23,21 @@ export const useGetTicketTypeQuery = () => {
   return useQuery(["get-ticket-type", () => { 
     return TicketService.getTicketType();
   }])
+}
+
+export const useApproveTicketMutation = () => {
+  return useMutation((id) => {
+    return TicketService.approveTicket(id);
+  })
+}
+
+export const useRejectTicketMutation = () => {
+  return useMutation((id) => {
+    return TicketService.rejectTicket(id);
+  })
+}
+export const useDeleteTicketMutation = () => {
+  return useMutation((id) => {
+    return TicketService.deleteTicket(id);
+  })
 }
