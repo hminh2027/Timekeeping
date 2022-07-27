@@ -6,10 +6,8 @@ class Comment extends BaseService {
     return this.http.get(`${this.basePath}/${id}`).then((res) => res.data);
   }
   postComment(data) {
-    return this.http.post(`${this.basePath}`,data).then((res) => res.data);
+    return this.http.post(`${this.basePath}`, data).then((res) => res.data);
   }
-  
 }
-
 
 export const CommentService = new Comment("comment");

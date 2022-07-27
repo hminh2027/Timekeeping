@@ -45,7 +45,7 @@ const ForgotPassword = () => {
   };
   return (
     <Form title="Recover Password">
-      <div className="flex flex-col gap-6 w-full ">
+      <div className="flex w-full flex-col gap-6 ">
         {errors && (
           <div className="flex flex-col">
             {errors.map((err, index) => (

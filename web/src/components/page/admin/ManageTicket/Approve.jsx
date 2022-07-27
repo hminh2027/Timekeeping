@@ -4,15 +4,16 @@ import Modal from "@/components/Common/Modal";
 import CheckTicket from "./Check";
 import CommentTicket from "./CommentTicket";
 
-const Approve = ({ num, id, authorId}) => {
+const Approve = ({ num, id, authorId }) => {
   const { isShowing, toggle } = UseModal();
   console.log("ticket", num, id);
   if (num == "pending") {
     return (
       <div>
-        <button  
-          className="w-4/5 border border-solid border-teal-700 p-1 bg-white hover:bg-teal-700 hover:text-stone-100 text-black rounded-lg"
-          onClick={toggle}>
+        <button
+          className="w-4/5 rounded-lg border border-solid border-teal-700 bg-white p-1 text-black hover:bg-teal-700 hover:text-stone-100"
+          onClick={toggle}
+        >
           Approve
         </button>
         <Modal isShowing={isShowing} hide={toggle}>
@@ -26,9 +27,10 @@ const Approve = ({ num, id, authorId}) => {
   } else {
     return (
       <div className="flex">
-        <button 
-          className="w-4/5 border border-solid border-gray-600 p-1 bg-slate-300 hover:bg-gray-600 hover:text-stone-100 rounded-lg text-black "
-          onClick={toggle}>
+        <button
+          className="w-4/5 rounded-lg border border-solid border-gray-600 bg-slate-300 p-1 text-black hover:bg-gray-600 hover:text-stone-100 "
+          onClick={toggle}
+        >
           View
         </button>
         <Modal isShowing={isShowing} hide={toggle}>
@@ -41,7 +43,5 @@ const Approve = ({ num, id, authorId}) => {
     );
   }
 };
-
-
 
 export default Approve;

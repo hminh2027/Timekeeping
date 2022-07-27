@@ -1,8 +1,8 @@
-import AdminLayout from '@/layout/AdminLayout/AdminLayout';
-import React, { useEffect, useState } from 'react'
-import TableUsers from './TableUser';
-import { DesktopFilter, MobileFilter } from './Filter';
-import { useGetUserQuery } from 'src/rest/user/user.query';
+import AdminLayout from "@/layout/AdminLayout/AdminLayout";
+import React, { useEffect, useState } from "react";
+import TableUsers from "./TableUser";
+import { DesktopFilter, MobileFilter } from "./Filter";
+import { useGetUserQuery } from "src/rest/user/user.query";
 const AdminUserPage = () => {
   // const dispatch = useDispatch();
   // const users = useSelector(selectUsers);
@@ -19,17 +19,17 @@ const AdminUserPage = () => {
   //   fetchUserData();
   // },[filterOptions])
   const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
-  console.log("SORT USER", sortOptions)
+  console.log("SORT USER", sortOptions);
   const { data: Users } = useGetUserQuery(sortOptions);
   return (
     // <div>AdminUserPage</div>
     <div className="w-full">
-      <div className="flex items-center justify-between w-full px-4 py-6 bg-white">
+      <div className="flex w-full items-center justify-between bg-white px-4 py-6">
         <div className="text-3xl font-bold">Manage User</div>
       </div>
       <div span={24}>
         <div
-          className="flex flex-col m-1 overflow-auto rounded-lg"
+          className="m-1 flex flex-col overflow-auto rounded-lg"
           style={{
             backgroundColor: "#fff",
             boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
@@ -43,7 +43,7 @@ const AdminUserPage = () => {
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
           />
-          <TableUsers Users = {Users}/>
+          <TableUsers Users={Users} />
         </div>
       </div>
     </div>
