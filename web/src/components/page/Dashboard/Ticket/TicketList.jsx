@@ -96,7 +96,7 @@ const TicketListItem = (props) => {
   const dispatch = useDispatch();
   const {
     id,
-    content: { status, title, ticketType, startDate, endDate },
+    content: { status, title, ticketType, startDate },
   } = props;
   const actions = [
     {
