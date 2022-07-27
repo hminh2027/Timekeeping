@@ -7,8 +7,8 @@ const CreditUser = (props) => {
   const [UserData, setUserData] = useState({
     firstName: props.firstName,
     lastName: props.lastName,
-    // role: props.role,
-    // password: props.password
+    role: props.role,
+    password: props.password
   });
   const handleChange = (e) => {
     setUserData({ ...UserData, [e.target.name]: e.target.value });
@@ -23,9 +23,7 @@ const CreditUser = (props) => {
             queryClient.invalidateQueries(['get-user'])
         }
       })
-    }
-  // const {data: user} = useGetUserIdQuery(props.id);
-  
+    }  
   return (
     <>
       <div className="card">
@@ -87,7 +85,7 @@ const CreditUser = (props) => {
                   type="text"
                   name="role"
                   placeholder="Role"
-                  value={props.role}
+                  value={UserData.role}
                   onChange={(e) => {
                     handleChange(e);
                   }}
@@ -101,7 +99,7 @@ const CreditUser = (props) => {
                   type="password"
                   className=" flex-1 border border-solid border-gray-300 p-2 text-gray-500"
                   name="password"
-                  value={props.password}
+                  value={UserData.password}
                   placeholder="Password"
                   onChange={(e) => {
                     handleChange(e);

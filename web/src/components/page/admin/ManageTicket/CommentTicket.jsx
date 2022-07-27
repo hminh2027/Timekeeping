@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useGetCommentIdQuery, usePostCommentMutation } from "@/rest/comment/comment.query";
 import { useQueryClient } from "@tanstack/react-query";
 const CommentTicket = ({ id, authorId}) => {
-  const [isAddComment, setAddComment] = useState(false);
+  // const [isAddComment, setAddComment] = useState(false);
   const [Comment, setCommentData] = useState({
     content: "",
     ticketId: id,
@@ -34,7 +34,7 @@ const CommentTicket = ({ id, authorId}) => {
           ))}
         </div>
         <div className="flex">
-          <textarea
+          <input
             type="text"
             name="content"
             placeholder="comment"
@@ -49,7 +49,7 @@ const CommentTicket = ({ id, authorId}) => {
             onClick={() => {
               handleSubmit(Comment);
             }}
-          >add</button>
+          >Send</button>
         </div>
       </div>
     </div>
