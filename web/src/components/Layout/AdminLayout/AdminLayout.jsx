@@ -55,14 +55,10 @@ const AdminLayout = (props) => {
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}
-<<<<<<< HEAD
       <div className="z-10 flex flex-1 ">
-=======
-      <div className="flex flex-1 flex-row">
->>>>>>> develop
         <SidebarMenu />
         {/* Content */}
-        <div className="w-full lg:flex lg:flex-1 bg-[#fafafa]">
+        <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
           {props.children}
         </div>
       </div>
