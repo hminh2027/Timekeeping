@@ -103,8 +103,15 @@ const TicketListItem = (props) => {
       style: "v-btn-green",
       onClick: cancelHandler,
     });
-  console.log(actions);
   const statusIcon = [];
+
+  const TICKET_STATUS = {
+    REJECTED: { background: "bg-[#ffedeb]", text: "text-red-600" },
+    APPROVED: { background: "bg-[#e5f7ed]", text: "text-[#00b14f]" },
+    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-red-600" },
+    PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
+  };
+
   switch (status) {
     case "rejected": {
       statusIcon.push("🔴");
@@ -168,7 +175,13 @@ const TicketListItem = (props) => {
           Status:
         </div>
         <div className="flex-1">
-          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+          <div
+            className={`w-fit rounded-xl p-2 text-black ${
+              TICKET_STATUS[status.toUpperCase()].background
+            } ${TICKET_STATUS[status.toUpperCase()].text}`}
+          >
+            {status}
+          </div>
         </div>
       </div>
       <div

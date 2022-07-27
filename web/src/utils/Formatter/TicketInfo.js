@@ -7,7 +7,6 @@ const TicketInfoFormatter = (ticket) => {
   if (ticket.ticketStatus === "pending")
     actions.push({ title: "Cancel", style: "v-btn-green" });
 
-  // <div className=""></div>
   return {
     id: ticket.id,
     content: {

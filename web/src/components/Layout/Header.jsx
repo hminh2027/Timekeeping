@@ -9,9 +9,9 @@ const Header = () => {
 
   return (
     <div className="shadow-black-500/40 z-20 flex max-h-28 w-full items-center bg-[#ffffff]  py-7 shadow-md ">
-      <div className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <div className="flex flex-wrap items-center">
-          <div className="mx-5 flex w-40 items-center">
+          <div className="flex items-center w-40 mx-5">
             <Image
               className=""
               src="/Image/logo.png"
@@ -29,12 +29,13 @@ const Header = () => {
             <div className="underline">Role: {userInfo.role}</div>
           </div>
         </div>
-        <div className="flex overflow-hidden border rounded-full border-slate-800">
-          <Image
-            className=""
+        <div className="flex w-16 h-16 overflow-hidden border rounded-full border-slate-800">
+          <img
+            className="object-contain aspect-square"
             src="/Image/logo.png"
-            width={60}
-            height={60}
+            // width={1}
+            // height={1}
+            // layout="responsive"
             alt="Đây là Logo"
             fallback="Đây là Logo"
           />
