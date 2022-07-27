@@ -7,9 +7,9 @@ const Form = (props) => {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className="flex flex-col items-center justify-center p-12 rounded-md"
+      className="flex flex-col items-center justify-center rounded-md p-12"
     >
-      <div className="text-5xl font-bold mb-8">{props.title}</div>
+      <div className="mb-8 text-5xl font-bold">{props.title}</div>
       {props.children}
     </form>
   );

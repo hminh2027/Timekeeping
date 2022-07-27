@@ -2,7 +2,7 @@ import { menuItems } from "./Menu.config";
 import MenuLabel from "./MenuLabel";
 const MobileMenu = () => {
   return (
-    <div className="flex w-full text-sm justify-evenly lg:hidden">
+    <div className="flex w-full justify-evenly text-sm lg:hidden">
       {menuItems.map((menuItem) => (
         <MenuLabel
           key={menuItem.value}

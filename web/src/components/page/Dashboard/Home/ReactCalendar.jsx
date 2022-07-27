@@ -115,7 +115,7 @@ const ReactCalendar = () => {
             src={`${process.env.APP_URL}${
               checkInInfo && checkInInfo.checkInImage
             }`}
-            className="object-contain w-full h-full aspect-video"
+            className="aspect-video h-full w-full object-contain"
             crossOrigin="anonymous"
           />
         </div>
@@ -134,7 +134,7 @@ const ReactCalendar = () => {
           {checkInInfo && checkInInfo.checkOutImage && (
             <img
               src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
-              className="object-contain w-full h-full aspect-video"
+              className="aspect-video h-full w-full object-contain"
               crossOrigin="anonymous"
             />
           )}
@@ -154,9 +154,9 @@ const ReactCalendar = () => {
         }}
         className="card-body"
       >
-        <div className="flex flex-col items-center justify-center min-w-mobile">
+        <div className="flex min-w-mobile flex-col items-center justify-center">
           {loadingInfo ? (
-            <div className="text-3xl animate-spin">⏳</div>
+            <div className="animate-spin text-3xl">⏳</div>
           ) : checkInInfo ? (
             infoCard
           ) : (

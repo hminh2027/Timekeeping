@@ -6,6 +6,7 @@ import Modal from "@/components/Common/Modal";
 import CommentTicket from "./CommentTicket";
 import TicketInfo from "./TicketInfo";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const initSort = {
   createdAt: false,
@@ -117,11 +118,26 @@ const TicketList = (props) => {
 };
 const TicketListItem = (props) => {
   const { isShowing, toggle } = UseModal();
+  const router = useRouter();
   const dispatch = useDispatch();
   const {
     id,
-    content: { status, title, ticketType, startDate, endDate, actions },
+    content: { status, title, ticketType, startDate, endDate },
   } = props;
+  const actions = [
+    {
+      title: "Detail",
+      style: "v-btn",
+      onClick: () => router.push(`/dashboard/ticket/${id}`),
+    },
+  ];
+  if (status === "pending")
+    actions.push({
+      title: "Cancel",
+      style: "v-btn-green",
+      onClick: cancelHandler,
+    });
+  console.log(actions);
   const statusIcon = [];
   switch (status) {
     case "rejected": {
@@ -149,22 +165,26 @@ const TicketListItem = (props) => {
   };
   return (
     <div
-      className="items-center py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
+      className="items-center border-b border-b-orange-600 py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8"
       // onClick={() => openModal(id)}
     >
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 font-semibold text-ellipsis max-w-32 overflow-clip">
-          <Link href={`/dashboard/ticket/${id}`}>{title}</Link>
+        <div className="flex-1 ">
+          <Link href={`/dashboard/ticket/${id}`}>
+            <div className="max-w-32 cursor-pointer overflow-clip text-ellipsis font-semibold">
+              {title}
+            </div>
+          </Link>
         </div>
       </div>
       <div
         style={{ flex: "1 0 3em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Type:
         </div>
         <div className="flex-1">{ticketType}</div>
@@ -173,7 +193,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 1 2em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Status:
         </div>
         <div className="flex-1">
@@ -184,7 +204,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
         <div className="flex-1">{startDate}</div>
@@ -193,7 +213,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Start date:
         </div>
         <div className="flex-1">{startDate}</div>
@@ -202,25 +222,20 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500"
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           End date:
         </div>
         <div className="flex-1">{endDate}</div>
       </div>
       <div
         style={{ flex: "1 0 3em" }}
-        className="flex justify-end font-light text-gray-500 lg:justify-start"
+        className="flex justify-end gap-2 font-light text-gray-500 lg:justify-start"
       >
-        {actions.map((action) => {
-          const style = action.style;
-          if (action.title.trim() !== "") {
-            return (
-              <button className="v-btn-third" onClick={() => cancelHandler(id)}>
-                {action.title}
-              </button>
-            );
-          }
-        })}
+        {actions?.map((action) => (
+          <button className={action.style} onClick={action.onClick}>
+            {action.title}
+          </button>
+        ))}
       </div>
     </div>
   );

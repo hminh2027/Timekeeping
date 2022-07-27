@@ -8,10 +8,10 @@ const Header = () => {
   const userInfo = useSelector(selectUserInfo);
 
   return (
-    <div className="flex z-20 items-center w-full max-h-28 py-7 bg-[#ffffff]  shadow-md shadow-black-500/40 ">
-      <div className="flex items-center justify-between w-full">
+    <div className="shadow-black-500/40 z-20 flex max-h-28 w-full items-center bg-[#ffffff]  py-7 shadow-md ">
+      <div className="flex w-full items-center justify-between">
         <div className="flex flex-wrap items-center">
-          <div className="flex items-center w-40 mx-5">
+          <div className="mx-5 flex w-40 items-center">
             <Image
               className=""
               src="/Image/logo.png"
