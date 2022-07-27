@@ -115,27 +115,31 @@ const ReactCalendar = () => {
             src={`${process.env.APP_URL}${
               checkInInfo && checkInInfo.checkInImage
             }`}
-            className="w-full h-full aspect-video"
+            className="w-full h-full aspect-video object-contain"
             crossOrigin="anonymous"
           />
         </div>
       </div>
 
-      {checkInInfo && checkInInfo.checkOutImage && (
-        <div className="flex flex-col items-center">
-          <div className="flex items-center gap-4">
-            <div>CheckOut time:</div>
-            <div> {checkInInfo.checkOutTime} </div>
-          </div>
-          <div className="max-w-xs">
-            <img
-              src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
-              className="w-full h-full aspect-video"
-              crossOrigin="anonymous"
-            />
+      <div className="flex flex-col items-center">
+        <div className="flex items-center gap-4">
+          <div>CheckOut time:</div>
+          <div>
+            {checkInInfo &&
+              checkInInfo.checkOutImage &&
+              checkInInfo.checkOutTime}
           </div>
         </div>
-      )}
+        <div className="max-w-xs">
+          {checkInInfo && checkInInfo.checkOutImage && (
+            <img
+              src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
+              className="w-full h-full aspect-video object-contain"
+              crossOrigin="anonymous"
+            />
+          )}
+        </div>
+      </div>
     </>
   );
 
