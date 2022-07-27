@@ -104,7 +104,11 @@ export class UserController {
     return {
       statusCode: HttpStatus.OK,
       message: 'User updated successfully',
-      data: await this.userService.update(id, payload),
+      data: await this.userService.update(id, {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        role: payload.role,
+      }),
     };
   }
 
