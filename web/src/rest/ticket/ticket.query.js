@@ -31,7 +31,6 @@ export const useGetTicketTypeQuery = () => {
   ]);
 };
 export const useGetMyTicketWithSortQuery = (sortOptions) => {
-  // console.log(sortOptions);
   return useQuery(
     [USER_TICKET.WITH_SORT, sortOptions],
     () => TicketService.getMyTicketWithSort(sortOptions),

@@ -91,7 +91,6 @@ const TicketList = (props) => {
   );
 };
 const TicketListItem = (props) => {
-  const { isShowing, toggle } = UseModal();
   const router = useRouter();
   const dispatch = useDispatch();
   const {
@@ -108,7 +107,7 @@ const TicketListItem = (props) => {
   if (status === "pending")
     actions.push({
       title: "Cancel",
-      style: "v-btn-green",
+      style: "v-btn-gray",
       onClick: cancelHandler,
     });
   console.log(actions);

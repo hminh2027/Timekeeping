@@ -40,7 +40,7 @@ const CheckingCard = (props) => {
         }
         props.state === "checkin"
           ? await api.post("checkin", payload)
-          : await api.patch("checkin", payload);
+          : await api.post("checkout", payload);
         dispatch(fetchCheckInStatus());
       } catch (err) {
         const message = extractMessages(err);
