@@ -24,12 +24,12 @@ const LoginLayout = (props) => {
   // }, []);
 
   const content = (
-    <div className="flex w-full min-h-screen justify-center items-center px-1 flex-wrap">
+    <div className="flex min-h-screen w-full flex-wrap items-center justify-center px-1">
       <Image
         src="https://img.freepik.com/free-vector/construction-mobile-application-interface-ui-ux-mobile-app-vector-illustration_143808-1149.jpg"
         preview={false}
         alt="Login image"
-        className="lg:border-solid lg:border-r-2 lg:border-r-gray-100"
+        className="lg:border-r-2 lg:border-solid lg:border-r-gray-100"
       />
 
       {props.children}

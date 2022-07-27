@@ -31,10 +31,10 @@ const DesktopFilter = (props) => {
     props.onSubmit(data);
   };
   return (
-    <div className={`p-4 bg-white flex ${props.className}`}>
-      <div className="flex flex-row justify-between gap-4 w-full">
+    <div className={`flex bg-white p-4 ${props.className}`}>
+      <div className="flex w-full flex-row justify-between gap-4">
         <div className="flex flex-row gap-8">
-          <div className="flex items-center w-auto gap-4">
+          <div className="flex w-auto items-center gap-4">
             <div className="w-auto">Title:</div>
             <Input
               name="title"
@@ -45,7 +45,7 @@ const DesktopFilter = (props) => {
             />
           </div>
 
-          <div className="flex items-center w-auto gap-4">
+          <div className="flex w-auto items-center gap-4">
             <div className="w-auto">Type:</div>
             <Select
               value={data.type}
@@ -61,8 +61,8 @@ const DesktopFilter = (props) => {
               ))}
             </Select>
           </div>
-          <div className="flex items-center justify-between flex-row">
-            <div className="flex flex-1 items-center w-80 gap-4">
+          <div className="flex flex-row items-center justify-between">
+            <div className="flex w-80 flex-1 items-center gap-4">
               <div className="w-auto">Status:</div>
               <Select
                 defaultValue="all"
@@ -76,7 +76,7 @@ const DesktopFilter = (props) => {
                 options={status}
               ></Select>
             </div>
-            <div className="flex gap-2  w-auto">
+            <div className="flex w-auto  gap-2">
               <div className="flex justify-between gap-1">
                 <div className="">🟢</div>
                 <div className="">Approved</div>
@@ -139,7 +139,7 @@ const MobileFilter = (props) => {
       {usingFilter && (
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col gap-4">
-            <div className="flex items-center w-full">
+            <div className="flex w-full items-center">
               <div className="w-20 ">Title:</div>
               <Input
                 placeholder="Title"
@@ -152,7 +152,7 @@ const MobileFilter = (props) => {
               />
             </div>
 
-            <div className="flex  items-center w-full">
+            <div className="flex  w-full items-center">
               <div className="w-20">Type:</div>
               <Select
                 name="type"
@@ -170,7 +170,7 @@ const MobileFilter = (props) => {
               </Select>
             </div>
             <div className="flex flex-col items-center justify-between gap-4">
-              <div className="flex flex-1 items-center  w-full">
+              <div className="flex w-full flex-1  items-center">
                 <div className="w-20">Status:</div>
                 <Select
                   name="status"
@@ -185,7 +185,7 @@ const MobileFilter = (props) => {
                 ></Select>
               </div>
 
-              <div className="flex gap-2 flex-1 w-full flex-wrap">
+              <div className="flex w-full flex-1 flex-wrap gap-2">
                 <div className="flex justify-between gap-1">
                   <div className="">🟢</div>
                   <div className="">Approved</div>

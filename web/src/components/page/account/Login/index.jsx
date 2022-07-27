@@ -90,7 +90,7 @@ const LoginForm = () => {
   };
   return (
     <Form title="Login">
-      <div className="flex flex-col w-full gap-10">
+      <div className="flex w-full flex-col gap-10">
         {loginSuccess && (
           <div style={{ color: "rgb(108, 196, 161)", fontSize: "1.1rem" }}>
             Login successful! Redirecting...
@@ -127,7 +127,7 @@ const LoginForm = () => {
           />
         </div>
         <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center w-full gap-2">
+          <div className="flex w-full items-center gap-2">
             <LockOutlined style={{ fontSize: "1.5rem" }} />
             <Input.Password
               placeholder="Password"
@@ -149,13 +149,13 @@ const LoginForm = () => {
             />
           </div>
 
-          <div className="flex flex-row-reverse items-center w-full">
+          <div className="flex w-full flex-row-reverse items-center">
             <Link href="/account/forgot">Forgot Password?</Link>
           </div>
         </div>
 
         <button
-          className="w-full v-btn-primary"
+          className="v-btn-primary w-full"
           // style={{ width: "100%", borderRadius: "6px" }}
           onClick={(e) => {
             e.preventDefault();

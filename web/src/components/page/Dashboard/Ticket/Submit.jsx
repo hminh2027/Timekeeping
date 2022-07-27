@@ -88,15 +88,15 @@ const SubmitTicket = React.memo((props) => {
               <div style={{ color: error.color }}>{error.message}</div>
             ))}
         </div>
-        <div className="flex flex-col w-full justify-center gap-5">
-          <div className="flex flex-col flex-wrap w-full justify-start gap-4">
+        <div className="flex w-full flex-col justify-center gap-5">
+          <div className="flex w-full flex-col flex-wrap justify-start gap-4">
             <input
               autoFocus={true}
               type="text"
               name="title"
               value={data.title}
               placeholder="Ticket title"
-              className="w-full v-input"
+              className="v-input w-full"
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -110,7 +110,7 @@ const SubmitTicket = React.memo((props) => {
                 type="date"
                 name="startDate"
                 value={data.startDate}
-                className="flex-1 v-input"
+                className="v-input flex-1"
                 onChange={(e) => {
                   handleChange(e);
                 }}
@@ -125,7 +125,7 @@ const SubmitTicket = React.memo((props) => {
                 type="date"
                 name="endDate"
                 value={data.endDate}
-                className="flex-1 v-input"
+                className="v-input flex-1"
                 onChange={(e) => {
                   handleChange(e);
                 }}

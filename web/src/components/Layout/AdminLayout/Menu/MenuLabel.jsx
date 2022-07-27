@@ -21,7 +21,7 @@ const MenuLabel = (props) => {
   return (
     <Link href={href}>
       <div
-        className="flex flex-col items-center justify-center flex-grow p-4 rounded-md cursor-pointer lg:flex-grow-0 lg:flex-row lg:gap-4 lg:text-lg lg:p-4 lg:justify-start hover:bg-gray-200 active:bg-primary border-b-[#ace5e5] border-b-2"
+        className="flex flex-grow cursor-pointer flex-col items-center justify-center rounded-md border-b-2 border-b-[#ace5e5] p-4 hover:bg-gray-200 active:bg-primary lg:flex-grow-0 lg:flex-row lg:justify-start lg:gap-4 lg:p-4 lg:text-lg"
         style={{ backgroundColor: color[0] }}
         onClick={() => {
           dispatch(changeCurrentItem({ menuItem: id }));

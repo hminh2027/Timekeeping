@@ -67,7 +67,7 @@ const CheckingCard = (props) => {
     </div>
   );
   const content = (
-    <div className="flex flex-col flex-wrap w-full">
+    <div className="flex w-full flex-col flex-wrap">
       {noCam && (
         <Text style={{ color: "rgb(255,0,0)" }}>
           {trans.check.error_no_camera}
@@ -79,7 +79,7 @@ const CheckingCard = (props) => {
           avatar={{ active: true, shape: "square", size: 500 }}
         ></Skeleton>
       ) : (
-        <div className="flex flex-col items-center w-full min-h-md min-w-sm">
+        <div className="flex min-h-md w-full min-w-sm flex-col items-center">
           {capturing && webCam}
 
           {captured && !capturing && imagePreview}

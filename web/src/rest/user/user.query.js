@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { UserService } from "./user.service";
 import { AuthService } from "../auth/auth.service";
-
+import { USER } from "@/utils/constants/react-query";
 export const useGetUserQuery = (sort) => {
   return useQuery(["get-user", sort], () => {
     return UserService.getUser(sort);
@@ -28,7 +28,7 @@ export const usePostUserMutation = () => {
 
 export const useGetManagers = (id) => {
   return useQuery(
-    ["get-managers"],
+    [USER.GET_MANAGERS],
     () => {
       return UserService.getManagers(id);
     },

@@ -33,7 +33,7 @@ const Home = () => {
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={16}>
-          <div className="w-full card">
+          <div className="card w-full">
             <div className="card-body">
               {/* <WorkCalendar /> */}
               <ReactCalendar />

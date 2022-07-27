@@ -44,12 +44,12 @@ const ApproveTicket = () => {
   console.log("getTicket", Tickets);
   return (
     <div className="flex-1">
-      <div className="flex items-center justify-between w-full px-4 py-6 bg-white">
+      <div className="flex w-full items-center justify-between bg-white px-4 py-6">
         <div className="text-3xl font-bold">Manage Ticket</div>
       </div>
       <div span={24}>
         <div
-          className="flex flex-col m-1 overflow-auto rounded-lg"
+          className="m-1 flex flex-col overflow-auto rounded-lg"
           style={{
             backgroundColor: "#fff",
             boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",

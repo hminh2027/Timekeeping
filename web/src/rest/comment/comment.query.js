@@ -8,7 +8,7 @@ export const useGetCommentIdQuery = (id) => {
 };
 
 export const usePostCommentMutation = () => {
-    return useMutation((data) => {
-        return CommentService.postComment(data);
-    })
-}
+  return useMutation((data) => {
+    return CommentService.postComment(data);
+  });
+};
