@@ -40,7 +40,7 @@ const CheckingCard = (props) => {
         }
         props.state === "checkin"
           ? await api.post("checkin", payload)
-          : await api.patch("checkin", payload);
+          : await api.post("checkout", payload);
         dispatch(fetchCheckInStatus());
       } catch (err) {
         const message = extractMessages(err);
@@ -67,7 +67,7 @@ const CheckingCard = (props) => {
     </div>
   );
   const content = (
-    <div className="flex w-full flex-col flex-wrap">
+    <div className="flex flex-col flex-wrap w-full">
       {noCam && (
         <Text style={{ color: "rgb(255,0,0)" }}>
           {trans.check.error_no_camera}
@@ -79,7 +79,7 @@ const CheckingCard = (props) => {
           avatar={{ active: true, shape: "square", size: 500 }}
         ></Skeleton>
       ) : (
-        <div className="flex min-h-md w-full min-w-sm flex-col items-center">
+        <div className="flex flex-col items-center w-full min-h-md min-w-sm">
           {capturing && webCam}
 
           {captured && !capturing && imagePreview}

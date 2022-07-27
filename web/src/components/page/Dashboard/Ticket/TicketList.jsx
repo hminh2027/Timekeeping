@@ -10,24 +10,13 @@ import { useRouter } from "next/router";
 
 const initSort = {
   createdAt: false,
-  startDate: false,
-  endDate: false,
 };
 function reducer(state, action) {
   switch (action.type) {
     case "SORT_CREATED_AT": {
       return { ...initSort, createdAt: action.data };
     }
-    case "SORT_START_DATE": {
-      state = { ...initSort };
-      state.startDate = action.data;
-      return state;
-    }
-    case "SORT_END_DATE": {
-      state = { ...initSort };
-      state.endDate = action.data;
-      return state;
-    }
+
     default:
       return state;
   }
@@ -36,7 +25,7 @@ const TicketList = (props) => {
   const tickets = props.tickets;
   const [state, dispatch] = useReducer(reducer, initSort);
 
-  const { createdAt, startDate, endDate } = state;
+  const { createdAt } = state;
   const sortHandle = (sortBy, orderBy) => {
     const sortOption = {
       sortBy,
@@ -50,10 +39,13 @@ const TicketList = (props) => {
       {/* Table Header */}
       <div
         style={{
-          backgroundColor: "#99e2b4",
+          backgroundColor: "#f0f0f0",
         }}
         className="hidden p-4 font-semibold lg:flex"
       >
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+          Created by
+        </div>
         <div className="font-semibold" style={{ flex: "1 0 10em" }}>
           Title
         </div>
@@ -96,7 +88,7 @@ const TicketListItem = (props) => {
   const dispatch = useDispatch();
   const {
     id,
-    content: { status, title, ticketType, startDate },
+    content: { status, title, ticketType, recipient, createdDate },
   } = props;
   const actions = [
     {
@@ -111,8 +103,15 @@ const TicketListItem = (props) => {
       style: "v-btn-green",
       onClick: cancelHandler,
     });
-  console.log(actions);
   const statusIcon = [];
+
+  const TICKET_STATUS = {
+    REJECTED: { background: "bg-[#ffedeb]", text: "text-red-600" },
+    APPROVED: { background: "bg-[#e5f7ed]", text: "text-[#00b14f]" },
+    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-red-600" },
+    PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
+  };
+
   switch (status) {
     case "rejected": {
       statusIcon.push("🔴");
@@ -139,26 +138,31 @@ const TicketListItem = (props) => {
   };
   return (
     <div
-      className="items-center border-b border-b-orange-600 py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8"
+      className="items-center border-b-4 border-[#fafafa] py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8 "
       // onClick={() => openModal(id)}
     >
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Created by:
+        </div>
+        <div className="flex-1">{recipient.lastName}</div>
+      </div>
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 ">
-          <Link href={`/dashboard/ticket/${id}`}>
-            <div className="max-w-32 cursor-pointer overflow-clip text-ellipsis font-semibold">
-              {title}
-            </div>
-          </Link>
+        <div className="flex-1 font-semibold max-w-32 overflow-clip text-ellipsis">
+          {title}
         </div>
       </div>
       <div
         style={{ flex: "1 0 3em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Type:
         </div>
         <div className="flex-1">{ticketType}</div>
@@ -167,23 +171,28 @@ const TicketListItem = (props) => {
         style={{ flex: "1 1 2em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Status:
         </div>
         <div className="flex-1">
-          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+          <div
+            className={`w-fit rounded-xl p-2 text-black ${
+              TICKET_STATUS[status.toUpperCase()].background
+            } ${TICKET_STATUS[status.toUpperCase()].text}`}
+          >
+            {status}
+          </div>
         </div>
       </div>
       <div
         style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
-        <div className="flex-1">{startDate}</div>
+        <div className="flex-1">{createdDate}</div>
       </div>
-
       <div
         style={{ flex: "1 0 3em" }}
         className="flex justify-end gap-2 font-light text-gray-500 lg:justify-start"
@@ -202,7 +211,7 @@ export { TicketListItem, TicketList };
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5"
+    className="w-5 h-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -216,7 +225,7 @@ const arrow_down_icon = (
 const arrow_up_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5"
+    className="w-5 h-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
