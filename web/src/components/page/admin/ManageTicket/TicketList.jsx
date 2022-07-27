@@ -91,7 +91,6 @@ const TicketList = React.memo((props) => {
           />
         ))}
       </div>
-      {/* </div> */}
     </>
   );
 });
