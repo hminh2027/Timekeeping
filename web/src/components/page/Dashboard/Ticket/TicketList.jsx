@@ -6,6 +6,7 @@ import Modal from "@/components/Common/Modal";
 import CommentTicket from "./CommentTicket";
 import TicketInfo from "./TicketInfo";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const initSort = {
   createdAt: false,
@@ -83,11 +84,26 @@ const TicketList = (props) => {
 };
 const TicketListItem = (props) => {
   const { isShowing, toggle } = UseModal();
+  const router = useRouter();
   const dispatch = useDispatch();
   const {
     id,
-    content: { status, title, ticketType, recipient, actions, createdDate },
+    content: { status, title, ticketType, recipient, createdDate },
   } = props;
+  const actions = [
+    {
+      title: "Detail",
+      style: "v-btn",
+      onClick: () => router.push(`/dashboard/ticket/${id}`),
+    },
+  ];
+  if (status === "pending")
+    actions.push({
+      title: "Cancel",
+      style: "v-btn-green",
+      onClick: cancelHandler,
+    });
+  console.log(actions);
   const statusIcon = [];
   switch (status) {
     case "rejected": {
@@ -115,7 +131,7 @@ const TicketListItem = (props) => {
   };
   return (
     <div
-      className="items-center py-4 font-medium border-b-4 border-[#fafafa] lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-[#cdf0ea]"
+      className="items-center border-b-4 border-[#fafafa] py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8 "
       // onClick={() => openModal(id)}
     >
       <div
@@ -131,7 +147,7 @@ const TicketListItem = (props) => {
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 font-semibold text-ellipsis max-w-32 overflow-clip">
+        <div className="flex-1 font-semibold max-w-32 overflow-clip text-ellipsis">
           {title}
         </div>
       </div>
@@ -166,18 +182,13 @@ const TicketListItem = (props) => {
       </div>
       <div
         style={{ flex: "1 0 3em" }}
-        className="flex justify-end font-light text-gray-500 lg:justify-start"
+        className="flex justify-end gap-2 font-light text-gray-500 lg:justify-start"
       >
-        {actions.map((action) => {
-          const style = action.style;
-          if (action.title.trim() !== "") {
-            return (
-              <button className="v-btn-third" onClick={() => cancelHandler(id)}>
-                {action.title}
-              </button>
-            );
-          }
-        })}
+        {actions?.map((action) => (
+          <button className={action.style} onClick={action.onClick}>
+            {action.title}
+          </button>
+        ))}
       </div>
     </div>
   );

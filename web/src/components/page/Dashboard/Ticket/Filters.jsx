@@ -22,28 +22,28 @@ const DesktopFilter = (props) => {
     props.onSubmit(data);
   };
   return (
-    <div className={`p-8 bg-white flex ${props.className}`}>
-      <div className="flex flex-row justify-between w-full gap-4">
+    <div className={`flex bg-white p-4 ${props.className}`}>
+      <div className="flex w-full flex-row justify-between gap-4">
         <div className="flex flex-row gap-8">
-          <div className="flex items-center w-auto gap-4">
+          <div className="flex w-auto items-center gap-4">
             <div className="w-auto">Title:</div>
             <input
               name="title"
               placeholder="Title"
               value={data.title}
               onChange={(e) => handleChange("title", e.target.value)}
-              className="flex-1 w-full max-w-xs p-2 border rounded-none input input-bordered focus:outline-none"
+              className="input input-bordered w-full max-w-xs flex-1 rounded-none border p-2 focus:outline-none"
             />
           </div>
 
-          <div className="flex items-center w-auto gap-4">
+          <div className="flex w-auto items-center gap-4">
             <div className="w-auto">Type:</div>
             <select
               onChange={(e) => {
                 handleChange("type", e.target.value);
               }}
               style={{ flex: "1 0 8em", minWidth: "8em" }}
-              className="flex-1 w-full max-w-xs rounded-none select select-bordered focus:border-none"
+              className="select select-bordered w-full max-w-xs flex-1 rounded-none focus:border-none"
             >
               {ticketTypes &&
                 ticketTypes.map((e, i) => (
@@ -54,7 +54,7 @@ const DesktopFilter = (props) => {
             </select>
           </div>
           <div className="flex flex-row items-center justify-between">
-            <div className="flex items-center flex-1 gap-4 w-80">
+            <div className="flex w-80 flex-1 items-center gap-4">
               <div className="w-auto">Status:</div>
               <select
                 value={data.status}
@@ -64,7 +64,7 @@ const DesktopFilter = (props) => {
                   handleChange("status", e.target.value);
                   console.log(e.target.value);
                 }}
-                className="w-40 max-w-xs rounded-none select-md select select-bordered focus:border-none"
+                className="select select-bordered select-md w-40 max-w-xs rounded-none focus:border-none"
               >
                 {status.map((e, i) => (
                   <option
@@ -132,7 +132,7 @@ const MobileFilter = (props) => {
       {usingFilter && (
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col gap-4">
-            <div className="flex items-center w-full">
+            <div className="flex w-full items-center">
               <div className="w-20 ">Title:</div>
               <input
                 placeholder="Title"
@@ -140,13 +140,13 @@ const MobileFilter = (props) => {
                 value={data.title}
                 // onChange={filter}
                 // style={{ flex: "1 0 5em" }}
-                className="flex-1 border border-gray-200 input-xs focus:outline-none"
+                className="input-xs flex-1 border border-gray-200 focus:outline-none"
                 onChange={(e) => handleChange(e)}
               />
             </div>
 
             {/* Filter by type */}
-            <div className="flex items-center w-full">
+            <div className="flex w-full items-center">
               <div className="w-20">Type:</div>
               <select
                 name="type"
@@ -166,7 +166,7 @@ const MobileFilter = (props) => {
               </select>
             </div>
             <div className="flex flex-col items-center justify-between gap-4">
-              <div className="flex items-center flex-1 w-full">
+              <div className="flex w-full flex-1 items-center">
                 <div className="w-20">Status:</div>
                 <select
                   name="status"
@@ -187,7 +187,7 @@ const MobileFilter = (props) => {
               </div>
 
               {/* Status description */}
-              <div className="flex flex-wrap flex-1 w-full gap-2">
+              <div className="flex w-full flex-1 flex-wrap gap-2">
                 <div className="flex justify-between gap-1">
                   <div className="">🟢</div>
                   <div className="">Approved</div>

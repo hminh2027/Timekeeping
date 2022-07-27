@@ -3,40 +3,38 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePostUserMutation } from "src/rest/user/user.query";
 
-
 const CreateUser = (props) => {
-    const [UserData, setUserData] = useState({
-        email: "",
-        firstName: "",
-        lastName: "",
-        password: ""
+  const [UserData, setUserData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+  });
+  const { mutate: doPost } = usePostUserMutation();
+  const queryClient = useQueryClient();
+  async function handleSubmit(data) {
+    await doPost(data, {
+      onSuccess: () => {
+        console.log("success");
+        props.hide(false);
+        queryClient.invalidateQueries(["get-user"]);
+      },
     });
-    const {mutate:  doPost} = usePostUserMutation();
-    const queryClient = useQueryClient()
-    async function handleSubmit(data){
-        await doPost(data,{
-        onSuccess: ()=>{
-            console.log("success")
-            props.hide(false)
-            queryClient.invalidateQueries(['get-user'])
-
-        }
-        })
-    }
-    const handleChange = (e) => {
-        setUserData({ ...UserData, [e.target.name]: e.target.value });
-    };
-    return (
+  }
+  const handleChange = (e) => {
+    setUserData({ ...UserData, [e.target.name]: e.target.value });
+  };
+  return (
     <>
       <div className="card">
         <div className="card-body ">
-          <div className=" text-xl font-bold text-center justify-center mb-6">
+          <div className=" mb-6 justify-center text-center text-xl font-bold">
             Create User
           </div>
           <div className={styles[`input-wrapper`]}>
             <div className={styles[`input-list`]}>
               <div className="flex ">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   Email:
                 </div>
                 <input
@@ -51,7 +49,7 @@ const CreateUser = (props) => {
                 />
               </div>
               <div className="flex ">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   FirstName:
                 </div>
                 <input
@@ -66,7 +64,7 @@ const CreateUser = (props) => {
                 />
               </div>
               <div className="flex ">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   LastName:
                 </div>
                 <input
@@ -81,7 +79,7 @@ const CreateUser = (props) => {
                 />
               </div>
               <div className="flex">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   Password:
                 </div>
                 <input
@@ -97,7 +95,12 @@ const CreateUser = (props) => {
               </div>
             </div>
           </div>
-          <button onClick={() => handleSubmit(UserData)} className="mt-3 m-auto w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black">Submit</button>
+          <button
+            onClick={() => handleSubmit(UserData)}
+            className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
+          >
+            Submit
+          </button>
         </div>
       </div>
     </>

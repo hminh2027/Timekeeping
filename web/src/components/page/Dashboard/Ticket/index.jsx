@@ -1,6 +1,6 @@
 import UseModal from "@/utils/hooks/UseModal";
 import { TICKET_FILTER } from "@/utils/constants/ticket_constants";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";
@@ -10,10 +10,11 @@ import {
   useGetMeTicketQuery,
   useGetMyTicketWithSortQuery,
 } from "src/rest/ticket/ticket.query";
+import { useQueryClient } from "@tanstack/react-query";
+import { USER_TICKET } from "@/utils/constants/react-query";
 
 const TicketContent = () => {
   const { isShowing, toggle } = UseModal();
-
   const [filterOptions, setFilterOptions] = useState({
     title: "",
     type: "",
@@ -23,11 +24,14 @@ const TicketContent = () => {
     sortBy: "createdAt",
     orderBy: true,
   });
+
+  const queryClient = useQueryClient();
+
   const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
   const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(sortOptions);
-
+  console.log(ticketsWithSort);
   return (
-    <div className="flex-col flex-1 gap-8 m-3">
+    <div className="flex-col flex-1 gap-8">
       <div
         className="flex flex-col m-1 overflow-auto rounded-lg "
         style={{
@@ -37,11 +41,17 @@ const TicketContent = () => {
       >
         <Header toggleModal={toggle} />
         <DesktopFilter
-          onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+          onSubmit={(filterOptions) => {
+            setFilterOptions(filterOptions);
+            queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+          }}
           className="hidden lg:flex"
         />
         <MobileFilter
-          onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
+          onSubmit={(filterOptions) => {
+            setFilterOptions(filterOptions);
+            queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+          }}
           className="lg:hidden"
         />
 

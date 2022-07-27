@@ -1,9 +1,12 @@
 import CommentChild from "./CommentChild";
 import { useState } from "react";
-import { useGetCommentIdQuery, usePostCommentMutation } from "@/rest/comment/comment.query";
+import {
+  useGetCommentIdQuery,
+  usePostCommentMutation,
+} from "@/rest/comment/comment.query";
 import { useQueryClient } from "@tanstack/react-query";
 const CommentTicket = ({ id, authorId}) => {
-  const [isAddComment, setAddComment] = useState(false);
+  // const [isAddComment, setAddComment] = useState(false);
   const [Comment, setCommentData] = useState({
     content: "",
     ticketId: id,
@@ -11,18 +14,18 @@ const CommentTicket = ({ id, authorId}) => {
   const handleChange = (e) => {
     setCommentData({ ...Comment, [e.target.name]: e.target.value });
   };
-  const {mutate:  doPost} = usePostCommentMutation();
-    const queryClient = useQueryClient()
-    async function handleSubmit(data){
-        await doPost(data,{
-        onSuccess: ()=>{
-            console.log("success")
-            Comment.content = ""
-            queryClient.invalidateQueries(['get-comment'])
-        }
-        })
-    }
-  const {data: CommentList} = useGetCommentIdQuery(id);
+  const { mutate: doPost } = usePostCommentMutation();
+  const queryClient = useQueryClient();
+  async function handleSubmit(data) {
+    await doPost(data, {
+      onSuccess: () => {
+        console.log("success");
+        Comment.content = "";
+        queryClient.invalidateQueries(["get-comment"]);
+      },
+    });
+  }
+  const { data: CommentList } = useGetCommentIdQuery(id);
   console.log("COMMENT", CommentList);
   return (
     <div className="border border-solid border-gray-400 shadow-xl m-3 w-96 rounded-2xl bg-white">
@@ -34,18 +37,18 @@ const CommentTicket = ({ id, authorId}) => {
           ))}
         </div>
         <div className="flex">
-          <textarea
+          <input
             type="text"
             name="content"
             placeholder="comment"
             class="input input-bordered input-accent w-full max-w-xs"
             value={Comment.content}
-            onChange = {(e) => {
+            onChange={(e) => {
               handleChange(e);
             }}
           />
           <button
-            className="hover:bg-teal-600 border border-solid border-teal-600 shadow-xl bg-white flex-1 text-teal-700 hover:text-white ml-[3px] rounded-lg"
+            className="ml-[3px] flex-1 rounded-lg border border-solid border-teal-600 bg-white text-teal-700 shadow-xl hover:bg-teal-600 hover:text-white"
             onClick={() => {
               handleSubmit(Comment);
             }}

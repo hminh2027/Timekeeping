@@ -1,4 +1,3 @@
-
 const UserInfoFormatter = (user) => {
   return {
     id: user.id,

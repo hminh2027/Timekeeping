@@ -1,9 +1,3 @@
-import { useDispatch } from "react-redux";
-import {
-  cancelTickets,
-  approveTickets,
-  rejectTickets,
-} from "@/redux/feature/admin/tickets";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useApproveTicketMutation,
@@ -19,11 +13,11 @@ const CheckTicket = (props) => {
     <>
       <div className="card">
         <div className="card-body ">
-          <div className=" text-xl font-bold text-center justify-center">
+          <div className=" justify-center text-center text-xl font-bold">
             Ticket Content
           </div>
-          <div className="flex flex-col w-full justify-center gap-5">
-            <div className="flex flex-col flex-wrap w-full justify-start gap-4">
+          <div className="flex w-full flex-col justify-center gap-5">
+            <div className="flex w-full flex-col flex-wrap justify-start gap-4">
               <input
                 className="w-full border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
@@ -33,7 +27,7 @@ const CheckTicket = (props) => {
                 placeholder="Ticket title"
               />
               <div className="flex ">
-                <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                <div className="w-4/12 justify-center border border-solid border-gray-300 p-2 text-center text-sm">
                   Start Date
                 </div>
                 <input
@@ -44,7 +38,7 @@ const CheckTicket = (props) => {
                   value={new Date(ticketData?.startDate).toLocaleDateString()}
                 />
                 <div className="flex ">
-                  <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                  <div className="w-4/12 justify-center border border-solid border-gray-300 p-2 text-center text-sm">
                     Start Date
                   </div>
                   <input
@@ -64,7 +58,7 @@ const CheckTicket = (props) => {
                 />
               </div>
               <div className="flex ">
-                <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                <div className="w-4/12 justify-center border border-solid border-gray-300 p-2 text-center text-sm">
                   Ticket Type
                 </div>
                 <input
@@ -76,7 +70,7 @@ const CheckTicket = (props) => {
                 />
               </div>
               <div className="flex">
-                <div className="w-4/12 border border-solid border-gray-300 p-2 text-sm text-center justify-center">
+                <div className="w-4/12 justify-center border border-solid border-gray-300 p-2 text-center text-sm">
                   Author
                 </div>
                 <input
@@ -92,7 +86,7 @@ const CheckTicket = (props) => {
                 ></input>
               </div>
               <textarea
-                className=" flex-grow w-full border border-solid border-gray-300 p-2 h-auto text-gray-500"
+                className=" h-auto w-full flex-grow border border-solid border-gray-300 p-2 text-gray-500"
                 disabled
                 type="text"
                 name="content"
@@ -116,8 +110,8 @@ const CheckTicket = (props) => {
 const ButtonTicket = ({ disabled, id, status, toggle }) => {
   const { mutate: doApprove } = useApproveTicketMutation();
   const queryClient = useQueryClient();
-  async function handleApprove(data) {
-    await doApprove(data, {
+  async function handleApprove(id) {
+    await doApprove(id, {
       onSuccess: () => {
         console.log("success");
         toggle(false);
@@ -126,8 +120,8 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
     });
   }
   const { mutate: doReject } = useRejectTicketMutation();
-  async function handleReject(data) {
-    await doReject(data, {
+  async function handleReject(id) {
+    await doReject(id, {
       onSuccess: () => {
         console.log("success");
         toggle(false);
@@ -137,9 +131,9 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
   }
   if (!disabled) {
     return (
-      <div className="w-full flex items-center justify-center">
+      <div className="flex w-full items-center justify-center">
         <button
-          className="w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black mr-2"
+          className="mr-2 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
           type="primary"
           onClick={() => {
             handleApprove(id);
@@ -148,7 +142,7 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
           Approve
         </button>
         <button
-          className="w-1/3 border border-solid border-red-500 shadow-xl hover:bg-red-500 hover:text-white p-1 rounded-lg text-black"
+          className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
           type="primary"
           onClick={() => {
             handleReject(id);
@@ -161,12 +155,12 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
   } else {
     if (status == "approved")
       return (
-        <div className="w-full flex items-center justify-center">
+        <div className="flex w-full items-center justify-center">
           <button
-            className="w-1/3 border border-solid border-red-500 shadow-xl hover:bg-red-500 hover:text-white p-1 rounded-lg text-black mr-2"
+            className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
             type="primary"
             onClick={() => {
-              rejectHandler(id);
+              handleReject(id);
             }}
           >
             Reject
@@ -176,12 +170,12 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
       );
     else {
       return (
-        <div className="w-full flex items-center justify-center">
+        <div className="flex w-full items-center justify-center">
           <button
-            className="w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black mr-2"
+            className="mr-2 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
             type="primary"
             onClick={() => {
-              approveHandler(id);
+              handleApprove(id);
             }}
           >
             Approve
@@ -206,7 +200,7 @@ const Cancel = ({ id, toggle }) => {
   }
   return (
     <button
-      className="w-1/3 border border-solid border-gray-500 shadow-xl bg-slate-200 hover:bg-gray-400 text-black p-1 rounded-lg hover:text-white"
+      className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black shadow-xl hover:bg-gray-400 hover:text-white"
       type="primary"
       onClick={() => {
         handleDelete(id);

@@ -1,8 +1,6 @@
-import { Button, Input, Select, Space } from "antd";
 import React, { useReducer } from "react";
 import Approve from "./Approve";
-import { useDispatch } from "react-redux";
-const { Option } = Select;
+
 const initSort = {
   createdAt: false,
   startDate: false,
@@ -29,7 +27,7 @@ function reducer(state, action) {
 }
 const TicketList = React.memo((props) => {
   const tickets = props.tickets;
-  console.log("TICKETS LIST ",tickets)
+  console.log("TICKETS LIST ", tickets);
   const [state, dispatch] = useReducer(reducer, initSort);
   const { createdAt, startDate, endDate } = state;
 
@@ -40,8 +38,6 @@ const TicketList = React.memo((props) => {
     };
     props.onSort(sortOption);
   };
-
-  const filter = () => {};
   return (
     <>
       <div
@@ -82,28 +78,32 @@ const TicketList = React.memo((props) => {
       </div>
       {/* <div className="flex flex-1"> */}
       <div className="h-[500px] overflow-auto pb-1">
-        {tickets?.map((ticket,i) => (
+        {tickets?.map((ticket, i) => (
           <TicketListItem
             key={i}
             id={ticket.id}
-            author = {ticket.author}
+            author={ticket.author}
             content={ticket.content}
-            title = {ticket.title}
-            createdAt = {ticket.createdAt}
-            status = {ticket.ticketStatus}
-            type = {ticket.ticketType}
+            title={ticket.title}
+            createdAt={ticket.createdAt}
+            status={ticket.ticketStatus}
+            type={ticket.ticketType}
           />
         ))}
       </div>
-      {/* </div> */}
     </>
   );
 });
 const TicketListItem = (props) => {
-  console.log("props",props)
+  console.log("props", props);
   const {
     id,
-    status, title, type, author, content, createdAt, 
+    status,
+    title,
+    type,
+    author,
+    content,
+    createdAt,
     // content: { status, title, type ,author, startDate, actions },
   } = props;
   const statusIcon = [];
@@ -126,9 +126,9 @@ const TicketListItem = (props) => {
     }
   }
   return (
-    <div className="items-center w-full py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200">
+    <div className="w-full items-center border-b border-b-orange-600 py-4 font-medium hover:bg-sky-200 lg:flex lg:justify-start lg:px-4 lg:py-8">
       <div style={{ flex: "1 0 2em" }} className="flex text-sky-800">
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Id:
         </div>
         <div className="flex-1 font-semibold">{id}</div>
@@ -137,7 +137,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 8em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
         <div className="flex-1">{title}</div>
@@ -146,17 +146,17 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 5em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Author:
         </div>
         {/* <div className="flex-1">{author.lastName+" "+author.firstName}</div> */}
-        <div className="flex-1">{author.lastName+" "+author.firstName}</div>
+        <div className="flex-1">{author.lastName + " " + author.firstName}</div>
       </div>
       <div
         style={{ flex: "1 0 5em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Type:
         </div>
         <div className="flex-1">{type}</div>
@@ -165,7 +165,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 1 2em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Status:
         </div>
         <div className="flex-1">
@@ -176,7 +176,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
         <div className="flex-1">{new Date(createdAt).toLocaleDateString()}</div>

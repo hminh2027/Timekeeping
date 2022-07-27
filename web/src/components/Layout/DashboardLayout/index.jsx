@@ -50,14 +50,14 @@ const DashboardLayout = (props) => {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}
       <div className="z-10 flex flex-1 ">
         <SidebarMenu />
         {/* Content */}
-        <div className="w-full lg:flex lg:flex-1 bg-[#fafafa]">
+        <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
           {props.children}
         </div>
       </div>

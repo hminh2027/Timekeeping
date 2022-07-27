@@ -17,39 +17,22 @@ const ApproveTicket = () => {
     type: "",
     status: "",
   });
-  // const [Tickets, setTickets] = useState([])
   const [sortOption, setSortOption] = useState({
     sortField: "createdAt",
     sortType: false,
   });
-  // const [ticketList, setTicketList] = useState([])
-  // // useEffect(() => {
-  // //   const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
-  // //   console.log("SORT:", sortOptions);
-  // // //   const fetchTicketData = async () => {
-  // // //     // dispatch(fetchTickets(sortOptions));
-  // // //     const { data: Ticket } = useGetTicketQuery(sortOptions);
-  // // //     console.log("ticket sort",Ticket)
-  // // //     setTickets(Ticket)
-  // // //   };
-  // // //   fetchTicketData();
-  // // const { data: Tickets } = useGetTicketQuery(sortOption);
-  // // console.log("TICKET",Tickets);
-  // // setTicketList(Tickets);
-  // // }, [sortOption, filterOptions]);
-  // Gọi api khi filter option thay đổi
   const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
   console.log("SORT:", sortOptions);
   const { data: Tickets } = useGetTicketQuery(sortOptions);
   console.log("getTicket", Tickets);
   return (
     <div className="flex-1">
-      <div className="flex items-center justify-between w-full px-4 py-6 bg-white">
+      <div className="flex w-full items-center justify-between bg-white px-4 py-6">
         <div className="text-3xl font-bold">Manage Ticket</div>
       </div>
       <div span={24}>
         <div
-          className="flex flex-col m-1 overflow-auto rounded-lg"
+          className="m-1 flex flex-col overflow-auto rounded-lg"
           style={{
             backgroundColor: "#fff",
             boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
