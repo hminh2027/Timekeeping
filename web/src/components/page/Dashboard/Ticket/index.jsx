@@ -29,11 +29,11 @@ const TicketContent = () => {
 
   const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
   const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(sortOptions);
-
+  console.log(ticketsWithSort);
   return (
-    <div className="flex-1 flex-col gap-8">
+    <div className="flex-col flex-1 gap-8">
       <div
-        className="m-1 flex flex-col overflow-auto rounded-lg "
+        className="flex flex-col m-1 overflow-auto rounded-lg "
         style={{
           backgroundColor: "#fff",
           boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
