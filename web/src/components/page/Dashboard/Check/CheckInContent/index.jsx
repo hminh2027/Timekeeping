@@ -67,7 +67,7 @@ const CheckInContent = () => {
           // width="16"
           // height="9"
           // layout="responsive"
-          className="aspect-video"
+          className="aspect-video object-contain"
         />
       </div>
     </div>

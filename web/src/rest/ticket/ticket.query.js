@@ -60,7 +60,9 @@ export const useUpdateTicketInfoQuery = () => {
     TicketService.updateTicketInfo(id, ticketInfo)
   );
 };
-
+export const useCancelTicketMutation = () => {
+  return useMutation((id) => TicketService.cancelTicket(id));
+};
 export const useApproveTicketMutation = () => {
   return useMutation((id) => {
     return TicketService.approveTicket(id);
