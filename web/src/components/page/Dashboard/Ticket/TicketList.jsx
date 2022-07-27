@@ -1,13 +1,9 @@
-import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
 import React, { useReducer } from "react";
-import UseModal from "@/utils/hooks/UseModal";
-import Modal from "@/components/Common/Modal";
-import CommentTicket from "./CommentTicket";
-import TicketInfo from "./TicketInfo";
-import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { useCancelTicketMutation } from "@/rest/ticket/ticket.query";
+import { USER_TICKET } from "@/utils/constants/react-query";
 const initSort = {
   createdAt: false,
   startDate: false,
@@ -92,7 +88,8 @@ const TicketList = (props) => {
 };
 const TicketListItem = (props) => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: cancelTicket } = useCancelTicketMutation();
   const {
     id,
     content: { status, title, ticketType, startDate },
@@ -108,7 +105,7 @@ const TicketListItem = (props) => {
     actions.push({
       title: "Cancel",
       style: "v-btn-gray",
-      onClick: cancelHandler,
+      onClick: () => cancelHandler(),
     });
   console.log(actions);
   const statusIcon = [];
@@ -130,27 +127,34 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  const cancelHandler = (id) => {
-    dispatch(cancelTicket(id));
-  };
-  const openModal = (id) => {
-    toggle();
+  const cancelHandler = () => {
+    console.log("HELLO");
+    cancelTicket(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+      },
+    });
   };
   return (
     <div
       className="items-center border-b border-b-orange-600 py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8"
       // onClick={() => openModal(id)}
     >
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+          Created by:
+        </div>
+        <div className="flex-1">{recipient.lastName}</div>
+      </div>
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 ">
-          <Link href={`/dashboard/ticket/${id}`}>
-            <div className="max-w-32 cursor-pointer overflow-clip text-ellipsis font-semibold">
-              {title}
-            </div>
-          </Link>
+        <div className="max-w-32 flex-1 overflow-clip text-ellipsis font-semibold">
+          {title}
         </div>
       </div>
       <div
