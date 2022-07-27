@@ -1,6 +1,6 @@
 import UseModal from "@/utils/hooks/UseModal";
 import { TICKET_FILTER } from "@/utils/constants/ticket_constants";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
 import Header from "./TicketHeader";

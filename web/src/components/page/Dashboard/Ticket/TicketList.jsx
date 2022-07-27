@@ -76,32 +76,6 @@ const TicketList = (props) => {
             {createdAt ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
-        <div
-          className="flex font-semibold"
-          style={{ flex: "1 0 8em" }}
-          onClick={() => {
-            dispatch({ type: "SORT_START_DATE", data: !startDate });
-            sortHandle("startDate", !startDate);
-          }}
-        >
-          Start Date
-          <div className="ml-4">
-            {startDate ? arrow_down_icon : arrow_up_icon}
-          </div>
-        </div>
-        <div
-          className="flex font-semibold"
-          style={{ flex: "1 0 8em" }}
-          onClick={() => {
-            dispatch({ type: "SORT_END_DATE", data: !endDate });
-            sortHandle("endDate", !endDate);
-          }}
-        >
-          End Date
-          <div className="ml-4">
-            {endDate ? arrow_down_icon : arrow_up_icon}
-          </div>
-        </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Action
         </div>
@@ -209,24 +183,7 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">{startDate}</div>
       </div>
-      <div
-        style={{ flex: "1 0 8em" }}
-        className="flex font-light text-gray-500 "
-      >
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
-          Start date:
-        </div>
-        <div className="flex-1">{startDate}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 8em" }}
-        className="flex font-light text-gray-500"
-      >
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
-          End date:
-        </div>
-        <div className="flex-1">{endDate}</div>
-      </div>
+
       <div
         style={{ flex: "1 0 3em" }}
         className="flex justify-end gap-2 font-light text-gray-500 lg:justify-start"

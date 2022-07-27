@@ -28,7 +28,7 @@ const TicketDetails = (props) => {
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Recipient:</div>{" "}
-                  <div>{`${ticketData.content.author.lastName} ${ticketData.content.author.firstName}`}</div>
+                  <div>{`${ticketData.content.recipient.lastName} ${ticketData.content.recipient.firstName}`}</div>
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Create date:</div>{" "}
