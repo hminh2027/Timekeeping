@@ -9,8 +9,8 @@ const Header = () => {
 
   return (
     <div className="flex z-20 items-center w-full max-h-28 py-7 bg-[#ffffff]  shadow-md shadow-black-500/40 ">
-      <div className="flex items-center justify-between w-full">
-        <div className="flex flex-wrap items-center">
+      <div className="flex items-center justify-between w-full px-4">
+        <div className="flex flex-wrap items-center justify-between">
           <div className="flex items-center w-40 mx-5">
             <Image
               className=""
@@ -22,12 +22,22 @@ const Header = () => {
             />
           </div>
 
-          <div className="flex-grow">
+          <div className="">
             <div className="text-3xl font-semibold">
-              Hello {userInfo.lastName} {userInfo.firstName}
+              Hello {userInfo.lastName} {userInfo.firstName}!
             </div>
-            <div className="text-gray-500 ">Welcome back!</div>
+            <div className="underline">Role: {userInfo.role}</div>
           </div>
+        </div>
+        <div className="flex overflow-hidden border rounded-full border-slate-800">
+          <Image
+            className=""
+            src="/Image/logo.png"
+            width={60}
+            height={60}
+            alt="Đây là Logo"
+            fallback="Đây là Logo"
+          />
         </div>
       </div>
     </div>

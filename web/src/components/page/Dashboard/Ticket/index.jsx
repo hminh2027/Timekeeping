@@ -27,7 +27,7 @@ const TicketContent = () => {
   const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(sortOptions);
 
   return (
-    <div className="flex-col flex-1 gap-8">
+    <div className="flex-col flex-1 gap-8 m-3">
       <div
         className="flex flex-col m-1 overflow-auto rounded-lg "
         style={{

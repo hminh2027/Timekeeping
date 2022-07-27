@@ -9,22 +9,22 @@
 
 @layer components {
   .v-btn-primary {
-    @apply text-black bg-third border-third rounded-md py-2 px-4 transition-all duration-300 min-w-32 hover:text-white;
+    @apply text-black font-bold bg-[#cdf0ea] rounded-md py-2 px-4 transition-all duration-300 min-w-32 hover:bg-[#bcece4];
   }
   .v-btn-secondary {
-    @apply text-black bg-blue-400 border-blue-400 rounded-md py-2 px-4 transition-all duration-300 min-w-32 hover:text-white;
+    @apply px-4 py-2 text-black transition-all duration-300 bg-blue-400 border-blue-400 rounded-md min-w-32 hover:text-white;
   }
   .v-btn-third {
-    @apply text-black bg-pastelBlue border-pastelBlue rounded-md py-2 px-4 transition-all duration-300 min-w-32 hover:text-white;
+    @apply px-4 py-2 text-black transition-all duration-300 rounded-md bg-pastelBlue border-pastelBlue min-w-32 hover:text-white;
   }
   .v-btn {
-    @apply text-black border bg-transparent  border-violet-300 rounded-md py-2 px-4 transition-all duration-300 min-w-32  hover:text-white;
+    @apply px-4 py-2 text-black transition-all duration-300 bg-transparent border rounded-md border-violet-300 min-w-32 hover:text-white;
   }
   .v-input {
-    @apply p-2 border border-gray-300 active:outline-none focus:outline-none active:border-emerald-500 hover:border-emerald-500
+    @apply p-2 border border-gray-300 active:outline-none focus:outline-none active:border-emerald-500 hover:border-emerald-500;
   }
-  .v-textarea{
-  @apply textarea textarea-accent focus:outline-none resize-none
+  .v-textarea {
+    @apply resize-none textarea textarea-accent focus:outline-none;
   }
   .v-menu-item {
     @apply flex flex-col items-center justify-center flex-grow cursor-pointer rounded-xl lg:flex-grow-0 lg:flex-row lg:gap-4 lg:text-lg lg:p-4 lg:justify-start hover:bg-primary active:bg-primary;

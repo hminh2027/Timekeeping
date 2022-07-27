@@ -9,24 +9,13 @@ import Link from "next/link";
 
 const initSort = {
   createdAt: false,
-  startDate: false,
-  endDate: false,
 };
 function reducer(state, action) {
   switch (action.type) {
     case "SORT_CREATED_AT": {
       return { ...initSort, createdAt: action.data };
     }
-    case "SORT_START_DATE": {
-      state = { ...initSort };
-      state.startDate = action.data;
-      return state;
-    }
-    case "SORT_END_DATE": {
-      state = { ...initSort };
-      state.endDate = action.data;
-      return state;
-    }
+
     default:
       return state;
   }
@@ -35,7 +24,7 @@ const TicketList = (props) => {
   const tickets = props.tickets;
   const [state, dispatch] = useReducer(reducer, initSort);
 
-  const { createdAt, startDate, endDate } = state;
+  const { createdAt } = state;
   const sortHandle = (sortBy, orderBy) => {
     const sortOption = {
       sortBy,
@@ -49,10 +38,13 @@ const TicketList = (props) => {
       {/* Table Header */}
       <div
         style={{
-          backgroundColor: "#99e2b4",
+          backgroundColor: "#f0f0f0",
         }}
         className="hidden p-4 font-semibold lg:flex"
       >
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+          Created by
+        </div>
         <div className="font-semibold" style={{ flex: "1 0 10em" }}>
           Title
         </div>
@@ -75,32 +67,6 @@ const TicketList = (props) => {
             {createdAt ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
-        <div
-          className="flex font-semibold"
-          style={{ flex: "1 0 8em" }}
-          onClick={() => {
-            dispatch({ type: "SORT_START_DATE", data: !startDate });
-            sortHandle("startDate", !startDate);
-          }}
-        >
-          Start Date
-          <div className="ml-4">
-            {startDate ? arrow_down_icon : arrow_up_icon}
-          </div>
-        </div>
-        <div
-          className="flex font-semibold"
-          style={{ flex: "1 0 8em" }}
-          onClick={() => {
-            dispatch({ type: "SORT_END_DATE", data: !endDate });
-            sortHandle("endDate", !endDate);
-          }}
-        >
-          End Date
-          <div className="ml-4">
-            {endDate ? arrow_down_icon : arrow_up_icon}
-          </div>
-        </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Action
         </div>
@@ -120,7 +86,7 @@ const TicketListItem = (props) => {
   const dispatch = useDispatch();
   const {
     id,
-    content: { status, title, ticketType, startDate, endDate, actions },
+    content: { status, title, ticketType, recipient, actions, createdDate },
   } = props;
   const statusIcon = [];
   switch (status) {
@@ -149,15 +115,24 @@ const TicketListItem = (props) => {
   };
   return (
     <div
-      className="items-center py-4 font-medium border-b border-b-orange-600 lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-sky-200"
+      className="items-center py-4 font-medium border-b-4 border-[#fafafa] lg:flex lg:justify-start lg:px-4 lg:py-8 hover:bg-[#cdf0ea]"
       // onClick={() => openModal(id)}
     >
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+          Created by:
+        </div>
+        <div className="flex-1">{recipient.lastName}</div>
+      </div>
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
         <div className="flex-1 font-semibold text-ellipsis max-w-32 overflow-clip">
-          <Link href={`/dashboard/ticket/${id}`}>{title}</Link>
+          {title}
         </div>
       </div>
       <div
@@ -187,25 +162,7 @@ const TicketListItem = (props) => {
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
-        <div className="flex-1">{startDate}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 8em" }}
-        className="flex font-light text-gray-500 "
-      >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-          Start date:
-        </div>
-        <div className="flex-1">{startDate}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 8em" }}
-        className="flex font-light text-gray-500"
-      >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-          End date:
-        </div>
-        <div className="flex-1">{endDate}</div>
+        <div className="flex-1">{createdDate}</div>
       </div>
       <div
         style={{ flex: "1 0 3em" }}
@@ -230,7 +187,7 @@ export { TicketListItem, TicketList };
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5"
+    className="w-5 h-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -244,7 +201,7 @@ const arrow_down_icon = (
 const arrow_up_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5"
+    className="w-5 h-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >

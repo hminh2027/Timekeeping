@@ -22,7 +22,7 @@ const DesktopFilter = (props) => {
     props.onSubmit(data);
   };
   return (
-    <div className={`p-4 bg-white flex ${props.className}`}>
+    <div className={`p-8 bg-white flex ${props.className}`}>
       <div className="flex flex-row justify-between w-full gap-4">
         <div className="flex flex-row gap-8">
           <div className="flex items-center w-auto gap-4">
@@ -32,7 +32,7 @@ const DesktopFilter = (props) => {
               placeholder="Title"
               value={data.title}
               onChange={(e) => handleChange("title", e.target.value)}
-              className="flex-1 p-2 border input input-bordered rounded-none w-full max-w-xs focus:outline-none"
+              className="flex-1 w-full max-w-xs p-2 border rounded-none input input-bordered focus:outline-none"
             />
           </div>
 
@@ -43,7 +43,7 @@ const DesktopFilter = (props) => {
                 handleChange("type", e.target.value);
               }}
               style={{ flex: "1 0 8em", minWidth: "8em" }}
-              className="flex-1 select select-bordered rounded-none w-full max-w-xs focus:border-none"
+              className="flex-1 w-full max-w-xs rounded-none select select-bordered focus:border-none"
             >
               {ticketTypes &&
                 ticketTypes.map((e, i) => (
@@ -64,7 +64,7 @@ const DesktopFilter = (props) => {
                   handleChange("status", e.target.value);
                   console.log(e.target.value);
                 }}
-                className="w-40 select-md select select-bordered rounded-none max-w-xs focus:border-none"
+                className="w-40 max-w-xs rounded-none select-md select select-bordered focus:border-none"
               >
                 {status.map((e, i) => (
                   <option
@@ -97,7 +97,7 @@ const DesktopFilter = (props) => {
             </div>
           </div>
         </div>
-        <div className="text-right flex items-center ">
+        <div className="flex items-center text-right ">
           <button
             className="v-btn-primary"
             onClick={() => {
