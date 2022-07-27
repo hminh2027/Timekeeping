@@ -17,7 +17,7 @@ class Ticket extends BaseService {
   }
   getMyTicketWithSort(sortOptions) {
     return this.http
-      .get(`${this.basePath}/me?${sortOptions}`)
+      .get(`${this.basePath}/me`, { params: sortOptions })
       .then((res) => res.data);
   }
   getTicketInfo(id) {
