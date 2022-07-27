@@ -110,8 +110,8 @@ const CheckTicket = (props) => {
 const ButtonTicket = ({ disabled, id, status, toggle }) => {
   const { mutate: doApprove } = useApproveTicketMutation();
   const queryClient = useQueryClient();
-  async function handleApprove(data) {
-    await doApprove(data, {
+  async function handleApprove(id) {
+    await doApprove(id, {
       onSuccess: () => {
         console.log("success");
         toggle(false);
@@ -120,8 +120,8 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
     });
   }
   const { mutate: doReject } = useRejectTicketMutation();
-  async function handleReject(data) {
-    await doReject(data, {
+  async function handleReject(id) {
+    await doReject(id, {
       onSuccess: () => {
         console.log("success");
         toggle(false);
@@ -157,10 +157,10 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
       return (
         <div className="w-full flex items-center justify-center">
           <button
-            className="w-1/3 border border-solid border-red-500 shadow-xl hover:bg-red-500 hover:text-white p-1 rounded-lg text-black mr-2"
+            className="w-1/3 border border-solid border-red-500 shadow-xl hover:bg-red-500 hover:text-white p-1 rounded-lg text-black"
             type="primary"
             onClick={() => {
-              rejectHandler(id);
+              handleReject(id);
             }}
           >
             Reject
@@ -175,7 +175,7 @@ const ButtonTicket = ({ disabled, id, status, toggle }) => {
             className="w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black mr-2"
             type="primary"
             onClick={() => {
-              approveHandler(id);
+              handleApprove(id);
             }}
           >
             Approve
