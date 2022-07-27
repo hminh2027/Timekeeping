@@ -51,11 +51,11 @@ const AdminLayout = (props) => {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex flex-col w-screen h-screen">
+    <div className="flex h-screen w-screen flex-col">
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}
-      <div className="flex flex-row flex-1">
+      <div className="flex flex-1 flex-row">
         <SidebarMenu />
         {/* Content */}
         <div className="flex flex-1 p-3">{props.children}</div>

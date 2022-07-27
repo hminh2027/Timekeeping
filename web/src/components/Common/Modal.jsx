@@ -25,7 +25,7 @@ const Modal = (props) => {
             }
           >
             <div
-              className="absolute justify-center w-screen h-screen rounded-none card space bg-mirror"
+              className="space card absolute h-screen w-screen justify-center rounded-none bg-mirror"
               onClick={
                 closeButton
                   ? (e) => {
@@ -39,14 +39,14 @@ const Modal = (props) => {
               }}
             >
               <div
-                className="items-center justify-center flex-grow-0 card-body"
+                className="card-body flex-grow-0 items-center justify-center"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="relative">
                   <div>{children}</div>
                   {closeButton && (
                     <div
-                      className="absolute p-2 text-3xl rounded cursor-pointer top-1 right-1"
+                      className="absolute top-1 right-1 cursor-pointer rounded p-2 text-3xl"
                       onClick={() => hide()}
                     >
                       <IoClose />

@@ -47,7 +47,7 @@ const CheckInContent = () => {
   );
   const checkedCard = (
     <>
-      <div className="card bg-secondary w-full lg:w-max">
+      <div className="card w-full bg-secondary lg:w-max">
         <div className="card-body">
           <div>
             {trans.check.checkin.checked_in} {checkInTime}
@@ -59,7 +59,7 @@ const CheckInContent = () => {
   );
   const url = `${process.env.APP_URL}${checkedImg}`;
   const checkedImage = (
-    <div className="card bg-secondary w-full lg:w-max">
+    <div className="card w-full bg-secondary lg:w-max">
       <div className="card-body">
         <img
           crossOrigin="anonymous"
@@ -78,7 +78,7 @@ const CheckInContent = () => {
         <div className="flex items-center gap-4">
           <div>Already checked in! Go to Checkout?</div>
           <button
-            className="px-4 py-1 rounded v-btn-primary"
+            className="v-btn-primary rounded px-4 py-1"
             onClick={() => {
               Router.push("/dashboard/checkout");
             }}
@@ -92,7 +92,7 @@ const CheckInContent = () => {
   const content = (
     <>
       {!isChecking && (
-        <div className="flex items-center flex-wrap">
+        <div className="flex flex-wrap items-center">
           {checkInStatus ? checkedCard : notCheckedCard}
           {checkInStatus && (
             <div className="hidden lg:flex">Here's your image 👉</div>
@@ -120,8 +120,8 @@ const CheckInContent = () => {
     </>
   );
   return (
-    <div className="flex justify-center w-full h-full">
-      <div className="flex flex-col w-full gap-2 p-8 mx-auto">{content}</div>
+    <div className="flex h-full w-full justify-center">
+      <div className="mx-auto flex w-full flex-col gap-2 p-8">{content}</div>
     </div>
   );
 };

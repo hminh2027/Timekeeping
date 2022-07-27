@@ -65,7 +65,7 @@ const RecoverPassword = (props) => {
   return (
     <Form title="Recover Password">
       {errors && (
-        <div className="flex flex-col w-full pb-4">
+        <div className="flex w-full flex-col pb-4">
           {errors.map((error, i) => (
             <div key={i} style={{ color: error.color, fontWeight: "500" }}>
               {error.message}
@@ -74,13 +74,13 @@ const RecoverPassword = (props) => {
         </div>
       )}
       {isSuccess && (
-        <div className="flex flex-col w-full pb-4">
-          <div className="text-green-500 font-medium">
+        <div className="flex w-full flex-col pb-4">
+          <div className="font-medium text-green-500">
             Reset password successfully
           </div>
         </div>
       )}
-      <div className="flex flex-col gap-6 w-full">
+      <div className="flex w-full flex-col gap-6">
         <div className="flex items-center gap-2                 ">
           <LockOutlined style={{ fontSize: "1.5rem" }} />
           <Input.Password

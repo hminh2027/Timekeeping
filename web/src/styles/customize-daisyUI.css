@@ -1,5 +1,5 @@
 .btn {
-  @apply min-h-0 h-8 p-4 rounded-md;
+  @apply h-8 min-h-0 rounded-md p-4;
 }
 .card {
   @apply bg-white shadow-lg;

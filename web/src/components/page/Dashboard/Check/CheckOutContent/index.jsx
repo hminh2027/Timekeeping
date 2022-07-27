@@ -33,7 +33,7 @@ const CheckInContent = () => {
     getStatus();
   }, [checkOutStatus, checkInInfo]);
   const notCheckedCard = (
-    <div className="flex flex-col items-center gap-4 p-4 card">
+    <div className="card flex flex-col items-center gap-4 p-4">
       {!checkOutStatus ? (
         <>
           <div>{trans.check.checkout.not_checked_out}</div>
@@ -49,7 +49,7 @@ const CheckInContent = () => {
       )}
 
       <button
-        className="px-4 py-1 rounded v-btn-primary"
+        className="v-btn-primary rounded px-4 py-1"
         onClick={() => {
           setIsChecking(true);
         }}
@@ -61,7 +61,7 @@ const CheckInContent = () => {
   );
   const checkedCard = (
     <>
-      <div className="flex flex-col gap-4 p-4 card">
+      <div className="card flex flex-col gap-4 p-4">
         <div>
           <div>
             {trans.check.checkout.checked_out} {checkOutTime}
@@ -74,7 +74,7 @@ const CheckInContent = () => {
   const url = `${process.env.APP_URL}${checkedImg}`;
 
   const checkedImage = (
-    <div className="p-4 card" style={{ padding: "0.5em" }}>
+    <div className="card p-4" style={{ padding: "0.5em" }}>
       <img
         crossOrigin="anonymous"
         src={url}
@@ -114,10 +114,10 @@ const CheckInContent = () => {
     </>
   );
   const failedCheckIn = (
-    <div className="p-4 card ">
+    <div className="card p-4 ">
       Haven't checked in yet! Wanna checkin?
       <button
-        className="px-2 rounded v-btn-primary"
+        className="v-btn-primary rounded px-2"
         onClick={() => {
           Router.push("dashboard/checkin");
         }}
@@ -129,8 +129,8 @@ const CheckInContent = () => {
   const content = checkInStatus === false ? failedCheckIn : checkOutContent;
 
   return (
-    <div className="flex justify-center w-full h-full">
-      <div className="flex flex-col flex-wrap w-full gap-2 p-4 mx-auto">
+    <div className="flex h-full w-full justify-center">
+      <div className="mx-auto flex w-full flex-col flex-wrap gap-2 p-4">
         {content}
       </div>
     </div>

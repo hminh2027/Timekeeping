@@ -28,13 +28,13 @@ const CreditUser = (props) => {
     <>
       <div className="card">
         <div className="card-body ">
-        <div className=" text-xl font-bold text-center justify-center mb-6">
+          <div className=" mb-6 justify-center text-center text-xl font-bold">
             Credit User
           </div>
           <div className={styles[`input-wrapper`]}>
             <div className={styles[`input-list`]}>
               <div className="flex ">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   Email:
                 </div>
                 <input
@@ -47,7 +47,7 @@ const CreditUser = (props) => {
                 />
               </div>
               <div className="flex ">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   FirstName:
                 </div>
                 <input
@@ -62,7 +62,7 @@ const CreditUser = (props) => {
                 />
               </div>
               <div className="flex ">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   LastName:
                 </div>
                 <input
@@ -77,7 +77,7 @@ const CreditUser = (props) => {
                 />
               </div>
               <div className="flex ">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   Role:
                 </div>
                 <input
@@ -92,7 +92,7 @@ const CreditUser = (props) => {
                 />
               </div>
               <div className="flex">
-                <div className="w-4/12 p-2 text-sm text-center justify-center font-medium dark:text-gray-300">
+                <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   Password:
                 </div>
                 <input
@@ -108,11 +108,16 @@ const CreditUser = (props) => {
               </div>
             </div>
           </div>
-          <button onClick={() => handleUpdate(UserData)} className="mt-3 m-auto w-1/3 border border-solid border-teal-600 shadow-xl hover:bg-teal-600 hover:text-white p-1 rounded-lg text-black">Update</button>
+          <button
+            onClick={() => handleUpdate(UserData)}
+            className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
+          >
+            Update
+          </button>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default CreditUser;
