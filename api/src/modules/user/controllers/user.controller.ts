@@ -100,6 +100,7 @@ export class UserController {
     id: number,
     @Body() payload: AdminUserPayload,
   ): Promise<Object> {
+    await this.userService.updatePassword(id, payload.password);
     return {
       statusCode: HttpStatus.OK,
       message: 'User updated successfully',
