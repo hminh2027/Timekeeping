@@ -1,8 +1,7 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import { TicketService } from "./ticket.service";
 
 import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
-import TicketInfo from "@/components/page/Dashboard/Ticket/TicketInfo";
 
 export const useGetMeTicketQuery = () => {
   return useQuery(["get-me-ticket"], () => {
@@ -30,18 +29,12 @@ export const useGetTicketTypeQuery = () => {
     },
   ]);
 };
-export const useGetMyTicketWithSortQuery = (
-  sortOptions,
-  onSuccessTickets,
-  needFetch
-) => {
+export const useGetMyTicketWithSortQuery = (sortOptions) => {
   return useQuery(
     ["get-my-tickets-with-sort"],
     () => TicketService.getMyTicketWithSort(sortOptions),
     {
       select: (tickets) => tickets.map((ticket) => TicketInfoFormatter(ticket)),
-      onSuccess: onSuccessTickets,
-      enabled: !!needFetch,
     }
   );
 };
@@ -56,13 +49,15 @@ export const useGetTicketInfoQuery = (id) => {
     }
   );
 };
-export const updateTicketInfoQuery = (id, ticketInfo) => {
-  return useMutation(TicketService.updateTicketInfo(id, ticketInfo));
+
+export const useAddTicketMutation = () => {
+  return useMutation((ticketInfo) => TicketService.addTicket(ticketInfo));
 };
-//   return useQuery(["get-ticket-type", () => {
-//     return TicketService.getTicketType();
-//   }])
-// }
+export const useUpdateTicketInfoQuery = () => {
+  return useMutation((id, ticketInfo) =>
+    TicketService.updateTicketInfo(id, ticketInfo)
+  );
+};
 
 export const useApproveTicketMutation = () => {
   return useMutation((id) => {

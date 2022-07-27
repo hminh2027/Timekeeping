@@ -14,10 +14,12 @@ const CommentTicket = ({ id }) => {
         </div>
         <div className="flex">
           <textarea
+            autoFocus
             type="text"
             placeholder="comment"
-            class="input input-bordered input-accent w-full max-w-xs"
+            className="input input-bordered input-accent w-full max-w-xs resize-none"
           />
+
           <button
             className="bg-teal-600 flex-1 text-gray-100 hover:text-zinc-500 ml-[3px] rounded-lg"
             onClick={() => {

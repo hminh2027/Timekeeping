@@ -111,10 +111,7 @@ export class TicketService {
     });
     if (!ticket) throw new NotFoundException('Ticket is not found');
 
-    if (
-      ticket.ticketStatus === TicketStatus.CANCELLED ||
-      ticket.ticketStatus === TicketStatus.APPROVED
-    )
+    if (ticket.ticketStatus === TicketStatus.CANCELLED)
       throw new NotAcceptableException(
         'This ticket is no longer be able to modify.',
       );

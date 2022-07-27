@@ -10,7 +10,7 @@ const TicketInfoFormatter = (ticket) => {
     id: ticket.id,
     content: {
       title: ticket.title,
-      type: ticket.ticketType,
+      ticketType: ticket.ticketType,
       status: ticket.ticketStatus,
       startDate,
       endDate,

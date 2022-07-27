@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { ReqUser } from 'src/common/decorators/user.decorator';
 import { CheckinService } from '../services/checkinout.service';
@@ -21,11 +20,11 @@ import { CheckinoutPayload } from '../payloads/checkinout.payload';
 import { SearchQueryDto } from '../dto/search.dto';
 
 @Controller('checkin')
-@ApiTags('check in/ check out')
+@ApiTags('check in')
 @ApiBearerAuth()
 @UsePipes(ValidationPipe)
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.USER, UserRole.ADMIN)
+@UseGuards(RolesGuard)
+@Roles(UserRole.USER)
 export class CheckinController {
   constructor(private readonly checkinService: CheckinService) {}
 
@@ -49,20 +48,6 @@ export class CheckinController {
       statusCode: HttpStatus.OK,
       message: 'Checked in successfully',
       data: await this.checkinService.create(data),
-    };
-  }
-
-  @Patch()
-  @ApiOperation({
-    summary: '(USER only)',
-    description: 'check out action',
-  })
-  async checkout(@ReqUser() user, @Body() data: CheckinoutPayload) {
-    data.userId = user.id;
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Checked out successfully',
-      data: await this.checkinService.update(data),
     };
   }
 }
