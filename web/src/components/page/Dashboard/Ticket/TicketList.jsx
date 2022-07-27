@@ -1,13 +1,9 @@
-import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
 import React, { useReducer } from "react";
-import UseModal from "@/utils/hooks/UseModal";
-import Modal from "@/components/Common/Modal";
-import CommentTicket from "./CommentTicket";
-import TicketInfo from "./TicketInfo";
-import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { useCancelTicketMutation } from "@/rest/ticket/ticket.query";
+import { USER_TICKET } from "@/utils/constants/react-query";
 const initSort = {
   createdAt: false,
 };
@@ -84,7 +80,8 @@ const TicketList = (props) => {
 };
 const TicketListItem = (props) => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: cancelTicket } = useCancelTicketMutation();
   const {
     id,
     content: { status, title, ticketType, recipient, createdDate },
@@ -100,7 +97,7 @@ const TicketListItem = (props) => {
     actions.push({
       title: "Cancel",
       style: "v-btn-gray",
-      onClick: cancelHandler,
+      onClick: () => cancelHandler(),
     });
   const statusIcon = [];
 
@@ -129,11 +126,13 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  const cancelHandler = (id) => {
-    dispatch(cancelTicket(id));
-  };
-  const openModal = (id) => {
-    toggle();
+  const cancelHandler = () => {
+    console.log("HELLO");
+    cancelTicket(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+      },
+    });
   };
   return (
     <div
@@ -144,16 +143,16 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 10em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created by:
         </div>
         <div className="flex-1">{recipient.lastName}</div>
       </div>
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 font-semibold max-w-32 overflow-clip text-ellipsis">
+        <div className="max-w-32 flex-1 overflow-clip text-ellipsis font-semibold">
           {title}
         </div>
       </div>
@@ -161,7 +160,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 3em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Type:
         </div>
         <div className="flex-1">{ticketType}</div>
@@ -170,7 +169,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 1 2em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Status:
         </div>
         <div className="flex-1">
@@ -187,7 +186,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
         <div className="flex-1">{createdDate}</div>
@@ -210,7 +209,7 @@ export { TicketListItem, TicketList };
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -224,7 +223,7 @@ const arrow_down_icon = (
 const arrow_up_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
