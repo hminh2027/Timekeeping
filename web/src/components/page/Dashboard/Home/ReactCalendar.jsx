@@ -115,7 +115,7 @@ const ReactCalendar = () => {
             src={`${process.env.APP_URL}${
               checkInInfo && checkInInfo.checkInImage
             }`}
-            className="w-full h-full aspect-video object-contain"
+            className="object-contain w-full h-full aspect-video"
             crossOrigin="anonymous"
           />
         </div>
@@ -134,7 +134,7 @@ const ReactCalendar = () => {
           {checkInInfo && checkInInfo.checkOutImage && (
             <img
               src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
-              className="w-full h-full aspect-video object-contain"
+              className="object-contain w-full h-full aspect-video"
               crossOrigin="anonymous"
             />
           )}
