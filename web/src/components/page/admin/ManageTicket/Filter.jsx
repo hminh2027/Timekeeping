@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Select, Space } from "antd";
 import api from "@/api/api";
-import { useGetTicketTypeQuery } from "src/rest/ticket/ticket.query";
+import { ALL_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 const { Option } = Select;
-const Filters = () => {};
-const filter = () => {};
-
 const DesktopFilter = (props) => {
-  const [ticketTypes, setTicketTypes] = useState([]);
+  const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
   const [data, setData] = useState({
     title: "",
     type: "",
     status: "",
   });
-
-  useEffect(() => {
-    const fetchTicketTypes = async () => {
-      const res = await api.get("ticket/type");
-      const data = ["", ...res.data];
-      setTicketTypes(data);
-    };
-
-    fetchTicketTypes();
-  }, []);
+  console.log("TICKET TYPE", ticketTypes);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     // console.log("DATA:", data);
@@ -56,8 +44,8 @@ const DesktopFilter = (props) => {
               style={{ flex: "1 0 8em", minWidth: "8em" }}
               className="flex-1"
             >
-              {ticketTypes.map((ticketType) => (
-                <Option value={ticketType}>{ticketType}</Option>
+              {ticketTypes.map(({label,value}) => (
+                <Option value={value}>{label}</Option>
               ))}
             </Select>
           </div>

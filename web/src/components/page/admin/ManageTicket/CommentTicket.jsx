@@ -27,7 +27,7 @@ const CommentTicket = ({ id, authorId}) => {
   return (
     <div className="border border-solid border-gray-400 shadow-xl m-3 w-96 rounded-2xl bg-white">
       <div className="p-2 h-full flex flex-col">
-        <div className="text-xl font-bold text-center ">Comment</div>
+        <div className="text-xl font-bold text-center">Comment</div>
         <div className="flex flex-col mt-1 flex-1">
           {CommentList?.map(({userId,content}) => (
             <CommentChild id={userId} userId={authorId} content={content}></CommentChild>
