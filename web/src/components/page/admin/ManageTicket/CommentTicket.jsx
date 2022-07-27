@@ -5,8 +5,8 @@ import {
   usePostCommentMutation,
 } from "@/rest/comment/comment.query";
 import { useQueryClient } from "@tanstack/react-query";
-const CommentTicket = ({ id, authorId }) => {
-  const [isAddComment, setAddComment] = useState(false);
+const CommentTicket = ({ id, authorId}) => {
+  // const [isAddComment, setAddComment] = useState(false);
   const [Comment, setCommentData] = useState({
     content: "",
     ticketId: id,
@@ -28,20 +28,16 @@ const CommentTicket = ({ id, authorId }) => {
   const { data: CommentList } = useGetCommentIdQuery(id);
   console.log("COMMENT", CommentList);
   return (
-    <div className="m-3 w-96 rounded-2xl border border-solid border-gray-400 bg-white shadow-xl">
-      <div className="flex h-full flex-col p-2">
-        <div className="text-center text-xl font-bold ">Comment</div>
-        <div className="mt-1 flex flex-1 flex-col">
-          {CommentList?.map(({ userId, content }) => (
-            <CommentChild
-              id={userId}
-              userId={authorId}
-              content={content}
-            ></CommentChild>
+    <div className="border border-solid border-gray-400 shadow-xl m-3 w-96 rounded-2xl bg-white">
+      <div className="p-2 h-full flex flex-col">
+        <div className="text-xl font-bold text-center ">Comment</div>
+        <div className="flex flex-col mt-1 flex-1">
+          {CommentList?.map(({userId,content}) => (
+            <CommentChild id={userId} userId={authorId} content={content}></CommentChild>
           ))}
         </div>
         <div className="flex">
-          <textarea
+          <input
             type="text"
             name="content"
             placeholder="comment"
@@ -56,9 +52,7 @@ const CommentTicket = ({ id, authorId }) => {
             onClick={() => {
               handleSubmit(Comment);
             }}
-          >
-            add
-          </button>
+          >add</button>
         </div>
       </div>
     </div>
