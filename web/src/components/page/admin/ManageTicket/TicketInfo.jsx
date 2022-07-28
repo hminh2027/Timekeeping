@@ -1,8 +1,6 @@
-import { Select, Spin } from "antd";
 import React, { useState } from "react";
 import { useGetManagers } from "src/rest/user/user.query";
 import { useQueryClient } from "@tanstack/react-query";
-import CommentTicket from "./CommentTicket";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 import {
   useApproveTicketMutation,
@@ -10,8 +8,7 @@ import {
   useRejectTicketMutation,
 } from "src/rest/ticket/ticket.query";
 import { useRouter } from "next/router";
-
-const { Option } = Select;
+import ChatBox from "@/components/Chat/ChatBox";
 
 const TicketInfo = React.memo((props) => {
   const ticketData = props.ticketData;
@@ -20,7 +17,6 @@ const TicketInfo = React.memo((props) => {
   const [errors, setErrors] = useState([]);
   const { data: managers } = useGetManagers();
   const [data, setData] = useState(ticketData.content);
-  console.log(data)
   const [isShowingComments, setIsShowingComments] = useState(true);
   const queryClient = useQueryClient();
 
@@ -93,7 +89,7 @@ const TicketInfo = React.memo((props) => {
                 <input
                   type="text"
                   name="author"
-                  value={data.author.lastName+ " " + data.author.firstName}
+                  value={data.author.lastName + " " + data.author.firstName}
                   disabled
                   className="v-input flex-1"
                 />
@@ -113,42 +109,78 @@ const TicketInfo = React.memo((props) => {
         </div>
       </div>
       {isShowingComments && (
-        <CommentTicket
-          id={ticketId}
-          authorId={ticketData.content.author.id}
-        />
+        <ChatBox id={ticketId} authorId={ticketData.content.author.id} />
       )}
     </div>
   );
   if (data) return ticketContent;
 });
 
-const ButtonTicket = ({id, status}) => {
-    const router = useRouter();
-    const { mutate: doApprove } = useApproveTicketMutation();
-    const queryClient = useQueryClient();
-    async function handleApprove(id) {
-      await doApprove(id, {
-        onSuccess: () => {
-          console.log("success");
-          // router.push(`/admin/ticket/${id}`)
-          router.reload(window.location.pathname)
-          queryClient.invalidateQueries(["get-ticket-id"]);
-        },
-      });
-    }
-    const { mutate: doReject } = useRejectTicketMutation();
-    async function handleReject(id) {
-      await doReject(id, {
-        onSuccess: () => {
-          console.log("success");
-          // router.push(`/admin/ticket/${id}`)
-          router.reload(window.location.pathname)
-          queryClient.invalidateQueries(["get-ticket-id"]);
-        },
-      });
-    }
-    if (status == "pending") {
+const ButtonTicket = ({ id, status }) => {
+  const router = useRouter();
+  const { mutate: doApprove } = useApproveTicketMutation();
+  const queryClient = useQueryClient();
+  async function handleApprove(id) {
+    await doApprove(id, {
+      onSuccess: () => {
+        console.log("success");
+        // router.push(`/admin/ticket/${id}`)
+        router.reload(window.location.pathname);
+        queryClient.invalidateQueries(["get-ticket-id"]);
+      },
+    });
+  }
+  const { mutate: doReject } = useRejectTicketMutation();
+  async function handleReject(id) {
+    await doReject(id, {
+      onSuccess: () => {
+        console.log("success");
+        // router.push(`/admin/ticket/${id}`)
+        router.reload(window.location.pathname);
+        queryClient.invalidateQueries(["get-ticket-id"]);
+      },
+    });
+  }
+  if (status == "pending") {
+    return (
+      <div className="flex w-full items-center justify-center">
+        <button
+          className="mr-2 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
+          type="primary"
+          onClick={() => {
+            handleApprove(id);
+          }}
+        >
+          Approve
+        </button>
+        <button
+          className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
+          type="primary"
+          onClick={() => {
+            handleReject(id);
+          }}
+        >
+          Reject
+        </button>
+      </div>
+    );
+  } else {
+    if (status == "approved")
+      return (
+        <div className="flex w-full items-center justify-center">
+          <button
+            className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
+            type="primary"
+            onClick={() => {
+              handleReject(id);
+            }}
+          >
+            Reject
+          </button>
+          <Cancel id={id}></Cancel>
+        </div>
+      );
+    else {
       return (
         <div className="flex w-full items-center justify-center">
           <button
@@ -160,75 +192,36 @@ const ButtonTicket = ({id, status}) => {
           >
             Approve
           </button>
-          <button
-            className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
-            type="primary"
-            onClick={() => {
-              handleReject(id);
-            }}
-          >
-            Reject
-          </button>
+          <Cancel id={id}></Cancel>
         </div>
       );
-    } else {
-      if (status == "approved")
-        return (
-          <div className="flex w-full items-center justify-center">
-            <button
-              className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
-              type="primary"
-              onClick={() => {
-                handleReject(id);
-              }}
-            >
-              Reject
-            </button>
-            <Cancel id={id}></Cancel>
-          </div>
-        );
-      else {
-        return (
-          <div className="flex w-full items-center justify-center">
-            <button
-              className="mr-2 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
-              type="primary"
-              onClick={() => {
-                handleApprove(id);
-              }}
-            >
-              Approve
-            </button>
-            <Cancel id={id}></Cancel>
-          </div>
-        );
-      }
     }
-  };
-  const Cancel = ({ id}) => {
-    const router = useRouter()
-    const { mutate: doDelete } = useDeleteTicketMutation();
-    const queryClient = useQueryClient();
-    async function handleDelete(data) {
-      await doDelete(data, {
-        onSuccess: () => {
-          console.log("success");
-          router.push(`/admin/ticket/${id}`)
-          queryClient.invalidateQueries(["get-ticket"]);
-        },
-      });
-    }
-    return (
-      <button
-        className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black shadow-xl hover:bg-gray-400 hover:text-white"
-        type="primary"
-        onClick={() => {
-          handleDelete(id);
-        }}
-      >
-        cancel
-      </button>
-    );
-  };
+  }
+};
+const Cancel = ({ id }) => {
+  const router = useRouter();
+  const { mutate: doDelete } = useDeleteTicketMutation();
+  const queryClient = useQueryClient();
+  async function handleDelete(data) {
+    await doDelete(data, {
+      onSuccess: () => {
+        console.log("success");
+        router.push(`/admin/ticket/${id}`);
+        queryClient.invalidateQueries(["get-ticket"]);
+      },
+    });
+  }
+  return (
+    <button
+      className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black shadow-xl hover:bg-gray-400 hover:text-white"
+      type="primary"
+      onClick={() => {
+        handleDelete(id);
+      }}
+    >
+      cancel
+    </button>
+  );
+};
 
 export default TicketInfo;

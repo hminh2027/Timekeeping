@@ -1,7 +1,6 @@
 import TicketInfo from "@/components/page/admin/ManageTicket/TicketInfo";
 import React, { useState } from "react";
 import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
-import CommentTicket from "@/components/page/admin/ManageTicket/CommentTicket";
 import AdminLayout from "@/layout/AdminLayout/AdminLayout";
 const Ticket = (props) => {
   const { id } = props;
@@ -9,7 +8,7 @@ const Ticket = (props) => {
   const { isLoading, error, data: ticketData } = useGetTicketInfoQuery(id);
   if (isLoading) return <div>Loading ...</div>;
   if (error) return <div>Error :( </div>;
-  console.log("TICKET DATA ID ROUTER",ticketData);
+  console.log("TICKET DATA ID ROUTER", ticketData);
 
   const createDate = new Date(ticketData.content.createDate).toLocaleString();
   const updateDate = new Date(ticketData.content.updateDate).toLocaleString();

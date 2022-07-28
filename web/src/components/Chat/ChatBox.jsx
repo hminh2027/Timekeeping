@@ -4,11 +4,15 @@ import {
   useGetCommentIdQuery,
 } from "@/rest/comment/comment.query";
 import { useQueryClient } from "@tanstack/react-query";
-const CommentTicket = ({ id, className, authorId }) => {
+import MessageRow from "@/components/Chat/MessageRow";
+import { useSelector } from "react-redux";
+import { selectUserInfo } from "@/redux/feature/user/userSlice";
+const ChatBox = ({ id, className, authorId }) => {
   const [Comment, setCommentData] = useState({
     content: "",
     ticketId: Number(id),
   });
+  const user = useSelector(selectUserInfo);
   const handleChange = (e) => {
     setCommentData({ ...Comment, [e.target.name]: e.target.value });
   };
@@ -24,6 +28,7 @@ const CommentTicket = ({ id, className, authorId }) => {
     });
   };
   const { data: CommentList } = useGetCommentIdQuery(id);
+  console.log(CommentList);
   return (
     <div
       className={`w-96 rounded-2xl border border-solid border-gray-400 bg-white shadow-xl ${className}`}
@@ -37,11 +42,7 @@ const CommentTicket = ({ id, className, authorId }) => {
         <div className="flex flex-1 flex-col gap-6 border-t border-t-gray-200">
           <div className="mt-1 flex flex-1 flex-col">
             {CommentList?.map(({ userId, content }) => (
-              <CommentChild
-                id={userId}
-                userId={authorId}
-                content={content}
-              ></CommentChild>
+              <MessageRow id={user.id} userId={userId} content={content} />
             ))}
           </div>
           <div className="flex">
@@ -72,24 +73,4 @@ const CommentTicket = ({ id, className, authorId }) => {
   );
 };
 
-const CommentChild = ({ id, userId, content }) => {
-  if (id == userId) {
-    return (
-      <div className="flex justify-start">
-        <div className="mt-1 w-min truncate rounded-2xl border border-solid border-teal-500 bg-slate-100 p-2">
-          <p className="mr-auto">{content}</p>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="flex justify-end">
-        <div className="mt-1 w-min truncate rounded-2xl border border-solid border-teal-500 bg-emerald-400 p-2 text-gray-700">
-          <p className="ml-auto">{content}</p>
-        </div>
-      </div>
-    );
-  }
-};
-
-export { CommentTicket, CommentChild };
+export default ChatBox;

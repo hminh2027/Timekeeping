@@ -23,11 +23,6 @@ export const fetchCheckInStatus = createAsyncThunk(
         fromDate: moment().format("YYYY-MM-DD"),
         toDate: moment().add(1, "d").format("YYYY-MM-DD"),
       });
-      // console.log("response", {
-      //   response,
-      //   froDate: moment().format("YYYY-MM-DD"),
-      //   toDate: moment().add(1, "d").format("YYYY-MM-DD"),
-      // });
       return response;
     } catch (error) {
       if (error.status === 401) {
