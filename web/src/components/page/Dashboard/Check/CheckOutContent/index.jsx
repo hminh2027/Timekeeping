@@ -52,6 +52,7 @@ const CheckInContent = () => {
         className="v-btn-primary rounded px-4 py-1"
         onClick={() => {
           setIsChecking(true);
+          setErrors(null);
         }}
         disabled={checkOutLimit && checkOutLimit}
       >
@@ -81,7 +82,7 @@ const CheckInContent = () => {
         width="300"
         height="300"
         layout="fill"
-        className="aspect-ratio object-contain"
+        className="aspect-ratio max-w-mobile object-contain"
       />
     </div>
   );
@@ -94,7 +95,6 @@ const CheckInContent = () => {
           {checkOutStatus && checkedImage}
         </div>
       )}
-
       {!isChecking && errors && (
         <div style={{ color: "rgb(230,30,10)" }}>
           Lỗi rồi :{" "}

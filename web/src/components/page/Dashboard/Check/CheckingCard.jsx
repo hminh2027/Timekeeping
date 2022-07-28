@@ -7,6 +7,9 @@ import { fetchCheckInStatus } from "@/redux/feature/user/userSlice";
 import styles from "@/styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "@/utils/hooks/UseTrans";
 import { extractMessages } from "@/utils/Formatter/ApiError";
+import { usePostCheckInMutation } from "@/rest/checkin/checkin.query";
+import { usePostCheckOutMutation } from "@/rest/checkout/checkout.query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const { Text } = Typography;
 const CheckingCard = (props) => {
@@ -23,7 +26,9 @@ const CheckingCard = (props) => {
     const imageSrc = webCamRef.current.getScreenshot();
     setImageSrc(imageSrc);
   }, [webCamRef, setImageSrc]);
-
+  const queryClient = useQueryClient();
+  const { mutate: checkIn } = usePostCheckInMutation();
+  const { mutate: checkOut } = usePostCheckOutMutation();
   const submit = () => {
     navigator.geolocation.getCurrentPosition(async (res) => {
       const latitude = res.coords.latitude.toString();
@@ -39,17 +44,35 @@ const CheckingCard = (props) => {
           throw new Error("No image sent");
         }
         props.state === "checkin"
-          ? await api.post("checkin", payload)
-          : await api.post("checkout", payload);
-        dispatch(fetchCheckInStatus());
+          ? checkIn(payload, {
+              onSuccess: () => {
+                //Fetch CheckInStatus
+                dispatch(fetchCheckInStatus());
+              },
+              onError: (err) => {
+                const message = extractMessages(err);
+                props.setErrors(message);
+              },
+            })
+          : checkOut(payload, {
+              onSuccess: () => {
+                dispatch(fetchCheckInStatus());
+              },
+              onError: (err) => {
+                console.log(err);
+                const message = extractMessages(err);
+                props.setErrors(message);
+              },
+            });
       } catch (err) {
+        console.log(err);
         const message = extractMessages(err);
         props.setErrors(message);
       }
     });
   };
   const webCam = (
-    <div>
+    <div className="min-w-mobile max-w-mobile lg:max-w-screen-md">
       <Webcam
         ref={webCamRef}
         screenshotFormat="image/jpg"
@@ -67,7 +90,7 @@ const CheckingCard = (props) => {
     </div>
   );
   const content = (
-    <div className="flex flex-col flex-wrap w-full">
+    <div className="flex w-full flex-col flex-wrap">
       {noCam && (
         <Text style={{ color: "rgb(255,0,0)" }}>
           {trans.check.error_no_camera}
@@ -79,7 +102,7 @@ const CheckingCard = (props) => {
           avatar={{ active: true, shape: "square", size: 500 }}
         ></Skeleton>
       ) : (
-        <div className="flex flex-col items-center w-full min-h-md min-w-sm">
+        <div className="flex min-h-md w-full min-w-mobile flex-col items-center gap-4">
           {capturing && webCam}
 
           {captured && !capturing && imagePreview}
