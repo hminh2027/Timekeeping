@@ -25,15 +25,15 @@ const CreateUser = (props) => {
     setUserData({ ...UserData, [e.target.name]: e.target.value });
   };
   return (
-    <>
       <div className="card">
-        <div className="card-body ">
-          <div className=" mb-6 justify-center text-center text-xl font-bold">
+        <div className="card-body w-full"> 
+          <div className=" justify-center text-center text-xl font-bold  text-emerald-600">
             Create User
           </div>
+          <div className="border-[1px] border-double border-green-600 mb-6 mt-[-1px]"></div>
           <div className={styles[`input-wrapper`]}>
             <div className={styles[`input-list`]}>
-              <div className="flex ">
+              {/* <div className="flex ">
                 <div className="w-4/12 justify-center p-2 text-center text-sm font-medium dark:text-gray-300">
                   Email:
                 </div>
@@ -43,6 +43,19 @@ const CreateUser = (props) => {
                   placeholder="Email"
                   name="email"
                   value={UserData.email}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div> */}
+              <div className="flex items-center gap-4">
+                <div style={{ minWidth: "5em" }}>Email:</div>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  value={UserData.email}
+                  className="v-input flex-1"
                   onChange={(e) => {
                     handleChange(e);
                   }}
@@ -103,7 +116,6 @@ const CreateUser = (props) => {
           </button>
         </div>
       </div>
-    </>
   );
 };
 

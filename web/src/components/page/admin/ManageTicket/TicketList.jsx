@@ -127,7 +127,7 @@ const TicketListItem = (props) => {
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created by:
         </div>
-        <div className="flex-1">{author.lastName}</div>
+        <div className="flex-1">{author.firstName+" "+author.lastName}</div>
       </div>
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
@@ -155,7 +155,7 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">
           <div
-            className={`w-fit rounded-xl p-2 text-black ${
+            className={`w-fit rounded-xl p-2 ${
               TICKET_STATUS[status.toUpperCase()].background
             } ${TICKET_STATUS[status.toUpperCase()].text}`}
           >
