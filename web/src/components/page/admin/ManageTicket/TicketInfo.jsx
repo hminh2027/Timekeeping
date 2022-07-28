@@ -195,38 +195,7 @@ const ButtonTicket = ({ id, status }) => {
           <Cancel id={id}></Cancel>
         </div>
       );
-    } else {
-      if (status == "approved")
-        return (
-          <div className="flex w-full items-center justify-center">
-            <button
-              className="mr-4 w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black hover:shadow-xl hover:bg-red-500 hover:text-white"
-              type="primary"
-              onClick={() => {
-                handleReject(id);
-              }}
-            >
-              Reject
-            </button>
-            <Cancel id={id}></Cancel>
-          </div>
-        );
-      else {
-        return (
-          <div className="flex w-full items-center justify-center">
-            <button
-              className="mr-4 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:shadow-xl hover:bg-teal-600 hover:text-white"
-              type="primary"
-              onClick={() => {
-                handleApprove(id);
-              }}
-            >
-              Approve
-            </button>
-            <Cancel id={id}></Cancel>
-          </div>
-        );
-      }
+    } 
     }
   };
   const Cancel = ({ id}) => {
