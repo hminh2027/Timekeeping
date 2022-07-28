@@ -1,9 +1,9 @@
-import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
 import React, { useReducer } from "react";
-import UseModal from "@/utils/hooks/UseModal";
 import { useRouter } from "next/router";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { useCancelTicketMutation } from "@/rest/ticket/ticket.query";
+import { USER_TICKET } from "@/utils/constants/react-query";
 const initSort = {
   createdAt: false,
 };
@@ -27,6 +27,7 @@ const TicketList = (props) => {
       sortBy,
       orderBy,
     };
+    console.log("sortOption", sortOption);
     props.onSort(sortOption);
   };
 
@@ -79,9 +80,9 @@ const TicketList = (props) => {
   );
 };
 const TicketListItem = (props) => {
-  const { isShowing, toggle } = UseModal();
   const router = useRouter();
-  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: cancelTicket } = useCancelTicketMutation();
   const {
     id,
     content: { status, title, ticketType, recipient, createdDate },
@@ -96,8 +97,8 @@ const TicketListItem = (props) => {
   if (status === "pending")
     actions.push({
       title: "Cancel",
-      style: "v-btn-green",
-      onClick: cancelHandler,
+      style: "v-btn-gray",
+      onClick: () => cancelHandler(),
     });
 
   const TICKET_STATUS = {
@@ -122,16 +123,16 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 10em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Sent to:
         </div>
         <div className="flex-1">{recipient.lastName}</div>
       </div>
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 font-semibold max-w-32 overflow-clip text-ellipsis">
+        <div className="max-w-32 flex-1 overflow-clip text-ellipsis font-semibold">
           {title}
         </div>
       </div>
@@ -139,7 +140,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 3em" }}
         className={`flex font-light text-gray-500`}
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Type:
         </div>
         <div className="flex-1">{ticketType}</div>
@@ -148,12 +149,12 @@ const TicketListItem = (props) => {
         style={{ flex: "1 1 2em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Status:
         </div>
         <div className="flex-1">
           <div
-            className={`w-fit rounded-xl p-2 text-black ${
+            className={`p-2g w-fit rounded-xl ${
               TICKET_STATUS[status.toUpperCase()].background
             } ${TICKET_STATUS[status.toUpperCase()].text}`}
           >
@@ -165,7 +166,7 @@ const TicketListItem = (props) => {
         style={{ flex: "1 0 8em" }}
         className="flex font-light text-gray-500 "
       >
-        <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
         <div className="flex-1">{createdDate}</div>
@@ -188,7 +189,7 @@ export { TicketListItem, TicketList };
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -202,7 +203,7 @@ const arrow_down_icon = (
 const arrow_up_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-5 h-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >

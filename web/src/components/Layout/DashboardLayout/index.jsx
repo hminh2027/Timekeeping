@@ -21,6 +21,7 @@ const DashboardLayout = (props) => {
   const userInfo = useSelector(selectUserInfo);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const checkAuthStatus = () => {
       const authed = auth.checkAuth();

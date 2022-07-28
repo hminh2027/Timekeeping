@@ -1,5 +1,7 @@
-const CommentChild = ({ id, userId, content }) => {
-  if (id == userId) {
+import React from "react";
+
+const MessageRow = ({ id, userId, content }) => {
+  if (id !== userId) {
     return (
       <div className="flex justify-start">
         <div className="mt-1 w-min truncate rounded-2xl border border-solid border-teal-500 bg-slate-100 p-2">
@@ -18,4 +20,4 @@ const CommentChild = ({ id, userId, content }) => {
   }
 };
 
-export default CommentChild;
+export default MessageRow;

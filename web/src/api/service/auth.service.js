@@ -3,14 +3,14 @@ import auth from "@/api/auth";
 import Cookies from "js-cookie";
 import { AUTH_CONSTANTS } from "@/utils/constants/auth_constants";
 export const logOut = async () => {
-  const token = process.env.AUTH_TOKEN;
-  // const role = process.env.USER_ROLE;
+  const token = AUTH_CONSTANTS.AUTH_TOKEN;
+  const refreshToken = AUTH_CONSTANTS.REFRESH_TOKEN;
   api.clearToken();
   localStorage.removeItem(token);
+  localStorage.removeItem(refreshToken);
   Cookies.remove(AUTH_CONSTANTS.AUTH_TOKEN);
   Cookies.remove(AUTH_CONSTANTS.REFRESH_TOKEN);
   window.location.replace(`/account/login`);
-  // localStorage.removeItem(role);
 };
 
 export const login = async (body) => {

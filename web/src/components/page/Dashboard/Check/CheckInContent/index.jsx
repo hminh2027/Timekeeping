@@ -38,6 +38,7 @@ const CheckInContent = () => {
           className="v-btn-primary"
           onClick={() => {
             setIsChecking(true);
+            setErrors(null);
           }}
         >
           {trans.check.checkin.checkin_now}
@@ -67,15 +68,15 @@ const CheckInContent = () => {
           // width="16"
           // height="9"
           // layout="responsive"
-          className="aspect-video"
+          className="aspect-video max-w-mobile object-contain"
         />
       </div>
     </div>
   );
   const redirectCheckOut = (
-    <div className="card w-max">
+    <div className="card lg:w-max">
       <div className="card-body">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4 lg:flex-nowrap">
           <div>Already checked in! Go to Checkout?</div>
           <button
             className="v-btn-primary rounded px-4 py-1"

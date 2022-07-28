@@ -1,62 +1,48 @@
 import React, { useReducer } from "react";
 import Approve from "./Approve";
-
 const initSort = {
   createdAt: false,
-  startDate: false,
-  endDate: false,
 };
 function reducer(state, action) {
   switch (action.type) {
     case "SORT_CREATED_AT": {
       return { ...initSort, createdAt: action.data };
     }
-    case "SORT_START_DATE": {
-      state = { ...initSort };
-      state.startDate = action.data;
-      return state;
-    }
-    case "SORT_END_DATE": {
-      state = { ...initSort };
-      state.endDate = action.data;
-      return state;
-    }
     default:
       return state;
   }
 }
-const TicketList = React.memo((props) => {
+const TicketList = (props) => {
   const tickets = props.tickets;
-  console.log("TICKETS LIST ", tickets);
   const [state, dispatch] = useReducer(reducer, initSort);
-  const { createdAt, startDate, endDate } = state;
-
-  const sortHandle = (sortField, sortType) => {
+  const { createdAt } = state;
+  const sortHandle = (sortBy, orderBy) => {
     const sortOption = {
-      sortField,
-      sortType,
+      sortBy,
+      orderBy,
     };
     props.onSort(sortOption);
   };
+
   return (
     <>
+      {/* Table Header */}
       <div
+        style={{
+          backgroundColor: "#f0f0f0",
+        }}
         className="hidden p-4 font-semibold lg:flex"
-        style={{ background: "rgb(153, 226, 180)" }}
       >
-        <div className="font-semibold" style={{ flex: "1 0 2em" }}>
-          Id
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+          Created by
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 8em" }}>
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
           Title
-        </div>
-        <div className="font-semibold" style={{ flex: "1 0 5em" }}>
-          Author
         </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Type
         </div>
-        <div className="font-semibold" style={{ flex: "1 1 3em" }}>
+        <div className="font-semibold" style={{ flex: "1 1 2em" }}>
           Status
         </div>
         <div
@@ -67,35 +53,31 @@ const TicketList = React.memo((props) => {
             sortHandle("createdAt", !createdAt);
           }}
         >
-          <div>Created At</div>
+          Created At
           <div className="ml-4">
             {createdAt ? arrow_down_icon : arrow_up_icon}
           </div>
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 2em" }}>
+        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Action
         </div>
       </div>
-      {/* <div className="flex flex-1"> */}
-      <div className="h-[500px] overflow-auto pb-1">
-        {tickets?.map((ticket, i) => (
-          <TicketListItem
-            key={i}
-            id={ticket.id}
-            author={ticket.author}
-            content={ticket.content}
-            title={ticket.title}
-            createdAt={ticket.createdAt}
-            status={ticket.ticketStatus}
-            type={ticket.ticketType}
-          />
-        ))}
-      </div>
+      {tickets?.map((ticket) => (
+        <TicketListItem
+          key={ticket.id}
+          id={ticket.id}
+          author={ticket.author}
+          content={ticket.content}
+          title={ticket.title}
+          createdAt={new Date(ticket.createdAt).toLocaleDateString()}
+          status={ticket.ticketStatus}
+          type={ticket.ticketType}
+        />
+      ))}
     </>
   );
-});
+};
 const TicketListItem = (props) => {
-  console.log("props", props);
   const {
     id,
     status,
@@ -103,10 +85,18 @@ const TicketListItem = (props) => {
     type,
     author,
     content,
-    createdAt,
-    // content: { status, title, type ,author, startDate, actions },
-  } = props;
+    createdAt,    
+    } = props;
+
   const statusIcon = [];
+
+  const TICKET_STATUS = {
+    REJECTED: { background: "bg-[#ffedeb]", text: "text-red-600" },
+    APPROVED: { background: "bg-[#e5f7ed]", text: "text-[#00b14f]" },
+    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-red-600" },
+    PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
+  };
+
   switch (status) {
     case "rejected": {
       statusIcon.push("🔴");
@@ -116,44 +106,39 @@ const TicketListItem = (props) => {
       statusIcon.push("🟢");
       break;
     }
-    case "pending": {
-      statusIcon.push("🟡");
+    case "cancelled": {
+      statusIcon.push("⚪");
       break;
     }
     default: {
-      statusIcon.push("⚪");
+      statusIcon.push("🟡");
       break;
     }
   }
   return (
-    <div className="w-full items-center border-b border-b-orange-600 py-4 font-medium hover:bg-sky-200 lg:flex lg:justify-start lg:px-4 lg:py-8">
-      <div style={{ flex: "1 0 2em" }} className="flex text-sky-800">
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
-          Id:
-        </div>
-        <div className="flex-1 font-semibold">{id}</div>
-      </div>
+    <div
+      className="items-center border-b-4 border-[#fafafa] py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8 "
+      // onClick={() => openModal(id)}
+    >
       <div
-        style={{ flex: "1 0 8em" }}
-        className={`flex font-light text-gray-500`}
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500 "
       >
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+          Created by:
+        </div>
+        <div className="flex-1">{author.firstName+" "+author.lastName}</div>
+      </div>
+      <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1">{title}</div>
-      </div>
-      <div
-        style={{ flex: "1 0 5em" }}
-        className={`flex font-light text-gray-500`}
-      >
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
-          Author:
+        <div className="max-w-32 flex-1 overflow-clip text-ellipsis font-semibold">
+          {title}
         </div>
-        {/* <div className="flex-1">{author.lastName+" "+author.firstName}</div> */}
-        <div className="flex-1">{author.lastName + " " + author.firstName}</div>
       </div>
       <div
-        style={{ flex: "1 0 5em" }}
+        style={{ flex: "1 0 3em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
@@ -169,7 +154,13 @@ const TicketListItem = (props) => {
           Status:
         </div>
         <div className="flex-1">
-          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+          <div
+            className={`w-fit rounded-xl p-2 ${
+              TICKET_STATUS[status.toUpperCase()].background
+            } ${TICKET_STATUS[status.toUpperCase()].text}`}
+          >
+            {status}
+          </div>
         </div>
       </div>
       <div
@@ -179,19 +170,23 @@ const TicketListItem = (props) => {
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
-        <div className="flex-1">{new Date(createdAt).toLocaleDateString()}</div>
+        <div className="flex-1">{createdAt}</div>
       </div>
-      <div style={{ flex: "1 0 2em" }} className="font-light text-gray-500">
-        <Approve id={id} num={status} authorId={author.id}></Approve>
+      <div
+        style={{ flex: "1 0 3em" }}
+        className="flex justify-end gap-2 font-light text-gray-500 lg:justify-start"
+      >
+        <Approve id={id} num={status}></Approve>
       </div>
     </div>
   );
 };
-export { TicketListItem, TicketList };
+export default TicketList;
+
 const arrow_down_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="h-5 w-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -205,7 +200,7 @@ const arrow_down_icon = (
 const arrow_up_icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="h-5 w-5"
+    className="h-5 w-5"
     viewBox="0 0 20 20"
     fill="currentColor"
   >

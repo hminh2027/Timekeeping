@@ -4,24 +4,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchTickets, selectTickets } from "@/redux/feature/admin/tickets";
 import { Col, Row } from "antd";
 import { useState, useEffect } from "react";
-import { TicketList } from "./TicketList";
-import TableTicket from "./TableTicket";
 import { useGetTicketQuery } from "src/rest/ticket/ticket.query";
 import { DesktopFilter, MobileFilter } from "./Filter";
+import TicketLists from "./TicketList";
 const ApproveTicket = () => {
   const tickets = useSelector(selectTickets);
   console.log("Tickets", tickets);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [filterOptions, setFilterOptions] = useState({
     title: "",
     type: "",
     status: "",
   });
   const [sortOption, setSortOption] = useState({
-    sortField: "createdAt",
-    sortType: false,
+    sortBy: "createdAt",
+    orderBy: false,
   });
-  const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortField}&sortType=${sortOption.sortType}`;
+  const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
   console.log("SORT:", sortOptions);
   const { data: Tickets } = useGetTicketQuery(sortOptions);
   console.log("getTicket", Tickets);
@@ -46,13 +45,17 @@ const ApproveTicket = () => {
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
           />
-          <TicketList
+          {/* <TicketList
             tickets={Tickets}
             onSort={(option) => setSortOption(option)}
             sortOption={sortOption}
+          /> */}
+          <TicketLists
+            tickets={Tickets}
+            onSort = {(option) => setSortOption(option)}
+            sortOption = {sortOption}
           />
-          {/* <TableTicket/> */}
-        </div>
+          </div>
       </div>
     </div>
   );

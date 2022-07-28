@@ -31,7 +31,6 @@ export const useGetTicketTypeQuery = () => {
   ]);
 };
 export const useGetMyTicketWithSortQuery = (sortOptions) => {
-  // console.log(sortOptions);
   return useQuery(
     [USER_TICKET.WITH_SORT, sortOptions],
     () => TicketService.getMyTicketWithSort(sortOptions),
@@ -45,7 +44,7 @@ export const useGetTicketInfoQuery = (id) => {
   return useQuery(
     [USER_TICKET.TICKET_INFO, id],
     () => {
-      return TicketService.getTicketInfo(id);
+      return TicketService.getTicketId(id);
     },
     {
       select: (data) => TicketInfoFormatter(data),
@@ -61,7 +60,9 @@ export const useUpdateTicketInfoQuery = () => {
     TicketService.updateTicketInfo(id, ticketInfo)
   );
 };
-
+export const useCancelTicketMutation = () => {
+  return useMutation((id) => TicketService.cancelTicket(id));
+};
 export const useApproveTicketMutation = () => {
   return useMutation((id) => {
     return TicketService.approveTicket(id);

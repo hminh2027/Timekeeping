@@ -1,17 +1,16 @@
-import TicketInfo from "@/components/page/Dashboard/Ticket/TicketInfo";
-import DashboardLayout from "@/layout/DashboardLayout";
+import TicketInfo from "@/components/page/admin/ManageTicket/TicketInfo";
 import React, { useState } from "react";
 import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
-
-const TicketDetails = (props) => {
+import AdminLayout from "@/layout/AdminLayout/AdminLayout";
+const Ticket = (props) => {
   const { id } = props;
   // console.log(id);
   const { isLoading, error, data: ticketData } = useGetTicketInfoQuery(id);
   if (isLoading) return <div>Loading ...</div>;
   if (error) return <div>Error :( </div>;
-  console.log(ticketData);
+  console.log("TICKET DATA ID ROUTER", ticketData);
 
-  const createDate = new Date(ticketData.content.createdDate).toLocaleString();
+  const createDate = new Date(ticketData.content.createDate).toLocaleString();
   const updateDate = new Date(ticketData.content.updateDate).toLocaleString();
   if (ticketData)
     return (
@@ -52,8 +51,8 @@ const TicketDetails = (props) => {
       </div>
     );
 };
-TicketDetails.layout = DashboardLayout;
-export default TicketDetails;
+Ticket.layout = AdminLayout;
+export default Ticket;
 export async function getServerSideProps(context) {
   const { id } = context.query;
   return {

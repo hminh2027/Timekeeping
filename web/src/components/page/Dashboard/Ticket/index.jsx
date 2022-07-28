@@ -27,7 +27,15 @@ const TicketContent = () => {
 
   const queryClient = useQueryClient();
 
-  const sortOptions = `${TICKET_FILTER.limit}=10&${TICKET_FILTER.page}=1&${TICKET_FILTER.title}=${filterOptions.title}&${TICKET_FILTER.type}=${filterOptions.type}&ticketStatus=${filterOptions.status}&${TICKET_FILTER.field}=${sortOption.sortBy}&${TICKET_FILTER.orderBy}=${sortOption.orderBy}`;
+  const sortOptions = {
+    [TICKET_FILTER.limit]: 10,
+    [TICKET_FILTER.page]: 1,
+    [TICKET_FILTER.title]: filterOptions.title,
+    [TICKET_FILTER.status]: filterOptions.status,
+    [TICKET_FILTER.type]: filterOptions.type,
+    [TICKET_FILTER.field]: sortOption.sortBy,
+    [TICKET_FILTER.orderBy]: sortOption.orderBy,
+  };
   const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(sortOptions);
 
   return (
