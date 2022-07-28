@@ -31,27 +31,26 @@ const LeaderBoard = () => {
     {
       title: "Username",
       key: "username",
-      render: (text) => (
-        <Link href="http://localhost:3005/">
-          <div>{text}</div>
-        </Link>
+      render: (obj) => (
+        <Link href="http://localhost:3005/">{<div>{obj.username}</div>}</Link>
       ),
     },
     {
       title: "Check in",
       key: "checkin",
-      render: (text) => (
+      render: (obj) => (
         <div className="w-fit rounded-xl bg-[#fff5e6] px-3 text-[#ff9f0a]">
-          {text}
+          {obj.minutes == 12 ? <div>this is jain minh</div> : obj.checkin}
+          {/* {obj.checkin} */}
         </div>
       ),
     },
     {
       title: "Minutes",
       key: "minutes",
-      render: (text) => (
+      render: (obj) => (
         <div className="w-fit rounded-xl bg-[#e5f7ed] px-3 text-[#00b14f]">
-          {text}
+          {obj.minutes}
         </div>
       ),
     },
