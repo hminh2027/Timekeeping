@@ -45,7 +45,7 @@ export const useGetTicketInfoQuery = (id) => {
   return useQuery(
     [USER_TICKET.TICKET_INFO, id],
     () => {
-      return TicketService.getTicketInfo(id);
+      return TicketService.getTicketId(id);
     },
     {
       select: (data) => TicketInfoFormatter(data),

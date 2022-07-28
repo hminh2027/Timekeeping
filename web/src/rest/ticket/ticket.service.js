@@ -1,6 +1,6 @@
 import { BaseService } from "../base-service";
 import { API_ENDPOINTS } from "../endpoints";
-import moment from "moment";
+
 
 class Ticket extends BaseService {
   getMyTicket() {
@@ -20,11 +20,11 @@ class Ticket extends BaseService {
       .get(`${this.basePath}/me?${sortOptions}`)
       .then((res) => res.data);
   }
-  getTicketInfo(id) {
-    const url = `${this.basePath}/${id}`;
-    // console.log("URL", url);
-    return this.http.get(url).then((res) => res.data);
-  }
+  // getTicketInfo(id) {
+  //   const url = `${this.basePath}/${id}`;
+  //   // console.log("URL", url);
+  //   return this.http.get(url).then((res) => res.data);
+  // }
   addTicket(ticketInfo) {
     return this.http
       .post(`${this.basePath}`, ticketInfo)
