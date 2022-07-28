@@ -152,7 +152,7 @@ const ButtonTicket = ({id, status}) => {
       return (
         <div className="flex w-full items-center justify-center">
           <button
-            className="mr-2 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
+            className="mr-4 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:shadow-xl hover:bg-teal-600 hover:text-white"
             type="primary"
             onClick={() => {
               handleApprove(id);
@@ -161,7 +161,7 @@ const ButtonTicket = ({id, status}) => {
             Approve
           </button>
           <button
-            className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
+            className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black hover:shadow-xl hover:bg-red-500 hover:text-white"
             type="primary"
             onClick={() => {
               handleReject(id);
@@ -176,7 +176,7 @@ const ButtonTicket = ({id, status}) => {
         return (
           <div className="flex w-full items-center justify-center">
             <button
-              className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black shadow-xl hover:bg-red-500 hover:text-white"
+              className="mr-4 w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black hover:shadow-xl hover:bg-red-500 hover:text-white"
               type="primary"
               onClick={() => {
                 handleReject(id);
@@ -191,7 +191,7 @@ const ButtonTicket = ({id, status}) => {
         return (
           <div className="flex w-full items-center justify-center">
             <button
-              className="mr-2 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
+              className="mr-4 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:shadow-xl hover:bg-teal-600 hover:text-white"
               type="primary"
               onClick={() => {
                 handleApprove(id);
@@ -220,7 +220,7 @@ const ButtonTicket = ({id, status}) => {
     }
     return (
       <button
-        className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black shadow-xl hover:bg-gray-400 hover:text-white"
+        className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black hover:shadow-xl hover:bg-gray-400 hover:text-white"
         type="primary"
         onClick={() => {
           handleDelete(id);
