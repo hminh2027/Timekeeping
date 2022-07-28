@@ -120,7 +120,6 @@ const TicketInfo = React.memo((props) => {
       )}
     </div>
   );
-
   if (data) return ticketContent;
 });
 

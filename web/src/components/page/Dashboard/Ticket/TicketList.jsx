@@ -27,6 +27,7 @@ const TicketList = (props) => {
       sortBy,
       orderBy,
     };
+    console.log("sortOption",sortOption);
     props.onSort(sortOption);
   };
 
