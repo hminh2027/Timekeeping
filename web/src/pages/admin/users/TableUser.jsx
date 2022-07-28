@@ -14,22 +14,24 @@ const TableUsers = React.memo((props) => {
   return (
     <>
       <div
-        className="hidden w-full p-4 font-semibold lg:flex"
-        style={{ background: "rgb(153, 226, 180)" }}
+        style={{
+          backgroundColor: "#f0f0f0",
+        }}
+        className="hidden p-4 font-semibold lg:flex"
       >
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
           Employee Id
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 6em" }}>
+        <div className="font-semibold" style={{ flex: "1 0 5em" }}>
           Name
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 12em" }}>
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
           Email
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 5em" }}>
+        <div className="font-semibold" style={{ flex: "1 1 3em" }}>
           Role
         </div>
-        <div className="font-semibold" style={{ flex: "1 0 3em" }}>
+        <div className="font-semibold" style={{ flex: "1 0 2em" }}>
           Action
         </div>
       </div>
@@ -55,15 +57,21 @@ const UserItem = (props) => {
   const statusIcon = [];
 
   return (
-    <div className="w-full items-center border-b border-b-orange-600 py-4 font-medium hover:bg-sky-200 lg:flex lg:justify-start lg:px-4 lg:py-8">
-      <div style={{ flex: "1 0 3em" }} className="flex text-sky-800">
-        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+    <div 
+    className="items-center border-b-4 border-[#fafafa] py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8 "
+    // onClick={() => openModal(id)}
+    >
+    <div
+      style={{ flex: "1 0 3em" }}
+      className="flex font-light text-gray-500 "
+    >
+      <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           EmployeeId:
         </div>
         <div className="flex-1 font-semibold">{id}</div>
       </div>
       <div
-        style={{ flex: "1 0 6em" }}
+        style={{ flex: "1 0 5em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
@@ -72,7 +80,7 @@ const UserItem = (props) => {
         <div className="flex-1">{firstName + " " + lastName}</div>
       </div>
       <div
-        style={{ flex: "1 0 12em" }}
+        style={{ flex: "1 0 10em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
@@ -81,7 +89,7 @@ const UserItem = (props) => {
         <div className="flex-1">{email}</div>
       </div>
       <div
-        style={{ flex: "1 0 5em" }}
+        style={{ flex: "1 0 3em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
@@ -90,7 +98,7 @@ const UserItem = (props) => {
         <div className="flex-1">{role}</div>
       </div>
       <div
-        style={{ flex: "1 0 3em" }}
+        style={{ flex: "1 0 2em" }}
         className={`flex font-light text-gray-500`}
       >
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
@@ -117,7 +125,7 @@ const Credit = ({ id, firstName, lastName, email, role }) => {
     <>
       <button
         onClick={toggle}
-        className="mr-2 rounded-xl border border-solid border-teal-700 p-1 hover:bg-teal-600"
+        className="mr-2 rounded-xl p-2 hover:bg-slate-300"
       >
         🖊️
       </button>
@@ -143,7 +151,7 @@ const Delete = ({ id }) => {
     <>
       <button
         onClick={toggle}
-        className="rounded-xl border border-solid border-gray-500 p-1 hover:bg-gray-400"
+        className="rounded-xl p-2 hover:bg-gray-400"
       >
         🗑️
       </button>
