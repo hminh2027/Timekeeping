@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import UseModal from "@/utils/hooks/UseModal";
-import Modal from "@/components/Common/Modal";
-import CheckTicket from "./Check";
-import CommentTicket from "./CommentTicket";
 import { useRouter } from "next/router";
 
-const Approve = ({ num, id, authorId }) => {
+const Approve = ({ num, id}) => {
   const router = useRouter();
   const { isShowing, toggle } = UseModal();
   console.log("ticket", num, id);
@@ -13,7 +10,7 @@ const Approve = ({ num, id, authorId }) => {
     return (
       <div>
         <button
-          className="w-4/5 rounded-lg border border-solid border-teal-700 bg-white p-1 text-black hover:bg-teal-700 hover:text-stone-100"
+          className="w-full rounded-lg border border-solid border-teal-700 px-3 bg-white p-1 text-black hover:bg-teal-700 hover:text-stone-100"
           // onClick={toggle}
           onClick={ () => router.push(`/admin/ticket/${id}`)}
         >
@@ -31,7 +28,7 @@ const Approve = ({ num, id, authorId }) => {
     return (
       <div className="flex">
         <button
-          className="w-4/5 rounded-lg border border-solid border-gray-600 bg-slate-300 p-1 text-black hover:bg-gray-600 hover:text-stone-100 "
+          className="w-full rounded-lg border border-solid border-gray-600 bg-slate-300 px-6 py-1 text-black hover:bg-gray-600 hover:text-stone-100 "
           // onClick={toggle}
           onClick={ () => router.push(`/admin/ticket/${id}`)}
         >

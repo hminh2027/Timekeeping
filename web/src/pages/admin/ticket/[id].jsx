@@ -1,8 +1,8 @@
 import TicketInfo from "@/components/page/admin/ManageTicket/TicketInfo";
-import DashboardLayout from "@/layout/DashboardLayout";
 import React, { useState } from "react";
 import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
 import CommentTicket from "@/components/page/admin/ManageTicket/CommentTicket";
+import AdminLayout from "@/layout/AdminLayout/AdminLayout";
 const Ticket = (props) => {
   const { id } = props;
   // console.log(id);
@@ -52,7 +52,7 @@ const Ticket = (props) => {
       </div>
     );
 };
-Ticket.layout = DashboardLayout;
+Ticket.layout = AdminLayout;
 export default Ticket;
 export async function getServerSideProps(context) {
   const { id } = context.query;
