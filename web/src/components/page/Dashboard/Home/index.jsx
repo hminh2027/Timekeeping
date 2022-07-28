@@ -1,45 +1,64 @@
-import { Button, Col, Row } from "antd";
+import LeaderBoard from "@/components/LeaderBoard";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { selectUserCheckInStatus } from "../../../../redux/feature/user/userSlice";
-import styles from "../../../../styles/pages/dashboard/home.module.scss";
+import {
+  selectUserCheckInStatus,
+  selectUserCheckInInfo,
+} from "../../../../redux/feature/user/userSlice";
 import ReactCalendar from "./ReactCalendar";
 
 const Home = () => {
   const checkInStatus = useSelector(selectUserCheckInStatus);
+  const checkInInfo = useSelector(selectUserCheckInInfo);
+
   const notCheckedContent = (
     <>
       <div>Let's get to work!✨✨</div>
       <Link href="/dashboard/checkin">
-        <Button type="primary" className={styles.button}>
+        <button type="primary" className="v-btn-primary">
           Check In ✔
-        </Button>
+        </button>
       </Link>
     </>
   );
   const checkInContent = (
     <>
       <div>Already Checked In!🔥🔥🔥</div>
+      {checkInInfo && (
+        <img
+          crossOrigin="anonymous"
+          src={`${process.env.APP_URL}${checkInInfo.checkinImage}`}
+          // width="16"
+          // height="9"
+          // layout="responsive"
+          className="object-contain aspect-video"
+        />
+      )}
     </>
   );
   return (
     <>
-      <Row style={{ padding: 0, margin: 0 }} gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={24} lg={8}>
+      <div className="flex gap-8 m-4">
+        <div className="flex flex-col w-1/3 gap-4">
           <div className="card ">
             <div className="card-body">
               {checkInStatus ? checkInContent : notCheckedContent}
             </div>
           </div>
-        </Col>
-        <Col xs={24} sm={24} md={24} lg={16}>
-          <div className="card w-full">
+          <div className="w-full card">
             <div className="card-body">
               <ReactCalendar />
             </div>
           </div>
-        </Col>
-      </Row>
+        </div>
+        <div className="flex flex-col w-2/3 gap-4">
+          <div className="w-full card">
+            <div className="card-body">
+              <LeaderBoard />
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

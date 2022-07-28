@@ -2,10 +2,6 @@ import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
 import React, { useReducer } from "react";
 import UseModal from "@/utils/hooks/UseModal";
-import Modal from "@/components/Common/Modal";
-import CommentTicket from "./CommentTicket";
-import TicketInfo from "./TicketInfo";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const initSort = {
@@ -44,7 +40,7 @@ const TicketList = (props) => {
         className="hidden p-4 font-semibold lg:flex"
       >
         <div className="font-semibold" style={{ flex: "1 0 10em" }}>
-          Created by
+          Sent to
         </div>
         <div className="font-semibold" style={{ flex: "1 0 10em" }}>
           Title
@@ -65,7 +61,7 @@ const TicketList = (props) => {
         >
           Created At
           <div className="ml-4">
-            {createdAt ? arrow_down_icon : arrow_up_icon}
+            {createdAt ? arrow_up_icon : arrow_down_icon}
           </div>
         </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
@@ -103,33 +99,14 @@ const TicketListItem = (props) => {
       style: "v-btn-green",
       onClick: cancelHandler,
     });
-  const statusIcon = [];
 
   const TICKET_STATUS = {
-    REJECTED: { background: "bg-[#ffedeb]", text: "text-red-600" },
+    REJECTED: { background: "bg-[#ffedeb]", text: "text-[#ff564c]" },
     APPROVED: { background: "bg-[#e5f7ed]", text: "text-[#00b14f]" },
-    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-red-600" },
+    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-[#9f9f9f]" },
     PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
   };
 
-  switch (status) {
-    case "rejected": {
-      statusIcon.push("🔴");
-      break;
-    }
-    case "approved": {
-      statusIcon.push("🟢");
-      break;
-    }
-    case "cancelled": {
-      statusIcon.push("⚪");
-      break;
-    }
-    default: {
-      statusIcon.push("🟡");
-      break;
-    }
-  }
   const cancelHandler = (id) => {
     dispatch(cancelTicket(id));
   };
@@ -146,7 +123,7 @@ const TicketListItem = (props) => {
         className="flex font-light text-gray-500 "
       >
         <div className="w-32 mx-4 font-semibold text-sky-800 lg:hidden">
-          Created by:
+          Sent to:
         </div>
         <div className="flex-1">{recipient.lastName}</div>
       </div>

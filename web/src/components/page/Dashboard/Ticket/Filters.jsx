@@ -110,7 +110,7 @@ const MobileFilter = (props) => {
     props.onSubmit(data);
   };
   return (
-    <div className={`bg-paleGreen p-4  ${props.className}`}>
+    <div className={`bg-smoke p-4  ${props.className}`}>
       {usingFilter && (
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col gap-4">
