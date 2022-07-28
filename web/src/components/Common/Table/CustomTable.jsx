@@ -13,7 +13,7 @@ const CustomTable = ({ dataSource, columns }) => {
     columns.map((col) => {
       if (col.render) {
         dataSource.map((data, key) => {
-          data[col.key] = col.render(data[col.key]);
+          data[col.key] = col.render(data);
         });
       }
     });
@@ -42,7 +42,7 @@ const CustomTable = ({ dataSource, columns }) => {
       </thead>
       <tbody>
         {data.map((item, key) => (
-          <tr key={key} className="bg-white border-b ">
+          <tr key={key} className="border-b bg-white ">
             {Object.keys(item).map((key) => (
               <td key={key} scope="row" className="px-6 py-4 text-gray-500">
                 {item[key]}
