@@ -2,7 +2,6 @@ import TicketInfo from "@/components/page/Dashboard/Ticket/TicketInfo";
 import DashboardLayout from "@/layout/DashboardLayout";
 import React, { useState } from "react";
 import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
-import CommentTicket from "@/components/page/Dashboard/Ticket/CommentTicket";
 
 const TicketDetails = (props) => {
   const { id } = props;
@@ -12,7 +11,7 @@ const TicketDetails = (props) => {
   if (error) return <div>Error :( </div>;
   console.log(ticketData);
 
-  const createDate = new Date(ticketData.content.createDate).toLocaleString();
+  const createDate = new Date(ticketData.content.createdDate).toLocaleString();
   const updateDate = new Date(ticketData.content.updateDate).toLocaleString();
   if (ticketData)
     return (
