@@ -27,7 +27,7 @@ const TicketList = (props) => {
       sortBy,
       orderBy,
     };
-    console.log("sortOption",sortOption);
+    console.log("sortOption", sortOption);
     props.onSort(sortOption);
   };
 
@@ -41,7 +41,7 @@ const TicketList = (props) => {
         className="hidden p-4 font-semibold lg:flex"
       >
         <div className="font-semibold" style={{ flex: "1 0 10em" }}>
-          Created by
+          Sent to
         </div>
         <div className="font-semibold" style={{ flex: "1 0 10em" }}>
           Title
@@ -62,7 +62,7 @@ const TicketList = (props) => {
         >
           Created At
           <div className="ml-4">
-            {createdAt ? arrow_down_icon : arrow_up_icon}
+            {createdAt ? arrow_up_icon : arrow_down_icon}
           </div>
         </div>
         <div className="font-semibold" style={{ flex: "1 0 3em" }}>
@@ -100,40 +100,19 @@ const TicketListItem = (props) => {
       style: "v-btn-gray",
       onClick: () => cancelHandler(),
     });
-  const statusIcon = [];
 
   const TICKET_STATUS = {
-    REJECTED: { background: "bg-[#ffedeb]", text: "text-red-600" },
+    REJECTED: { background: "bg-[#ffedeb]", text: "text-[#ff564c]" },
     APPROVED: { background: "bg-[#e5f7ed]", text: "text-[#00b14f]" },
-    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-red-600" },
+    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-[#9f9f9f]" },
     PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
   };
 
-  switch (status) {
-    case "rejected": {
-      statusIcon.push("🔴");
-      break;
-    }
-    case "approved": {
-      statusIcon.push("🟢");
-      break;
-    }
-    case "cancelled": {
-      statusIcon.push("⚪");
-      break;
-    }
-    default: {
-      statusIcon.push("🟡");
-      break;
-    }
-  }
-  const cancelHandler = () => {
-    console.log("HELLO");
-    cancelTicket(id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
-      },
-    });
+  const cancelHandler = (id) => {
+    dispatch(cancelTicket(id));
+  };
+  const openModal = (id) => {
+    toggle();
   };
   return (
     <div
@@ -145,7 +124,7 @@ const TicketListItem = (props) => {
         className="flex font-light text-gray-500 "
       >
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
-          Created by:
+          Sent to:
         </div>
         <div className="flex-1">{recipient.lastName}</div>
       </div>

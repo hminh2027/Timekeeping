@@ -38,6 +38,8 @@ module.exports = {
         paleGreen: "rgb(153, 226, 180)",
         mirror: "rgba(0, 0, 0, 0.5)",
         pastelBlue: "rgb(175, 189, 218)",
+        seaBlue: "rgb(205, 240, 234)",
+        smoke: "rgb(240, 240, 240)",
       },
     },
   },
