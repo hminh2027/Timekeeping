@@ -22,7 +22,7 @@ const TicketContent = () => {
   });
   const [sortOption, setSortOption] = useState({
     sortBy: "createdAt",
-    orderBy: true,
+    orderBy: false,
   });
 
   const queryClient = useQueryClient();
@@ -37,11 +37,11 @@ const TicketContent = () => {
     [TICKET_FILTER.orderBy]: sortOption.orderBy,
   };
   const { data: ticketsWithSort } = useGetMyTicketWithSortQuery(sortOptions);
-  console.log(ticketsWithSort);
+
   return (
-    <div className="flex-1 flex-col gap-8">
+    <div className="flex-col flex-1 gap-8 m-4">
       <div
-        className="m-1 flex flex-col overflow-auto rounded-lg "
+        className="flex flex-col m-1 overflow-auto rounded-lg "
         style={{
           backgroundColor: "#fff",
           boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",

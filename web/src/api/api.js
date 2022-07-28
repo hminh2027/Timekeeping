@@ -69,8 +69,6 @@ const clearToken = () => {
 
 const api = {
   get: (url, params = {}) => {
-    console.log("url:", getURL(url));
-    // console.log(HEADERS);
     return axios.get(getURL(url), {
       params,
       headers: HEADERS,
@@ -78,8 +76,6 @@ const api = {
   },
 
   post: (url, body = {}, params = {}) => {
-    console.log("url:", getURL(url));
-    // console.log(HEADERS);
     return axios.post(getURL(url), body, {
       params,
       headers: HEADERS,
@@ -87,14 +83,12 @@ const api = {
   },
 
   patch: (url, params) => {
-    console.log("url:", getURL(url));
     return axios.patch(getURL(url), params, {
       headers: HEADERS,
     });
   },
 
   delete: (url, params) => {
-    console.log("url:", getURL(url));
     console.log("delete header", HEADERS);
     axios.defaults.headers.delete["Authorization"] = HEADERS.Authorization;
     return axios.delete(getURL(url), params, {
@@ -103,7 +97,6 @@ const api = {
   },
 
   postMultiplePart: (url, params) => {
-    console.log("url:", getURL(url));
     return axios.post(getURL(url), params, {
       headers: HEADERS_MUlTIPLE_PART,
     });

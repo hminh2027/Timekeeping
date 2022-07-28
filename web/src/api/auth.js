@@ -6,7 +6,7 @@ const TOKEN = process.env.ROLE;
 
 const checkAuth = () => {
   if (typeof window !== "undefined") {
-    console.log("set token");
+    // console.log("set token");
     const accessToken = localStorage.getItem(AUTH_CONSTANTS.AUTH_TOKEN);
     // console.log("access token: " + accessToken);
     if (accessToken) {

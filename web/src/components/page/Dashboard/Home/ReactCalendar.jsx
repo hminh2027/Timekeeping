@@ -65,7 +65,7 @@ const ReactCalendar = () => {
       const res = getDateArray(ticket);
       return approvedDays.push(...res);
     });
-    console.log("DATA", approvedDays);
+    // console.log("DATA", approvedDays);
     setData({ ...data, approved: approvedDays });
     const getStatus = async () => {
       const res = await getCheckInStatus();
@@ -83,25 +83,26 @@ const ReactCalendar = () => {
     };
     fetchTicketData();
   }, [curDate]);
-  useEffect(() => {
-    const fetchCheckInInfo = async () => {
-      try {
-        const res = await getCheckInStatus({
-          fromDate: moment(curDate).format("YYYY-MM-DD"),
-          toDate: moment(curDate).add(1, "d").format("YYYY-MM-DD"),
-        });
 
-        setCheckInInfo(checkInInfoFormatter(res.data[0]));
-      } catch (err) {
-        console.error(err);
-        setCheckInInfo(undefined);
-      } finally {
-        setLoadingInfo(false);
-      }
-    };
-    fetchCheckInInfo();
-  }, [curDate]);
-  // console.log(checkInInfo);
+  // useEffect(() => {
+  //   fetchCheckInInfo();
+  // }, [curDate]);
+
+  const fetchCheckInInfo = async (date) => {
+    try {
+      const res = await getCheckInStatus({
+        fromDate: moment(date).format("YYYY-MM-DD"),
+        toDate: moment(date).add(1, "d").format("YYYY-MM-DD"),
+      });
+
+      setCheckInInfo(checkInInfoFormatter(res.data[0]));
+    } catch (err) {
+      console.error(err);
+      setCheckInInfo(undefined);
+    } finally {
+      setLoadingInfo(false);
+    }
+  };
   const noInfoCard = <div className="p-20">No Info</div>;
   const infoCard = (
     <>
@@ -115,7 +116,7 @@ const ReactCalendar = () => {
             src={`${process.env.APP_URL}${
               checkInInfo && checkInInfo.checkInImage
             }`}
-            className="aspect-video h-full w-full object-contain"
+            className="object-contain w-full h-full aspect-video"
             crossOrigin="anonymous"
           />
         </div>
@@ -134,7 +135,7 @@ const ReactCalendar = () => {
           {checkInInfo && checkInInfo.checkOutImage && (
             <img
               src={`${process.env.APP_URL}${checkInInfo.checkOutImage}`}
-              className="aspect-video h-full w-full object-contain"
+              className="object-contain w-full h-full aspect-video"
               crossOrigin="anonymous"
             />
           )}
@@ -154,9 +155,9 @@ const ReactCalendar = () => {
         }}
         className="card-body"
       >
-        <div className="flex min-w-mobile flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center min-w-mobile">
           {loadingInfo ? (
-            <div className="animate-spin text-3xl">⏳</div>
+            <div className="text-3xl animate-spin">⏳</div>
           ) : checkInInfo ? (
             infoCard
           ) : (
@@ -174,7 +175,7 @@ const ReactCalendar = () => {
           setCheckInInfo(null);
           setLoadingInfo(true);
           setCurDate(day);
-
+          fetchCheckInInfo(day);
           toggle();
         }}
         value={curDate}

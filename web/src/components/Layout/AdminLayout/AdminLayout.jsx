@@ -51,7 +51,7 @@ const AdminLayout = (props) => {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex h-screen w-screen flex-col">
+    <div className="flex flex-col w-screen h-screen">
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}
