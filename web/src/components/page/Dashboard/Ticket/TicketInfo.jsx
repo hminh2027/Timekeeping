@@ -6,9 +6,9 @@ import { useGetManagers } from "src/rest/user/user.query";
 import { useUpdateTicketInfoQuery } from "@/rest/ticket/ticket.query";
 import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 import { useQueryClient } from "@tanstack/react-query";
-import { CommentTicket } from "./CommentTicket";
 import { USER_TICKET } from "@/utils/constants/react-query";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
+import ChatBox from "@/components/Chat/ChatBox";
 
 const { Option } = Select;
 
@@ -215,7 +215,7 @@ const TicketInfo = React.memo((props) => {
         </div>
       </div>
       {isShowingComments && (
-        <CommentTicket
+        <ChatBox
           id={ticketId}
           authorId={ticketData.content.author.id}
           className={""}

@@ -174,7 +174,7 @@ const TicketListItem = (props) => {
         </div>
         <div className="flex-1">
           <div
-            className={`w-fit rounded-xl p-2 text-black ${
+            className={`p-2g w-fit rounded-xl ${
               TICKET_STATUS[status.toUpperCase()].background
             } ${TICKET_STATUS[status.toUpperCase()].text}`}
           >
