@@ -1,33 +1,18 @@
-import { useDispatch } from "react-redux";
 import { cancelTicket } from "@/redux/feature/ticket/ticketSlice";
 import React, { useReducer } from "react";
-import UseModal from "@/utils/hooks/UseModal";
-import Modal from "@/components/Common/Modal";
-import CommentTicket from "./CommentTicket";
-import TicketInfo from "./TicketInfo";
-import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { useCancelTicketMutation } from "@/rest/ticket/ticket.query";
+import { USER_TICKET } from "@/utils/constants/react-query";
 const initSort = {
   createdAt: false,
-  startDate: false,
-  endDate: false,
 };
 function reducer(state, action) {
   switch (action.type) {
     case "SORT_CREATED_AT": {
       return { ...initSort, createdAt: action.data };
     }
-    case "SORT_START_DATE": {
-      state = { ...initSort };
-      state.startDate = action.data;
-      return state;
-    }
-    case "SORT_END_DATE": {
-      state = { ...initSort };
-      state.endDate = action.data;
-      return state;
-    }
+
     default:
       return state;
   }
@@ -36,7 +21,7 @@ const TicketList = (props) => {
   const tickets = props.tickets;
   const [state, dispatch] = useReducer(reducer, initSort);
 
-  const { createdAt, startDate, endDate } = state;
+  const { createdAt } = state;
   const sortHandle = (sortBy, orderBy) => {
     const sortOption = {
       sortBy,
@@ -50,10 +35,13 @@ const TicketList = (props) => {
       {/* Table Header */}
       <div
         style={{
-          backgroundColor: "#99e2b4",
+          backgroundColor: "#f0f0f0",
         }}
         className="hidden p-4 font-semibold lg:flex"
       >
+        <div className="font-semibold" style={{ flex: "1 0 10em" }}>
+          Created by
+        </div>
         <div className="font-semibold" style={{ flex: "1 0 10em" }}>
           Title
         </div>
@@ -91,12 +79,12 @@ const TicketList = (props) => {
   );
 };
 const TicketListItem = (props) => {
-  const { isShowing, toggle } = UseModal();
   const router = useRouter();
-  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate: cancelTicket } = useCancelTicketMutation();
   const {
     id,
-    content: { status, title, ticketType, startDate, endDate },
+    content: { status, title, ticketType, recipient, createdDate },
   } = props;
   const actions = [
     {
@@ -108,11 +96,18 @@ const TicketListItem = (props) => {
   if (status === "pending")
     actions.push({
       title: "Cancel",
-      style: "v-btn-green",
-      onClick: cancelHandler,
+      style: "v-btn-gray",
+      onClick: () => cancelHandler(),
     });
-  console.log(actions);
   const statusIcon = [];
+
+  const TICKET_STATUS = {
+    REJECTED: { background: "bg-[#ffedeb]", text: "text-red-600" },
+    APPROVED: { background: "bg-[#e5f7ed]", text: "text-[#00b14f]" },
+    CANCELLED: { background: "bg-[#f5f5f5]", text: "text-red-600" },
+    PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
+  };
+
   switch (status) {
     case "rejected": {
       statusIcon.push("🔴");
@@ -131,27 +126,34 @@ const TicketListItem = (props) => {
       break;
     }
   }
-  const cancelHandler = (id) => {
-    dispatch(cancelTicket(id));
-  };
-  const openModal = (id) => {
-    toggle();
+  const cancelHandler = () => {
+    console.log("HELLO");
+    cancelTicket(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+      },
+    });
   };
   return (
     <div
-      className="items-center border-b border-b-orange-600 py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8"
+      className="items-center border-b-4 border-[#fafafa] py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8 "
       // onClick={() => openModal(id)}
     >
+      <div
+        style={{ flex: "1 0 10em" }}
+        className="flex font-light text-gray-500 "
+      >
+        <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
+          Created by:
+        </div>
+        <div className="flex-1">{recipient.lastName}</div>
+      </div>
       <div style={{ flex: "1 0 10em" }} className="flex text-sky-800">
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Title:
         </div>
-        <div className="flex-1 ">
-          <Link href={`/dashboard/ticket/${id}`}>
-            <div className="max-w-32 cursor-pointer overflow-clip text-ellipsis font-semibold">
-              {title}
-            </div>
-          </Link>
+        <div className="max-w-32 flex-1 overflow-clip text-ellipsis font-semibold">
+          {title}
         </div>
       </div>
       <div
@@ -171,7 +173,13 @@ const TicketListItem = (props) => {
           Status:
         </div>
         <div className="flex-1">
-          {statusIcon[0]} <span className="text-black lg:hidden">{status}</span>
+          <div
+            className={`w-fit rounded-xl p-2 text-black ${
+              TICKET_STATUS[status.toUpperCase()].background
+            } ${TICKET_STATUS[status.toUpperCase()].text}`}
+          >
+            {status}
+          </div>
         </div>
       </div>
       <div
@@ -181,9 +189,8 @@ const TicketListItem = (props) => {
         <div className="mx-4 w-32 font-semibold text-sky-800 lg:hidden">
           Created at:
         </div>
-        <div className="flex-1">{startDate}</div>
+        <div className="flex-1">{createdDate}</div>
       </div>
-
       <div
         style={{ flex: "1 0 3em" }}
         className="flex justify-end gap-2 font-light text-gray-500 lg:justify-start"

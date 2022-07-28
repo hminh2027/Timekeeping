@@ -9,22 +9,22 @@
 
 @layer components {
   .v-btn-primary {
-    @apply min-w-32 rounded-md border-third bg-third py-2 px-4 text-black transition-all duration-300 hover:text-white;
+    @apply min-w-32 rounded-md bg-[#cdf0ea] py-2 px-4 font-bold text-black transition-all duration-300 hover:bg-[#bcece4];
   }
   .v-btn-secondary {
-    @apply min-w-32 rounded-md border-blue-400 bg-blue-400 py-2 px-4 text-black transition-all duration-300 hover:text-white;
+    @apply min-w-32 rounded-md border-blue-400 bg-blue-400 px-4 py-2 text-black transition-all duration-300 hover:text-white;
   }
   .v-btn-third {
-    @apply min-w-32 rounded-md border-pastelBlue bg-pastelBlue py-2 px-4 text-black transition-all duration-300 hover:text-white;
+    @apply min-w-32 rounded-md border-pastelBlue bg-pastelBlue px-4 py-2 text-black transition-all duration-300 hover:text-white;
   }
   .v-btn {
-    @apply rounded-md border border-violet-300  bg-white py-2 px-4 text-black transition-all duration-300   hover:bg-violet-400 hover:text-white;
+    @apply rounded-md border border-violet-300 bg-white px-4 py-2 text-black transition-all duration-300 hover:bg-violet-400 hover:text-white;
   }
   .v-btn-green {
-    @apply rounded-lg border border-solid border-teal-700 bg-white py-2 px-4 text-black hover:bg-teal-700 hover:text-stone-100;
+    @apply rounded-lg border border-solid border-teal-700 bg-white px-4 py-2 text-black hover:bg-teal-700 hover:text-stone-100;
   }
   .v-btn-gray {
-    @apply rounded-lg border border-solid border-gray-700 bg-white py-2 px-4 text-black hover:bg-gray-700 hover:text-stone-100;
+    @apply rounded-lg border border-solid border-gray-700 bg-white px-4 py-2 text-black hover:bg-gray-700 hover:text-stone-100;
   }
   .v-input {
     @apply border border-gray-300 p-2 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;

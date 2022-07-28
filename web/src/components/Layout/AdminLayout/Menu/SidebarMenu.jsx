@@ -1,5 +1,5 @@
 import { menuItems } from "./Menu.config";
-import MenuLabel from "./MenuLabel";
+import MenuLabel from "@/components/page/Dashboard/Menu/MenuLabel";
 const SidebarMenu = () => {
   return (
     <div className="hidden w-full flex-col space-y-4 border-r border-r-gray-100 bg-[#fafafa] p-4 text-sm lg:flex lg:max-w-[300px]">

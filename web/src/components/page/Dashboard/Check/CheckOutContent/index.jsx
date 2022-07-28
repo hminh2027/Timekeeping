@@ -81,6 +81,7 @@ const CheckInContent = () => {
         width="300"
         height="300"
         layout="fill"
+        className="aspect-ratio object-contain"
       />
     </div>
   );

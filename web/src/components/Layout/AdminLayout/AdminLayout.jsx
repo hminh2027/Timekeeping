@@ -55,10 +55,12 @@ const AdminLayout = (props) => {
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}
-      <div className="flex flex-1 flex-row">
+      <div className="z-10 flex flex-1 ">
         <SidebarMenu />
         {/* Content */}
-        <div className="flex flex-1 p-3">{props.children}</div>
+        <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
+          {props.children}
+        </div>
       </div>
       <div>
         {/* <MobileDrawer
