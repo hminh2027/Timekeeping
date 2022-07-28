@@ -11,5 +11,6 @@ export const store = configureStore({
     adminTicket: ticketsSlice,
   },
 
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: true }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: true, serializableCheck: false }),
 });

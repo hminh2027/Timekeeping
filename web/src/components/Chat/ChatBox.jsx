@@ -41,8 +41,13 @@ const ChatBox = ({ id, className, authorId }) => {
         </div>
         <div className="flex flex-1 flex-col gap-6 border-t border-t-gray-200">
           <div className="mt-1 flex flex-1 flex-col">
-            {CommentList?.map(({ userId, content }) => (
-              <MessageRow id={user.id} userId={userId} content={content} />
+            {CommentList?.map(({ userId, content }, index) => (
+              <MessageRow
+                key={index}
+                id={user.id}
+                userId={userId}
+                content={content}
+              />
             ))}
           </div>
           <div className="flex">
