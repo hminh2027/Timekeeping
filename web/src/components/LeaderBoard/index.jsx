@@ -64,14 +64,9 @@ const LeaderBoard = () => {
 
   return (
     <div>
-      <TableHeader title={"Name"} btnList={buttons} />
+      <TableHeader title={"Top Ranking"} btnList={buttons} />
 
-      <CustomTable
-        dataSource={data}
-        columns={columns}
-        buttons={buttons}
-        tableName={"Top Ranking"}
-      />
+      <CustomTable dataSource={data} columns={columns} />
     </div>
   );
 };
