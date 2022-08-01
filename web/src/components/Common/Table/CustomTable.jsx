@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const CustomTable = ({ dataSource, columns }) => {
-  const [data, setData] = useState(dataSource);
+  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const selectedData = dataSelection(data, columns);
-    const convertedData = dataConversion(selectedData, columns);
-    setData(convertedData);
-  }, []);
-
-  const dataConversion = (data, columns) => {
+  const dataConversion = (dataToConvert, columns) => {
     columns.map((col) => {
       if (col.render) {
-        dataSource.map((data, key) => {
-          data[col.key] = col.render(data);
+        dataToConvert.map((dataProp) => {
+          dataProp[col.key] = col.render(dataProp);
         });
       }
     });
-    return data;
+    return dataToConvert;
   };
 
-  const dataSelection = (data, columns) => {
+  const dataSelection = (datasource, columns) => {
     const keys = columns.map((col, key) => col.key);
-    data.forEach((data) => {
+    datasource.forEach((data) => {
       for (const key of Object.keys(data))
         if (!keys.includes(key)) delete data[key];
     });
-    return data;
+    return datasource;
   };
 
+  const selectedData = dataSelection(dataSource, columns);
+  const convertedData = dataConversion(selectedData, columns);
+
+  if (data !== dataSource) {
+    setData(convertedData);
+  }
   return (
     <table className="w-full text-left ">
       <thead className="bg-gray-50 ">
