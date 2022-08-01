@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Button, Input, Select, Space } from "antd";
-import api from "@/api/api";
+import React, { useState } from "react";
+import { Select } from "antd";
 import { ALL_TICKET_TYPES } from "@/utils/constants/ticket_constants";
+
 const { Option } = Select;
 
 const DesktopFilter = (props) => {
@@ -22,7 +22,7 @@ const DesktopFilter = (props) => {
     props.onSubmit(data);
   };
   return (
-    <div className={`flex bg-white p-4 ${props.className}`}>
+    <div className={`flex bg-white py-4 ${props.className}`}>
       <div className="flex flex-row justify-between w-full gap-4">
         <div className="flex flex-row gap-8">
           <div className="flex items-center w-auto gap-4">

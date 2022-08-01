@@ -18,13 +18,12 @@ const TicketInfo = React.memo((props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const { data: managers } = useGetManagers();
-  const [data, setData] = useState(ticketData.content);
+  const [data, setData] = useState(ticketData);
   const [isShowingComments, setIsShowingComments] = useState(true);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const queryClient = useQueryClient();
-  // console.log(data.recipient.id);
   const { mutate: updateTicketInfo } = useUpdateTicketInfoQuery();
 
   const submit = async () => {
@@ -33,9 +32,9 @@ const TicketInfo = React.memo((props) => {
       startDate: data.startDate,
       endDate: data.endDate,
       title: data.title,
-      recipientId: data.recipientId,
+      recipientId: data.recipient.id,
       content: data.content,
-      ticketType: data.ticketType,
+      ticketType: data.ticketType.value,
     };
     try {
       updateTicketInfo(
@@ -165,7 +164,7 @@ const TicketInfo = React.memo((props) => {
                     flexGrow: 2,
                   }}
                   name="recipientId"
-                  value={data.recipientId}
+                  value={data.recipient.id}
                   placeholder="Search to Select"
                   onChange={(value, option) => {
                     console.log(value, option);
@@ -215,11 +214,7 @@ const TicketInfo = React.memo((props) => {
         </div>
       </div>
       {isShowingComments && (
-        <ChatBox
-          id={ticketId}
-          authorId={ticketData.content.author.id}
-          className={""}
-        />
+        <ChatBox id={ticketId} authorId={ticketData.author.id} className={""} />
       )}
     </div>
   );

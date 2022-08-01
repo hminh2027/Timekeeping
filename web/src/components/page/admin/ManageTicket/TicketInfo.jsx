@@ -16,7 +16,7 @@ const TicketInfo = React.memo((props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState([]);
   const { data: managers } = useGetManagers();
-  const [data, setData] = useState(ticketData.content);
+  const [data, setData] = useState(ticketData);
   const [isShowingComments, setIsShowingComments] = useState(true);
   const queryClient = useQueryClient();
 
@@ -109,7 +109,7 @@ const TicketInfo = React.memo((props) => {
         </div>
       </div>
       {isShowingComments && (
-        <ChatBox id={ticketId} authorId={ticketData.content.author.id} />
+        <ChatBox id={ticketId} authorId={ticketData.author.id} />
       )}
     </div>
   );

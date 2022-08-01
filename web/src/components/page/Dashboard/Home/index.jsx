@@ -2,8 +2,8 @@ import LeaderBoard from "@/components/LeaderBoard";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import {
-  selectUserCheckInStatus,
   selectUserCheckInInfo,
+  selectUserCheckInStatus,
 } from "../../../../redux/feature/user/userSlice";
 import ReactCalendar from "./ReactCalendar";
 
@@ -38,8 +38,8 @@ const Home = () => {
   );
   return (
     <>
-      <div className="flex gap-8 m-4">
-        <div className="flex flex-col w-1/3 gap-4">
+      <div className="flex flex-col gap-8 m-4 lg:flex-row">
+        <div className="flex flex-col w-full lg:w-1/3 gap-4 ">
           <div className="card ">
             <div className="card-body">
               {checkInStatus ? checkInContent : notCheckedContent}
@@ -51,7 +51,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-2/3 gap-4">
+        <div className="flex flex-col w-full lg:w-2/3 gap-4">
           <div className="w-full card">
             <div className="card-body">
               <LeaderBoard />

@@ -4,13 +4,6 @@ import CustomTable from "../Common/Table/CustomTable";
 import TableButton from "../Common/Table/TableButton";
 import TableHeader from "../Common/Table/TableHeader";
 const LeaderBoard = () => {
-  // const TICKET_STATUS = {
-  //   REJECTED: { background: "bg-[#ffedeb]", text: "text-[#ff564c]" },
-  //   APPROVED: { background: "bg-[#e5f7ed]", text: "text-[#00b14f]" },
-  //   CANCELLED: { background: "bg-[#f5f5f5]", text: "text-[#9f9f9f]" },
-  //   PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
-  // };
-
   const data = [
     {
       key: "1",
@@ -40,8 +33,7 @@ const LeaderBoard = () => {
       key: "checkin",
       render: (obj) => (
         <div className="w-fit rounded-xl bg-[#fff5e6] px-3 text-[#ff9f0a]">
-          {obj.minutes == 12 ? <div>this is jain minh</div> : obj.checkin}
-          {/* {obj.checkin} */}
+          {obj.checkin}
         </div>
       ),
     },
@@ -63,7 +55,7 @@ const LeaderBoard = () => {
   ];
 
   return (
-    <div>
+    <div className="overflow-auto">
       <TableHeader title={"Top Ranking"} btnList={buttons} />
 
       <CustomTable dataSource={data} columns={columns} />
