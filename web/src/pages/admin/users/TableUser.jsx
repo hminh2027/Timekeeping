@@ -1,10 +1,10 @@
 import { Button, Input, Select, Space } from "antd";
 import React from "react";
-
+import {BsPen} from "react-icons/bs";
+import {ImBin} from "react-icons/im";
 import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
-
-import CreditUser from "@/components/page/admin/users/CreditUserModal";
+import CreateUser from "@/components/page/admin/users/FunctionUserModal";
 import DeleteNotification from "@/components/page/admin/users/DeleteNotificationModal";
 const { Option } = Select;
 
@@ -44,6 +44,7 @@ const TableUsers = React.memo((props) => {
             lastName={user.lastName}
             email={user.email}
             role={user.role}
+            password = {user.password}
           />
         ))}
       </div>
@@ -52,10 +53,14 @@ const TableUsers = React.memo((props) => {
 });
 const UserItem = (props) => {
   console.log("props", props);
-  const { id, firstName, lastName, email, role } = props;
-
-  const statusIcon = [];
-
+  const { id, firstName, lastName, email, role, password } = props;
+  const UserData = {
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    role: role,
+    password: password,
+  }
   return (
     <div 
     className="items-center border-b-4 border-[#fafafa] py-4 font-medium lg:flex lg:justify-start lg:px-4 lg:py-8 "
@@ -107,10 +112,7 @@ const UserItem = (props) => {
         <div className="flex-1">
           <Credit
             id={id}
-            firstName={firstName}
-            lastName={lastName}
-            email={email}
-            role={role}
+            UserData={UserData}
           />
           <Delete id={id} />
         </div>
@@ -119,7 +121,7 @@ const UserItem = (props) => {
   );
 };
 
-const Credit = ({ id, firstName, lastName, email, role }) => {
+const Credit = (props) => {
   const { isShowing, toggle } = UseModal();
   return (
     <>
@@ -127,17 +129,16 @@ const Credit = ({ id, firstName, lastName, email, role }) => {
         onClick={toggle}
         className="mr-2 rounded-xl p-2 hover:bg-slate-300"
       >
-        🖊️
+        <BsPen size={"25px"}/>
       </button>
       <Modal isShowing={isShowing} hide={toggle}>
         <div className="flex">
-          <CreditUser
+          <CreateUser
             hide={toggle}
-            id={id}
-            firstName={firstName}
-            lastName={lastName}
-            email={email}
-            role={role}
+            id={props.id}
+            userData={props.UserData}
+            Name="EDIT USER"
+            click="Edit"
           />
         </div>
       </Modal>
@@ -153,7 +154,7 @@ const Delete = ({ id }) => {
         onClick={toggle}
         className="rounded-xl p-2 hover:bg-gray-400"
       >
-        🗑️
+        <ImBin size={"25px"}/>
       </button>
       <Modal isShowing={isShowing} hide={toggle}>
         <div className="flex">

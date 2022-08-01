@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import UseModal from "@/utils/hooks/UseModal";
 import Modal from "@/components/Common/Modal";
-import CreateUser from "@/components/page/admin/users/CreateUserModal";
+import CreateUser from "@/components/page/admin/users/FunctionUserModal";
+import { usePostUserMutation } from "@/rest/user/user.query";
 
 const DesktopFilter = (props) => {
+  const UserData = {
+    email: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    password: "",
+  }
   const [data, setData] = useState({
     search: "",
   });
@@ -62,7 +70,7 @@ const DesktopFilter = (props) => {
           </button>
           <Modal isShowing={isShowing} hide={toggle}>
             <div className="flex">
-              <CreateUser hide={toggle} />
+              <CreateUser hide={toggle} click="Create" userData={UserData} Name="CREATE UER"/>
             </div>
           </Modal>
         </div>
@@ -71,6 +79,14 @@ const DesktopFilter = (props) => {
   );
 };
 const MobileFilter = (props) => {
+  const UserData = {
+    email: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    password: "",
+  }
+  const { isShowing, toggle } = UseModal();
   const [usingFilter, setUsingFilter] = useState(false);
   const [data, setData] = useState({
     search: "",
@@ -125,6 +141,17 @@ const MobileFilter = (props) => {
             >
               Find
             </button>
+            <button
+            className="ml-2 rounded-md border border-blue-400 bg-transparent py-2 px-4 font-semibold text-blue-400 hover:border-transparent hover:bg-blue-400 hover:text-white"
+            onClick={toggle}
+            >
+              Create
+            </button>
+            <Modal isShowing={isShowing} hide={toggle}>
+              <div className="flex">
+                <CreateUser hide={toggle} click="Create" userData={UserData} Name="CREATE UER"/>
+              </div>
+            </Modal>
           </div>
         </div>
       )}

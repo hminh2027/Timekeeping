@@ -22,13 +22,13 @@ const DeleteNotification = (props) => {
           <div className="flex">
             <button
               onClick={() => props.hide(false)}
-              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black shadow-xl hover:bg-teal-600 hover:text-white"
+              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:shadow-xl hover:bg-teal-600 hover:text-white"
             >
               No
             </button>
             <button
               onClick={() => handleDelete(props.id)}
-              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 bg-teal-600 p-1 text-black shadow-xl hover:text-white"
+              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 bg-teal-600 p-1 text-black hover:shadow-xl hover:text-white"
             >
               Yes
             </button>
