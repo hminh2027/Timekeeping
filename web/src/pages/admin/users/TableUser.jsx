@@ -10,7 +10,7 @@ const { Option } = Select;
 
 const TableUsers = React.memo((props) => {
   const Users = props.Users;
-
+  console.log("USER", Users);
   return (
     <>
       <div
@@ -127,7 +127,7 @@ const Credit = (props) => {
     <>
       <button
         onClick={toggle}
-        className="mr-2 rounded-xl p-2 hover:bg-slate-300"
+        className="mr-2 rounded-xl p-2 hover:bg-cyan-300"
       >
         <BsPen size={"25px"}/>
       </button>
