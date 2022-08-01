@@ -10,8 +10,8 @@ const Ticket = (props) => {
   if (error) return <div>Error :( </div>;
   console.log("TICKET DATA ID ROUTER", ticketData);
 
-  const createDate = new Date(ticketData.content.createDate).toLocaleString();
-  const updateDate = new Date(ticketData.content.updateDate).toLocaleString();
+  const createdAt = new Date(ticketData.createdAt).toLocaleString();
+  const updatedAt = new Date(ticketData.updatedAt).toLocaleString();
   if (ticketData)
     return (
       <div className="ml-4 w-full ">
@@ -22,23 +22,23 @@ const Ticket = (props) => {
               <div className="card-body p-2">
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Requestor:</div>
-                  <div>{`${ticketData.content.author.lastName} ${ticketData.content.author.firstName}`}</div>
+                  <div>{`${ticketData.author.lastName} ${ticketData.author.firstName}`}</div>
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Recipient:</div>{" "}
-                  <div>{`${ticketData.content.recipient.lastName} ${ticketData.content.recipient.firstName}`}</div>
+                  <div>{`${ticketData.recipient.lastName} ${ticketData.recipient.firstName}`}</div>
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Create date:</div>{" "}
-                  <div>{createDate}</div>
+                  <div>{created}</div>
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Lastest update:</div>
-                  <div>{updateDate}</div>
+                  <div>{updatedAt}</div>
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Status:</div>{" "}
-                  <div>{ticketData.content.status}</div>
+                  <div>{ticketData.status}</div>
                 </div>
               </div>
             </div>

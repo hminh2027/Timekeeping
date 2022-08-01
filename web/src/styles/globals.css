@@ -26,3 +26,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: black;
+  background: #cdf0ea;
+}
+
+::selection {
+  color: black;
+  background: #cdf0ea;
+}
