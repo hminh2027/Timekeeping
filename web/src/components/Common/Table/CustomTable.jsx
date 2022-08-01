@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CustomTable = ({ dataSource, columns }) => {
   const [data, setData] = useState([]);
@@ -23,19 +23,19 @@ const CustomTable = ({ dataSource, columns }) => {
     return datasource;
   };
 
-  const selectedData = dataSelection(dataSource, columns);
-  const convertedData = dataConversion(selectedData, columns);
-
-  if (data !== dataSource) {
+  useEffect(() => {
+    const selectedData = dataSelection(dataSource, columns);
+    const convertedData = dataConversion(selectedData, columns);
     setData(convertedData);
-  }
+  }, [columns, dataSource]);
+
   return (
     <table className="w-full text-left ">
       <thead className="bg-gray-50 ">
         <tr>
           {columns.map((col) => (
             <th key={col.key} scope="col" className="px-6 py-3 font-semibold">
-              {col.title}
+              <div className="flex">{col.title}</div>
             </th>
           ))}
         </tr>

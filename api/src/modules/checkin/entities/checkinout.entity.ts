@@ -37,7 +37,7 @@ export class Checkin {
   checkoutLatitude!: string;
 
   @Column()
-  date!: Number;
+  date: Date;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -60,6 +60,9 @@ export class Checkin {
 
   @BeforeInsert()
   getDate(): void {
-    this.date = new Date().getDate();
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.toString();
+    this.date = date;
   }
 }
