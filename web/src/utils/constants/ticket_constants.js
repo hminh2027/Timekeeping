@@ -17,3 +17,22 @@ export const TICKET_FILTER = {
   field: "sortField",
   orderBy: "sortType",
 };
+
+export const TICKET_STATUS = {
+  REJECTED: {
+    background: "#ffedeb",
+    text: "#ff564c",
+  },
+  APPROVED: {
+    background: "#e5f7ed",
+    text: "#00b14f",
+  },
+  CANCELLED: {
+    background: "#f5f5f5",
+    text: "#9f9f9f",
+  },
+  PENDING: {
+    background: "#fff5e6",
+    text: "#ff9f0a",
+  },
+};

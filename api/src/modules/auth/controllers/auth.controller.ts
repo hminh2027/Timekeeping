@@ -89,6 +89,7 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({
+    summary: '(ADMIN only)',
     description: 'user register with input',
   })
   @UseGuards(RolesGuard)
@@ -96,7 +97,7 @@ export class AuthController {
   async register(
     @Body() payload: RegisterPayload,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<Object> {
+  ): Promise<object> {
     const user = await this.userService.create(payload);
     const refreshToken = await this.authService.generateRefreshToken(user);
 

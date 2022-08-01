@@ -8,7 +8,7 @@ import {
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 
@@ -27,6 +27,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleConnection(client: Socket) {
     this.logger.log(client.id, 'Connected....');
     const user = this.getUser(client);
+    if (!user) throw new UnauthorizedException('Token not found');
     this.server.socketsJoin(user.id.toString());
     this.logger.log(`User ${user.id} join the room`);
   }
@@ -34,6 +35,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleDisconnect(client: Socket) {
     this.logger.log(client.id, 'Disconnected....');
     const user = this.getUser(client);
+    if (!user) throw new UnauthorizedException('Token not found');
     this.server.socketsLeave(user.id.toString());
     this.logger.log(`User ${user.id} leave the room`);
   }
