@@ -27,7 +27,6 @@ const TicketContent = () => {
 
   const { data } = useGetMyTicketWithSortQuery(sortOptions);
   const queryClient = useQueryClient();
-
   const sortOptions = {
     [TICKET_FILTER.limit]: 10,
     [TICKET_FILTER.page]: 1,

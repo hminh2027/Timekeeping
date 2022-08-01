@@ -201,6 +201,7 @@ const TicketInfo = React.memo((props) => {
             onClick={() => {
               submit();
             }}
+            disabled={data.status === "pending" ? false : true}
           >
             {isSubmitting ? (
               <div className="space">
