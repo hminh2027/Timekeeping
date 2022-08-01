@@ -81,7 +81,6 @@ export class CheckinService {
       checkinLatitude: data.latitude,
       checkinLongitude: data.longitude,
       userId: data.userId,
-      date: new Date().getDate(),
     });
 
     return await this.checkinRepository.save(newCheckin);

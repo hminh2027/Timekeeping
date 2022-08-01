@@ -13,9 +13,6 @@ export class CheckoutHistory {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  date: Number;
-
   @Column({ length: 255, default: '' })
   image!: string;
 
