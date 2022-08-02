@@ -4,15 +4,32 @@ import DropdowItem from "./DropdowItem";
 import {FiLogOut, FiSettings, FiUser} from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/api/service/auth.service";
-
+import { useRef, useEffect,useState } from "react";
 
 const Dropdow = () => {
-    const { isShowing, toggle } = UseModal();
-    const dispatch = useDispatch();
+  const [isShowing, toggle ] = useState(false)
+  const dispatch = useDispatch();
+  const dropdownMenuRef = useRef(null);
 
+// useEffect(() => {
 
+//   const handleOutsideClick = (e) => {
+//     if (
+//       dropdownMenuRef.current &&
+//       !dropdownMenuRef.current.contains(e.target)
+//     ) {
+//       if (isShowing) toggle(false);
+//     }
+//   };
+//   // add click even for page
+//   document.addEventListener("click", handleOutsideClick, false);
+//   return () => {
+//     // remove click even for page !importan need remove
+//     document.removeEventListener("click", handleOutsideClick, false);
+//   };
+// }, [isShowing]);
 
-    const MENUS = [
+  const MENUS = [
   {
     title: "profile",
     onclick: () => {
@@ -26,7 +43,7 @@ const Dropdow = () => {
       console.log("setting")
     },
     icon: <FiSettings size={"20px"}/>
-},
+  },
   {
     title:"logout",
     onclick:async ()=>{
@@ -38,25 +55,40 @@ const Dropdow = () => {
 ]
     return (
       <div className="relative">
-        <div id="dropdownDefault" onClick={toggle} data-dropdown-toggle="dropdown" className="mr-6 hidden h-16 w-16 overflow-hidden rounded-full border border-slate-800 lg:flex">
-            <img
+        <div
+          id="dropdownDefault"
+          onClick={() => {
+            console.log("show dropdown");
+            toggle((prev) => !prev);
+          }}
+          data-dropdown-toggle="dropdown"
+          className="mr-6 hidden h-16 w-16 overflow-hidden rounded-full border border-slate-800 lg:flex"
+        >
+          <img
             className="aspect-square object-contain"
             src="/Image/logo.png"
             alt="Đây là Logo"
             fallback="Đây là Logo"
-            />
+          />
         </div>
-        <div id="dropdown" className={
-           `flex flex-col absolute top-26 mt-5 w-[300px] bg-white  transform translate-x-[-80%] rounded-lg shadow-lg p-4 space-y-4 ${isShowing ? "" : "hidden"}`}>
+        <div
+          id="dropdown"
+          className={`top-26 absolute mt-5 flex w-[300px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg ${
+            isShowing ? "" : "hidden"
+          }`}
+        >
           <div className="flex flex-col space-y-2">
-            {MENUS.map(menu=>(
-              <DropdowItem title={menu.title} onclick={menu.onclick} icon={menu.icon}/>
+            {MENUS.map((menu) => (
+              <DropdowItem
+                title={menu.title}
+                onclick={menu.onclick}
+                icon={menu.icon}
+              />
             ))}
           </div>
-
         </div>
       </div>
-    )
+    );
   }
 
 export default Dropdow;
