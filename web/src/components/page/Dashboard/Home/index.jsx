@@ -7,6 +7,7 @@ import {
 } from "../../../../redux/feature/user/userSlice";
 import ReactCalendar from "./ReactCalendar";
 import CheckingCard from "@/components/page/Dashboard/Check/CheckingCard";
+import CheckInContent from "@/components/page/Dashboard/Check/CheckInContent";
 
 const Home = () => {
   const checkInStatus = useSelector(selectUserCheckInStatus);
@@ -20,12 +21,13 @@ const Home = () => {
           Check In ✔
         </button>
       </Link>
+      <CheckInContent />
     </>
   );
   const checkInContent = (
     <>
       <div>Already Checked In!🔥🔥🔥</div>
-      <CheckingCard />
+
       {checkInInfo && (
         <img
           crossOrigin="anonymous"
@@ -42,11 +44,8 @@ const Home = () => {
     <>
       <div className="flex flex-col gap-8 m-4 lg:flex-row">
         <div className="flex flex-col w-full lg:w-1/3 gap-4 ">
-          <div className="card ">
-            <div className="card-body">
-              {checkInStatus ? checkInContent : notCheckedContent}
-            </div>
-          </div>
+          {/*{checkInStatus ? checkInContent : notCheckedContent}*/}
+          <CheckInContent />
           <div className="w-full card">
             <div className="card-body">
               <ReactCalendar />

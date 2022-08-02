@@ -72,7 +72,7 @@ const CheckingCard = (props) => {
     });
   };
   const webCam = (
-    <div className="min-w-mobile max-w-mobile lg:max-w-screen-md">
+    <div className="max-w-mobile lg:max-w-screen-md">
       <Webcam
         ref={webCamRef}
         screenshotFormat="image/jpg"

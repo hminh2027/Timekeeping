@@ -29,8 +29,9 @@ const CheckInContent = () => {
     };
     getStatus();
   }, [checkInStatus]);
+
   const notCheckedCard = (
-    <div className="card bg-secondary">
+    <div className="card w-full">
       <div className="card-body">
         <div>{trans.check.checkin.not_checked_in}</div>
         <div>{trans.check.checkin.please_check_in}</div>
@@ -48,7 +49,7 @@ const CheckInContent = () => {
   );
   const checkedCard = (
     <>
-      <div className="card w-full bg-secondary lg:w-max">
+      <div className="card w-full lg:w-max">
         <div className="card-body">
           <div>
             {trans.check.checkin.checked_in} {checkInTime}
@@ -112,19 +113,19 @@ const CheckInContent = () => {
       )}
       {checkInStatus && redirectCheckOut}
       {isChecking && (
-        <CheckingCard
-          setIsChecking={setIsChecking}
-          setErrors={setErrors}
-          state={"checkin"}
-        />
+        <div className="w-full card">
+          <div className="card-body">
+            <CheckingCard
+              setIsChecking={setIsChecking}
+              setErrors={setErrors}
+              state={"checkin"}
+            />
+          </div>
+        </div>
       )}
     </>
   );
-  return (
-    <div className="flex h-full w-full justify-center">
-      <div className="mx-auto flex w-full flex-col gap-2 p-8">{content}</div>
-    </div>
-  );
+  return <>{content}</>;
 };
 
 export default CheckInContent;
