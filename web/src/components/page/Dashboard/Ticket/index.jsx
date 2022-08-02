@@ -1,5 +1,8 @@
 import UseModal from "@/utils/hooks/UseModal";
-import { TICKET_FILTER } from "@/utils/constants/ticket_constants";
+import {
+  TICKET_FILTER,
+  TICKET_STATUS,
+} from "@/utils/constants/ticket_constants";
 import React, { useEffect, useState } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
@@ -26,9 +29,6 @@ const TicketContent = () => {
     sortBy: "createdAt",
     orderBy: false,
   });
-
-  const { data } = useGetMyTicketWithSortQuery(sortOptions);
-  const queryClient = useQueryClient();
   const sortOptions = {
     [TICKET_FILTER.limit]: 10,
     [TICKET_FILTER.page]: 1,
@@ -38,31 +38,14 @@ const TicketContent = () => {
     [TICKET_FILTER.field]: sortOption.sortBy,
     [TICKET_FILTER.orderBy]: sortOption.orderBy,
   };
+  const { data } = useGetMyTicketWithSortQuery(sortOptions);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (data) {
       setDataArray(data);
     }
   }, [data]);
-
-  const TICKET_STATUS = {
-    REJECTED: {
-      background: "#ffedeb",
-      text: "#ff564c",
-    },
-    APPROVED: {
-      background: "#e5f7ed",
-      text: "#00b14f",
-    },
-    CANCELLED: {
-      background: "#f5f5f5",
-      text: "#9f9f9f",
-    },
-    PENDING: {
-      background: "#fff5e6",
-      text: "#ff9f0a",
-    },
-  };
 
   const columns = [
     { title: "ID", key: "key" },
@@ -72,7 +55,7 @@ const TicketContent = () => {
       render: (obj) => {
         console.log(obj);
         return (
-          <Link href="http://localhost:3005/">
+          <Link href={`http://localhost:3005/`}>
             <a className={``}>{obj.recipientName}</a>
           </Link>
         );
@@ -96,7 +79,7 @@ const TicketContent = () => {
           <div
             className={`w-fit rounded-xl bg-[${TICKET_STATUS.PENDING.background}] px-3 text-[${TICKET_STATUS.PENDING.text}]`}
           >
-            {TICKET_STATUS["PENDING"].text}
+            {obj.status}
           </div>
         );
       },
@@ -104,6 +87,7 @@ const TicketContent = () => {
     {
       title: "Created At",
       key: "createdAt",
+      sortable: true,
     },
     {
       title: "Action",

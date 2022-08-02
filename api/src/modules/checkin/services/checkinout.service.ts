@@ -81,7 +81,6 @@ export class CheckinService {
       checkinLatitude: data.latitude,
       checkinLongitude: data.longitude,
       userId: data.userId,
-      date: new Date().getDate(),
     });
 
     return await this.checkinRepository.save(newCheckin);
@@ -117,4 +116,9 @@ export class CheckinService {
 
     return checkinUpdated;
   }
+
+  //   async removeByUserId(id: number) {
+  //     await this.ch
+  //     await this.checkinRepository.delete({ where: { userId: id } });
+  // }
 }

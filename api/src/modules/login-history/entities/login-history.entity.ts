@@ -37,7 +37,10 @@ export class LoginHistory {
 
   /* RELATIONSHIPS */
   /* N-1 */
-  @ManyToOne(() => User, (user) => user.loginHistories, { eager: true })
+  @ManyToOne(() => User, (user) => user.loginHistories, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   user: User;
 

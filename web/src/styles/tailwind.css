@@ -20,6 +20,9 @@
   .v-btn {
     @apply px-4 py-2 text-black transition-all duration-300 bg-white border rounded-md border-violet-300 hover:bg-violet-400 hover:text-white;
   }
+  .v-btn-disable {
+    @apply v-btn-primary cursor-not-allowed bg-smoke text-gray-500 hover:bg-smoke hover:text-gray-500
+  }
   .v-btn-green {
     @apply px-4 py-2 text-black bg-white border border-teal-700 border-solid rounded-lg hover:bg-teal-700 hover:text-stone-100;
   }
@@ -34,6 +37,9 @@
   }
   .v-menu-item {
     @apply flex flex-col items-center justify-center flex-grow cursor-pointer rounded-xl hover:bg-primary active:bg-primary lg:flex-grow-0 lg:flex-row lg:justify-start lg:gap-4 lg:p-4 lg:text-lg;
+  }
+  .v-menu-item-active {
+    @apply v-menu-item bg-primary
   }
 }
 
