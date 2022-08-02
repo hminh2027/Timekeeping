@@ -1,23 +1,22 @@
 import AdminLayout from "@/layout/AdminLayout/AdminLayout";
 import React, { useEffect, useState } from "react";
 import TableUsers from "./TableUser";
-import { DesktopFilter, MobileFilter } from "./Filter";
+// import { DesktopFilter, MobileFilter } from "./Filter";
+import { DesktopFilter, MobileFilter } from "@/components/Common/Table/TableFilter";
 import { useGetUserQuery } from "src/rest/user/user.query";
 const AdminUserPage = () => {
-  // const dispatch = useDispatch();
-  // const users = useSelector(selectUsers);
-  // console.log("USER", users)
   const [filterOptions, setFilterOptions] = useState({
     search: "",
   });
-  // useEffect(() => {
-  //   const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
-  //   console.log("SORT:", sortOptions);
-  //   const fetchUserData = async () => {
-  //     dispatch(fetchUsers(sortOptions));
-  //   };
-  //   fetchUserData();
-  // },[filterOptions])
+  const dataSort = [
+    {
+      name: "search",
+      type: "input",
+      style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
+      value: "",
+      data: []
+    },
+  ]
   const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
   console.log("SORT USER", sortOptions);
   const { data: Users } = useGetUserQuery(sortOptions);
@@ -38,10 +37,12 @@ const AdminUserPage = () => {
           <DesktopFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="hidden lg:flex"
+            dataSort = {dataSort}
           />
           <MobileFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
+            dataSort = {dataSort}
           />
           <TableUsers Users={Users} />
         </div>

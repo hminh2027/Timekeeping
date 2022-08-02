@@ -6,7 +6,8 @@ import {
 import React, { useEffect, useState } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
-import { DesktopFilter, MobileFilter } from "./Filters";
+// import { DesktopFilter, MobileFilter } from "./Filters";
+import { DesktopFilter, MobileFilter } from "@/components/Common/Table/TableFilter";
 import { useGetMyTicketWithSortQuery } from "src/rest/ticket/ticket.query";
 import { useQueryClient } from "@tanstack/react-query";
 import { USER_TICKET } from "@/utils/constants/react-query";
@@ -14,6 +15,7 @@ import Link from "next/link";
 import CustomTable from "@/components/Common/Table/CustomTable";
 import TableHeader from "@/components/Common/Table/TableHeader";
 import TableButton from "@/components/Common/Table/TableButton";
+import { ALL_TICKET_TYPES, STATUS_TICKET } from "@/utils/constants/ticket_constants";
 
 const TicketContent = () => {
   const [dataArray, setDataArray] = useState();
@@ -97,6 +99,31 @@ const TicketContent = () => {
       ),
     },
   ];
+  const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
+  const [ticketStatus, setTicketStatus] = useState(STATUS_TICKET);
+  const dataSort = [
+    {
+      name: "search",
+      type: "input",
+      style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
+      value: "",
+      data: []
+    },
+    {
+      name: "type",
+      type: "select",
+      style: "flex flex-row items-center justify-between mr-[-6rem]",
+      value: "",
+      data: ticketTypes
+    },
+    {
+      name: "status",
+      type: "select",
+      style: "flex flex-row items-center justify-between",
+      value: "",
+      data: ticketStatus
+    }
+  ]
 
   return (
     <div className="flex-col flex-1 gap-8 m-4">
@@ -114,7 +141,7 @@ const TicketContent = () => {
               <TableButton func={() => toggle()} label={"Create ticket"} />,
             ]}
           />
-          <DesktopFilter
+          {/* <DesktopFilter
             onSubmit={(filterOptions) => {
               setFilterOptions(filterOptions);
               queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
@@ -127,6 +154,22 @@ const TicketContent = () => {
               queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
             }}
             className="lg:hidden"
+          /> */}
+          <DesktopFilter
+            onSubmit={(filterOptions) => {
+              setFilterOptions(filterOptions)
+              queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+            }}
+            className="hidden lg:flex"
+            dataSort = {dataSort}
+          />
+          <MobileFilter
+            onSubmit={(filterOptions) => {
+              setFilterOptions(filterOptions)
+              queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+            }}
+            className="lg:hidden"
+            dataSort = {dataSort}
           />
           {dataArray && columns && (
             <CustomTable dataSource={dataArray} columns={columns} />
