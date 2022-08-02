@@ -38,6 +38,9 @@
   .v-menu-item {
     @apply flex flex-col items-center justify-center flex-grow cursor-pointer rounded-xl hover:bg-primary active:bg-primary lg:flex-grow-0 lg:flex-row lg:justify-start lg:gap-4 lg:p-4 lg:text-lg;
   }
+  .v-menu-item-active {
+    @apply v-menu-item bg-primary
+  }
 }
 
 * {

@@ -50,15 +50,21 @@ export class Ticket {
 
   /* RELATIONSHIPS */
   /* N-1 */
-  @ManyToOne(() => User, (user) => user.tickets, { eager: true })
+  @ManyToOne(() => User, (user) => user.tickets, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'authorId' })
   author: User;
 
-  @ManyToOne(() => User, (user) => user.tickets, { eager: true })
+  @ManyToOne(() => User, (user) => user.tickets, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'recipientId' })
   recipient: User;
 
   /* 1-N */
-  @OneToMany(() => Comment, (comment) => comment.ticket)
+  @OneToMany(() => Comment, (comment) => comment.ticket, { cascade: true })
   comments: Comment;
 }

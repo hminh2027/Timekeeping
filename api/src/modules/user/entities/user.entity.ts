@@ -38,16 +38,18 @@ export class User {
   resetToken: string;
 
   /* 1-N */
-  @OneToMany(() => Ticket, (ticket) => ticket.id)
+  @OneToMany(() => Ticket, (ticket) => ticket.id, { cascade: true })
   tickets: Ticket[];
 
-  @OneToMany(() => Checkin, (checkin) => checkin.user)
+  @OneToMany(() => Checkin, (checkin) => checkin.user, { cascade: true })
   checkins: Checkin[];
 
-  @OneToMany(() => Notification, (noti) => noti.user)
+  @OneToMany(() => Notification, (noti) => noti.user, { cascade: true })
   notifications: Notification[];
 
-  @OneToMany(() => LoginHistory, (loginHistory) => loginHistory.id)
+  @OneToMany(() => LoginHistory, (loginHistory) => loginHistory.id, {
+    cascade: true,
+  })
   loginHistories: LoginHistory[];
 
   @CreateDateColumn()

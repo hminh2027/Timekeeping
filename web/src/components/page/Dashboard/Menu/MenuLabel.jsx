@@ -11,17 +11,17 @@ const MenuLabel = (props) => {
   const href = props.href;
   const label = props.label;
   const icon = props.icon;
+  const isActive = props.isActive;
   const color = [];
   const curItem = useSelector(selectCurrentItem);
   const dispatch = useDispatch();
   if (curItem === props.id) {
     color.push("rgb(205, 240, 234)");
   }
-  // console.log(props.id);
   return (
     <Link href={href}>
       <div
-        className="v-menu-item"
+        className={isActive ? "v-menu-item-active" : "v-menu-item"}
         style={{ backgroundColor: color[0] }}
         onClick={() => {
           dispatch(changeCurrentItem({ menuItem: id }));

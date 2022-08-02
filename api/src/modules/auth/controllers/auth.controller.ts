@@ -92,8 +92,8 @@ export class AuthController {
     summary: '(ADMIN only)',
     description: 'user register with input',
   })
-  @UseGuards(RolesGuard)
-  @Roles(UserRole.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @Roles(UserRole.ADMIN)
   async register(
     @Body() payload: RegisterPayload,
     @Res({ passthrough: true }) res: Response,

@@ -26,6 +26,7 @@ export class CheckoutHistory {
   /* N-1 */
   @ManyToOne(() => Checkin, (checkin) => checkin.checkout_histories, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'checkinId' })
   checkin: Checkin;
