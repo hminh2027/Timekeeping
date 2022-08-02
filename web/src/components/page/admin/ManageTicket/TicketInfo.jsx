@@ -206,7 +206,7 @@ const ButtonTicket = ({ id, status }) => {
       await doDelete(data, {
         onSuccess: () => {
           console.log("success");
-          router.push(`/admin/ticket/${id}`)
+          router.push(`/admin/ticket`)
           queryClient.invalidateQueries(["get-ticket"]);
         },
       });
