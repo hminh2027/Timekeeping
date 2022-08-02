@@ -116,4 +116,9 @@ export class CheckinService {
 
     return checkinUpdated;
   }
+
+  //   async removeByUserId(id: number) {
+  //     await this.ch
+  //     await this.checkinRepository.delete({ where: { userId: id } });
+  // }
 }

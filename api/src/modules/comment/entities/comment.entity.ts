@@ -31,7 +31,9 @@ export class Comment {
 
   /* RELATIONSHIPS */
   /* N-1 */
-  @ManyToOne(() => Ticket, (ticket) => ticket.comments)
+  @ManyToOne(() => Ticket, (ticket) => ticket.comments, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'ticketId' })
   ticket: Ticket;
 }
