@@ -2,22 +2,26 @@ import UseModal from "@/utils/hooks/UseModal";
 import {
   TICKET_FILTER,
   TICKET_STATUS,
+  TICKET_STATUS_COLOR,
 } from "@/utils/constants/ticket_constants";
 import React, { useEffect, useState } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
-// import { DesktopFilter, MobileFilter } from "./Filters";
-import { DesktopFilter, MobileFilter } from "@/components/Common/Table/TableFilter";
-import { useGetMyTicketWithSortQuery } from "src/rest/ticket/ticket.query";
+import { DesktopFilter, MobileFilter } from "./Filters";
+import {
+  useCancelTicketMutation,
+  useGetMyTicketWithSortQuery,
+} from "src/rest/ticket/ticket.query";
 import { useQueryClient } from "@tanstack/react-query";
 import { USER_TICKET } from "@/utils/constants/react-query";
 import Link from "next/link";
 import CustomTable from "@/components/Common/Table/CustomTable";
 import TableHeader from "@/components/Common/Table/TableHeader";
 import TableButton from "@/components/Common/Table/TableButton";
-import { ALL_TICKET_TYPES, STATUS_TICKET } from "@/utils/constants/ticket_constants";
+import { useRouter } from "next/router";
 
 const TicketContent = () => {
+  const router = useRouter();
   const [dataArray, setDataArray] = useState();
   const { isShowing, toggle } = UseModal();
   const [filterOptions, setFilterOptions] = useState({
@@ -39,24 +43,38 @@ const TicketContent = () => {
     [TICKET_FILTER.orderBy]: sortOption.orderBy,
   };
   const { data } = useGetMyTicketWithSortQuery(sortOptions);
+  const { mutate: cancelTicket } = useCancelTicketMutation();
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (data) {
-      setDataArray(data);
-    }
-  }, [data]);
+  const cancelHandler = (id) => {
+    cancelTicket(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
+      },
+    });
+  };
 
   const columns = [
-    { title: "ID", key: "key" },
+    {
+      title: "ID",
+      key: "key",
+      render: (obj) => {
+        return (
+          <Link href={`ticket/${obj.key}`}>
+            <div className="cursor-pointer text-blue-300">{obj.key}</div>
+          </Link>
+        );
+      },
+    },
     {
       title: "Recipient",
-      key: "recipientName",
+      key: "recipient",
       render: (obj) => {
-        console.log(obj);
         return (
           <Link href={`http://localhost:3005/`}>
-            <a className={``}>{obj.recipientName}</a>
+            <div className="cursor-pointer text-blue-300">
+              {obj.recipient.firstName + " " + obj.recipient.lastName}
+            </div>
           </Link>
         );
       },
@@ -73,11 +91,10 @@ const TicketContent = () => {
       title: "Status",
       key: "status",
       render: (obj) => {
-        // const color = TICKET_STATUS[obj.status.toString().toUpperCase()].text;
-        // console.log(color);
+        const color = TICKET_STATUS_COLOR[obj.status.toString().toUpperCase()];
         return (
           <div
-            className={`w-fit rounded-xl bg-[${TICKET_STATUS.PENDING.background}] px-3 text-[${TICKET_STATUS.PENDING.text}]`}
+            className={`w-fit rounded-xl bg-[${color.background}] px-3 text-[${color.text}]`}
           >
             {obj.status}
           </div>
@@ -93,37 +110,33 @@ const TicketContent = () => {
       title: "Action",
       key: "action",
       render: (obj) => (
-        <div className="w-fit rounded-xl bg-[#e5f7ed] px-3 text-[#00b14f]">
-          {obj.action}
+        <div className="flex">
+          <div>
+            <button
+              onClick={() => router.push(`/dashboard/ticket/${obj.key}`)}
+              className="v-btn"
+            >
+              Edit
+            </button>
+            {obj.status === TICKET_STATUS.PENDING && (
+              <button
+                onClick={() => cancelHandler(obj.key)}
+                className="v-btn-gray"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </div>
       ),
     },
   ];
-  const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
-  const [ticketStatus, setTicketStatus] = useState(STATUS_TICKET);
-  const dataSort = [
-    {
-      name: "search",
-      type: "input",
-      style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
-      value: "",
-      data: []
-    },
-    {
-      name: "type",
-      type: "select",
-      style: "flex flex-row items-center justify-between mr-[-6rem]",
-      value: "",
-      data: ticketTypes
-    },
-    {
-      name: "status",
-      type: "select",
-      style: "flex flex-row items-center justify-between",
-      value: "",
-      data: ticketStatus
+
+  useEffect(() => {
+    if (data) {
+      setDataArray(data);
     }
-  ]
+  }, [data]);
 
   return (
     <div className="flex-col flex-1 gap-8 m-4">
@@ -138,38 +151,26 @@ const TicketContent = () => {
           <TableHeader
             title={"Tickets"}
             btnList={[
-              <TableButton func={() => toggle()} label={"Create ticket"} />,
+              <TableButton
+                key={0}
+                func={() => toggle()}
+                label={"Create ticket"}
+              />,
             ]}
           />
-          {/* <DesktopFilter
-            onSubmit={(filterOptions) => {
-              setFilterOptions(filterOptions);
-              queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
-            }}
-            className="hidden lg:flex"
-          />
-          <MobileFilter
-            onSubmit={(filterOptions) => {
-              setFilterOptions(filterOptions);
-              queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
-            }}
-            className="lg:hidden"
-          /> */}
           <DesktopFilter
             onSubmit={(filterOptions) => {
-              setFilterOptions(filterOptions)
+              setFilterOptions(filterOptions);
               queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
             }}
             className="hidden lg:flex"
-            dataSort = {dataSort}
           />
           <MobileFilter
             onSubmit={(filterOptions) => {
-              setFilterOptions(filterOptions)
+              setFilterOptions(filterOptions);
               queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
             }}
             className="lg:hidden"
-            dataSort = {dataSort}
           />
           {dataArray && columns && (
             <CustomTable dataSource={dataArray} columns={columns} />
