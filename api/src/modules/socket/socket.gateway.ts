@@ -8,7 +8,7 @@ import {
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 
@@ -27,24 +27,32 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleConnection(client: Socket) {
     this.logger.log(client.id, 'Connected....');
     const user = this.getUser(client);
+    if (!user) throw new UnauthorizedException('Token not found');
     this.server.socketsJoin(user.id.toString());
     this.logger.log(`User ${user.id} join the room`);
   }
 
   handleDisconnect(client: Socket) {
     this.logger.log(client.id, 'Disconnected....');
-    const user = this.getUser(client);
-    this.server.socketsLeave(user.id.toString());
-    this.logger.log(`User ${user.id} leave the room`);
+    // const user = this.getUser(client);
+    // if (!user) throw new UnauthorizedException('Token not found');
+    // this.server.socketsLeave(user.id.toString());
+    // this.logger.log(`User ${user.id} leave the room`);
   }
 
   @SubscribeMessage('msgToServer')
-  handleMsg(@MessageBody() payload: any, room: string) {
-    this.server.to(room).emit('msgToClient', payload);
+  emitEvent(@MessageBody() payload: any, rooms: string[]) {
+    rooms.forEach((room) => {
+      this.server.to(room).emit('msgToClient', payload);
+    });
   }
 
   getUser(client: Socket): any {
-    const token = client.request.headers.authorization;
-    return this.jwtService.decode(token);
+    try {
+      const token = client.request.headers.authorization;
+      return this.jwtService.decode(token);
+    } catch (err) {
+      throw new UnauthorizedException('User not found');
+    }
   }
 }

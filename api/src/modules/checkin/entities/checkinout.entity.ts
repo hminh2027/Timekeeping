@@ -37,7 +37,7 @@ export class Checkin {
   checkoutLatitude!: string;
 
   @Column()
-  date!: Number;
+  date: Date;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -50,16 +50,23 @@ export class Checkin {
 
   /* RELATIONSHIPS */
   /* N-1 */
-  @ManyToOne(() => User, (user) => user.checkins)
+  @ManyToOne(() => User, (user) => user.checkins, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   user: User;
 
   /* 1-N */
-  @OneToMany(() => CheckoutHistory, (checkout) => checkout.checkin)
+  @OneToMany(() => CheckoutHistory, (checkout) => checkout.checkin, {
+    cascade: true,
+  })
   checkout_histories: CheckoutHistory;
 
   @BeforeInsert()
   getDate(): void {
-    this.date = new Date().getDate();
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.toString();
+    this.date = date;
   }
 }

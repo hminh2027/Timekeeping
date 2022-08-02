@@ -33,7 +33,9 @@ export class Notification {
 
   /* RELATIONSHIPS */
   /* N-1 */
-  @ManyToOne(() => User, (user) => user.notifications)
+  @ManyToOne(() => User, (user) => user.notifications, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   user: User;
 

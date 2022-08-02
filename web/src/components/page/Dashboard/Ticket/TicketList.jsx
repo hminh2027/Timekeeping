@@ -81,7 +81,7 @@ const TicketList = (props) => {
 const TicketListItem = (props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate: cancelTicket } = useCancelTicketMutation();
+
   const {
     id,
     content: { status, title, ticketType, recipient, createdDate },
@@ -107,9 +107,6 @@ const TicketListItem = (props) => {
     PENDING: { background: "bg-[#fff5e6]", text: "text-[#ff9f0a]" },
   };
 
-  const cancelHandler = (id) => {
-    dispatch(cancelTicket(id));
-  };
   const openModal = (id) => {
     toggle();
   };

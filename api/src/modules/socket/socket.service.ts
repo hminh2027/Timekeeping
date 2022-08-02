@@ -5,7 +5,7 @@ import { SocketGateway } from './socket.gateway';
 export class SocketService {
   constructor(private readonly socketGateway: SocketGateway) {}
 
-  sendNoti(message: any, recipient: number) {
-    this.socketGateway.handleMsg(message, recipient.toString());
+  sendNoti(message: any, recipients: string[]) {
+    this.socketGateway.emitEvent(message, recipients);
   }
 }

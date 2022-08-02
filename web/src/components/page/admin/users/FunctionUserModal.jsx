@@ -98,7 +98,7 @@ const CreateUser = (props) => {
                   onChange={(e) => {
                     handleChange(e);
                   }}
-                ></input>
+                />
                 <div class="input-group-append">
                   <button onClick={() => handleClick()}>
                     {isShow ? (
@@ -124,6 +124,12 @@ const CreateUser = (props) => {
               Close
             </button>
           </div>
+          {/*           
+          <button data-tooltip-target="tooltip-default" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Default tooltip</button>
+            <div id="tooltip-default" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(25px, 44px);">
+            Tooltip content
+            <div class="tooltip-arrow" data-popper-arrow="" style="position: absolute; left: 0px; transform: translate(59px, 0px);"></div>
+          </div> */}
         </div>
       </div>
     </div>
@@ -131,13 +137,24 @@ const CreateUser = (props) => {
 };
 
 const Input = (props) => {
-  const [isUser, setIsUser] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  console.log("INPUT", props.value);
-  if (props.value == "admin" && !isAdmin) {
-    setIsAdmin(true);
-    setIsUser(false);
-  }
+  const Roles = [
+    {
+      roles: "user",
+      icon: <AiOutlineUser size={"25px"} />,
+    },
+    {
+      roles: "admin",
+      icon: <RiAdminLine size={"25px"} />,
+    },
+  ];
+
+  const [role, setIsRole] = useState(
+    props.value ? props.value : Roles[0].roles
+  );
+  const handleRole = (e) => {
+    setIsRole(e.target.value);
+    props.handle(e);
+  };
   return (
     <div className="flex items-center gap-4">
       <div style={{ minWidth: "5em" }}>{props.name}:</div>
@@ -151,38 +168,44 @@ const Input = (props) => {
           onChange={props.hanlde}
         />
       ) : (
-        <div className="flex">
-          <div class="mb-4 flex items-center">
-            <input
-              checked={isUser}
-              onChange={props.hanlde}
-              name="role"
-              value="user"
-              type="radio"
-              class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300"
-            />
-            <label
-              for="user"
-              class="ml-3 mr-7 text-sm font-medium text-gray-900"
-            >
-              <AiOutlineUser size={"25px"} />
-            </label>
-          </div>
-          <div class="mb-4 flex items-center">
-            <input
-              checked={isAdmin}
-              onChange={props.hanlde}
-              name="role"
-              value="admin"
-              type="radio"
-              class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300"
-            />
-            <label for="admin" class="ml-3 text-sm font-medium text-gray-900">
-              <RiAdminLine size={"25px"} />
-            </label>
-          </div>
+        <div
+          className="flex"
+          onClick={(e) => {
+            handleRole(e);
+          }}
+        >
+          {Roles.map((data) => (
+            <div class="mb-4 flex items-center">
+              <input
+                checked={data.roles == role}
+                name="role"
+                value={data.roles}
+                type="radio"
+                class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300"
+              />
+              <label
+                for={data.roles}
+                class="ml-3 mr-7 text-sm font-medium text-gray-900"
+              >
+                {data.icon}
+              </label>
+            </div>
+          ))}
         </div>
       )}
+    </div>
+  );
+};
+
+const Tooltip = () => {
+  return (
+    <div
+      id="tooltip-default"
+      role="tooltip"
+      class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 py-2 px-3 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
+    >
+      Tooltip content
+      <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
   );
 };

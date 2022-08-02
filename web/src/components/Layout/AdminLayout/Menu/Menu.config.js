@@ -1,31 +1,36 @@
+import {AiOutlineHome} from "react-icons/ai";
+import {BsCamera} from "react-icons/bs";
+import {FiUsers} from "react-icons/fi";
+import {HiOutlineTicket} from "react-icons/hi";
+import {IoMdNotificationsOutline} from "react-icons/io";
 export const menuItems = [
   {
-    icon: <div>🏠</div>,
+    icon: <AiOutlineHome size={"30px"}/>,
     label: "Home",
     value: "/admin",
     id: "home",
   },
   {
-    icon: <div>📷</div>,
+    icon: <BsCamera size={"30px"}/>,
     label: "Check In",
     value: "/admin/checkins",
     id: "checkins",
   },
   {
-    icon: <div>🔔</div>,
+    icon: <IoMdNotificationsOutline size={"30px"}/>,
     label: "Notifications",
     value: "/admin/notification",
     id: "notification",
   },
   {
-    icon: <div>🖥️</div>,
+    icon: <FiUsers size={"30px"}/>,
     label: "Users",
     value: "/admin/users",
     id: "Users",
   },
 
   {
-    icon: <div>🖥️</div>,
+    icon: <HiOutlineTicket size={"30px"}/>,
     label: "Tickets",
     value: "/admin/ticket",
     id: "Ticket",

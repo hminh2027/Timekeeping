@@ -9,7 +9,6 @@ export class CheckOutHistoryService {
     const history = await this.historyRepository.create({
       checkinId: id,
       image,
-      date: new Date().getDate(),
     });
     return await this.historyRepository.save(history);
   }

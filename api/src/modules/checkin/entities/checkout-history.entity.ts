@@ -13,9 +13,6 @@ export class CheckoutHistory {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  date: Number;
-
   @Column({ length: 255, default: '' })
   image!: string;
 
@@ -29,6 +26,7 @@ export class CheckoutHistory {
   /* N-1 */
   @ManyToOne(() => Checkin, (checkin) => checkin.checkout_histories, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'checkinId' })
   checkin: Checkin;
