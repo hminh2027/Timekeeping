@@ -8,7 +8,7 @@ const TicketInfoFormatter = (ticket) => {
   const formatted = {
     id: ticket.id,
     key: ticket.id,
-    recipientName: ticket.recipient.firstName + " " + ticket.recipient.lastName,
+    recipient: ticket.recipient,
     title: ticket.title,
     type: ticket.ticketType,
     status: ticket.ticketStatus,
@@ -16,7 +16,6 @@ const TicketInfoFormatter = (ticket) => {
     startDate,
     endDate,
     updatedAt,
-    recipient: ticket.recipient,
     author: ticket.author,
     content: ticket.content,
   };

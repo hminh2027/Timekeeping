@@ -25,7 +25,9 @@ const LeaderBoard = () => {
       title: "Username",
       key: "username",
       render: (obj) => (
-        <Link href="http://localhost:3005/">{<div>{obj.username}</div>}</Link>
+        <Link href="http://localhost:3005/">
+          {<div className="cursor-pointer text-blue-300">{obj.username}</div>}
+        </Link>
       ),
     },
     {
@@ -49,14 +51,12 @@ const LeaderBoard = () => {
   ];
 
   const buttons = [
-    <TableButton func={() => console.log("log")} label={"Create"} />,
-    <TableButton func={() => console.log("log")} label={"Update"} />,
-    <TableButton func={() => console.log("log")} label={"Delete"} />,
+    <TableButton func={() => console.log("log")} label={"Apply"} />,
   ];
 
   return (
     <div className="overflow-auto">
-      <TableHeader title={"Top Ranking"} btnList={buttons} />
+      <TableHeader title={"Top Checkin"} btnList={buttons} />
 
       <CustomTable dataSource={data} columns={columns} />
     </div>

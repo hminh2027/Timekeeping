@@ -34,19 +34,25 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleDisconnect(client: Socket) {
     this.logger.log(client.id, 'Disconnected....');
-    const user = this.getUser(client);
-    if (!user) throw new UnauthorizedException('Token not found');
-    this.server.socketsLeave(user.id.toString());
-    this.logger.log(`User ${user.id} leave the room`);
+    // const user = this.getUser(client);
+    // if (!user) throw new UnauthorizedException('Token not found');
+    // this.server.socketsLeave(user.id.toString());
+    // this.logger.log(`User ${user.id} leave the room`);
   }
 
   @SubscribeMessage('msgToServer')
-  handleMsg(@MessageBody() payload: any, room: string) {
-    this.server.to(room).emit('msgToClient', payload);
+  emitEvent(@MessageBody() payload: any, rooms: string[]) {
+    rooms.forEach((room) => {
+      this.server.to(room).emit('msgToClient', payload);
+    });
   }
 
   getUser(client: Socket): any {
-    const token = client.request.headers.authorization;
-    return this.jwtService.decode(token);
+    try {
+      const token = client.request.headers.authorization;
+      return this.jwtService.decode(token);
+    } catch (err) {
+      throw new UnauthorizedException('User not found');
+    }
   }
 }

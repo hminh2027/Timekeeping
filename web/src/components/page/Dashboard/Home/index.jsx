@@ -6,6 +6,7 @@ import {
   selectUserCheckInStatus,
 } from "../../../../redux/feature/user/userSlice";
 import ReactCalendar from "./ReactCalendar";
+import CheckingCard from "@/components/page/Dashboard/Check/CheckingCard";
 
 const Home = () => {
   const checkInStatus = useSelector(selectUserCheckInStatus);
@@ -24,6 +25,7 @@ const Home = () => {
   const checkInContent = (
     <>
       <div>Already Checked In!🔥🔥🔥</div>
+      <CheckingCard />
       {checkInInfo && (
         <img
           crossOrigin="anonymous"
