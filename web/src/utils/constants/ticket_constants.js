@@ -43,3 +43,51 @@ export const TICKET_STATUS_COLOR = {
     text: "#ff9f0a",
   },
 };
+
+export const STATUS_TICKET = [
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">All</div>
+        <div className=""></div>
+      </div>
+    ),
+    value: "",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Approved</div>
+        <div className="">🟢</div>
+      </div>
+    ),
+    value: "approved",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Pending</div>
+        <div className="">🟡</div>
+      </div>
+    ),
+    value: "pending",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Rejected</div>
+        <div className="">🔴</div>
+      </div>
+    ),
+    value: "rejected",
+  },
+  {
+    label: (
+      <div className="flex justify-between gap-1">
+        <div className="">Cancelled</div>
+        <div className="">⚪</div>
+      </div>
+    ),
+    value: "cancelled",
+  },
+];

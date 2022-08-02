@@ -25,25 +25,35 @@ const DesktopFilter = (props) => {
     <div className={`flex bg-white py-4 ${props.className}`}>
       <div className="flex flex-row justify-between w-full gap-4">
         <div className="flex flex-row gap-8">
-          <div className="flex items-center w-auto gap-4">
+          {/* <div className="flex items-center w-auto gap-4">
             <div className="w-auto">Title:</div>
             <input
               name="title"
               placeholder="Title"
               value={data.title}
               onChange={(e) => handleChange("title", e.target.value)}
-              className="flex-1 w-full max-w-xs p-2 border rounded-none input input-bordered focus:outline-none"
+              className="flex-1 w-full max-w-xs p-2 border rounded-3xl input input-bordered focus:outline-none"
+            />
+          </div> */}
+          <div className="mx-auto flex w-[92%] items-center rounded-full border bg-slate-50 hover:shadow-md md:w-full">
+            <input
+              className="w-full rounded-full bg-transparent py-[10px] pl-4 outline-none"
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={data.title}
+              onChange={(e) => handleChange(e)}
             />
           </div>
 
-          <div className="flex items-center w-auto gap-4">
+          {/* <div className="flex items-center w-auto gap-4">
             <div className="w-auto">Type:</div>
             <select
               onChange={(e) => {
                 handleChange("type", e.target.value);
               }}
               style={{ flex: "1 0 8em", minWidth: "8em" }}
-              className="flex-1 w-full max-w-xs rounded-none select select-bordered focus:border-none"
+              className="flex-1 w-full max-w-xs rounded-3xl select select-bordered focus:border-none"
             >
               {ticketTypes &&
                 ticketTypes.map((e, i) => (
@@ -52,6 +62,28 @@ const DesktopFilter = (props) => {
                   </option>
                 ))}
             </select>
+          </div> */}
+          <div className="flex flex-row items-center justify-between mr-[-6rem]">
+            <div className="flex items-center flex-1 gap-4 w-80">
+              <div className="w-auto">Type:</div>
+              <select
+                value={data.type}
+                onChange={(e) => {
+                  // const e = { target: { name: "status", value: value } };
+                  // handleChange(e);
+                  handleChange("status", e.target.value);
+                  console.log(e.target.value);
+                }}
+                className="w-40 max-w-xs rounded-3xl select select-bordered select-md focus:border-none"
+              >
+                {ticketTypes &&
+                ticketTypes.map((e, i) => (
+                  <option key={i} value={e.value} className="flex justify-between">
+                    {e.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="flex flex-row items-center justify-between">
             <div className="flex items-center flex-1 gap-4 w-80">
@@ -64,7 +96,7 @@ const DesktopFilter = (props) => {
                   handleChange("status", e.target.value);
                   console.log(e.target.value);
                 }}
-                className="w-40 max-w-xs rounded-none select select-bordered select-md focus:border-none"
+                className="w-40 max-w-xs rounded-3xl select select-bordered select-md focus:border-none"
               >
                 {status.map((e, i) => (
                   <option
@@ -122,7 +154,7 @@ const MobileFilter = (props) => {
                 value={data.title}
                 // onChange={filter}
                 // style={{ flex: "1 0 5em" }}
-                className="flex-1 border border-gray-200 input-xs focus:outline-none"
+                className="flex-1 p-4 rounded-3xl border border-gray-200 input-xs focus:outline-none"
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -134,7 +166,7 @@ const MobileFilter = (props) => {
                 name="type"
                 value={data.type}
                 style={{ flex: "1 0 8em", minWidth: "8em" }}
-                className="flex-1"
+                className="flex-1 p-1 rounded-3xl border border-gray-200 focus:outline-none"
                 onChange={(value, option) => {
                   const e = { target: { name: "type", value: value } };
                   handleChange(e);
@@ -154,7 +186,7 @@ const MobileFilter = (props) => {
                   name="status"
                   // defaultValue="all"
                   value={data.status}
-                  className="flex-1"
+                  className="flex-1 p-1 rounded-3xl border border-gray-200 focus:outline-none"
                   onChange={(value, option) => {
                     const e = { target: { name: "status", value: value } };
                     handleChange(e);
@@ -166,26 +198,6 @@ const MobileFilter = (props) => {
                     </option>
                   ))}
                 </select>
-              </div>
-
-              {/* Status description */}
-              <div className="flex flex-wrap flex-1 w-full gap-2">
-                <div className="flex justify-between gap-1">
-                  <div className="">🟢</div>
-                  <div className="">Approved</div>
-                </div>
-                <div className="flex gap-1">
-                  <div className="">🔴</div>
-                  <div className="">Rejected</div>
-                </div>
-                <div className="flex gap-1">
-                  <div className="">🟡</div>
-                  <div className="">Pending</div>
-                </div>
-                <div className="flex gap-1">
-                  <div className="">⚪</div>
-                  <div className="">Cancel</div>
-                </div>
               </div>
             </div>
           </div>
