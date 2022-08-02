@@ -64,24 +64,6 @@ const DesktopFilter = (props) => {
                 options={status}
               ></Select>
             </div>
-            {/* <div className="flex w-auto  gap-2">
-              <div className="flex justify-between gap-1">
-                <div className="">🟢</div>
-                <div className="">Approved</div>
-              </div>
-              <div className="flex gap-1">
-                <div className="">🔴</div>
-                <div className="">Rejected</div>
-              </div>
-              <div className="flex gap-1">
-                <div className="">🟡</div>
-                <div className="">Pending</div>
-              </div>
-              <div className="flex gap-1">
-                <div className="">⚪</div>
-                <div className="">Cancel</div>
-              </div>
-            </div> */}
           </div>
         </div>
         <div className="text-right">

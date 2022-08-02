@@ -30,7 +30,7 @@ const Ticket = (props) => {
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Create date:</div>{" "}
-                  <div>{created}</div>
+                  <div>{createdAt}</div>
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Lastest update:</div>

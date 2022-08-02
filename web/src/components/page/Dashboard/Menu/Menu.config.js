@@ -1,32 +1,36 @@
+import {AiOutlineHome, AiOutlineClockCircle} from "react-icons/ai";
+import {BsCamera} from "react-icons/bs";
+import {IoMdNotificationsOutline} from "react-icons/io";
+import {HiOutlineTicket} from "react-icons/hi";
 export const menuItems = [
   {
-    icon: <div>🏠</div>,
+    icon: <AiOutlineHome size={"30px"}/>,
     label: "Home",
     value: "/dashboard/",
     id: "home",
   },
   {
-    icon: <div>📷</div>,
+    icon: <BsCamera size={"30px"}/>,
     label: "Check In",
     value: "/dashboard/checkin",
     id: "checkin",
   },
 
   {
-    icon: <div>🕐</div>,
+    icon: <AiOutlineClockCircle size={"30px"}/>,
     label: "Time",
     value: "/dashboard/time",
     id: "time",
   },
 
   {
-    icon: <div>🔔</div>,
+    icon: <IoMdNotificationsOutline size={"30px"}/>,
     label: "Notifications",
     value: "/dashboard/notification",
     id: "notification",
   },
   {
-    icon: <div>🎫</div>,
+    icon: <HiOutlineTicket size={"30px"}/>,
     label: "My Tickets",
     value: "/dashboard/ticket",
     id: "ticket",
