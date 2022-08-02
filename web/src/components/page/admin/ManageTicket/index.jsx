@@ -21,7 +21,7 @@ const ApproveTicket = () => {
     sortBy: "createdAt",
     orderBy: false,
   });
-  const sortOptions = `limit=10&page=1&search=${filterOptions.search}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
+  const sortOptions = `limit=10&page=1&search=${filterOptions.search || ""}&ticketType=${filterOptions.type|| ""}&ticketStatus=${filterOptions.status|| ""}&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
   console.log("SORT:", sortOptions);
   const { data: Tickets } = useGetTicketQuery(sortOptions);
   console.log("getTicket", Tickets);
