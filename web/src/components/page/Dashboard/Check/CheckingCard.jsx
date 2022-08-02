@@ -59,13 +59,11 @@ const CheckingCard = (props) => {
                 dispatch(fetchCheckInStatus());
               },
               onError: (err) => {
-                console.log(err);
                 const message = extractMessages(err);
                 props.setErrors(message);
               },
             });
       } catch (err) {
-        console.log(err);
         const message = extractMessages(err);
         props.setErrors(message);
       }

@@ -1,6 +1,6 @@
 import TicketInfo from "@/components/page/Dashboard/Ticket/TicketInfo";
 import DashboardLayout from "@/layout/DashboardLayout";
-import React, { useState } from "react";
+import React from "react";
 import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
 
 const TicketDetails = (props) => {

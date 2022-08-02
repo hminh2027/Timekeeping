@@ -51,7 +51,6 @@ const TicketContent = () => {
       title: "Recipient",
       key: "recipientName",
       render: (obj) => {
-        console.log(obj);
         return (
           <Link href={`http://localhost:3005/`}>
             <a className={``}>{obj.recipientName}</a>
@@ -72,7 +71,7 @@ const TicketContent = () => {
       key: "status",
       render: (obj) => {
         // const color = TICKET_STATUS[obj.status.toString().toUpperCase()].text;
-        // console.log(color);
+        console.log(obj);
         return (
           <div
             className={`w-fit rounded-xl bg-[${TICKET_STATUS.PENDING.background}] px-3 text-[${TICKET_STATUS.PENDING.text}]`}
@@ -99,9 +98,9 @@ const TicketContent = () => {
   ];
 
   return (
-    <div className="flex-col flex-1 gap-8 m-4">
+    <div className="m-4 flex-1 flex-col gap-8">
       <div
-        className="flex flex-col m-1 overflow-auto rounded-lg "
+        className="m-1 flex flex-col overflow-auto rounded-lg "
         style={{
           backgroundColor: "#fff",
           boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",

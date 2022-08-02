@@ -40,6 +40,6 @@
   }
 }
 
-* {
+button {
   @apply transition duration-200;
 }

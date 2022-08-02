@@ -13,6 +13,8 @@ const initialState = {
   fetch_status: "idle",
   checkInInfo: {},
   userInfo: {},
+  role: [],
+  permission: [],
 };
 
 export const fetchCheckInStatus = createAsyncThunk(

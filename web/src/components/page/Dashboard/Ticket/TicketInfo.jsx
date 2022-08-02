@@ -8,6 +8,7 @@ import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { USER_TICKET } from "@/utils/constants/react-query";
 import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
+import moment from "moment";
 import ChatBox from "@/components/Chat/ChatBox";
 
 const { Option } = Select;
@@ -25,6 +26,10 @@ const TicketInfo = React.memo((props) => {
   };
   const queryClient = useQueryClient();
   const { mutate: updateTicketInfo } = useUpdateTicketInfoQuery();
+
+  const today = () => {
+    return moment(new Date(Date.now())).format("YYYY-MM-DD");
+  };
 
   const submit = async () => {
     setIsSubmitting(true);
@@ -49,7 +54,6 @@ const TicketInfo = React.memo((props) => {
         }
       );
     } catch (err) {
-      console.log(err);
       const messages = extractMessages(err);
       const newErrors = [];
       newErrors.push({
@@ -80,7 +84,7 @@ const TicketInfo = React.memo((props) => {
             </span>
           </div>
 
-          <div className="space">
+          <div className="flex flex-col gap-2">
             {errors &&
               errors.map((error) => (
                 <div style={{ color: error.color }}>{error.message}</div>
@@ -108,6 +112,7 @@ const TicketInfo = React.memo((props) => {
                   type="date"
                   name="startDate"
                   value={data.startDate}
+                  min={today()}
                   className="v-input flex-1"
                   onChange={(e) => {
                     handleChange(e);
@@ -123,6 +128,7 @@ const TicketInfo = React.memo((props) => {
                   type="date"
                   name="endDate"
                   value={data.endDate}
+                  min={today()}
                   className="v-input flex-1"
                   onChange={(e) => {
                     handleChange(e);
@@ -167,8 +173,6 @@ const TicketInfo = React.memo((props) => {
                   value={data.recipient.id}
                   placeholder="Search to Select"
                   onChange={(value, option) => {
-                    console.log(value, option);
-
                     const e = { target: { name: "recipientId", value: value } };
                     handleChange(e);
                   }}
@@ -197,7 +201,9 @@ const TicketInfo = React.memo((props) => {
             />
           </div>
           <button
-            className="v-btn-primary w-full"
+            className={`${
+              data.status === "pending" ? "v-btn-primary" : "v-btn-disable"
+            } w-full`}
             onClick={() => {
               submit();
             }}

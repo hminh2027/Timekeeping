@@ -8,6 +8,9 @@ import MessageRow from "@/components/Chat/MessageRow";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "@/redux/feature/user/userSlice";
 const ChatBox = ({ id, className, authorId }) => {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("AUTH_TOKEN") : null;
+
   const [Comment, setCommentData] = useState({
     content: "",
     ticketId: Number(id),
@@ -28,7 +31,7 @@ const ChatBox = ({ id, className, authorId }) => {
     });
   };
   const { data: CommentList } = useGetCommentIdQuery(id);
-  console.log(CommentList);
+
   return (
     <div
       className={`w-96 rounded-2xl border border-solid border-gray-400 bg-white shadow-xl ${className}`}

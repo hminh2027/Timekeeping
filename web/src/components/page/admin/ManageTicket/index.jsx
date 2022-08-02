@@ -9,7 +9,6 @@ import { DesktopFilter, MobileFilter } from "./Filter";
 import TicketLists from "./TicketList";
 const ApproveTicket = () => {
   const tickets = useSelector(selectTickets);
-  console.log("Tickets", tickets);
   // const dispatch = useDispatch();
   const [filterOptions, setFilterOptions] = useState({
     title: "",
@@ -21,9 +20,7 @@ const ApproveTicket = () => {
     orderBy: false,
   });
   const sortOptions = `limit=10&page=1&search=${filterOptions.title}&ticketType=${filterOptions.type}&ticketStatus=${filterOptions.status}&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
-  console.log("SORT:", sortOptions);
   const { data: Tickets } = useGetTicketQuery(sortOptions);
-  console.log("getTicket", Tickets);
   return (
     <div className="flex-1">
       <div className="flex w-full items-center justify-between bg-white px-4 py-6">
@@ -52,10 +49,10 @@ const ApproveTicket = () => {
           /> */}
           <TicketLists
             tickets={Tickets}
-            onSort = {(option) => setSortOption(option)}
-            sortOption = {sortOption}
+            onSort={(option) => setSortOption(option)}
+            sortOption={sortOption}
           />
-          </div>
+        </div>
       </div>
     </div>
   );

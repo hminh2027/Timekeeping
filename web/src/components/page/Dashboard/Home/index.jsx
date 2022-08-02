@@ -31,28 +31,28 @@ const Home = () => {
           // width="16"
           // height="9"
           // layout="responsive"
-          className="object-contain aspect-video"
+          className="aspect-video object-contain blur-lg transition-all duration-300 hover:blur-none"
         />
       )}
     </>
   );
   return (
     <>
-      <div className="flex flex-col gap-8 m-4 lg:flex-row">
-        <div className="flex flex-col w-full lg:w-1/3 gap-4 ">
+      <div className="m-4 flex flex-col gap-8 lg:flex-row">
+        <div className="flex w-full flex-col gap-4 lg:w-1/3 ">
           <div className="card ">
             <div className="card-body">
               {checkInStatus ? checkInContent : notCheckedContent}
             </div>
           </div>
-          <div className="w-full card">
+          <div className="card w-full">
             <div className="card-body">
               <ReactCalendar />
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-full lg:w-2/3 gap-4">
-          <div className="w-full card">
+        <div className="flex w-full flex-col gap-4 lg:w-2/3">
+          <div className="card w-full">
             <div className="card-body">
               <LeaderBoard />
             </div>
