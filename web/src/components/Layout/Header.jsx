@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 import { useSelector } from "react-redux";
 import Dropdow from "./MenuLayout/Dropdow";
+import NotificationDropdow from "./MenuLayout/NotificationDropdow";
 
 const Header = () => {
   const userInfo = useSelector(selectUserInfo);
@@ -39,7 +40,11 @@ const Header = () => {
             <div className="underline">Role: {userInfo.role}</div>
           </div>
         </div>   
-        <Dropdow/>
+        <div className="flex">
+          <NotificationDropdow/>
+          <Dropdow/>
+        </div>
+        
       </div>
     </div>
   );

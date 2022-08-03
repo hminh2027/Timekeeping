@@ -62,7 +62,7 @@ const Dropdow = () => {
             toggle((prev) => !prev);
           }}
           data-dropdown-toggle="dropdown"
-          className="mr-6 hidden h-16 w-16 overflow-hidden rounded-full border border-slate-800 lg:flex"
+          className="hover:cursor-pointer mr-6 hidden h-16 w-16 overflow-hidden rounded-full border border-slate-800 lg:flex"
         >
           <img
             className="aspect-square object-contain"
@@ -73,7 +73,7 @@ const Dropdow = () => {
         </div>
         <div
           id="dropdown"
-          className={`top-26 absolute mt-5 flex w-[300px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg ${
+          className={`top-26 absolute mt-5 flex w-[300px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-slate-100 p-4 shadow-lg ${
             isShowing ? "" : "hidden"
           }`}
         >
