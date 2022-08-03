@@ -43,7 +43,7 @@ const ChatBox = ({ id, className, authorId }) => {
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-6 border-t border-t-gray-200">
-          <div className="mt-1 flex flex-1 flex-col">
+          <div className="mt-1 flex flex-1 flex-col overflow-auto">
             {CommentList?.map(({ userId, content }, index) => (
               <MessageRow
                 key={index}

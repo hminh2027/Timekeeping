@@ -7,7 +7,12 @@ import { useUpdateTicketInfoQuery } from "@/rest/ticket/ticket.query";
 import { SUBMIT_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { USER_TICKET } from "@/utils/constants/react-query";
-import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
+import {
+  GoTriangleLeft,
+  GoTriangleRight,
+  GoTriangleUp,
+  GoTriangleDown,
+} from "react-icons/go";
 import moment from "moment";
 import ChatBox from "@/components/Chat/ChatBox";
 
@@ -68,7 +73,7 @@ const TicketInfo = React.memo((props) => {
   };
 
   const ticketContent = (
-    <div className="flex gap-4">
+    <div className="flex flex-col gap-4 lg:flex-row">
       <div className="card">
         <div className="card-body min-w-mobile lg:min-w-md">
           <div className="relative flex items-center">
@@ -76,7 +81,7 @@ const TicketInfo = React.memo((props) => {
               Ticket Content
             </div>
             <span
-              className="absolute right-0 flex cursor-pointer  items-center  gap-4"
+              className="absolute right-0 hidden cursor-pointer items-center  gap-4  lg:flex "
               onClick={() => setIsShowingComments(!isShowingComments)}
             >
               <div>Comments</div>
@@ -218,6 +223,13 @@ const TicketInfo = React.memo((props) => {
               "Update"
             )}
           </button>
+          {/* <span
+            className="absolute bottom-0 flex w-full cursor-pointer items-center justify-center  gap-4    lg:hidden "
+            onClick={() => setIsShowingComments(!isShowingComments)}
+          >
+            <div>Show Comments</div>
+            {isShowingComments ? <GoTriangleUp /> : <GoTriangleDown />}
+          </span> */}
         </div>
       </div>
       {isShowingComments && (

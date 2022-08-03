@@ -30,7 +30,13 @@
     @apply px-4 py-2 text-black bg-white border border-gray-700 border-solid rounded-lg hover:bg-gray-700 hover:text-stone-100;
   }
   .v-input {
-    @apply p-2 border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
+    @apply p-2 rounded-lg cursor-pointer select-none border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
+  }
+  .v-select-list {
+    @apply cursor-pointer select-none border border-teal-600 rounded-lg overflow-hidden
+  }
+  .v-select-option {
+    @apply p-2 cursor-pointer select-none hover:bg-teal-700 hover:text-white  
   }
   .v-textarea {
     @apply resize-none textarea textarea-accent focus:outline-none;

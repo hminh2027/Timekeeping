@@ -194,23 +194,24 @@ const ButtonTicket = ({ id, status }) => {
         </div>
       );
     }
-  };
-  const Cancel = ({ id}) => {
-    const router = useRouter()
+  }
+
+  const Cancel = ({ id }) => {
+    const router = useRouter();
     const { mutate: doDelete } = useDeleteTicketMutation();
     const queryClient = useQueryClient();
     async function handleDelete(data) {
       await doDelete(data, {
         onSuccess: () => {
           console.log("success");
-          router.push(`/admin/ticket`)
+          router.push(`/admin/ticket`);
           queryClient.invalidateQueries(["get-ticket"]);
         },
       });
     }
     return (
       <button
-        className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black hover:shadow-xl hover:bg-gray-400 hover:text-white"
+        className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black hover:bg-gray-400 hover:text-white hover:shadow-xl"
         type="primary"
         onClick={() => {
           handleDelete(id);
@@ -220,5 +221,6 @@ const ButtonTicket = ({ id, status }) => {
       </button>
     );
   };
+};
 
 export default TicketInfo;

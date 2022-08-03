@@ -14,9 +14,9 @@ const TicketDetails = (props) => {
   const updatedAt = new Date(ticketData.updatedAt).toLocaleString();
   if (ticketData)
     return (
-      <div className="ml-4 w-full ">
+      <div className="w-full lg:ml-4 ">
         <div className="py-10 text-3xl font-semibold ">Thông tin ticket</div>
-        <div className="flex gap-12">
+        <div className="flex flex-col gap-12 lg:flex-row">
           <div className="min-w-mobile ">
             <div className="card flex flex-col rounded-md">
               <div className="card-body p-2">
