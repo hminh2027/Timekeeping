@@ -57,7 +57,7 @@ const DashboardLayout = (props) => {
       <Header />
       {/* Sidebar Menu */}
       <div className="z-10 flex flex-1 ">
-        <SidebarMenu menu={menuItems} />
+        <SidebarMenu menuItems={menuItems} />
         {/* Content */}
         <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
           {props.children}
