@@ -1,12 +1,13 @@
 import { logOut } from "@/api/service/auth.service";
 import { selectUserInfo } from "@/redux/feature/user/userSlice";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Dropdow from "./MenuLayout/Dropdow";
 import NotificationDropdow from "./MenuLayout/NotificationDropdow";
 
 const Header = () => {
+  const [isShowing, toggle] = useState(false)
   const userInfo = useSelector(selectUserInfo);
   return (
     <div className="shadow-black-500/40 z-20 flex max-h-28 w-full items-center bg-[#ffffff]  py-7 shadow-md ">

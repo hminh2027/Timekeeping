@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from "react";
-
-const CustomTable = ({ dataSource, columns }) => {
+const CustomTable = ({
+  dataSource,
+  columns,
+  isPaginate,
+  paginationOptions,
+  onPageChange,
+}) => {
   const [data, setData] = useState([]);
 
   const dataConversion = (dataToConvert, columns) => {
@@ -33,29 +37,42 @@ const CustomTable = ({ dataSource, columns }) => {
   }, [columns, dataSource]);
 
   return (
-    <table className="w-full text-left ">
-      <thead className="bg-gray-50">
-        <tr>
-          {columns.map((col) => (
-            <th key={col.key} scope="col" className="px-6 py-3 font-semibold">
-              {col.title}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, key) => (
-          <tr key={key} className="border-b bg-white ">
-            {Object.keys(item).map((key) => (
-              <td key={key} scope="row" className="px-6 py-4 text-gray-500">
-                {item[key]}
-              </td>
+    <>
+      <table className="w-full text-left ">
+        <thead className="bg-gray-50">
+          <tr>
+            {columns.map((col) => (
+              <th key={col.key} scope="col" className="px-6 py-3 font-semibold">
+                {col.title}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((item, key) => (
+            <tr key={key} className="border-b bg-white ">
+              {Object.keys(item).map((key) => (
+                <td key={key} scope="row" className="px-6 py-4 text-gray-500">
+                  {item[key]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {isPaginate && (
+        <div className="mt-5">
+          <Pagination
+            total={paginationOptions?.total}
+            onChange={(page) => onPageChange(page)}
+          />
+        </div>
+      )}
+    </>
   );
 };
+import React, { useEffect, useState } from "react";
+
+import Pagination from "@/components/Common/Pagination";
 
 export default CustomTable;

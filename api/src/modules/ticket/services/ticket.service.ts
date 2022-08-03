@@ -48,12 +48,19 @@ export class TicketService {
   async getByAuthorId(
     userId: number,
     params: SearchQueryDto,
-  ): Promise<Ticket[]> {
+  ): Promise<{ total: number; size: number; data: Ticket[]; page: number }> {
     try {
-      return await (await this.ticketRepository.paginationAndSearch(params))
-        .andWhere('tickets.authorId = :authorId', { authorId: userId })
-        .leftJoinAndSelect('tickets.recipient', 'user')
-        .getMany();
+      return {
+        total: await this.ticketRepository.count({
+          where: { authorId: userId },
+        }),
+        page: +params.page,
+        size: +params.limit,
+        data: await (await this.ticketRepository.paginationAndSearch(params))
+          .andWhere('tickets.authorId = :authorId', { authorId: userId })
+          .leftJoinAndSelect('tickets.recipient', 'user')
+          .getMany(),
+      };
     } catch (err) {
       console.log(err);
       throw new BadRequestException('Bad query parameters.');
