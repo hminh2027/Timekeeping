@@ -28,7 +28,7 @@ const DesktopFilter = (props) => {
         <div className="flex flex-row gap-8">
           <div className="mx-auto flex w-[92%] items-center rounded-full border hover:shadow-md md:w-full">
             <div class="pl-5">
-              <svg
+              {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 text-gray-400"
                 fill="none"
@@ -41,7 +41,7 @@ const DesktopFilter = (props) => {
                   stroke-linejoin="round"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
-              </svg>
+              </svg> */}
             </div>
             <input
               className="w-full rounded-full bg-transparent py-[10px] pl-4 outline-none"
