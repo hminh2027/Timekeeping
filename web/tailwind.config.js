@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      aspectRatio: {
+        "4/3": "4 / 3",
+        "3/4": "3 / 4",
+      },
       minWidth: {
         4: "1em",
         8: "2em",
@@ -31,7 +35,9 @@ module.exports = {
 
       colors: {
         black: "rgb(31,31,31)",
-        primary: "rgb(205, 240, 234)",
+        primary: "rgb(158,232,225)",
+        primaryLight: "rgb(181,249,242)",
+        primaryDark: "rgb(154,215,209)",
         secondary: "rgb(249, 249, 249)",
         third: "rgb(246, 198, 234)",
         forth: "rgb(250, 244, 183)",

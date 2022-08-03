@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 const Approve = ({ num, id}) => {
   const router = useRouter();
   const { isShowing, toggle } = UseModal();
-  console.log("ticket", num, id);
   if (num == "pending") {
     return (
       <div>

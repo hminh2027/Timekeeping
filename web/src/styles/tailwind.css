@@ -9,10 +9,10 @@
 
 @layer components {
   .v-btn-primary {
-    @apply min-w-32 rounded-md bg-[#cdf0ea] py-2 px-4 font-bold text-black transition-all duration-300 hover:bg-[#bcece4];
+    @apply w-full min-w-32 rounded-md bg-primary py-2 px-4 font-bold text-white transition-all duration-300 hover:bg-primaryLight;
   }
-  .v-btn-secondary {
-    @apply px-4 py-2 text-black transition-all duration-300 bg-blue-400 border-blue-400 rounded-md min-w-32 hover:text-white;
+  .v-btn-transparent {
+    @apply v-btn-primary text-primary bg-transparent hover:bg-primary hover:text-white border-2 border-primary;
   }
   .v-btn-third {
     @apply px-4 py-2 text-black transition-all duration-300 rounded-md min-w-32 border-pastelBlue bg-pastelBlue hover:text-white;
@@ -30,19 +30,25 @@
     @apply px-4 py-2 text-black bg-white border border-gray-700 border-solid rounded-lg hover:bg-gray-700 hover:text-stone-100;
   }
   .v-input {
-    @apply p-2 border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
+    @apply p-2 rounded-lg cursor-pointer select-none border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
+  }
+  .v-select-list {
+    @apply cursor-pointer select-none border border-teal-600 rounded-lg overflow-hidden
+  }
+  .v-select-option {
+    @apply p-2 cursor-pointer select-none hover:bg-teal-700 hover:text-white  
   }
   .v-textarea {
     @apply resize-none textarea textarea-accent focus:outline-none;
   }
   .v-menu-item {
-    @apply flex flex-col items-center justify-center flex-grow cursor-pointer rounded-xl hover:bg-primary active:bg-primary lg:flex-grow-0 lg:flex-row lg:justify-start lg:gap-4 lg:p-4 lg:text-lg;
+    @apply flex flex-col items-center justify-center flex-grow cursor-pointer rounded-xl hover:bg-primary hover:text-white active:bg-primary lg:flex-grow-0 lg:flex-row lg:justify-start lg:gap-4 lg:p-4 lg:text-lg;
   }
   .v-menu-item-active {
-    @apply v-menu-item bg-primary
+    @apply v-menu-item bg-primary text-white
   }
 }
 
-* {
-  @apply transition duration-200;
+button {
+  @apply transition duration-200 tracking-widest;
 }

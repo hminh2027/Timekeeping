@@ -10,10 +10,8 @@ const DesktopFilter = (props) => {
     type: "",
     status: "",
   });
-  console.log("TICKET TYPE", ticketTypes);
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-    // console.log("DATA:", data);
   };
   const submit = () => {
     props.onSubmit(data);
@@ -44,7 +42,7 @@ const DesktopFilter = (props) => {
               style={{ flex: "1 0 8em", minWidth: "8em" }}
               className="flex-1"
             >
-              {ticketTypes.map(({label,value}) => (
+              {ticketTypes.map(({ label, value }) => (
                 <Option value={value}>{label}</Option>
               ))}
             </Select>

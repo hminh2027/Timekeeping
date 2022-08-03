@@ -56,9 +56,9 @@ const LeaderBoard = () => {
       type: "input",
       style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
       value: "",
-      data: []
+      data: [],
     },
-  ]
+  ];
 
   const buttons = [
     <TableButton func={() => console.log("log")} label={"Apply"} />,

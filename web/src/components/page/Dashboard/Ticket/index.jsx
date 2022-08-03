@@ -35,9 +35,13 @@ const TicketContent = () => {
     sortBy: "createdAt",
     orderBy: false,
   });
+  const [paginationOptions, setPaginationOptions] = useState({
+    page: "1",
+    limit: "1",
+  });
   const sortOptions = {
-    [TICKET_FILTER.limit]: 10,
-    [TICKET_FILTER.page]: 1,
+    [TICKET_FILTER.limit]: paginationOptions.limit,
+    [TICKET_FILTER.page]: paginationOptions.page,
     [TICKET_FILTER.title]: filterOptions.title,
     [TICKET_FILTER.status]: filterOptions.status,
     [TICKET_FILTER.type]: filterOptions.type,
@@ -136,7 +140,7 @@ const TicketContent = () => {
 
   useEffect(() => {
     if (data) {
-      setDataArray(data);
+      setDataArray(data.tickets);
     }
   }, [data]);
   const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
@@ -165,9 +169,9 @@ const TicketContent = () => {
     }
   ]
   return (
-    <div className="flex-col flex-1 gap-8 m-4">
+    <div className="m-4 flex-1 flex-col gap-8">
       <div
-        className="flex flex-col m-1 overflow-auto rounded-lg "
+        className="m-1 flex flex-col overflow-auto rounded-lg "
         style={{
           backgroundColor: "#fff",
           boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
@@ -201,7 +205,17 @@ const TicketContent = () => {
             className="lg:hidden"
           />
           {dataArray && columns && (
-            <CustomTable dataSource={dataArray} columns={columns} />
+            <CustomTable
+              dataSource={dataArray}
+              columns={columns}
+              isPaginate={true}
+              paginationOptions={
+                data && { total: Math.ceil(data.total / data.size) }
+              }
+              onPageChange={(page) =>
+                setPaginationOptions({ ...paginationOptions, page })
+              }
+            />
           )}
         </div>
       </div>

@@ -6,7 +6,6 @@ const DeleteNotification = (props) => {
   async function handleDelete(id) {
     await doDelete(id, {
       onSuccess: () => {
-        console.log("success");
         props.hide(false);
         queryClient.invalidateQueries(["get-user"]);
       },
@@ -22,13 +21,13 @@ const DeleteNotification = (props) => {
           <div className="flex">
             <button
               onClick={() => props.hide(false)}
-              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:shadow-xl hover:bg-teal-600 hover:text-white"
+              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:bg-teal-600 hover:text-white hover:shadow-xl"
             >
               No
             </button>
             <button
               onClick={() => handleDelete(props.id)}
-              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 bg-teal-600 p-1 text-black hover:shadow-xl hover:text-white"
+              className="m-auto mt-3 w-1/3 rounded-lg border border-solid border-teal-600 bg-teal-600 p-1 text-black hover:text-white hover:shadow-xl"
             >
               Yes
             </button>

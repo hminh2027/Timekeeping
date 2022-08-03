@@ -1,7 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { TicketService } from "./ticket.service";
 
-import { TicketInfoFormatter } from "@/utils/Formatter/TicketInfo";
+import {
+  AdminTicketInfoFormatter,
+  TicketInfoFormatter,
+} from "@/utils/Formatter/TicketInfo";
 import { USER_TICKET } from "@/utils/constants/react-query";
 
 export const useGetMeTicketQuery = () => {
@@ -11,9 +14,25 @@ export const useGetMeTicketQuery = () => {
 };
 
 export const useGetTicketQuery = (sort) => {
-  return useQuery(["get-ticket", sort], () => {
-    return TicketService.getTicket(sort);
+  return useQuery(["get-ticket", sort], () => TicketService.getTicket(sort), {
+    cacheTime: 0,
+    select: (tickets) =>
+      tickets.map((ticket) => AdminTicketInfoFormatter(ticket)),
   });
+};
+
+export const useGetMyTicketWithSortQuery = (sortOptions) => {
+  return useQuery(
+    [USER_TICKET.WITH_SORT, sortOptions],
+    () => TicketService.getMyTicketWithSort(sortOptions),
+    {
+      cacheTime: 0,
+      select: ({ data, total, page, size }) => {
+        const tickets = data.map((ticket) => TicketInfoFormatter(ticket));
+        return { tickets, total, page, size };
+      },
+    }
+  );
 };
 
 export const useGetTicketQueryId = (id) => {
@@ -21,7 +40,6 @@ export const useGetTicketQueryId = (id) => {
     return TicketService.getTicketId(id);
   });
 };
-
 export const useGetTicketTypeQuery = () => {
   return useQuery([
     "get-ticket-type",
@@ -29,16 +47,6 @@ export const useGetTicketTypeQuery = () => {
       return TicketService.getTicketType();
     },
   ]);
-};
-export const useGetMyTicketWithSortQuery = (sortOptions) => {
-  return useQuery(
-    [USER_TICKET.WITH_SORT, sortOptions],
-    () => TicketService.getMyTicketWithSort(sortOptions),
-    {
-      cacheTime: 0,
-      select: (tickets) => tickets.map((ticket) => TicketInfoFormatter(ticket)),
-    }
-  );
 };
 export const useGetTicketInfoQuery = (id) => {
   return useQuery(
