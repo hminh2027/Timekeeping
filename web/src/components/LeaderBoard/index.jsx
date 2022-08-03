@@ -1,4 +1,3 @@
-import Pagination from "../Common/Pagination";
 import Link from "next/link";
 import React from "react";
 import CustomTable from "../Common/Table/CustomTable";
@@ -57,9 +56,9 @@ const LeaderBoard = () => {
       type: "input",
       style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
       value: "",
-      data: []
+      data: [],
     },
-  ]
+  ];
 
   const buttons = [
     <TableButton func={() => console.log("log")} label={"Apply"} />,
@@ -70,7 +69,6 @@ const LeaderBoard = () => {
       <TableHeader title={"Top Checkin"} btnList={buttons} />
 
       <CustomTable dataSource={data} columns={columns} />
-      <Pagination totalPages={15} size={5} />
     </div>
   );
 };
