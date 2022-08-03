@@ -2,7 +2,6 @@ import { Skeleton, Typography } from "antd";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Webcam from "react-webcam";
-import api from "@/api/api";
 import { fetchCheckInStatus } from "@/redux/feature/user/userSlice";
 import styles from "@/styles/pages/dashboard/checkin.module.scss";
 import UseTrans from "@/utils/hooks/UseTrans";
@@ -10,6 +9,8 @@ import { extractMessages } from "@/utils/Formatter/ApiError";
 import { usePostCheckInMutation } from "@/rest/checkin/checkin.query";
 import { usePostCheckOutMutation } from "@/rest/checkout/checkout.query";
 import { useQueryClient } from "@tanstack/react-query";
+import { notify } from "@/components/Common/Toast/Toastify";
+import { ToastContainer } from "react-toastify";
 
 const { Text } = Typography;
 const CheckingCard = (props) => {
@@ -40,9 +41,8 @@ const CheckingCard = (props) => {
         image,
       };
       try {
-        if (!image) {
-          throw new Error("No image sent");
-        }
+        if (!image) throw new Error("No image sent");
+
         props.state === "checkin"
           ? checkIn(payload, {
               onSuccess: () => {
@@ -51,7 +51,7 @@ const CheckingCard = (props) => {
               },
               onError: (err) => {
                 const message = extractMessages(err);
-                props.setErrors(message);
+                notify(message[0], "error");
               },
             })
           : checkOut(payload, {
@@ -60,17 +60,17 @@ const CheckingCard = (props) => {
               },
               onError: (err) => {
                 const message = extractMessages(err);
-                props.setErrors(message);
+                notify(message[0], "error");
               },
             });
       } catch (err) {
         const message = extractMessages(err);
-        props.setErrors(message);
+        notify(message[0], "error");
       }
     });
   };
   const webCam = (
-    <div className="min-w-mobile max-w-mobile lg:max-w-screen-md">
+    <div className="max-w-mobile lg:max-w-screen-md rounded-xl overflow-hidden">
       <Webcam
         ref={webCamRef}
         screenshotFormat="image/jpg"
@@ -84,7 +84,10 @@ const CheckingCard = (props) => {
   );
   const imagePreview = (
     <div>
-      <img src={imageSrc} className={styles[`preview-image`]} />
+      <img
+        src={imageSrc}
+        className={`${styles["preview-image"]} rounded-xl overflow-hidden`}
+      />
     </div>
   );
   const content = (
@@ -95,18 +98,15 @@ const CheckingCard = (props) => {
         </Text>
       )}
       {noCam ? (
-        <Skeleton
-          active={true}
-          avatar={{ active: true, shape: "square", size: 500 }}
-        ></Skeleton>
+        <Skeleton.Avatar active={true} shape="square" className="large" />
       ) : (
-        <div className="flex min-h-md w-full min-w-mobile flex-col items-center gap-4">
+        <div className="flex w-full flex-col items-center gap-4">
           {capturing && webCam}
 
           {captured && !capturing && imagePreview}
-          <div className="flex items-center gap-12">
+          <div className="flex flex-wrap  items-center justify-between w-full">
             <button
-              className="v-btn btn-outline btn-primary"
+              className="v-btn-transparent m-2"
               onClick={() => {
                 capturing && capture();
                 setCaptured(true);
@@ -118,7 +118,7 @@ const CheckingCard = (props) => {
               {!capturing && captured && "Re Capture"}
             </button>
             <button
-              className="v-btn-primary"
+              className="v-btn-primary m-2"
               onClick={() => {
                 props.setIsChecking(false);
                 submit();
@@ -128,9 +128,6 @@ const CheckingCard = (props) => {
               {trans.check.finish}
             </button>
           </div>
-          {/* <div>
-            <img src={imageSrc} className={styles[`preview-image`]} />
-          </div> */}
         </div>
       )}
     </div>

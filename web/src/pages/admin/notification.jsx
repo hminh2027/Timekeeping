@@ -1,8 +1,8 @@
-import AdminLayout from "@/layout/AdminLayout/AdminLayout";
+import Index from "@/layout/AdminLayout";
 import React from "react";
 
 const Notification = () => {
   return <div>notification</div>;
 };
-Notification.layout = AdminLayout;
+Notification.layout = Index;
 export default Notification;

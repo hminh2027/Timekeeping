@@ -8,6 +8,7 @@ import {
 } from "@/redux/feature/user/userSlice";
 import UseTrans from "@/utils/hooks/UseTrans";
 import CheckingCard from "../CheckingCard";
+import { ToastContainer } from "react-toastify";
 
 const CheckInContent = () => {
   const trans = UseTrans();
@@ -18,7 +19,8 @@ const CheckInContent = () => {
   const [isChecking, setIsChecking] = useState(false);
   const [checkedImg, setCheckedImg] = useState("");
   const [checkOutTime, setCheckOutTime] = useState();
-  const [errors, setErrors] = useState();
+  const url = `${process.env.APP_URL}${checkedImg}`;
+
   useEffect(() => {
     const getStatus = async () => {
       try {
@@ -33,84 +35,71 @@ const CheckInContent = () => {
     getStatus();
   }, [checkOutStatus, checkInInfo]);
   const notCheckedCard = (
-    <div className="card flex flex-col items-center gap-4 p-4">
-      {!checkOutStatus ? (
-        <>
-          <div>{trans.check.checkout.not_checked_out}</div>
-          <div>{trans.check.checkout.please_check_out}</div>
-        </>
-      ) : (
-        <>
-          <div>
-            {trans.check.checkout.checked_out} {checkOutTime}
-          </div>
-          <div>{trans.check.greeting} ¯\_(ツ)_/¯</div>
-        </>
-      )}
+    <div className="card w-full">
+      <div className="card-body">
+        {!checkOutStatus ? (
+          <>
+            <div>{trans.check.checkout.not_checked_out}</div>
+            <div>{trans.check.checkout.please_check_out}</div>
+          </>
+        ) : (
+          <>
+            <div>
+              {trans.check.checkout.checked_out} {checkOutTime}
+            </div>
+            <div>{trans.check.greeting} ¯\_(ツ)_/¯</div>
+          </>
+        )}
 
-      <button
-        className="v-btn-primary rounded px-4 py-1"
-        onClick={() => {
-          setIsChecking(true);
-          setErrors(null);
-        }}
-        disabled={checkOutLimit && checkOutLimit}
-      >
-        {trans.check.checkout.checkout_now}
-      </button>
+        <button
+          className="v-btn-primary rounded px-4 py-1"
+          onClick={() => {
+            setIsChecking(true);
+          }}
+          disabled={checkOutLimit && checkOutLimit}
+        >
+          {trans.check.checkout.checkout_now}
+        </button>
+      </div>
     </div>
   );
   const checkedCard = (
-    <>
-      <div className="card flex flex-col gap-4 p-4">
-        <div>
-          <div>
-            {trans.check.checkout.checked_out} {checkOutTime}
-          </div>
-          <div>{trans.check.checkout.greeting}</div>
+    <div className="card w-full">
+      <div className="card-body">
+        <div className="text-center">
+          {trans.check.checkout.checked_out} <b>{checkOutTime}</b>
         </div>
+        <img
+          crossOrigin="anonymous"
+          src={url}
+          className="aspect-[4/3] my-4 mx-auto rounded-xl overflow-hidden"
+        />
+        <button
+          className="v-btn-primary"
+          onClick={() => {
+            setIsChecking(true);
+          }}
+        >
+          Checkout
+        </button>
       </div>
-    </>
-  );
-  const url = `${process.env.APP_URL}${checkedImg}`;
-
-  const checkedImage = (
-    <div className="card p-4" style={{ padding: "0.5em" }}>
-      <img
-        crossOrigin="anonymous"
-        src={url}
-        width="300"
-        height="300"
-        layout="fill"
-        className="aspect-ratio max-w-mobile object-contain"
-      />
     </div>
   );
+
   const checkOutContent = (
     <>
       {!isChecking && (
-        <div className="flex flex-col items-center gap-4 lg:flex-row">
-          {notCheckedCard}
-          {checkOutStatus && <div>Here's your image 👉</div>}
-          {checkOutStatus && checkedImage}
-        </div>
-      )}
-      {!isChecking && errors && (
-        <div style={{ color: "rgb(230,30,10)" }}>
-          Lỗi rồi :{" "}
-          {errors.map((error) => (
-            <span>{error}</span>
-          ))}
-          😔😔😔
+        <div className="flex flex-wrap items-center">
+          {checkOutStatus ? checkedCard : notCheckedCard}
         </div>
       )}
 
       {isChecking && (
-        <CheckingCard
-          state={"checkout"}
-          setIsChecking={setIsChecking}
-          setErrors={setErrors}
-        />
+        <div className="w-full card">
+          <div className="card-body">
+            <CheckingCard state={"checkout"} setIsChecking={setIsChecking} />
+          </div>
+        </div>
       )}
     </>
   );
@@ -127,14 +116,13 @@ const CheckInContent = () => {
       </button>
     </div>
   );
-  const content = checkInStatus === false ? failedCheckIn : checkOutContent;
+  const content = !checkInStatus ? failedCheckIn : checkOutContent;
 
   return (
-    <div className="flex h-full w-full justify-center">
-      <div className="mx-auto flex w-full flex-col flex-wrap gap-2 p-4">
-        {content}
-      </div>
-    </div>
+    <>
+      {content}
+      <ToastContainer />
+    </>
   );
 };
 

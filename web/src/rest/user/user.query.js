@@ -2,16 +2,29 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { UserService } from "./user.service";
 import { AuthService } from "../auth/auth.service";
 import { USER } from "@/utils/constants/react-query";
+import { UserInfoFormatter } from "@/utils/Formatter/UserInfo";
 export const useGetUserQuery = (sort) => {
-  return useQuery(["get-user", sort], () => {
-    return UserService.getUser(sort);
-  });
+  return useQuery(
+    ["get-user", sort],
+    () => {
+      return UserService.getUser(sort);
+    },
+    {
+      select: (users) => users.map((user) => UserInfoFormatter(user)),
+    }
+  );
 };
 
 export const useGetUserIdQuery = (id) => {
-  return useQuery(["get-user-id"], () => {
-    return UserService.getUserId(id);
-  });
+  return useQuery(
+    ["get-user-id"],
+    () => {
+      return UserService.getUserId(id);
+    },
+    {
+      select: (user) => UserInfoFormatter(user),
+    }
+  );
 };
 
 export const useDeleteUserMutation = () => {

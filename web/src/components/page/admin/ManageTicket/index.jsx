@@ -1,22 +1,20 @@
-// import Modal from "@/components/Common/Modal";
-import UseModal from "@/utils/hooks/UseModal";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchTickets, selectTickets } from "@/redux/feature/admin/tickets";
-import { Col, Row } from "antd";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useGetTicketQuery } from "src/rest/ticket/ticket.query";
 import {
   DesktopFilter,
   MobileFilter,
 } from "@/components/Common/Table/TableFilter";
-import TicketLists from "./TicketList";
 import {
   ALL_TICKET_TYPES,
   STATUS_TICKET,
+  TICKET_STATUS,
+  TICKET_STATUS_COLOR,
 } from "@/utils/constants/ticket_constants";
+import Link from "next/link";
+
+import CustomTable from "@/components/Common/Table/CustomTable";
+
 const ApproveTicket = () => {
-  const tickets = useSelector(selectTickets);
-  // const dispatch = useDispatch();
   const [filterOptions, setFilterOptions] = useState({
     search: "",
     type: "",
@@ -31,9 +29,7 @@ const ApproveTicket = () => {
   }&ticketType=${filterOptions.type || ""}&ticketStatus=${
     filterOptions.status || ""
   }&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
-  console.log("SORT:", sortOptions);
   const { data: Tickets } = useGetTicketQuery(sortOptions);
-  console.log("getTicket", Tickets);
   const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
   const [ticketStatus, setTicketStatus] = useState(STATUS_TICKET);
   const dataSort = [
@@ -59,6 +55,85 @@ const ApproveTicket = () => {
       data: ticketStatus,
     },
   ];
+
+  console.log(Tickets);
+  const columns = [
+    {
+      title: "ID",
+      key: "id",
+      render: (obj) => {
+        return (
+          <Link href={`ticket/${obj.id}`}>
+            <div className="cursor-pointer text-blue-300">{obj.id}</div>
+          </Link>
+        );
+      },
+    },
+    {
+      title: "Created By",
+      key: "author",
+      render: (obj) => {
+        return (
+          <Link href={`http://localhost:3005/`}>
+            <div className="cursor-pointer text-blue-300">
+              {obj.author.firstName + " " + obj.author.lastName}
+            </div>
+          </Link>
+        );
+      },
+    },
+    {
+      title: "Title",
+      key: "title",
+    },
+    {
+      title: "Type",
+      key: "type",
+    },
+    {
+      title: "Status",
+      key: "status",
+      render: (obj) => {
+        const color = TICKET_STATUS_COLOR[obj.status.toString().toUpperCase()];
+        return (
+          <div
+            className={`w-fit rounded-xl bg-[${color.background}] px-3 text-[${color.text}]`}
+          >
+            {obj.status}
+          </div>
+        );
+      },
+    },
+    {
+      title: "Created At",
+      key: "createdAt",
+      sortable: true,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (obj) => (
+        <div className="flex">
+          <div>
+            <button
+              // onClick={() => router.push(`/dashboard/ticket/${obj.key}`)}
+              className="v-btn"
+            >
+              Edit
+            </button>
+            {obj.status === TICKET_STATUS.PENDING && (
+              <button
+                // onClick={() => cancelHandler(obj.key)}
+                className="v-btn-gray"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+      ),
+    },
+  ];
   return (
     <div className="flex-1">
       <div className="flex w-full items-center justify-between bg-white px-4 py-6">
@@ -82,11 +157,9 @@ const ApproveTicket = () => {
             className="lg:hidden"
             dataSort={dataSort}
           />
-          <TicketLists
-            tickets={Tickets}
-            onSort={(option) => setSortOption(option)}
-            sortOption={sortOption}
-          />
+          {Tickets && columns && (
+            <CustomTable dataSource={Tickets} columns={columns} />
+          )}
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
+import { menuItems } from "@/components/page/Dashboard/Menu/Menu.config";
 
 const DashboardLayout = (props) => {
   const router = useRouter();
@@ -55,7 +56,7 @@ const DashboardLayout = (props) => {
       <Header />
       {/* Sidebar Menu */}
       <div className="z-10 flex flex-1 ">
-        <SidebarMenu />
+        <SidebarMenu menuItems={menuItems} />
         {/* Content */}
         <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
           {props.children}
