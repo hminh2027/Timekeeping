@@ -4,12 +4,12 @@ import { logOut } from "@/api/service/auth.service";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const SidebarMenu = () => {
+const SidebarMenu = ({ menuItems }) => {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   useEffect(() => {
     const curPath = router.asPath.split("/").slice(-1).pop();
-    const activeItem = menuItems.find(
+    const activeItem = menuItems.findIndex(
       (menuItem) => menuItem.value.split("/").pop() === curPath
     );
     activeItem !== -1 && setActiveIndex(activeItem);

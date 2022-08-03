@@ -1,12 +1,15 @@
-import AdminLayout from "@/layout/AdminLayout/AdminLayout";
+import Index from "@/layout/AdminLayout";
 import React, { useEffect, useState } from "react";
 import TableUsers from "./TableUser";
 // import { DesktopFilter, MobileFilter } from "./Filter";
-import { DesktopFilter, MobileFilter } from "@/components/Common/Table/TableFilter";
+import {
+  DesktopFilter,
+  MobileFilter,
+} from "@/components/Common/Table/TableFilter";
 import { useGetUserQuery } from "src/rest/user/user.query";
-import UseModal from "@/utils/hooks/UseModal";
-import Modal from "antd/lib/modal/Modal";
-import CreateUser from "@/components/page/admin/users/FunctionUserModal";
+import Link from "next/link";
+import { TICKET_STATUS } from "@/utils/constants/ticket_constants";
+import CustomTable from "@/components/Common/Table/CustomTable";
 const AdminUserPage = () => {
   const [filterOptions, setFilterOptions] = useState({
     search: "",
@@ -17,36 +20,72 @@ const AdminUserPage = () => {
       type: "input",
       style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
       value: "",
-      data: []
+      data: [],
     },
-  ]
-  const UserData = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    role: "user",
-    password: "",
-  }
-  const { isShowing, toggle } = UseModal();
+  ];
   const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
-  console.log("SORT USER", sortOptions);
   const { data: Users } = useGetUserQuery(sortOptions);
+  console.log("SORT USER", Users);
+
+  const columns = [
+    {
+      title: "ID",
+      key: "id",
+    },
+    {
+      title: "Full Name",
+      key: "name",
+      render: (obj) => {
+        return (
+          <Link href={`http://localhost:3005/`}>
+            <div className="cursor-pointer text-blue-300">{obj.name}</div>
+          </Link>
+        );
+      },
+    },
+    {
+      title: "Email",
+      key: "email",
+    },
+    {
+      title: "Role",
+      key: "role",
+    },
+    {
+      title: "Created At",
+      key: "createdAt",
+      sortable: true,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (obj) => (
+        <div className="flex">
+          <div>
+            <button
+              // onClick={() => router.push(`/dashboard/ticket/${obj.key}`)}
+              className="v-btn"
+            >
+              Edit
+            </button>
+            {obj.status === TICKET_STATUS.PENDING && (
+              <button
+                // onClick={() => cancelHandler(obj.key)}
+                className="v-btn-gray"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+      ),
+    },
+  ];
   return (
     // <div>AdminUserPage</div>
     <div className="w-full">
       <div className="flex w-full items-center justify-between bg-white px-4 py-6">
         <div className="text-3xl font-bold">Manage User</div>
-        {/* <button
-            className="ml-2 rounded-md border border-blue-400 bg-transparent py-2 px-4 font-semibold text-blue-400 hover:border-transparent hover:bg-blue-400 hover:text-white"
-            onClick={toggle}
-          >
-            Create
-          </button>
-          <Modal isShowing={isShowing} hide={toggle}>
-            <div className="flex">
-              <CreateUser hide={toggle} click="Create" userData={UserData} Name="CREATE UER"/>
-            </div>
-          </Modal> */}
       </div>
       <div span={24}>
         <div
@@ -59,19 +98,21 @@ const AdminUserPage = () => {
           <DesktopFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="hidden lg:flex"
-            dataSort = {dataSort}
+            dataSort={dataSort}
           />
           <MobileFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
-            dataSort = {dataSort}
+            dataSort={dataSort}
           />
-          <TableUsers Users={Users} />
+          {Users && columns && (
+            <CustomTable dataSource={Users} columns={columns} />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-AdminUserPage.layout = AdminLayout;
+AdminUserPage.layout = Index;
 export default AdminUserPage;

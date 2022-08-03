@@ -1,10 +1,10 @@
 import Home from "@/components/page/Dashboard/Home";
-import AdminLayout from "@/layout/AdminLayout/AdminLayout";
+import Index from "@/layout/AdminLayout";
 import { getAuthCredentials } from "@/utils/auth-utils";
 const AdminPage = () => {
   return <Home />;
 };
-AdminPage.layout = AdminLayout;
+AdminPage.layout = Index;
 export default AdminPage;
 // export async function getServerSideProps(ctx) {
 //   const { token, user } = getAuthCredentials(ctx);
