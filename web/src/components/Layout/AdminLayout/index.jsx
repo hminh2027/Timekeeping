@@ -1,6 +1,5 @@
 import auth from "@/api/auth";
 import Loading from "@/components/Common/Loading";
-import SidebarMenu from "./Menu/SidebarMenu";
 import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 import {
   changeCheckInStatus,
@@ -13,8 +12,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
+import { adminMenuItems } from "@/components/page/Dashboard/Menu/Menu.config";
+import { SidebarMenu } from "@/components/page/Dashboard/Menu";
 
-const AdminLayout = (props) => {
+const Index = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const checkInStatus = useSelector(selectUserCheckInStatus);
@@ -56,7 +57,7 @@ const AdminLayout = (props) => {
       <Header />
       {/* Sidebar Menu */}
       <div className="z-10 flex flex-1 ">
-        <SidebarMenu />
+        <SidebarMenu menuItems={adminMenuItems} />
         {/* Content */}
         <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
           {props.children}
@@ -73,4 +74,4 @@ const AdminLayout = (props) => {
   );
 };
 
-export default AdminLayout;
+export default Index;

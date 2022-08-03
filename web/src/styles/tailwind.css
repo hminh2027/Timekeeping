@@ -9,10 +9,10 @@
 
 @layer components {
   .v-btn-primary {
-    @apply min-w-32 rounded-md bg-[#cdf0ea] py-2 px-4 font-bold text-black transition-all duration-300 hover:bg-[#bcece4];
+    @apply w-full min-w-32 rounded-md bg-[#cdf0ea] py-2 px-4 font-bold text-black transition-all duration-300 hover:bg-[#bcece4];
   }
-  .v-btn-secondary {
-    @apply px-4 py-2 text-black transition-all duration-300 bg-blue-400 border-blue-400 rounded-md min-w-32 hover:text-white;
+  .v-btn-transparent {
+    @apply v-btn-primary bg-transparent hover:bg-[#cdf0ea] border-2 border-[#cdf0ea];
   }
   .v-btn-third {
     @apply px-4 py-2 text-black transition-all duration-300 rounded-md min-w-32 border-pastelBlue bg-pastelBlue hover:text-white;

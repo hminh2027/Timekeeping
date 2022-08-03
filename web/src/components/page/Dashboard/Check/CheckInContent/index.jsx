@@ -1,5 +1,4 @@
 import moment from "moment";
-import Router from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -8,14 +7,20 @@ import {
 } from "../../../../../redux/feature/user/userSlice";
 import UseTrans from "../../../../../utils/hooks/UseTrans";
 import CheckingCard from "../CheckingCard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CheckOutContent from "@/components/page/Dashboard/Check/CheckOutContent";
+
 const CheckInContent = () => {
   const trans = UseTrans();
   const checkInStatus = useSelector(selectUserCheckInStatus);
   const checkInInfo = useSelector(selectUserCheckInInfo);
   const [isChecking, setIsChecking] = useState(false);
+  const [checkout, setCheckout] = useState(false);
   const [checkedImg, setCheckedImg] = useState("");
   const [checkInTime, setCheckInTime] = useState();
-  const [errors, setErrors] = useState();
+  const url = `${process.env.APP_URL}${checkedImg}`;
+
   useEffect(() => {
     const getStatus = async () => {
       try {
@@ -39,7 +44,6 @@ const CheckInContent = () => {
           className="v-btn-primary"
           onClick={() => {
             setIsChecking(true);
-            setErrors(null);
           }}
         >
           {trans.check.checkin.checkin_now}
@@ -48,84 +52,53 @@ const CheckInContent = () => {
     </div>
   );
   const checkedCard = (
-    <>
-      <div className="card w-full lg:w-max">
-        <div className="card-body">
-          <div>
-            {trans.check.checkin.checked_in} {checkInTime}
-          </div>
-          <div>{trans.check.greeting}</div>
-        </div>
-      </div>
-    </>
-  );
-  const url = `${process.env.APP_URL}${checkedImg}`;
-  const checkedImage = (
-    <div className="card w-full bg-secondary lg:w-max">
+    <div className="card w-full">
       <div className="card-body">
+        <div className="text-center">
+          {trans.check.checkin.checked_in} <b>{checkInTime}</b>!
+        </div>
         <img
           crossOrigin="anonymous"
           src={url}
-          // width="16"
-          // height="9"
-          // layout="responsive"
-          className="aspect-video max-w-mobile object-contain"
+          className="aspect-[4/3] my-4 rounded-xl overflow-hidden"
         />
+        <button
+          className="v-btn-primary"
+          onClick={() => {
+            setCheckout(true);
+          }}
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );
-  const redirectCheckOut = (
-    <div className="card lg:w-max">
-      <div className="card-body">
-        <div className="flex flex-wrap items-center gap-4 lg:flex-nowrap">
-          <div>Already checked in! Go to Checkout?</div>
-          <button
-            className="v-btn-primary rounded px-4 py-1"
-            onClick={() => {
-              Router.push("/dashboard/checkout");
-            }}
-          >
-            Checkout
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+
   const content = (
     <>
       {!isChecking && (
         <div className="flex flex-wrap items-center">
           {checkInStatus ? checkedCard : notCheckedCard}
-          {checkInStatus && (
-            <div className="hidden lg:flex">Here's your image 👉</div>
-          )}
-          {checkInStatus && checkedImage}
         </div>
       )}
-      {!isChecking && errors && (
-        <div style={{ color: "rgb(230,30,10)" }}>
-          Lỗi rồi :
-          {errors.map((error) => (
-            <span>{error}</span>
-          ))}
-          😔😔😔
-        </div>
-      )}
-      {checkInStatus && redirectCheckOut}
+
       {isChecking && (
         <div className="w-full card">
           <div className="card-body">
-            <CheckingCard
-              setIsChecking={setIsChecking}
-              setErrors={setErrors}
-              state={"checkin"}
-            />
+            <CheckingCard setIsChecking={setIsChecking} state={"checkin"} />
           </div>
         </div>
       )}
+
+      {checkout && <CheckOutContent />}
     </>
   );
-  return <>{content}</>;
+  return (
+    <>
+      {checkout ? <CheckOutContent /> : content}
+      <ToastContainer />
+    </>
+  );
 };
 
 export default CheckInContent;

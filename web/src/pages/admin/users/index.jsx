@@ -1,9 +1,15 @@
-import AdminLayout from "@/layout/AdminLayout/AdminLayout";
+import Index from "@/layout/AdminLayout";
 import React, { useEffect, useState } from "react";
 import TableUsers from "./TableUser";
 // import { DesktopFilter, MobileFilter } from "./Filter";
-import { DesktopFilter, MobileFilter } from "@/components/Common/Table/TableFilter";
+import {
+  DesktopFilter,
+  MobileFilter,
+} from "@/components/Common/Table/TableFilter";
 import { useGetUserQuery } from "src/rest/user/user.query";
+import Link from "next/link";
+import { TICKET_STATUS } from "@/utils/constants/ticket_constants";
+import CustomTable from "@/components/Common/Table/CustomTable";
 const AdminUserPage = () => {
   const [filterOptions, setFilterOptions] = useState({
     search: "",
@@ -14,12 +20,67 @@ const AdminUserPage = () => {
       type: "input",
       style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
       value: "",
-      data: []
+      data: [],
     },
-  ]
+  ];
   const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
-  console.log("SORT USER", sortOptions);
   const { data: Users } = useGetUserQuery(sortOptions);
+  console.log("SORT USER", Users);
+
+  const columns = [
+    {
+      title: "ID",
+      key: "id",
+    },
+    {
+      title: "Full Name",
+      key: "name",
+      render: (obj) => {
+        return (
+          <Link href={`http://localhost:3005/`}>
+            <div className="cursor-pointer text-blue-300">{obj.name}</div>
+          </Link>
+        );
+      },
+    },
+    {
+      title: "Email",
+      key: "email",
+    },
+    {
+      title: "Role",
+      key: "role",
+    },
+    {
+      title: "Created At",
+      key: "createdAt",
+      sortable: true,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (obj) => (
+        <div className="flex">
+          <div>
+            <button
+              // onClick={() => router.push(`/dashboard/ticket/${obj.key}`)}
+              className="v-btn"
+            >
+              Edit
+            </button>
+            {obj.status === TICKET_STATUS.PENDING && (
+              <button
+                // onClick={() => cancelHandler(obj.key)}
+                className="v-btn-gray"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+      ),
+    },
+  ];
   return (
     // <div>AdminUserPage</div>
     <div className="w-full">
@@ -37,19 +98,21 @@ const AdminUserPage = () => {
           <DesktopFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="hidden lg:flex"
-            dataSort = {dataSort}
+            dataSort={dataSort}
           />
           <MobileFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="lg:hidden"
-            dataSort = {dataSort}
+            dataSort={dataSort}
           />
-          <TableUsers Users={Users} />
+          {Users && columns && (
+            <CustomTable dataSource={Users} columns={columns} />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-AdminUserPage.layout = AdminLayout;
+AdminUserPage.layout = Index;
 export default AdminUserPage;
