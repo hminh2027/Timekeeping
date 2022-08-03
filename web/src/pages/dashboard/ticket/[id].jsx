@@ -55,6 +55,7 @@ TicketDetails.layout = DashboardLayout;
 export default TicketDetails;
 export async function getServerSideProps(context) {
   const { id } = context.query;
+  // TODO check ticket existence
   return {
     props: { id }, // will be passed to the page component as props
   };

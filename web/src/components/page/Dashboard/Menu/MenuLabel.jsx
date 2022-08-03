@@ -14,7 +14,6 @@ const MenuLabel = (props) => {
   const isActive = props.isActive;
   const color = [];
   const curItem = useSelector(selectCurrentItem);
-  const dispatch = useDispatch();
   if (curItem === props.id) {
     color.push("rgb(205, 240, 234)");
   }
@@ -23,9 +22,6 @@ const MenuLabel = (props) => {
       <div
         className={isActive ? "v-menu-item-active" : "v-menu-item"}
         style={{ backgroundColor: color[0] }}
-        onClick={() => {
-          dispatch(changeCurrentItem({ menuItem: id }));
-        }}
       >
         <div className="p-4 lg:px-4 lg:py-0">{icon}</div>
         <div className="hidden pr-6 font-bold lg:flex">{label}</div>

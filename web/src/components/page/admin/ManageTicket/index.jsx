@@ -20,6 +20,7 @@ const ApproveTicket = () => {
     type: "",
     status: "",
   });
+
   const [sortOption, setSortOption] = useState({
     sortBy: "createdAt",
     orderBy: false,
@@ -28,7 +29,8 @@ const ApproveTicket = () => {
     filterOptions.search || ""
   }&ticketType=${filterOptions.type || ""}&ticketStatus=${
     filterOptions.status || ""
-  }&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
+  }&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}
+  `;
   const { data: Tickets } = useGetTicketQuery(sortOptions);
   const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
   const [ticketStatus, setTicketStatus] = useState(STATUS_TICKET);

@@ -27,7 +27,10 @@ export const useGetMyTicketWithSortQuery = (sortOptions) => {
     () => TicketService.getMyTicketWithSort(sortOptions),
     {
       cacheTime: 0,
-      select: (tickets) => tickets.map((ticket) => TicketInfoFormatter(ticket)),
+      select: ({ data, total, page, size }) => {
+        const tickets = data.map((ticket) => TicketInfoFormatter(ticket));
+        return { tickets, total, page, size };
+      },
     }
   );
 };

@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-const Pagination = (props) => {
-  const [curPage, setCurPage] = useState(props.curPage || 10);
-  const totalPages = props.totalPages || 10;
-  const size = props.size || 5;
-  const margin = Math.floor(size / 2);
+import { useRouter } from "next/router";
+const Pagination = ({ total, currentPage, onChange }) => {
+  const [curPage, setCurPage] = useState(currentPage || 1);
+
+  useEffect(() => {
+    onChange(curPage);
+  }, [curPage]);
+  console.log(total);
+  total = total || 10;
+  const size = total < 5 ? 0 : 5;
+  const margin = size ? Math.floor(size / 2) : Math.floor(total / 2);
   const content = [];
 
   for (let number = curPage - margin; number <= curPage + margin; number++) {
@@ -19,9 +25,7 @@ const Pagination = (props) => {
           key={number}
           onClick={() => setCurPage(number)}
           num={number}
-          className={
-            number === curPage ? "border-violet-400 text-violet-400" : ""
-          }
+          className={number === curPage ? "text-violet-400" : ""}
         />
       );
     }
@@ -30,15 +34,13 @@ const Pagination = (props) => {
 
   const rightBorder = () => {
     const res = [];
-    for (let number = totalPages - size + 1; number <= totalPages; number++) {
+    for (let number = total - size + 1; number <= total; number++) {
       res.push(
         <Btn
           key={number}
           onClick={() => setCurPage(number)}
           num={number}
-          className={
-            number === curPage ? "border-violet-400 text-violet-400" : ""
-          }
+          className={number === curPage ? "text-violet-400" : ""}
         />
       );
     }
@@ -47,11 +49,9 @@ const Pagination = (props) => {
   const Btn = (props) => {
     return (
       <div
-        className={`min-h-8 flex min-w-8 cursor-pointer select-none items-center  justify-center rounded-lg border ${
-          curPage === props.num
-            ? "border-[#cdf0ea] text-[#cdf0ea]"
-            : "border-gray-500 text-gray-500"
-        } hover:border-[#cdf0ea] hover:text-[#cdf0ea] ${props.className}`}
+        className={`min-h-8 flex min-w-8 cursor-pointer select-none items-center justify-center rounded-md  ${
+          curPage === props.num ? "bg-primary text-white" : "text-gray-500"
+        }  hover:bg-primary hover:text-white ${props.className}`}
         onClick={() => props.onClick()}
       >
         {props.num}
@@ -59,17 +59,17 @@ const Pagination = (props) => {
     );
   };
   return (
-    <div className="flex gap-2">
+    <div className="flex justify-end gap-2 text-center">
       <div
         disabled={curPage === 1 ? true : false}
-        className={`min-h-8 flex min-w-8  select-none items-center justify-center rounded-lg border  ${
+        className={`min-h-8 flex min-w-8 select-none items-center justify-center rounded-md ${
           curPage === 1
-            ? "cursor-not-allowed border-gray-400 text-gray-400"
-            : "cursor-pointer border-gray-500  hover:border-[#cdf0ea] hover:text-[#cdf0ea]"
+            ? "cursor-not-allowed bg-smoke"
+            : "cursor-pointer hover:text-[#cdf0ea]"
         }`}
         onClick={() => {
           if (curPage === 1) return;
-          setCurPage(--curPage);
+          setCurPage(curPage - 1);
           props.onClick && props.onClick();
         }}
       >
@@ -84,35 +84,38 @@ const Pagination = (props) => {
       )}
 
       {content[size - 1] > size &&
-        content[content.length - 1] < totalPages &&
+        content[content.length - 1] < total &&
         content.map((number) => {
           return (
             <Btn key={number} onClick={() => setCurPage(number)} num={number} />
           );
         })}
-
-      {content[size - 1] >= totalPages && rightBorder()}
-      {content[size - 1] < totalPages && (
+      {size === 0 &&
+        content.map((number) => (
+          <Btn
+            key={number}
+            onClick={() => setCurPage(++number)}
+            num={++number}
+          />
+        ))}
+      {content[size - 1] >= total && rightBorder()}
+      {content[size - 1] < total && (
         <>
           <div className="select-none">...</div>
-          <Btn
-            key={totalPages}
-            onClick={() => setCurPage(totalPages)}
-            num={totalPages}
-          />
+          <Btn key={total} onClick={() => setCurPage(total)} num={total} />
         </>
       )}
 
       <div
-        disabled={curPage === totalPages ? true : false}
-        className={`min-h-8 flex min-w-8  select-none  items-center justify-center rounded-lg border  ${
-          curPage === totalPages
-            ? "cursor-not-allowed border-gray-400 text-gray-400"
-            : "cursor-pointer  border-gray-400 text-gray-400 hover:border-[#cdf0ea] hover:text-[#cdf0ea]"
+        disabled={curPage === total ? true : false}
+        className={`min-h-8 flex min-w-8  select-none  items-center justify-center rounded-md  ${
+          curPage === total
+            ? "cursor-not-allowed bg-smoke"
+            : "cursor-pointer hover:text-[#cdf0ea]"
         }`}
         onClick={() => {
-          if (curPage === totalPages) return;
-          setCurPage(++curPage);
+          if (curPage === total) return;
+          setCurPage(curPage + 1);
           props.onClick && props.onClick();
         }}
       >
