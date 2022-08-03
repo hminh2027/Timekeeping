@@ -3,10 +3,11 @@ import { selectUserInfo } from "@/redux/feature/user/userSlice";
 import Image from "next/image";
 import React from "react";
 import { useSelector } from "react-redux";
+import Dropdow from "./MenuLayout/Dropdow";
+import NotificationDropdow from "./MenuLayout/NotificationDropdow";
 
 const Header = () => {
   const userInfo = useSelector(selectUserInfo);
-
   return (
     <div className="shadow-black-500/40 z-20 flex max-h-28 w-full items-center bg-[#ffffff]  py-7 shadow-md ">
       <div className="flex w-full items-center justify-between">
@@ -38,21 +39,17 @@ const Header = () => {
             </div>
             <div className="underline">Role: {userInfo.role}</div>
           </div>
+        </div>   
+        <div className="flex">
+          <NotificationDropdow/>
+          <Dropdow/>
         </div>
-        <div className=" hidden h-16 w-16 overflow-hidden rounded-full border border-slate-800 lg:flex">
-          <img
-            className="aspect-square object-contain"
-            src="/Image/logo.png"
-            // width={1}
-            // height={1}
-            // layout="responsive"
-            alt="Đây là Logo"
-            fallback="Đây là Logo"
-          />
-        </div>
+        
       </div>
     </div>
   );
 };
+
+
 
 export default Header;

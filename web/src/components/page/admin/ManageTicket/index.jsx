@@ -139,6 +139,7 @@ const ApproveTicket = () => {
     <div className="flex-1">
       <div className="flex w-full items-center justify-between bg-white px-4 py-6">
         <div className="text-3xl font-bold">Manage Ticket</div>
+        
       </div>
       <div span={24}>
         <div

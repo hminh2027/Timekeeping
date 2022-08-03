@@ -140,7 +140,7 @@ const SelectInput = (props) => {
           name={props.name}
           value={props.value}
           onChange={props.handle}
-          className="w-40 max-w-xs rounded-3xl select select-bordered select-md focus:border-none"
+          className="w-40 max-w-xs rounded-lg select select-bordered select-md focus:border-none"
         >
           {props.data &&
           props.data.map((e, i) => (
