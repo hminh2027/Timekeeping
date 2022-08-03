@@ -7,27 +7,29 @@ import { logOut } from "@/api/service/auth.service";
 import { useRef, useEffect,useState } from "react";
 
 const Dropdow = () => {
-  const [isShowing, toggle ] = useState(false)
-  const dispatch = useDispatch();
+  const [isShowing, toggle] = useState(false)
   const dropdownMenuRef = useRef(null);
 
-// useEffect(() => {
 
-//   const handleOutsideClick = (e) => {
-//     if (
-//       dropdownMenuRef.current &&
-//       !dropdownMenuRef.current.contains(e.target)
-//     ) {
-//       if (isShowing) toggle(false);
-//     }
-//   };
-//   // add click even for page
-//   document.addEventListener("click", handleOutsideClick, false);
-//   return () => {
-//     // remove click even for page !importan need remove
-//     document.removeEventListener("click", handleOutsideClick, false);
-//   };
-// }, [isShowing]);
+
+  // hook active when active change
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        dropdownMenuRef.current &&
+        !dropdownMenuRef.current.contains(e.target)
+      ) {
+        if (isShowing) toggle(false);
+      }
+    };
+    // add click even for page
+    document.addEventListener("click", handleOutsideClick, false);
+    return () => {
+      // remove click even for page !importan need remove
+      document.removeEventListener("click", handleOutsideClick, false);
+    };
+  }, [isShowing]);
+
 
   const MENUS = [
   {
@@ -54,15 +56,19 @@ const Dropdow = () => {
   }
 ]
     return (
-      <div className="relative">
+      <div ref={dropdownMenuRef} className="relative">
         <div
           id="dropdownDefault"
+          
           onClick={() => {
-            console.log("show dropdown");
+            
             toggle((prev) => !prev);
+            console.log("show dropdown", isShowing);
+            
           }}
+          // onclick={toggle}
           data-dropdown-toggle="dropdown"
-          className="hover:cursor-pointer mr-6 hidden h-16 w-16 overflow-hidden rounded-full border border-slate-800 lg:flex"
+          className="menu hover:cursor-pointer mr-6 hidden h-16 w-16 overflow-hidden rounded-full border border-slate-800 lg:flex"
         >
           <img
             className="aspect-square object-contain"
@@ -71,22 +77,24 @@ const Dropdow = () => {
             fallback="Đây là Logo"
           />
         </div>
-        <div
-          id="dropdown"
-          className={`top-26 absolute mt-5 flex w-[300px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-slate-100 p-4 shadow-lg ${
-            isShowing ? "" : "hidden"
-          }`}
-        >
-          <div className="flex flex-col space-y-2">
-            {MENUS.map((menu) => (
-              <DropdowItem
-                title={menu.title}
-                onclick={menu.onclick}
-                icon={menu.icon}
-              />
-            ))}
+          <div>
+            <div
+              id="dropdown"
+              className={`top-26 absolute mt-1 w-[300px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-slate-100 p-4 shadow-lg
+                          ${ isShowing ? "flex" : "hidden"}`}
+            >
+              <div className="flex flex-col space-y-2">
+                {MENUS.map((menu) => (
+                  <DropdowItem
+                    title={menu.title}
+                    onclick={menu.onclick}
+                    icon={menu.icon}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        
       </div>
     );
   }

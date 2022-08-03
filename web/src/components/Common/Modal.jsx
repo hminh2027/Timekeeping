@@ -34,7 +34,7 @@ const Modal = (props) => {
                   : () => hide()
               }
               style={{
-                // backgroundColor: "rgba(0,0,0,0.5)",
+                backgroundColor: "rgba(0,0,0,0.5)",
                 justifyContent: "center",
               }}
             >
