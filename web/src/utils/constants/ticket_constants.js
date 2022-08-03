@@ -19,6 +19,13 @@ export const TICKET_FILTER = {
 };
 
 export const TICKET_STATUS = {
+  REJECTED: "rejected",
+  APPROVED: "approved",
+  CANCELLED: "cancelled",
+  PENDING: "pending",
+};
+
+export const TICKET_STATUS_COLOR = {
   REJECTED: {
     background: "#ffedeb",
     text: "#ff564c",

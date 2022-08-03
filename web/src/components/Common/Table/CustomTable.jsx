@@ -4,23 +4,26 @@ const CustomTable = ({ dataSource, columns }) => {
   const [data, setData] = useState([]);
 
   const dataConversion = (dataToConvert, columns) => {
+    let deepClone = JSON.parse(JSON.stringify(dataToConvert));
+
     columns.map((col) => {
-      if (col.render) {
-        dataToConvert.map((dataProp) => {
-          dataProp[col.key] = col.render(dataProp);
-        });
+      if (typeof col.render === "function") {
+        for (let i = 0; i < deepClone.length; i++) {
+          deepClone[i][col.key] = col.render(dataToConvert[i]);
+        }
       }
     });
-    return dataToConvert;
+    return deepClone;
   };
 
-  const dataSelection = (datasource, columns) => {
+  const dataSelection = (dataToSelect, columns) => {
+    let clone = JSON.parse(JSON.stringify(dataToSelect));
     const keys = columns.map((col, key) => col.key);
-    datasource.forEach((data) => {
+    clone.forEach((data) => {
       for (const key of Object.keys(data))
         if (!keys.includes(key)) delete data[key];
     });
-    return datasource;
+    return clone;
   };
 
   useEffect(() => {
@@ -31,11 +34,11 @@ const CustomTable = ({ dataSource, columns }) => {
 
   return (
     <table className="w-full text-left ">
-      <thead className="bg-gray-50 ">
+      <thead className="bg-gray-50">
         <tr>
           {columns.map((col) => (
             <th key={col.key} scope="col" className="px-6 py-3 font-semibold">
-              <div className="flex">{col.title}</div>
+              {col.title}
             </th>
           ))}
         </tr>
