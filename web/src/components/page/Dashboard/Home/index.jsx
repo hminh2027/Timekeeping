@@ -15,18 +15,18 @@ const Home = () => {
   const checkOutStatus = useSelector(selectUserCheckOutStatus);
   return (
     <>
-      <div className="flex flex-col gap-8 m-4 lg:flex-row">
-        <div className="flex flex-col w-full lg:w-1/4 gap-4 ">
+      <div className="m-4 flex flex-col gap-8 lg:flex-row">
+        <div className="flex w-full flex-col gap-4 lg:w-1/4 ">
           {/*{checkInStatus ? <CheckOutContent /> : <CheckInContent />}*/}
           <CheckInContent />
-          <div className="w-full card">
+          <div className="card w-full">
             <div className="card-body">
               <ReactCalendar />
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-full lg:w-3/4 gap-4">
-          <div className="w-full card">
+        <div className="flex w-full flex-col gap-4 lg:w-3/4">
+          <div className="card w-full">
             <div className="card-body">
               <LeaderBoard />
             </div>

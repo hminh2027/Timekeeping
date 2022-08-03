@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { Select } from "antd";
 import { ALL_TICKET_TYPES } from "@/utils/constants/ticket_constants";
 
-const { Option } = Select;
-
 const DesktopFilter = (props) => {
-  const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
+  const ticketTypes = ALL_TICKET_TYPES;
 
   const [data, setData] = useState({
     title: "",
@@ -15,15 +13,13 @@ const DesktopFilter = (props) => {
 
   const handleChange = (key, value) => {
     setData({ ...data, [key]: value });
-
-    // console.log("DATA:", data);
   };
   const submit = () => {
     props.onSubmit(data);
   };
   return (
     <div className={`flex bg-white py-4 ${props.className}`}>
-      <div className="flex flex-row justify-between w-full gap-4">
+      <div className="flex w-full flex-row justify-between gap-4">
         <div className="flex flex-row gap-8">
           {/* <div className="flex items-center w-auto gap-4">
             <div className="w-auto">Title:</div>
@@ -63,8 +59,8 @@ const DesktopFilter = (props) => {
                 ))}
             </select>
           </div> */}
-          <div className="flex flex-row items-center justify-between mr-[-6rem]">
-            <div className="flex items-center flex-1 gap-4 w-80">
+          <div className="mr-[-6rem] flex flex-row items-center justify-between">
+            <div className="flex w-80 flex-1 items-center gap-4">
               <div className="w-auto">Type:</div>
               <select
                 value={data.type}
@@ -74,19 +70,23 @@ const DesktopFilter = (props) => {
                   handleChange("status", e.target.value);
                   console.log(e.target.value);
                 }}
-                className="w-40 max-w-xs rounded-3xl select select-bordered select-md focus:border-none"
+                className="select select-bordered select-md w-40 max-w-xs rounded-3xl focus:border-none"
               >
                 {ticketTypes &&
-                ticketTypes.map((e, i) => (
-                  <option key={i} value={e.value} className="flex justify-between">
-                    {e.label}
-                  </option>
-                ))}
+                  ticketTypes.map((e, i) => (
+                    <option
+                      key={i}
+                      value={e.value}
+                      className="flex justify-between"
+                    >
+                      {e.label}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between">
-            <div className="flex items-center flex-1 gap-4 w-80">
+            <div className="flex w-80 flex-1 items-center gap-4">
               <div className="w-auto">Status:</div>
               <select
                 value={data.status}
@@ -94,9 +94,8 @@ const DesktopFilter = (props) => {
                   // const e = { target: { name: "status", value: value } };
                   // handleChange(e);
                   handleChange("status", e.target.value);
-                  console.log(e.target.value);
                 }}
-                className="w-40 max-w-xs rounded-3xl select select-bordered select-md focus:border-none"
+                className="select select-bordered select-md w-40 max-w-xs rounded-3xl focus:border-none"
               >
                 {status.map((e, i) => (
                   <option
@@ -136,7 +135,6 @@ const MobileFilter = (props) => {
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-    // console.log("DATA:", data);
   };
   const submit = () => {
     props.onSubmit(data);
@@ -146,7 +144,7 @@ const MobileFilter = (props) => {
       {usingFilter && (
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col gap-4">
-            <div className="flex items-center w-full">
+            <div className="flex w-full items-center">
               <div className="w-20 ">Title:</div>
               <input
                 placeholder="Title"
@@ -154,19 +152,19 @@ const MobileFilter = (props) => {
                 value={data.title}
                 // onChange={filter}
                 // style={{ flex: "1 0 5em" }}
-                className="flex-1 p-4 rounded-3xl border border-gray-200 input-xs focus:outline-none"
+                className="input-xs flex-1 rounded-3xl border border-gray-200 p-4 focus:outline-none"
                 onChange={(e) => handleChange(e)}
               />
             </div>
 
             {/* Filter by type */}
-            <div className="flex items-center w-full">
+            <div className="flex w-full items-center">
               <div className="w-20">Type:</div>
               <select
                 name="type"
                 value={data.type}
                 style={{ flex: "1 0 8em", minWidth: "8em" }}
-                className="flex-1 p-1 rounded-3xl border border-gray-200 focus:outline-none"
+                className="flex-1 rounded-3xl border border-gray-200 p-1 focus:outline-none"
                 onChange={(value, option) => {
                   const e = { target: { name: "type", value: value } };
                   handleChange(e);
@@ -180,13 +178,13 @@ const MobileFilter = (props) => {
               </select>
             </div>
             <div className="flex flex-col items-center justify-between gap-4">
-              <div className="flex items-center flex-1 w-full">
+              <div className="flex w-full flex-1 items-center">
                 <div className="w-20">Status:</div>
                 <select
                   name="status"
                   // defaultValue="all"
                   value={data.status}
-                  className="flex-1 p-1 rounded-3xl border border-gray-200 focus:outline-none"
+                  className="flex-1 rounded-3xl border border-gray-200 p-1 focus:outline-none"
                   onChange={(value, option) => {
                     const e = { target: { name: "status", value: value } };
                     handleChange(e);

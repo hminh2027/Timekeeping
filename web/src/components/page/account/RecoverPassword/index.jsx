@@ -57,11 +57,9 @@ const RecoverPassword = (props) => {
         color: "rgb(102,128,211)",
       });
       setErrors(newErrors);
-      console.log("NEw error: ", newErrors);
       setIsSubmitting(false);
     }
   };
-  //   console.log("Error: ", errors);
   return (
     <Form title="Recover Password">
       {errors && (

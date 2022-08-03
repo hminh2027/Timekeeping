@@ -12,3 +12,8 @@ export const USER_CHECKIN = {
 export const USER_CHECKOUT = {
   CHECKOUT: "user-checkout",
 };
+
+//Comment
+export const QUERY_COMMENT = {
+  GET_COMMENT: "get-comment",
+};

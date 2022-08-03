@@ -29,7 +29,6 @@ const ApproveTicket = () => {
   }&ticketType=${filterOptions.type || ""}&ticketStatus=${
     filterOptions.status || ""
   }&sortField=${sortOption.sortBy}&sortType=${sortOption.orderBy}`;
-
   const { data: Tickets } = useGetTicketQuery(sortOptions);
   const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
   const [ticketStatus, setTicketStatus] = useState(STATUS_TICKET);
@@ -139,7 +138,6 @@ const ApproveTicket = () => {
     <div className="flex-1">
       <div className="flex w-full items-center justify-between bg-white px-4 py-6">
         <div className="text-3xl font-bold">Manage Ticket</div>
-        
       </div>
       <div span={24}>
         <div

@@ -8,13 +8,9 @@ export function setAuthCredentials(token, permissions) {
 
 export function getAuthCredentials(context) {
   let authCred;
-  console.log(parseSSRCookie(context));
   if (context) {
     authCred = parseSSRCookie(context)["AUTH_TOKEN"];
-
-    // console.log(jwt_decode(authCred))
     // TODO: validate token and get new token
-    console.log(authCred);
   } else {
     authCred = Cookie.get("AUTH_CRED");
   }

@@ -3,7 +3,6 @@ import Loading from "@/components/Common/Loading";
 import { MobileMenu, SidebarMenu } from "@/components/page/Dashboard/Menu";
 import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 import {
-  changeCheckInStatus,
   fetchCheckInStatus,
   fetchMe,
   selectUserCheckInStatus,
@@ -41,7 +40,7 @@ const DashboardLayout = (props) => {
     const getCheckInStatus = () => {
       if (checkInStatus === false) {
         const res = dispatch(fetchCheckInStatus());
-        if (res.data) dispatch(changeCheckInStatus({ checked_status: true }));
+        // if (res.data) dispatch(changeCheckInStatus({ checked_status: true }));
       }
     };
     checkAuthStatus();

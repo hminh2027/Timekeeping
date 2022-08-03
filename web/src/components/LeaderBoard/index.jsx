@@ -1,3 +1,4 @@
+import Pagination from "../Common/Pagination";
 import Link from "next/link";
 import React from "react";
 import CustomTable from "../Common/Table/CustomTable";
@@ -69,6 +70,7 @@ const LeaderBoard = () => {
       <TableHeader title={"Top Checkin"} btnList={buttons} />
 
       <CustomTable dataSource={data} columns={columns} />
+      <Pagination totalPages={15} size={5} />
     </div>
   );
 };
