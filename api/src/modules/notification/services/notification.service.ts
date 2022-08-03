@@ -11,7 +11,8 @@ export class NotificationService {
   ) {}
 
   async create(payload: CreateNotificationDto) {
-    // this.socketService.sendNoti(payload.content, payload.userId);
+    const rooms = payload.recipients.map((user) => user.id.toString());
+    this.socketService.sendNoti('This is the payload!', rooms);
     const noti = await this.notificationRepository.create(payload);
     await this.notificationRepository.save(noti);
 

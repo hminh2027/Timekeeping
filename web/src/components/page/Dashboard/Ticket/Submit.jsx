@@ -24,8 +24,9 @@ const SubmitTicket = React.memo((props) => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  console.log(data);
-  // console.log(data.recipient.id);
+  const today = () => {
+    return moment(new Date(Date.now())).format("YYYY-MM-DD");
+  };
   const queryClient = useQueryClient();
   const { mutate: addTicket } = useAddTicketMutation();
 
@@ -42,7 +43,6 @@ const SubmitTicket = React.memo((props) => {
       };
       addTicket(submitData, {
         onSuccess: () => {
-          console.log("Success!");
           queryClient.invalidateQueries(["get-my-tickets-with-sort"]);
           props.hide();
         },
@@ -62,7 +62,6 @@ const SubmitTicket = React.memo((props) => {
         },
       });
     } catch (err) {
-      console.log(err);
       const messages = extractMessages(err);
       const newErrors = [];
       newErrors.push({
@@ -110,6 +109,7 @@ const SubmitTicket = React.memo((props) => {
                 type="date"
                 name="startDate"
                 value={data.startDate}
+                min={today()}
                 className="v-input flex-1"
                 onChange={(e) => {
                   handleChange(e);
@@ -125,6 +125,7 @@ const SubmitTicket = React.memo((props) => {
                 type="date"
                 name="endDate"
                 value={data.endDate}
+                min={today()}
                 className="v-input flex-1"
                 onChange={(e) => {
                   handleChange(e);
@@ -169,8 +170,6 @@ const SubmitTicket = React.memo((props) => {
                 value={data.recipientId}
                 placeholder="Search to Select"
                 onChange={(value, option) => {
-                  console.log(value, option);
-
                   const e = { target: { name: "recipientId", value: value } };
                   handleChange(e);
                 }}

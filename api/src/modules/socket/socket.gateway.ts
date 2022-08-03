@@ -11,6 +11,7 @@ import { Server, Socket } from 'socket.io';
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
+import { log } from 'console';
 
 @WebSocketGateway({
   cors: {
@@ -26,7 +27,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async handleConnection(client: Socket) {
     this.logger.log(client.id, 'Connected....');
-    const user = this.getUser(client);
+    const user = await this.getUser(client);
+
     if (!user) throw new UnauthorizedException('Token not found');
     this.server.socketsJoin(user.id.toString());
     this.logger.log(`User ${user.id} join the room`);
@@ -34,19 +36,28 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleDisconnect(client: Socket) {
     this.logger.log(client.id, 'Disconnected....');
-    const user = this.getUser(client);
-    if (!user) throw new UnauthorizedException('Token not found');
-    this.server.socketsLeave(user.id.toString());
-    this.logger.log(`User ${user.id} leave the room`);
+    // const user = this.getUser(client);
+    // if (!user) throw new UnauthorizedException('Token not found');
+    // this.server.socketsLeave(user.id.toString());
+    // this.logger.log(`User ${user.id} leave the room`);
   }
 
   @SubscribeMessage('msgToServer')
-  handleMsg(@MessageBody() payload: any, room: string) {
-    this.server.to(room).emit('msgToClient', payload);
+  emitEvent(@MessageBody() payload: any, rooms: string[]) {
+    rooms.forEach((room) => {
+      console.log('HELLO ', payload);
+      this.server.to(room).emit('msgToClient', payload);
+    });
   }
 
-  getUser(client: Socket): any {
-    const token = client.request.headers.authorization;
-    return this.jwtService.decode(token);
+  async getUser(client: Socket): Promise<any> {
+    try {
+      const token = client.request.headers.authorization;
+      console.log(this.jwtService.decode(token));
+      console.log(token);
+      return this.jwtService.decode(token);
+    } catch (err) {
+      throw new UnauthorizedException('User not found');
+    }
   }
 }

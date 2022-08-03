@@ -123,7 +123,6 @@ const ButtonTicket = ({ id, status }) => {
   async function handleApprove(id) {
     await doApprove(id, {
       onSuccess: () => {
-        console.log("success");
         // router.push(`/admin/ticket/${id}`)
         router.reload(window.location.pathname);
         queryClient.invalidateQueries(["get-ticket-id"]);
@@ -134,7 +133,6 @@ const ButtonTicket = ({ id, status }) => {
   async function handleReject(id) {
     await doReject(id, {
       onSuccess: () => {
-        console.log("success");
         // router.push(`/admin/ticket/${id}`)
         router.reload(window.location.pathname);
         queryClient.invalidateQueries(["get-ticket-id"]);
@@ -169,7 +167,7 @@ const ButtonTicket = ({ id, status }) => {
       return (
         <div className="flex w-full items-center justify-center">
           <button
-            className="mr-4 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:shadow-xl hover:bg-teal-600 hover:text-white"
+            className="mr-4 w-1/3 rounded-lg border border-solid border-teal-600 p-1 text-black hover:bg-teal-600 hover:text-white hover:shadow-xl"
             type="primary"
             onClick={() => {
               handleReject(id);
@@ -184,7 +182,7 @@ const ButtonTicket = ({ id, status }) => {
       return (
         <div className="flex w-full items-center justify-center">
           <button
-            className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black hover:shadow-xl hover:bg-red-500 hover:text-white"
+            className="w-1/3 rounded-lg border border-solid border-red-500 p-1 text-black hover:bg-red-500 hover:text-white hover:shadow-xl"
             type="primary"
             onClick={() => {
               handleApprove(id);
@@ -195,25 +193,25 @@ const ButtonTicket = ({ id, status }) => {
           <Cancel id={id}></Cancel>
         </div>
       );
-    } 
     }
-  };
-  const Cancel = ({ id}) => {
-    const router = useRouter()
+  }
+
+  const Cancel = ({ id }) => {
+    const router = useRouter();
     const { mutate: doDelete } = useDeleteTicketMutation();
     const queryClient = useQueryClient();
     async function handleDelete(data) {
       await doDelete(data, {
         onSuccess: () => {
           console.log("success");
-          router.push(`/admin/ticket/${id}`)
+          router.push(`/admin/ticket`);
           queryClient.invalidateQueries(["get-ticket"]);
         },
       });
     }
     return (
       <button
-        className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black hover:shadow-xl hover:bg-gray-400 hover:text-white"
+        className="w-1/3 rounded-lg border border-solid border-gray-500 bg-slate-200 p-1 text-black hover:bg-gray-400 hover:text-white hover:shadow-xl"
         type="primary"
         onClick={() => {
           handleDelete(id);
@@ -223,5 +221,6 @@ const ButtonTicket = ({ id, status }) => {
       </button>
     );
   };
+};
 
 export default TicketInfo;

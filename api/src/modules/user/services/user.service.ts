@@ -8,10 +8,14 @@ import { UserPayload } from '../payload/user.payload';
 import { UserRepository } from '../repositories/user.repository';
 import { UserRole } from '../enums/role.enum';
 import { SearchQueryDto } from '../dto/search.dto';
+// import { CheckinService } from '../../checkin/services/checkinout.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+  ) // private readonly checkinService: CheckinService,
+  {}
 
   async getById(id: number) {
     return await this.userRepository.findOne({ where: { id } });
@@ -90,6 +94,7 @@ export class UserService {
   }
 
   async remove(id: number): Promise<void> {
+    // await this.checkinService;
     await this.userRepository.delete(id);
   }
 

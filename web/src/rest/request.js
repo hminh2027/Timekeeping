@@ -13,7 +13,7 @@ const request = axios.create({
 // Change request data/error here
 request.interceptors.request.use(
   async (config) => {
-    const token = await Cookies.get("AUTH_TOKEN");
+    const token = Cookies.get("AUTH_TOKEN");
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${token ? token : ""}`,

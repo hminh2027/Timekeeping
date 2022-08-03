@@ -3,7 +3,7 @@ const generateDateArray = (startDate, endDate) => {
   const startDateMoment = moment(startDate);
   const endDateMoment = moment(endDate);
   const diff = endDateMoment.diff(startDateMoment, "days");
-  // console.log(diff);
+
   const res = [];
   const start = startDateMoment.date();
 

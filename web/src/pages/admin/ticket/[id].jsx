@@ -1,7 +1,7 @@
 import TicketInfo from "@/components/page/admin/ManageTicket/TicketInfo";
 import React, { useState } from "react";
 import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
-import AdminLayout from "@/layout/AdminLayout/AdminLayout";
+import Index from "@/layout/AdminLayout";
 const Ticket = (props) => {
   const { id } = props;
   // console.log(id);
@@ -30,7 +30,7 @@ const Ticket = (props) => {
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Create date:</div>{" "}
-                  <div>{created}</div>
+                  <div>{createdAt}</div>
                 </div>
                 <div className="py-2 px-1">
                   <div className="text-gray-500">Lastest update:</div>
@@ -51,7 +51,7 @@ const Ticket = (props) => {
       </div>
     );
 };
-Ticket.layout = AdminLayout;
+Ticket.layout = Index;
 export default Ticket;
 export async function getServerSideProps(context) {
   const { id } = context.query;
