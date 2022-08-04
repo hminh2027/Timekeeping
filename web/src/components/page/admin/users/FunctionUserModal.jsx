@@ -112,13 +112,13 @@ const CreateUser = (props) => {
             </div>
           </div>
           <div className="flex justify-end">
-            {props.click == "Create" ? (
+            {props.click == "CREATE" ? (
               <Button handle={() => handlePost(UserData)} name="Create" />
             ) : (
               <Button handle={() => handleUpdate(UserData)} name="Edit" />
             )}
             <button
-              onClick={() => props.hide(false)}
+              onClick={() => props.hide()}
               className="ml-3 mt-3 w-1/3 self-end rounded-lg border border-solid border-gray-500 p-1 text-black hover:bg-gray-500 hover:text-white hover:shadow-xl"
             >
               Close

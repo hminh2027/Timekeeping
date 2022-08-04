@@ -1,9 +1,10 @@
-import {GrNotification} from "react-icons/gr";
+import {IoIosNotificationsOutline} from "react-icons/io";
+import {HiBell} from "react-icons/hi"
 import { useState, useEffect, useRef } from "react";
 import { useGetMeNotificationQuery } from "@/rest/notification/notification.query";
 import NotificationItem from "./NotificationItem";
 import { useGetMeQuery } from "@/rest/auth/auth.query";
-import DropdowItem from "./DropdowItem";
+
 const NotificationDropdow = (props) => {
   const [isShowing, toggle] = useState(false)
   const dropdownMenuRef = useRef(null);
@@ -29,14 +30,14 @@ const NotificationDropdow = (props) => {
     return (
         <div ref={dropdownMenuRef} className="mr-3 text-right relative">
             { ListNotification?.length > 0 ?
-            <div className="text-base text-center text-black h-6 w-6 border-2 bg-red-300 border-solid border-red-500 rounded-full absolute top-o right-0">
-                {ListNotification?.length}
+            <div className="text-white p-1 w-[25px] h-[25px]  text-sm text-center bg-red-500 rounded-full absolute top-0 right-0 ">
+              <p className="font-semibold text-gray-100">{ListNotification?.length}</p>
             </div>
             :
             <div></div>
             }
             <div 
-                className="p-1 hover:cursor-pointer"
+                className="m-y-1 p-4 hover:cursor-pointer bg-slate-200 hover:bg-slate-300 rounded-full"
                 id="dropdownDefault"
                 onClick={() => {
                 console.log("show dropdown");
@@ -44,7 +45,7 @@ const NotificationDropdow = (props) => {
                 }}
                 data-dropdown-toggle="dropdown"
             >
-                <GrNotification size={"45px"}/> 
+                <HiBell className="text-slate-700 " size={"30px"}/> 
             </div>
             <div
           id="dropdown"
