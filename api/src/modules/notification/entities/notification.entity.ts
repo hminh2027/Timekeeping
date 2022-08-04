@@ -22,12 +22,12 @@ export class Notification {
   createdAt: Date;
 
   @Column()
-  userId!: number;
+  authorId!: number;
 
   @Column()
   url: string;
 
-  // make it an array
+  // TODO: make it an array
   @Column({ default: false })
   isRead: boolean;
 
@@ -35,9 +35,10 @@ export class Notification {
   /* N-1 */
   @ManyToOne(() => User, (user) => user.notifications, {
     onDelete: 'CASCADE',
+    eager: true,
   })
-  @JoinColumn({ name: 'userId' })
-  user: User;
+  @JoinColumn({ name: 'authorId' })
+  author: User;
 
   /* N-N */
   @ManyToMany(() => User)

@@ -24,5 +24,8 @@ export const notify = (content, type) => {
     case "error":
       toast.error(content, config);
       break;
+    case "info":
+      toast.info(content, config);
+      break;
   }
 };

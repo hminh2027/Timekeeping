@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 
 import CustomTable from "@/components/Common/Table/CustomTable";
+import { useRouter } from "next/router";
 
 const ApproveTicket = () => {
   const [filterOptions, setFilterOptions] = useState({
@@ -57,6 +58,7 @@ const ApproveTicket = () => {
       data: ticketStatus,
     },
   ];
+  const router = useRouter();
 
   console.log(Tickets);
   const columns = [
@@ -65,7 +67,7 @@ const ApproveTicket = () => {
       key: "id",
       render: (obj) => {
         return (
-          <Link href={`ticket/${obj.id}`}>
+          <Link href={`admin/ticket/${obj.id}`}>
             <div className="cursor-pointer text-blue-300">{obj.id}</div>
           </Link>
         );
@@ -117,20 +119,12 @@ const ApproveTicket = () => {
       render: (obj) => (
         <div className="flex">
           <div>
-            <button
-              // onClick={() => router.push(`/dashboard/ticket/${obj.key}`)}
-              className="v-btn"
-            >
-              Edit
-            </button>
-            {obj.status === TICKET_STATUS.PENDING && (
-              <button
-                // onClick={() => cancelHandler(obj.key)}
-                className="v-btn-gray"
-              >
-                Cancel
-              </button>
-            )}
+          <button
+            className="v-btn"
+            onClick={ () => router.push(`/admin/ticket/${obj.id}`)}
+          >
+           Detail
+          </button>
           </div>
         </div>
       ),

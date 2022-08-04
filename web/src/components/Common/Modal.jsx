@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { IoClose } from "react-icons/io5";
 const Modal = (props) => {
   const { isShowing, hide, children, closeButton } = props;
-
   const content = isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
@@ -34,7 +33,7 @@ const Modal = (props) => {
                   : () => hide()
               }
               style={{
-                backgroundColor: "rgba(0,0,0,0.5)",
+                backgroundColor: "rgba(0,0,0,0.2)",
                 justifyContent: "center",
               }}
             >

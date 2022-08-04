@@ -21,9 +21,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
     "typeorm:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
-    "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js -d ./src/common/config/ormconfig.ts",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -f ./src/common/config/ormconfig.ts",
     "migration:create": "typeorm migration:create src/migrations/init -- -n",
-    "migration:generate": "typeorm migration:generate ./src/common/config/ormconfig.ts",
+    "migration:generate": "npm run typeorm migration:generate -d src/migrations -- -n",
     "migration:run": "npm run build && npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
     "migration:reset": ""

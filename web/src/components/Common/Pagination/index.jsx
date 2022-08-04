@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import { useRouter } from "next/router";
-const Pagination = ({ total, currentPage, onChange }) => {
-  const [curPage, setCurPage] = useState(currentPage || 1);
 
+const Pagination = React.memo(({ total, currentPage, onChange }) => {
+  const [totalt, settotalt] = useState();
+  const [isPending, startTransition] = useTransition();
+  const [curPage, setCurPage] = useState(currentPage || 1);
   useEffect(() => {
-    onChange(curPage);
-  }, [curPage]);
-  console.log(total);
-  total = total || 10;
-  const size = total < 5 ? 0 : 5;
-  const margin = size ? Math.floor(size / 2) : Math.floor(total / 2);
+    settotalt(total);
+  }, [total]);
+
+  const size = totalt ? (totalt < 5 ? 0 : 5) : 0;
+  const margin = size ? Math.floor(size / 2) : 0;
   const content = [];
 
-  for (let number = curPage - margin; number <= curPage + margin; number++) {
-    content.push(number);
-  }
-
+  const pageClickedHandler = (page) => {
+    startTransition(() => {
+      setCurPage(page);
+      onChange(page);
+    });
+  };
   const leftBorder = () => {
     const res = [];
     for (let number = 1; number <= size; number++) {
@@ -46,20 +48,80 @@ const Pagination = ({ total, currentPage, onChange }) => {
     }
     return res;
   };
+  const calContent = () => {
+    if (size !== 0) {
+      for (
+        let number = curPage - margin;
+        number <= curPage + margin;
+        number++
+      ) {
+        content.push(number);
+      }
+    } else {
+      for (let number = 1; number <= total; number++) {
+        content.push(number);
+      }
+    }
+  };
+
+  calContent();
   const Btn = (props) => {
     return (
       <div
         className={`min-h-8 flex min-w-8 cursor-pointer select-none items-center justify-center rounded-md  ${
           curPage === props.num ? "bg-primary text-white" : "text-gray-500"
         }  hover:bg-primary hover:text-white ${props.className}`}
-        onClick={() => props.onClick()}
+        onClick={() => pageClickedHandler(props.num)}
       >
         {props.num}
       </div>
     );
   };
+  const lowTotal = content.map((number) => (
+    <Btn
+      key={number}
+      onClick={() => {
+        pageClickedHandler(number);
+      }}
+      num={number}
+    />
+  ));
+  const normal = (
+    <>
+      {content[size - 1] <= size && leftBorder()}
+      {content[size - 1] > size && (
+        <>
+          <Btn key={1} onClick={() => pageClickedHandler(1)} num={1} />
+          <div className="select-none">...</div>
+        </>
+      )}
+
+      {content[size - 1] > size &&
+        content[content.length - 1] < total &&
+        content.map((number) => {
+          return (
+            <Btn
+              key={number}
+              onClick={() => pageClickedHandler(number)}
+              num={number}
+            />
+          );
+        })}
+      {content[size - 1] >= total && rightBorder()}
+      {content[size - 1] < total && (
+        <>
+          <div className="select-none">...</div>
+          <Btn
+            key={total}
+            onClick={() => pageClickedHandler(total)}
+            num={total}
+          />
+        </>
+      )}
+    </>
+  );
   return (
-    <div className="flex justify-end gap-2 text-center">
+    <div className="flex  min-w-mobile justify-end gap-2 text-center">
       <div
         disabled={curPage === 1 ? true : false}
         className={`min-h-8 flex min-w-8 select-none items-center justify-center rounded-md ${
@@ -69,43 +131,12 @@ const Pagination = ({ total, currentPage, onChange }) => {
         }`}
         onClick={() => {
           if (curPage === 1) return;
-          setCurPage(curPage - 1);
-          props.onClick && props.onClick();
+          pageClickedHandler(curPage - 1);
         }}
       >
         <FaAngleLeft />
       </div>
-      {content[size - 1] <= size && leftBorder()}
-      {content[size - 1] > size && (
-        <>
-          <Btn key={1} onClick={() => setCurPage(1)} num={1} />
-          <div className="select-none">...</div>
-        </>
-      )}
-
-      {content[size - 1] > size &&
-        content[content.length - 1] < total &&
-        content.map((number) => {
-          return (
-            <Btn key={number} onClick={() => setCurPage(number)} num={number} />
-          );
-        })}
-      {size === 0 &&
-        content.map((number) => (
-          <Btn
-            key={number}
-            onClick={() => setCurPage(++number)}
-            num={++number}
-          />
-        ))}
-      {content[size - 1] >= total && rightBorder()}
-      {content[size - 1] < total && (
-        <>
-          <div className="select-none">...</div>
-          <Btn key={total} onClick={() => setCurPage(total)} num={total} />
-        </>
-      )}
-
+      {size === 0 ? lowTotal : normal}
       <div
         disabled={curPage === total ? true : false}
         className={`min-h-8 flex min-w-8  select-none  items-center justify-center rounded-md  ${
@@ -115,14 +146,13 @@ const Pagination = ({ total, currentPage, onChange }) => {
         }`}
         onClick={() => {
           if (curPage === total) return;
-          setCurPage(curPage + 1);
-          props.onClick && props.onClick();
+          pageClickedHandler(curPage + 1);
         }}
       >
         <FaAngleRight />
       </div>
     </div>
   );
-};
+});
 
 export default Pagination;

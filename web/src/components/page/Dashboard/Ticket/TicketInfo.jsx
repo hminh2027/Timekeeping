@@ -233,7 +233,11 @@ const TicketInfo = React.memo((props) => {
         </div>
       </div>
       {isShowingComments && (
-        <ChatBox id={ticketId} authorId={ticketData.author.id} className={""} />
+        <ChatBox
+          id={ticketId}
+          authorId={ticketData.author.id}
+          className={"w-full"}
+        />
       )}
     </div>
   );

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
 import { adminMenuItems } from "@/components/page/Dashboard/Menu/Menu.config";
 import { SidebarMenu } from "@/components/page/Dashboard/Menu";
+import UseChatSocket from "@/utils/hooks/UseChatSocket";
 
 const Index = (props) => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const Index = (props) => {
   const userInfo = useSelector(selectUserInfo);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [loading, setLoading] = useState(true);
+  UseChatSocket();
   useEffect(() => {
     const checkAuthStatus = () => {
       const authed = auth.checkAuth();
@@ -53,7 +55,7 @@ const Index = (props) => {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex flex-col w-screen h-screen">
+    <div className="flex h-screen w-screen flex-col">
       {/* Header */}
       <Header />
       {/* Sidebar Menu */}

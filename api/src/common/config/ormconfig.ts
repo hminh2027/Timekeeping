@@ -9,7 +9,7 @@ export const connectionSource = new DataSource({
   password: '85273200',
   database: 'companycheckin',
   logging: true,
-  synchronize: true,
-  entities: ['dist/**/*.entity{.ts,.js}'],
-  migrations: ['dist/migrations/**/*{.ts,.js}'],
+  synchronize: false,
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/../migrations/*{.ts,.js}'],
 });

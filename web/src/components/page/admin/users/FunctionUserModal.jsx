@@ -2,6 +2,7 @@ import styles from "@/styles/pages/dashboard/ticket.module.scss";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  useGetUserIdQuery,
   usePostUserMutation,
   useUpdateUserMutation,
 } from "src/rest/user/user.query";
@@ -12,6 +13,7 @@ import {
 } from "react-icons/ai";
 import { RiAdminLine } from "react-icons/ri";
 const CreateUser = (props) => {
+  // console.log({ props });
   const [isShow, setIsShow] = useState(true);
   const [UserData, setUserData] = useState(props.userData);
   const handleClick = () => {
@@ -32,6 +34,7 @@ const CreateUser = (props) => {
       },
     });
   }
+
   const { mutate: doUpdate } = useUpdateUserMutation();
   async function handleUpdate(data) {
     await doUpdate(
@@ -72,14 +75,14 @@ const CreateUser = (props) => {
                 name={"FirstName"}
                 nameInput={"firstName"}
                 hanlde={(e) => handleChange(e)}
-                value={UserData.firstName}
+                value={UserData?.firstName}
               />
               <Input
                 type="text"
                 name={"LastName"}
                 nameInput={"lastName"}
                 hanlde={(e) => handleChange(e)}
-                value={UserData.lastName}
+                value={UserData?.lastName}
               />
               <Input
                 type="radio"
@@ -112,24 +115,18 @@ const CreateUser = (props) => {
             </div>
           </div>
           <div className="flex justify-end">
-            {props.click == "Create" ? (
+            {props.click == "CREATE" ? (
               <Button handle={() => handlePost(UserData)} name="Create" />
             ) : (
               <Button handle={() => handleUpdate(UserData)} name="Edit" />
             )}
             <button
-              onClick={() => props.hide(false)}
+              onClick={() => props.hide()}
               className="ml-3 mt-3 w-1/3 self-end rounded-lg border border-solid border-gray-500 p-1 text-black hover:bg-gray-500 hover:text-white hover:shadow-xl"
             >
               Close
             </button>
           </div>
-          {/*           
-          <button data-tooltip-target="tooltip-default" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Default tooltip</button>
-            <div id="tooltip-default" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(25px, 44px);">
-            Tooltip content
-            <div class="tooltip-arrow" data-popper-arrow="" style="position: absolute; left: 0px; transform: translate(59px, 0px);"></div>
-          </div> */}
         </div>
       </div>
     </div>

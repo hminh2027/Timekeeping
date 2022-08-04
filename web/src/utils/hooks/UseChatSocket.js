@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { onNewMessage, onSocketConnect } from "./chatSocket.service";
 const UseChatSocket = (props) => {

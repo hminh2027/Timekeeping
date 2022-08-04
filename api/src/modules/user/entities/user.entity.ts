@@ -37,6 +37,9 @@ export class User {
   @Column({ length: 355, select: false })
   resetToken: string;
 
+  @Column({ length: 355, select: false })
+  avatar: string;
+
   /* 1-N */
   @OneToMany(() => Ticket, (ticket) => ticket.id, { cascade: true })
   tickets: Ticket[];
@@ -44,7 +47,7 @@ export class User {
   @OneToMany(() => Checkin, (checkin) => checkin.user, { cascade: true })
   checkins: Checkin[];
 
-  @OneToMany(() => Notification, (noti) => noti.user, { cascade: true })
+  @OneToMany(() => Notification, (noti) => noti.author, { cascade: true })
   notifications: Notification[];
 
   @OneToMany(() => LoginHistory, (loginHistory) => loginHistory.id, {
