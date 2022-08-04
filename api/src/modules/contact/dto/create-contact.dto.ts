@@ -8,6 +8,9 @@ export class CreateContactDto {
   skype: string;
 
   @IsString()
+  facebook: string;
+
+  @IsString()
   phone: string;
 
   @IsNumber()
