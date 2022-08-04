@@ -28,9 +28,6 @@ const SidebarMenu = ({ menuItems }) => {
           />
         ))}
       </div>
-      <button className="v-menu-item" onClick={async () => await logOut()}>
-        Logout
-      </button>
     </div>
   );
 };

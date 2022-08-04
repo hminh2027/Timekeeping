@@ -13,6 +13,6 @@ export class CreateNotificationDto {
   @IsNotEmpty()
   url: string;
 
-  userId: number;
+  authorId: number;
   recipients: User[];
 }

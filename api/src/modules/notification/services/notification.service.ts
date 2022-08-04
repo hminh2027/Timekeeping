@@ -22,8 +22,9 @@ export class NotificationService {
   getByRecipientId(id: number) {
     return this.notificationRepository
       .createQueryBuilder('notifications')
-      .leftJoinAndSelect('notifications.recipients', 'user')
-      .where('user.id = :id', { id })
+      .leftJoin('notifications.recipients', 'recipient')
+      .leftJoinAndSelect('notifications.author', 'author')
+      .where('recipient.id = :id', { id })
       .getMany();
   }
 

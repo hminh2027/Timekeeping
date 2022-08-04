@@ -81,6 +81,7 @@ export class TicketController {
   ): Promise<any> {
     return await this.ticketService.getByTicketId(id);
   }
+
   @Post()
   @ApiOperation({
     summary: '(USER only)',
@@ -112,12 +113,14 @@ export class TicketController {
     id: number,
     @Body() data: UpdateTicketPayload,
   ) {
-    data.authorId = user.id;
-    data.ticketStatus = TicketStatus.PENDING;
     return {
       statusCode: HttpStatus.OK,
       message: 'Ticket updated successfully',
-      data: await this.ticketService.update(id, data),
+      data: await this.ticketService.update(id, {
+        authorId: user.id,
+        ticketStatus: TicketStatus.PENDING,
+        ...data,
+      }),
     };
   }
 
@@ -161,11 +164,10 @@ export class TicketController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Ticket rejected successfully',
-      data: await this.ticketService.adminUpdate(
-        id,
-        user.id,
-        TicketStatus.REJECTED,
-      ),
+      data: await this.ticketService.update(id, {
+        recipientId: user.id,
+        ticketStatus: TicketStatus.REJECTED,
+      }),
     };
   }
 
@@ -186,31 +188,10 @@ export class TicketController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Ticket approved successfully',
-      data: await this.ticketService.adminUpdate(
-        id,
-        user.id,
-        TicketStatus.APPROVED,
-      ),
-    };
-  }
-
-  @Delete(':id')
-  @ApiOperation({
-    summary: '(ADMIN only)',
-    description: 'delete ticket',
-  })
-  @Roles(UserRole.ADMIN)
-  async deleteTicket(
-    @Param(
-      'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    )
-    id: number,
-  ) {
-    await this.ticketService.remove(id);
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Ticket deleted successfully',
+      data: await this.ticketService.update(id, {
+        recipientId: user.id,
+        ticketStatus: TicketStatus.APPROVED,
+      }),
     };
   }
 }
