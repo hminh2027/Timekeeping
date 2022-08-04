@@ -44,7 +44,7 @@ export class User {
   @OneToMany(() => Checkin, (checkin) => checkin.user, { cascade: true })
   checkins: Checkin[];
 
-  @OneToMany(() => Notification, (noti) => noti.user, { cascade: true })
+  @OneToMany(() => Notification, (noti) => noti.author, { cascade: true })
   notifications: Notification[];
 
   @OneToMany(() => LoginHistory, (loginHistory) => loginHistory.id, {
