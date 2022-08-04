@@ -30,6 +30,9 @@
     @apply px-4 py-2 text-black bg-white border border-gray-700 border-solid rounded-lg hover:bg-gray-700 hover:text-stone-100;
   }
   .v-input {
+    @apply p-2 rounded-lg cursor-text select-none border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
+  }
+  .v-select {
     @apply p-2 rounded-lg cursor-pointer select-none border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
   }
   .v-select-list {

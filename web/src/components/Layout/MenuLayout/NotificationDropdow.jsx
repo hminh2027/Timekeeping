@@ -6,7 +6,7 @@ import NotificationItem from "./NotificationItem";
 import { useGetMeQuery } from "@/rest/auth/auth.query";
 
 const NotificationDropdow = (props) => {
-  const [isShowing, toggle] = useState(false)
+  const [isShowing, toggle] = useState(false);
   const dropdownMenuRef = useRef(null);
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -65,10 +65,40 @@ const NotificationDropdow = (props) => {
           }
           
         </div>
-            
-        </div>
-    
-    )
-}
+      ) : (
+        <div></div>
+      )}
+      <div
+        className="p-1 hover:cursor-pointer"
+        id="dropdownDefault"
+        onClick={() => {
+          console.log("show dropdown");
+          toggle((prev) => !prev);
+        }}
+        data-dropdown-toggle="dropdown"
+      >
+        <GrNotification size={"45px"} />
+      </div>
+      <div
+        id="dropdown"
+        className={`top-26 absolute mt-5 flex w-[400px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-slate-100 p-4 shadow-lg ${
+          isShowing ? "" : "hidden"
+        }`}
+      >
+        {ListNotification?.length > 0 ? (
+          <div className="flex h-[500px] flex-col space-y-2 overflow-auto">
+            {ListNotification?.map((notification) => (
+              <NotificationItem notification={notification} />
+            ))}
+          </div>
+        ) : (
+          <div className="m-y-auto h-[50px] text-center text-3xl">
+            No Notification
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default NotificationDropdow;

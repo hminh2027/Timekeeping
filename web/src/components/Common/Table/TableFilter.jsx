@@ -1,42 +1,43 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-const DesktopFilter = ({dataSort,onSubmit,className,...props}) => {  
-  const [filterOption, setFilterOption] = useState({});  
+const DesktopFilter = ({ dataSort, onSubmit, className, ...props }) => {
+  const [filterOption, setFilterOption] = useState({});
 
   const handleChange = (e) => {
     setFilterOption({ ...filterOption, [e.target.name]: e.target.value });
   };
-  
+
   const submit = () => {
     onSubmit(filterOption);
   };
 
   return (
     <div className={`flex bg-white py-4 ${className}`}>
-      <div className="flex flex-row justify-between w-full gap-4">
+      <div className="flex w-full flex-row justify-between gap-4">
         <div className="flex flex-row gap-8">
-          {dataSort.map((dt) => (
-            dt.type == "input" ? 
-            <Input
-              key={dt.name}
-              name= {dt.name}
-              value={filterOption[dt.name]}
-              style={dt.style}
-              handle={(e) => handleChange(e)}
-            />
-            : 
-            <SelectInput
-              name = {dt.name}
-              value={filterOption[dt.name]}
-              handle={(e) => handleChange(e)}
-              style = {dt.style}
-              data = {dt.data}
-            />
-          ))}
+          {dataSort.map((dt) =>
+            dt.type == "input" ? (
+              <Input
+                key={dt.name}
+                name={dt.name}
+                value={filterOption[dt.name]}
+                style={dt.style}
+                handle={(e) => handleChange(e)}
+              />
+            ) : (
+              <SelectInput
+                name={dt.name}
+                value={filterOption[dt.name]}
+                handle={(e) => handleChange(e)}
+                style={dt.style}
+                data={dt.data}
+              />
+            )
+          )}
         </div>
         <div className="flex items-center text-right">
           <button
-            className="mr-4 px-5 py-2 rounded-lg border-solid border-2 border-teal-500 hover:text-white hover:bg-teal-500"
+            className="mr-4 rounded-lg border-2 border-solid border-teal-500 px-5 py-2 hover:bg-teal-500 hover:text-white"
             onClick={submit}
           >
             Search
@@ -46,14 +47,14 @@ const DesktopFilter = ({dataSort,onSubmit,className,...props}) => {
     </div>
   );
 };
-const MobileFilter = ({dataSort,onSubmit,className,...props}) => {
+const MobileFilter = ({ dataSort, onSubmit, className, ...props }) => {
   const [usingFilter, setUsingFilter] = useState(false);
-  const [filterOption, setFilterOption] = useState({});  
+  const [filterOption, setFilterOption] = useState({});
 
   const handleChange = (e) => {
     setFilterOption({ ...filterOption, [e.target.name]: e.target.value });
   };
-  
+
   const submit = () => {
     onSubmit(filterOption);
   };
@@ -62,31 +63,30 @@ const MobileFilter = ({dataSort,onSubmit,className,...props}) => {
       {usingFilter && (
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col gap-4">
-          {dataSort.map((dt) => 
-          (
-            
-            dt.type == "input" ? 
-            <Input
-              key={dt.name}
-              name= {dt.name}
-              value={dt.value}
-              style={dt.style}
-              handle={(e) => handleChange(e)}
-            />
-            : 
-            <SelectInput
-              key={dt.name}
-              name = {dt.name}
-              value= {dt.value}
-              handle={(e) => handleChange(e)}
-              style = {dt.style}
-              data = {dt.data}
-            />
-          ))}
+            {dataSort.map((dt) =>
+              dt.type == "input" ? (
+                <Input
+                  key={dt.name}
+                  name={dt.name}
+                  value={dt.value}
+                  style={dt.style}
+                  handle={(e) => handleChange(e)}
+                />
+              ) : (
+                <SelectInput
+                  key={dt.name}
+                  name={dt.name}
+                  value={dt.value}
+                  handle={(e) => handleChange(e)}
+                  style={dt.style}
+                  data={dt.data}
+                />
+              )
+            )}
           </div>
           <div className="text-right ">
             <button
-              className="mr-2 px-5 py-2 rounded-lg border-solid border-2 border-teal-500 hover:text-white hover:bg-teal-500"
+              className="mr-2 rounded-lg border-2 border-solid border-teal-500 px-5 py-2 hover:bg-teal-500 hover:text-white"
               onClick={() => {
                 submit();
                 setUsingFilter(!usingFilter);
@@ -115,44 +115,43 @@ export { DesktopFilter, MobileFilter };
 
 const Input = (props) => {
   return (
-    <div className="flex items-center w-full">
+    <div className="flex w-full items-center">
       <div className="mx-auto flex w-[92%] items-center rounded-full border hover:shadow-md md:w-full">
-        <IconSearch/>
+        <IconSearch />
         <input
           placeholder={props.name}
-          name= {props.name}
+          name={props.name}
           value={props.value}
           className={props.style}
           onChange={props.handle}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const SelectInput = (props) => {
-  console.log(props.name, props.data)
   return (
-    <div className="flex flex-row items-center justify-between mr-[-6rem]">
-      <div className="flex items-center flex-1 gap-4 w-80">
+    <div className="mr-[-6rem] flex flex-row items-center justify-between">
+      <div className="flex w-80 flex-1 items-center gap-4">
         <div className="w-auto">{props.name}:</div>
         <select
           name={props.name}
           value={props.value}
           onChange={props.handle}
-          className="w-40 max-w-xs rounded-lg select select-bordered select-md focus:border-none"
+          className="select select-bordered select-md w-40 max-w-xs rounded-lg focus:border-none"
         >
           {props.data &&
-          props.data.map((e, i) => (
-            <option key={i} value={e.value} className="flex justify-between">
-              {e.label}
-            </option>
-          ))}
+            props.data.map((e, i) => (
+              <option key={i} value={e.value} className="flex justify-between">
+                {e.label}
+              </option>
+            ))}
         </select>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const IconSearch = () => {
   return (
@@ -172,5 +171,5 @@ const IconSearch = () => {
         />
       </svg>
     </div>
-  )
-}
+  );
+};
