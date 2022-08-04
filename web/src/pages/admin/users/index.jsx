@@ -34,7 +34,6 @@ const AdminUserPage = () => {
   const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
   const { data: Users } = useGetUserQuery(sortOptions);
   console.log("SORT USER", Users);
-
   const handleClick = (type)=>{
     setType(type)
     toggle()
@@ -71,43 +70,48 @@ const AdminUserPage = () => {
     {
       title: "Action",
       key: "action",
-      render: (obj) => (
-        <div className="flex">
-          {
-            USER_ACTION.map(({name,icon})=>(
-              <div key={name}>
-                <button
-                  onClick={()=>handleClick(name)}
-                  className="mr-2 rounded-xl p-2 hover:bg-gray-300"
-                >
-                  {icon}
-                </button>
-                {
-                  name == "DELETE" ?
-                  <Modal isShowing={isShowing && type=="DELETE"} hide={toggle}>
-                    <div className="flex">
-                      <DeleteNotification hide={toggle} id={obj.id} />
-                    </div>
-                  </Modal>
-                  :
-                  <Modal isShowing={isShowing && type=="EDIT"} hide={toggle}>
-                    <div className="flex">
-                      <CreateUser
-                        hide={toggle}
-                        id={obj.id}
-                        userData={obj}
-                        Name= {name}
-                        click= {name}
-                      />
-                    </div>
-                  </Modal>
-                }
-              </div>
+      render: (obj) =>{
+console.log("obj",obj);
 
-            ))
-          } 
-        </div>
-      ),
+      return  (
+          <div className="flex">
+            {
+            
+              USER_ACTION.map(({name,icon})=>(
+                <div key={name}>
+                  <button
+                    onClick={()=>handleClick(name)}
+                    className="mr-2 rounded-xl p-2 hover:bg-gray-300"
+                  >
+                    {icon}
+                  </button>
+                  {
+                    name == "DELETE" ?
+                    <Modal isShowing={isShowing && type=="DELETE"} hide={toggle}>
+                      <div className="flex">
+                        <DeleteNotification hide={toggle} id={obj.id} />
+                      </div>
+                    </Modal>
+                    :
+                    <Modal isShowing={isShowing && type=="EDIT"} hide={toggle}>
+                      <div className="flex">
+                        <CreateUser
+                          hide={toggle}
+                          id={obj.id}
+                          userData={obj}
+                          Name= {name}
+                          click= {name}
+                        />
+                      </div>
+                    </Modal>
+                  }
+                </div>
+  
+              ))
+            } 
+          </div>
+        )
+    } 
     },
   ];
   return (

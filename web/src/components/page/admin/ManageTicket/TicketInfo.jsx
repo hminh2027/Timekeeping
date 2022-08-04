@@ -195,6 +195,7 @@ const ButtonTicket = ({ id, status }) => {
       );
     }
   }
+}
 
   const Cancel = ({ id }) => {
     const router = useRouter();
@@ -221,6 +222,6 @@ const ButtonTicket = ({ id, status }) => {
       </button>
     );
   };
-};
+
 
 export default TicketInfo;
