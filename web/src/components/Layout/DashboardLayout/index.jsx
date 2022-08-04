@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
 import { menuItems } from "@/components/page/Dashboard/Menu/Menu.config";
-
+import { ToastContainer } from "react-toastify";
 const DashboardLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -69,6 +69,7 @@ const DashboardLayout = (props) => {
         />
         <MobileMenu />
       </div>
+      <ToastContainer />
     </div>
   );
 };

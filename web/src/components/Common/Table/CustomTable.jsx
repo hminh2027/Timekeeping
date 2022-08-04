@@ -6,7 +6,6 @@ const CustomTable = ({
   onPageChange,
 }) => {
   const [data, setData] = useState([]);
-
   const dataConversion = (dataToConvert, columns) => {
     let deepClone = JSON.parse(JSON.stringify(dataToConvert));
 
@@ -38,7 +37,7 @@ const CustomTable = ({
 
   return (
     <>
-      <table className="w-full text-left ">
+      <table className="w-full text-left">
         <thead className="bg-gray-50">
           <tr>
             {columns.map((col) => (
@@ -50,7 +49,7 @@ const CustomTable = ({
         </thead>
         <tbody>
           {data.map((item, key) => (
-            <tr key={key} className="border-b bg-white ">
+            <tr key={key} className="border-b bg-white">
               {Object.keys(item).map((key) => (
                 <td key={key} scope="row" className="px-6 py-4 text-gray-500">
                   {item[key]}
@@ -60,19 +59,11 @@ const CustomTable = ({
           ))}
         </tbody>
       </table>
-      {isPaginate && (
-        <div className="mt-5">
-          <Pagination
-            total={paginationOptions?.total}
-            onChange={(page) => onPageChange(page)}
-          />
-        </div>
-      )}
+      {/* {isPaginate && <div className="mt-5"></div>} */}
     </>
   );
 };
 import React, { useEffect, useState } from "react";
-
-import Pagination from "@/components/Common/Pagination";
+import Pagination from "../Pagination";
 
 export default CustomTable;
