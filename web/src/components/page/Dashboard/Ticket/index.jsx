@@ -24,6 +24,7 @@ import CustomTable from "@/components/Common/Table/CustomTable";
 import TableHeader from "@/components/Common/Table/TableHeader";
 import TableButton from "@/components/Common/Table/TableButton";
 import { useRouter } from "next/router";
+import Pagination from "@/components/Common/Pagination";
 
 const TicketContent = () => {
   const router = useRouter();
@@ -206,19 +207,16 @@ const TicketContent = () => {
             className="lg:hidden"
           />
           {dataArray && columns && (
-            <CustomTable
-              dataSource={dataArray}
-              columns={columns}
-              isPaginate={true}
-              paginationOptions={
-                data && { total: Math.ceil(data.total / data.size) }
-              }
-              onPageChange={(page) => {
-                console.log({ page });
-
-                setPaginationOptions({ ...paginationOptions, page });
-              }}
-            />
+            <>
+              {/* TODO: RERENDERED 7 times fix pls */}
+              <CustomTable dataSource={dataArray} columns={columns} />
+              <Pagination
+                total={data && Math.ceil(data.total / data.size)}
+                onChange={(page) => {
+                  setPaginationOptions({ ...paginationOptions, page });
+                }}
+              />
+            </>
           )}
         </div>
       </div>

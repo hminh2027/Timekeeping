@@ -1,11 +1,15 @@
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
 const Pagination = React.memo(({ total, currentPage, onChange }) => {
+  const [totalt, settotalt] = useState();
   const [isPending, startTransition] = useTransition();
   const [curPage, setCurPage] = useState(currentPage || 1);
+  useEffect(() => {
+    settotalt(total);
+  }, [total]);
 
-  const size = total < 5 ? 0 : 5;
+  const size = totalt ? (totalt < 5 ? 0 : 5) : 0;
   const margin = size ? Math.floor(size / 2) : 0;
   const content = [];
 
