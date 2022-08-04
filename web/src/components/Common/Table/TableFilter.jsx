@@ -35,12 +35,12 @@ const DesktopFilter = ({ dataSort, onSubmit, className, ...props }) => {
             )
           )}
         </div>
-        <div className="flex items-center text-right ">
+        <div className="flex items-center text-right">
           <button
             className="mr-4 rounded-lg border-2 border-solid border-teal-500 px-5 py-2 hover:bg-teal-500 hover:text-white"
             onClick={submit}
           >
-            Apply
+            Search
           </button>
         </div>
       </div>
@@ -92,7 +92,7 @@ const MobileFilter = ({ dataSort, onSubmit, className, ...props }) => {
                 setUsingFilter(!usingFilter);
               }}
             >
-              Apply
+              Search
             </button>
           </div>
         </div>
