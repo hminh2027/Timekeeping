@@ -13,16 +13,18 @@ export class Contact {
   id!: number;
 
   @Column({ length: 255 })
-  address!: string;
+  address?: string;
 
   @Column({ length: 255 })
-  skype!: string;
+  skype?: string;
 
   @Column({ length: 255 })
-  phone!: string;
+  facebook?: string;
 
-  /* 1-1 relationships */
-  @OneToOne(() => User)
-  @JoinColumn()
+  @Column({ length: 255 })
+  phone?: string;
+
+  /* 1-1 */
+  @OneToOne(() => User, (user) => user.contact, { onDelete: 'CASCADE' })
   user: User;
 }

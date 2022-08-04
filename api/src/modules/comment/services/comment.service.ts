@@ -25,7 +25,7 @@ export class CommentService {
       userId,
       ticketId,
     );
-    const check2 = await this.ticketService.getByRecipienIdAndTicketId(
+    const check2 = await this.ticketService.getByRecipientIdAndTicketId(
       userId,
       ticketId,
     );
@@ -47,9 +47,9 @@ export class CommentService {
     const newComment = await this.commentRepository.create(data);
     const ticket = await this.ticketService.getByTicketId(data.ticketId);
     await this.notificationService.create({
-      content: `${data.userId} has commented on your ticket`,
+      content: `has commented on your ticket`,
       url: data.ticketId.toString(),
-      userId: data.userId,
+      authorId: data.userId,
       recipients: [ticket.recipient],
     });
 

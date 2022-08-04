@@ -8,14 +8,14 @@ import { UserPayload } from '../payload/user.payload';
 import { UserRepository } from '../repositories/user.repository';
 import { UserRole } from '../enums/role.enum';
 import { SearchQueryDto } from '../dto/search.dto';
-// import { CheckinService } from '../../checkin/services/checkinout.service';
+import { ContactService } from '../../contact/contact.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
-  ) // private readonly checkinService: CheckinService,
-  {}
+    private readonly contactService: ContactService,
+  ) {}
 
   async getById(id: number) {
     return await this.userRepository.findOne({ where: { id } });
@@ -51,7 +51,15 @@ export class UserService {
     }
 
     const newUser = await this.userRepository.create(payload);
-    return await this.userRepository.save(newUser);
+    const createdUser = await this.userRepository.save(newUser);
+    await this.contactService.create({
+      address: '',
+      skype: '',
+      facebook: '',
+      phone: '',
+      userId: createdUser.id,
+    });
+    return createdUser;
   }
 
   async updateToken(id: number, token: string): Promise<void> {
@@ -94,7 +102,6 @@ export class UserService {
   }
 
   async remove(id: number): Promise<void> {
-    // await this.checkinService;
     await this.userRepository.delete(id);
   }
 

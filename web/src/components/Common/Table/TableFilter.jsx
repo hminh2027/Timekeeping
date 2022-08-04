@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 const DesktopFilter = ({ dataSort, onSubmit, className, ...props }) => {
-  const [filterOption, setFilterOption] = useState({});
-
+  const [filterOption, setFilterOption] = useState({
+    title: "",
+    status: "",
+    type: "",
+  });
+  console.log(filterOption);
   const handleChange = (e) => {
     setFilterOption({ ...filterOption, [e.target.name]: e.target.value });
   };

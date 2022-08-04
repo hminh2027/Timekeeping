@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { ImTrophy } from "react-icons/im";
-import Select from "@/components/Common/Select";
-import Input from "@/components/Common/Input";
 const UserInfo = () => {
   const [data, setData] = useState({
     role: { label: "User", value: "user" },
