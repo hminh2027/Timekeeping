@@ -150,7 +150,7 @@ const TicketContent = () => {
   const ticketStatus = STATUS_TICKET;
   const dataSort = [
     {
-      name: "search",
+      name: "title",
       type: "input",
       style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
       value: "",

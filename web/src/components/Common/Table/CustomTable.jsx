@@ -1,10 +1,4 @@
-const CustomTable = ({
-  dataSource,
-  columns,
-  isPaginate,
-  paginationOptions,
-  onPageChange,
-}) => {
+const CustomTable = ({ dataSource, columns }) => {
   const [data, setData] = useState([]);
   const dataConversion = (dataToConvert, columns) => {
     let deepClone = JSON.parse(JSON.stringify(dataToConvert));

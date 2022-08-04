@@ -20,9 +20,9 @@ export const menuItems = [
 
   {
     icon: <IoMdNotificationsOutline size={"30px"} />,
-    label: "Notifications",
-    value: "/dashboard/notification",
-    id: "notification",
+    label: "Events",
+    value: "/dashboard/event",
+    id: "event",
   },
   {
     icon: <HiOutlineTicket size={"30px"} />,
@@ -45,9 +45,9 @@ export const drawerItems = [
   },
 
   {
-    label: "Notifications",
-    value: "/dashboard/notification",
-    id: "notification",
+    label: "Events",
+    value: "/dashboard/event",
+    id: "event",
   },
   {
     label: "Log Out",
@@ -65,9 +65,9 @@ export const adminMenuItems = [
   },
   {
     icon: <IoMdNotificationsOutline size={"30px"} />,
-    label: "Notifications",
-    value: "/admin/notification",
-    id: "notification",
+    label: "Events",
+    value: "/admin/event",
+    id: "event",
   },
   {
     icon: <FiUsers size={"30px"} />,

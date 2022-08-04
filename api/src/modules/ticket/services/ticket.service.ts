@@ -15,12 +15,13 @@ import { TicketRepository } from '../repositories/ticket.repository';
 import { TicketType } from '../enums/ticket-type.enum';
 import { SearchQueryDto } from '../dto/search.dto';
 import * as moment from 'moment';
+import { NotificationService } from '../../notification/services/notification.service';
 
 @Injectable()
 export class TicketService {
   constructor(
     private readonly ticketRepository: TicketRepository,
-
+    private readonly notificationService: NotificationService,
     @Inject(UserService)
     private readonly userRepository: UserService,
   ) {}
@@ -71,7 +72,7 @@ export class TicketService {
     return this.ticketRepository.find({ where: { authorId: userId, id } });
   }
 
-  async getByRecipienIdAndTicketId(
+  async getByRecipientIdAndTicketId(
     userId: number,
     id: number,
   ): Promise<Ticket[]> {
@@ -105,35 +106,28 @@ export class TicketService {
     const isValid = this.validateTicketTime(data);
     if (!isValid) throw new NotAcceptableException('Ticket date is invalid.');
     const newTicket = await this.ticketRepository.create(data);
-    return await this.ticketRepository.save(newTicket);
-  }
-
-  async adminUpdate(
-    id: number,
-    recipientId: number,
-    ticketStatus: TicketStatus,
-  ) {
-    const ticket = await this.ticketRepository.findOne({
-      where: { id, recipientId },
+    const createdTicket = await this.ticketRepository.save(newTicket);
+    const ticket = await this.getByTicketId(createdTicket.id);
+    console.log(ticket);
+    await this.notificationService.create({
+      content: `has sent you a ticket`,
+      url: createdTicket.id.toString(),
+      authorId: data.authorId,
+      recipients: [ticket.recipient],
     });
-    if (!ticket) throw new NotFoundException('Ticket is not found');
-
-    if (ticket.ticketStatus === TicketStatus.CANCELLED)
-      throw new NotAcceptableException(
-        'This ticket is no longer be able to modify.',
-      );
-
-    await this.ticketRepository.save({
-      id,
-      ticketStatus,
-    });
+    return;
   }
 
   async update(id: number, data: UpdateTicketPayload): Promise<void> {
-    // Check ticket existance
-    const ticket = await this.ticketRepository.findOne({
-      where: { id, authorId: data.authorId },
-    });
+    // Check ticket update permission
+    let ticket;
+    data.authorId
+      ? (ticket = await this.ticketRepository.findOne({
+          where: { id, authorId: data.authorId },
+        }))
+      : (ticket = await this.ticketRepository.findOne({
+          where: { id, recipientId: data.recipientId },
+        }));
 
     if (!ticket) throw new NotFoundException('Ticket is not found');
 
@@ -148,14 +142,6 @@ export class TicketService {
       id,
       ...data,
     });
-  }
-
-  async remove(id: number): Promise<void> {
-    // Check if ticket exist
-    const ticketCheck = await this.ticketRepository.checkTicketExistance(id);
-    if (!ticketCheck) throw new NotFoundException('Ticket is not found');
-
-    await this.ticketRepository.delete(id);
   }
 
   async checkTicketTimeConflict(data: CreateTicketPayload): Promise<boolean> {

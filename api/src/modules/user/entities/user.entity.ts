@@ -37,6 +37,9 @@ export class User {
   @Column({ length: 355, select: false })
   resetToken: string;
 
+  @Column({ length: 355, select: false })
+  avatar: string;
+
   /* 1-N */
   @OneToMany(() => Ticket, (ticket) => ticket.id, { cascade: true })
   tickets: Ticket[];
