@@ -1,6 +1,5 @@
 import { createHmac } from 'crypto';
 import { Notification } from 'src/modules/notification/entities/notification.entity';
-// import { Role } from 'src/modules/role/entities/role.entity';
 import {
   BeforeInsert,
   Column,
@@ -15,7 +14,6 @@ import { Checkin } from '../../checkin/entities/checkinout.entity';
 import { LoginHistory } from '../../login-history/entities/login-history.entity';
 import { Ticket } from '../../ticket/entities/ticket.entity';
 import { UserRole } from '../enums/role.enum';
-import { Contact } from '../../contact/contact.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -47,6 +45,18 @@ export class User {
   })
   avatar: string;
 
+  @Column({ length: 255, default: '' })
+  address?: string;
+
+  @Column({ length: 255, default: '' })
+  skype?: string;
+
+  @Column({ length: 255, default: '' })
+  facebook?: string;
+
+  @Column({ length: 255, default: '' })
+  phone?: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -64,14 +74,6 @@ export class User {
     cascade: true,
   })
   loginHistories: LoginHistory[];
-
-  /* 1-1 */
-  @OneToOne(() => Contact, (contact) => contact.user, {
-    eager: true,
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  contact: Contact;
 
   @BeforeInsert()
   async setPassword(password: string | undefined): Promise<void> {
