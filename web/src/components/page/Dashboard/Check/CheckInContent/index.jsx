@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import {
   selectUserCheckInInfo,
   selectUserCheckInStatus,
-} from "../../../../../redux/feature/user/userSlice";
-import UseTrans from "../../../../../utils/hooks/UseTrans";
+} from "@/redux/feature/user/userSlice";
+import UseTrans from "@/utils/hooks/UseTrans";
 import CheckingCard from "../CheckingCard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -60,7 +60,7 @@ const CheckInContent = () => {
         <img
           crossOrigin="anonymous"
           src={url}
-          className="aspect-[4/3] my-4 rounded-xl overflow-hidden"
+          className="my-4 aspect-[4/3] overflow-hidden rounded-xl"
         />
         <button
           className="v-btn-primary"
@@ -83,7 +83,7 @@ const CheckInContent = () => {
       )}
 
       {isChecking && (
-        <div className="w-full card">
+        <div className="card w-full">
           <div className="card-body">
             <CheckingCard setIsChecking={setIsChecking} state={"checkin"} />
           </div>

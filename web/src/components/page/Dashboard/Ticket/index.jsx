@@ -3,13 +3,16 @@ import {
   TICKET_FILTER,
   TICKET_STATUS,
   TICKET_STATUS_COLOR,
-  ALL_TICKET_TYPES, 
-  STATUS_TICKET
+  ALL_TICKET_TYPES,
+  STATUS_TICKET,
 } from "@/utils/constants/ticket_constants";
 import React, { useEffect, useState } from "react";
 import SubmitTicket from "./Submit";
 import Modal from "@/components/Common/Modal";
-import { DesktopFilter, MobileFilter } from "@/components/Common/Table/TableFilter";
+import {
+  DesktopFilter,
+  MobileFilter,
+} from "@/components/Common/Table/TableFilter";
 import {
   useCancelTicketMutation,
   useGetMyTicketWithSortQuery,
@@ -37,7 +40,7 @@ const TicketContent = () => {
   });
   const [paginationOptions, setPaginationOptions] = useState({
     page: "1",
-    limit: "1",
+    limit: "3",
   });
   const sortOptions = {
     [TICKET_FILTER.limit]: paginationOptions.limit,
@@ -48,10 +51,10 @@ const TicketContent = () => {
     [TICKET_FILTER.field]: sortOption.sortBy,
     [TICKET_FILTER.orderBy]: sortOption.orderBy,
   };
+
   const { data } = useGetMyTicketWithSortQuery(sortOptions);
   const { mutate: cancelTicket } = useCancelTicketMutation();
   const queryClient = useQueryClient();
-
   const cancelHandler = (id) => {
     cancelTicket(id, {
       onSuccess: () => {
@@ -137,37 +140,36 @@ const TicketContent = () => {
       ),
     },
   ];
-
   useEffect(() => {
     if (data) {
       setDataArray(data.tickets);
     }
   }, [data]);
-  const [ticketTypes, setTicketTypes] = useState(ALL_TICKET_TYPES);
-  const [ticketStatus, setTicketStatus] = useState(STATUS_TICKET);
+  const ticketTypes = ALL_TICKET_TYPES;
+  const ticketStatus = STATUS_TICKET;
   const dataSort = [
     {
       name: "search",
       type: "input",
       style: "w-full rounded-full bg-transparent py-[10px] pl-4 outline-none",
       value: "",
-      data: []
+      data: [],
     },
     {
       name: "type",
       type: "select",
       style: "flex flex-row items-center justify-between mr-[-6rem]",
       value: "",
-      data: ticketTypes
+      data: ticketTypes,
     },
     {
       name: "status",
       type: "select",
       style: "flex flex-row items-center justify-between",
       value: "",
-      data: ticketStatus
-    }
-  ]
+      data: ticketStatus,
+    },
+  ];
   return (
     <div className="m-4 flex-1 flex-col gap-8">
       <div
@@ -192,7 +194,6 @@ const TicketContent = () => {
             onSubmit={(filterOptions) => {
               setFilterOptions(filterOptions);
               queryClient.invalidateQueries(USER_TICKET.WITH_SORT);
-              
             }}
             dataSort={dataSort}
             className="hidden lg:flex"
@@ -212,9 +213,11 @@ const TicketContent = () => {
               paginationOptions={
                 data && { total: Math.ceil(data.total / data.size) }
               }
-              onPageChange={(page) =>
-                setPaginationOptions({ ...paginationOptions, page })
-              }
+              onPageChange={(page) => {
+                console.log({ page });
+
+                setPaginationOptions({ ...paginationOptions, page });
+              }}
             />
           )}
         </div>

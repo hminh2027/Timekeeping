@@ -10,7 +10,6 @@ import { usePostCheckInMutation } from "@/rest/checkin/checkin.query";
 import { usePostCheckOutMutation } from "@/rest/checkout/checkout.query";
 import { useQueryClient } from "@tanstack/react-query";
 import { notify } from "@/components/Common/Toast/Toastify";
-import { ToastContainer } from "react-toastify";
 
 const { Text } = Typography;
 const CheckingCard = (props) => {
@@ -70,7 +69,7 @@ const CheckingCard = (props) => {
     });
   };
   const webCam = (
-    <div className="max-w-mobile lg:max-w-screen-md rounded-xl overflow-hidden">
+    <div className="max-w-mobile overflow-hidden rounded-xl lg:max-w-screen-md">
       <Webcam
         ref={webCamRef}
         screenshotFormat="image/jpg"
@@ -86,7 +85,7 @@ const CheckingCard = (props) => {
     <div>
       <img
         src={imageSrc}
-        className={`${styles["preview-image"]} rounded-xl overflow-hidden`}
+        className={`${styles["preview-image"]} overflow-hidden rounded-xl`}
       />
     </div>
   );
@@ -104,7 +103,7 @@ const CheckingCard = (props) => {
           {capturing && webCam}
 
           {captured && !capturing && imagePreview}
-          <div className="flex flex-wrap  items-center justify-between w-full">
+          <div className="flex w-full  flex-wrap items-center justify-between">
             <button
               className="v-btn-transparent m-2"
               onClick={() => {
