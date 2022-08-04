@@ -108,7 +108,6 @@ export class TicketService {
     const newTicket = await this.ticketRepository.create(data);
     const createdTicket = await this.ticketRepository.save(newTicket);
     const ticket = await this.getByTicketId(createdTicket.id);
-    console.log(ticket);
     await this.notificationService.create({
       content: `has sent you a ticket`,
       url: createdTicket.id.toString(),
@@ -136,7 +135,12 @@ export class TicketService {
       throw new NotAcceptableException(
         'This ticket is no longer be able to modify.',
       );
-
+    // await this.notificationService.create({
+    //   content: `has sent you a ticket`,
+    //   url: createdTicket.id.toString(),
+    //   authorId: data.authorId,
+    //   recipients: [ticket.recipient],
+    // });
     // update
     await this.ticketRepository.save({
       id,

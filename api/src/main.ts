@@ -7,7 +7,7 @@ import { NestFactory } from '@nestjs/core';
 import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
-import { setupSwagger } from './common/swagger/index';
+import { setupSwagger } from './common/swagger';
 import { loggerMiddleware } from './common/middlewares/logger.middleware';
 import { ConfigService } from './common/config/config.service';
 import { RedisIoAdapter } from './common/adapters/redis-io.adapter';
@@ -54,7 +54,7 @@ async function bootstrap() {
   if (baseUrl === '0.0.0.0' || baseUrl === '::') {
     baseUrl = 'localhost';
   }
-  const url = `http://${baseUrl}:${AppModule.port}${globalPrefix}`;
+  const url = `https://${baseUrl}:${AppModule.port}${globalPrefix}`;
   console.log(`Listening to ${url}`);
   if (AppModule.isDev) {
     console.log(`API Documentation available at ${url}/docs`);

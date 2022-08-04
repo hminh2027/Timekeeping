@@ -1,13 +1,14 @@
 import { createHmac } from 'crypto';
 import { Notification } from 'src/modules/notification/entities/notification.entity';
-// import { Role } from 'src/modules/role/entities/role.entity';
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
   BeforeInsert,
+  Column,
   CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Checkin } from '../../checkin/entities/checkinout.entity';
 import { LoginHistory } from '../../login-history/entities/login-history.entity';
@@ -37,8 +38,27 @@ export class User {
   @Column({ length: 355, select: false })
   resetToken: string;
 
-  @Column({ length: 355, select: false })
+  @Column({
+    length: 355,
+    default:
+      'https://res.cloudinary.com/minh2027/image/upload/v1630167071/Avatar/default-user_eic6ct.png',
+  })
   avatar: string;
+
+  @Column({ length: 255, default: '' })
+  address?: string;
+
+  @Column({ length: 255, default: '' })
+  skype?: string;
+
+  @Column({ length: 255, default: '' })
+  facebook?: string;
+
+  @Column({ length: 255, default: '' })
+  phone?: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   /* 1-N */
   @OneToMany(() => Ticket, (ticket) => ticket.id, { cascade: true })
@@ -55,15 +75,11 @@ export class User {
   })
   loginHistories: LoginHistory[];
 
-  @CreateDateColumn()
-  createdAt: Date;
-
   @BeforeInsert()
   async setPassword(password: string | undefined): Promise<void> {
-    const passHashed = createHmac('sha256', password || this.password).digest(
+    this.password = createHmac('sha256', password || this.password).digest(
       'hex',
     );
-    this.password = passHashed;
   }
 }
 
