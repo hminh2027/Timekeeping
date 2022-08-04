@@ -12,7 +12,6 @@ import { ConfigService } from './common/config/config.service';
 import { CommentModule } from './modules/comment/comment.module';
 import { SocketModule } from './modules/socket/socket.module';
 import { NotificationModule } from './modules/notification/notification.module';
-import { ContactModule } from './modules/contact/contact.module';
 
 @Module({
   imports: [
@@ -21,7 +20,6 @@ import { ContactModule } from './modules/contact/contact.module';
     ConfigModule,
     DatabaseModule,
     CommentModule,
-    ContactModule,
     TicketModule,
     CheckinModule,
     SocketModule,

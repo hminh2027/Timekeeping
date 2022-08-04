@@ -4,10 +4,9 @@ import { UserController } from './controllers/user.controller';
 
 import { UserRepository } from './repositories/user.repository';
 import { UserService } from './services/user.service';
-import { ContactModule } from '../contact/contact.module';
 
 @Module({
-  imports: [TypeOrmExModule.forRepository([UserRepository]), ContactModule],
+  imports: [TypeOrmExModule.forRepository([UserRepository])],
   controllers: [UserController],
   exports: [UserService],
   providers: [UserService],
