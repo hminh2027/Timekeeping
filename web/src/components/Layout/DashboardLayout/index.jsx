@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
 import { menuItems } from "@/components/page/Dashboard/Menu/Menu.config";
 import { ToastContainer } from "react-toastify";
+import UseChatSocket from "@/utils/hooks/UseChatSocket";
 const DashboardLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const DashboardLayout = (props) => {
   const userInfo = useSelector(selectUserInfo);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  UseChatSocket();
   useEffect(() => {
     const checkAuthStatus = () => {
       const authed = auth.checkAuth();

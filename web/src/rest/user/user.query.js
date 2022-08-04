@@ -20,10 +20,11 @@ export const useGetUserIdQuery = (id) => {
     ["get-user-id"],
     () => {
       return UserService.getUserId(id);
-    },
-    {
-      select: (user) => UserInfoFormatter(user),
     }
+    // ,
+    // {
+    //   select: (user) => UserInfoFormatter(user),
+    // }
   );
 };
 

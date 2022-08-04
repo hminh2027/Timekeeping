@@ -1,5 +1,5 @@
 import TicketInfo from "@/components/page/admin/ManageTicket/TicketInfo";
-import React, { useState } from "react";
+import React from "react";
 import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
 import Index from "@/layout/AdminLayout";
 const Ticket = (props) => {
