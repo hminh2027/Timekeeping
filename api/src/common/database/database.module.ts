@@ -23,25 +23,25 @@ import { ConfigService } from '../config/config.service';
             migrationsDir: __dirname + '/../migrations',
           },
           migrationsRun: true,
-          synchronize: false,
+          synchronize: config.isDev,
           logging: !config.isProd,
           useNewUrlParser: true,
         } as TypeOrmModuleOptions),
     }),
   ],
 })
-export const typeOrmConfig: TypeOrmModuleOptions = {
-  type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: '85273200',
-  database: 'companycheckin',
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/../migrations/*{.ts,.js}'],
-  cli: {
-    migrationsDir: __dirname + '/../migrations',
-  },
-  logging: true,
-};
+// export const typeOrmConfig: TypeOrmModuleOptions = {
+//   type: 'mysql',
+//   host: 'localhost',
+//   port: 3306,
+//   username: 'root',
+//   password: '85273200',
+//   database: 'companycheckin',
+//   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+//   migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+//   cli: {
+//     migrationsDir: __dirname + '/../migrations',
+//   },
+//   logging: true,
+// };
 export class DatabaseModule {}
