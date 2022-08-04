@@ -14,11 +14,9 @@ import { USER_ACTION } from "@/utils/constants/user_constants";
 import CustomTable from "@/components/Common/Table/CustomTable";
 import UseModal from "@/utils/hooks/UseModal";
 const AdminUserPage = () => {
- 
-
-  const [type,setType] = useState("edit")
-  
-  const {isShowing, toggle} = UseModal();
+  const [type, setType] = useState("edit");
+  const [curUser, setCurUser] = useState(null);
+  const { isShowing, toggle } = UseModal();
   const [filterOptions, setFilterOptions] = useState({
     search: "",
   });
@@ -26,7 +24,8 @@ const AdminUserPage = () => {
     {
       name: "search",
       type: "input",
-      style: "lg:w-full xl:w-[500px] rounded-full bg-transparent py-[10px] px-[10px] pl-4 outline-none",
+      style:
+        "lg:w-full xl:w-[500px] rounded-full bg-transparent py-[10px] px-[10px] pl-4 outline-none",
       value: "",
       data: [],
     },
@@ -34,10 +33,11 @@ const AdminUserPage = () => {
   const sortOptions = `limit=10&page=1&search=${filterOptions.search}`;
   const { data: Users } = useGetUserQuery(sortOptions);
   console.log("SORT USER", Users);
-  const handleClick = (type)=>{
-    setType(type)
-    toggle()
-  }
+  const handleClick = (type, obj) => {
+    setType(type);
+    setCurUser(obj);
+    toggle();
+  };
   const columns = [
     {
       title: "ID",
@@ -70,48 +70,46 @@ const AdminUserPage = () => {
     {
       title: "Action",
       key: "action",
-      render: (obj) =>{
-console.log("obj",obj);
+      render: (obj) => {
+        console.log("obj", obj);
 
-      return  (
+        return (
           <div className="flex">
-            {
-            
-              USER_ACTION.map(({name,icon})=>(
-                <div key={name}>
-                  <button
-                    onClick={()=>handleClick(name)}
-                    className="mr-2 rounded-xl p-2 hover:bg-gray-300"
+            {USER_ACTION.map(({ name, icon }) => (
+              <div key={name}>
+                <button
+                  onClick={() => handleClick(name, obj)}
+                  className="mr-2 rounded-xl p-2 hover:bg-gray-300"
+                >
+                  {icon}
+                </button>
+                {name == "DELETE" ? (
+                  <Modal
+                    isShowing={isShowing && type == "DELETE"}
+                    hide={toggle}
                   >
-                    {icon}
-                  </button>
-                  {
-                    name == "DELETE" ?
-                    <Modal isShowing={isShowing && type=="DELETE"} hide={toggle}>
-                      <div className="flex">
-                        <DeleteNotification hide={toggle} id={obj.id} />
-                      </div>
-                    </Modal>
-                    :
-                    <Modal isShowing={isShowing && type=="EDIT"} hide={toggle}>
-                      <div className="flex">
-                        <CreateUser
-                          hide={toggle}
-                          id={obj.id}
-                          userData={obj}
-                          Name= {name}
-                          click= {name}
-                        />
-                      </div>
-                    </Modal>
-                  }
-                </div>
-  
-              ))
-            } 
+                    <div className="flex">
+                      <DeleteNotification hide={toggle} id={curUser?.id} />
+                    </div>
+                  </Modal>
+                ) : (
+                  <Modal isShowing={isShowing && type == "EDIT"} hide={toggle}>
+                    <div className="flex">
+                      <CreateUser
+                        hide={toggle}
+                        id={curUser?.id}
+                        userData={curUser}
+                        Name={name}
+                        click={name}
+                      />
+                    </div>
+                  </Modal>
+                )}
+              </div>
+            ))}
           </div>
-        )
-    } 
+        );
+      },
     },
   ];
   return (

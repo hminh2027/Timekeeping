@@ -37,7 +37,7 @@ const CustomTable = ({
 
   return (
     <>
-      <table className="w-full text-left">
+      <table className="w-full  text-left">
         <thead className="bg-gray-50">
           <tr>
             {columns.map((col) => (
@@ -47,7 +47,11 @@ const CustomTable = ({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          className="
+
+        "
+        >
           {data.map((item, key) => (
             <tr key={key} className="border-b bg-white">
               {Object.keys(item).map((key) => (

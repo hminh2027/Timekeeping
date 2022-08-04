@@ -3,6 +3,7 @@ import { FaUser } from "react-icons/fa";
 import DashboardLayout from "@/layout/DashboardLayout";
 import UserInfo from "@/components/page/Dashboard/User/Info";
 import NotifiyPreference from "@/components/page/Dashboard/User/NotifiyPreference";
+import ChangePassword from "@/components/page/Dashboard/User/ChangePassword";
 const UserDetail = () => {
   const [action, setAction] = useState("edit");
   let tab;
@@ -33,9 +34,12 @@ const UserDetail = () => {
     </div>
   );
   return (
-    <div className="w-full">
-      {content}
-      <NotifiyPreference />
+    <div className="card w-full">
+      <div className="card-body">
+        <UserInfo />
+        <NotifiyPreference />
+        <ChangePassword />
+      </div>
     </div>
   );
 };

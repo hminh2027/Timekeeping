@@ -13,7 +13,7 @@ import {
 } from "react-icons/ai";
 import { RiAdminLine } from "react-icons/ri";
 const CreateUser = (props) => {
-  console.log("User", props.userData);
+  // console.log({ props });
   const [isShow, setIsShow] = useState(true);
   const [UserData, setUserData] = useState(props.userData);
   const handleClick = () => {
