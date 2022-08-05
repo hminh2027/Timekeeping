@@ -1,10 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Router } from "next/router";
-import {
-  getCheckInStatus,
-  getMyInfo,
-  logOut as authLogOut,
-} from "@/api/service/auth.service";
+import { getCheckInStatus, getMyInfo } from "@/api/service/auth.service";
 import * as moment from "moment";
 const initialState = {
   name: "",
@@ -14,7 +10,7 @@ const initialState = {
   checkInInfo: {},
   userInfo: {},
   role: [],
-  permission: [],
+  permissions: [],
 };
 
 export const fetchCheckInStatus = createAsyncThunk(
@@ -64,6 +60,17 @@ export const userSlice = createSlice({
         userInfo,
       };
     },
+    setUserPermissions: (state, action) => {
+      const userPerms = action.payload;
+
+      const perms = userPerms.flatMap((perm) =>
+        Object.values(perm).map((temp) => temp)
+      );
+      return {
+        ...state,
+        permissions: perms,
+      };
+    },
     logOut: () => {
       return initialState;
     },
@@ -72,10 +79,7 @@ export const userSlice = createSlice({
     builder.addCase(fetchCheckInStatus.fulfilled, (state, action) => {
       state.status = "succeeded";
       try {
-        // Add any fetched posts to the array
         state.checkInInfo = action.payload.data[0];
-        // console.log("Payload từ redux: ", action.payload.data[0]);
-        // console.log(action.payload.data[0].checkinImage);
         if (action.payload.data[0].checkinImage) {
           state.checkInStatus = true;
         }
@@ -87,7 +91,6 @@ export const userSlice = createSlice({
     builder.addCase(fetchMe.fulfilled, (state, action) => {
       state.status = "succeeded";
       try {
-        // Add userInfo
         state.userInfo = action.payload.data;
       } catch (err) {}
     });
@@ -105,6 +108,7 @@ export const {
   changeCheckInStatus,
   changeCheckOutStatus,
   setUserInfo,
+  setUserPermissions,
   logOut,
 } = userSlice.actions;
 
@@ -115,5 +119,5 @@ export const selectUserCheckInStatus = (state) => state.user.checkInStatus;
 export const selectUserCheckOutStatus = (state) => state.user.checkOutStatus;
 export const selectUserCheckInInfo = (state) => state.user.checkInInfo;
 export const selectUserInfo = (state) => state.user.userInfo;
-
+export const selectUserPermissions = (state) => state.user.permissions;
 export default userSlice.reducer;
