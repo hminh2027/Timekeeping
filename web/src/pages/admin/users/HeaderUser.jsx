@@ -20,7 +20,7 @@ const HeaderUser = ({ title}) => {
                             lastName: "",
                             firstName: "",
                             email: "",
-                            role: "",
+                            role: "user",
                             password: "",
                         }}
                         Name= "CREATE"

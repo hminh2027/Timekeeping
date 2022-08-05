@@ -6,26 +6,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 const Home = () => {
   ChartJS.register(ArcElement, Tooltip, Legend);
-  const data = {
-    labels: ['Đi đúng giờ', 'Đi muộn', 'Nghỉ'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [11,12,10],
-        backgroundColor: [
-          "#e5f7ed",
-          "#ffedeb",
-          "#f5f5f5",
-        ],
-        borderColor: [
-          "#00b14f",
-          "#ff564c",
-          "#9f9f9f",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
   const GetData = [
     { 
       name: "Ngày",
@@ -34,7 +14,7 @@ const Home = () => {
         datasets: [
           {
             label: '# of Votes',
-            data: [11,12,10],
+            data: [11,12,6],
             backgroundColor: [
               "#e5f7ed",
               "#ffedeb",
@@ -57,7 +37,7 @@ const Home = () => {
         datasets: [
           {
             label: '# of Votes',
-            data: [15,9,10],
+            data: [25,15,10],
             backgroundColor: [
               "#e5f7ed",
               "#ffedeb",
@@ -80,7 +60,7 @@ const Home = () => {
         datasets: [
           {
             label: '# of Votes',
-            data: [20,12,11],
+            data: [107,56,11],
             backgroundColor: [
               "#e5f7ed",
               "#ffedeb",
