@@ -22,16 +22,15 @@ const UseChatSocket = (props) => {
           Authorization: token,
         },
       });
-    }
-
-    if (socket) {
-      socket.on("msgToClient", (payload) => onNewMessage(payload));
+      socket.on("msgToClient", (payload) => {
+        onNewMessage(payload);
+      });
       socket.on("connect", () => onSocketConnect(socket.id));
     }
     return () => {
-      if (socket) socket.disconnect();
+      socket?.disconnect();
     };
-  }, [token]);
+  });
 
   const socketUri = process.env.APP_URL;
 
