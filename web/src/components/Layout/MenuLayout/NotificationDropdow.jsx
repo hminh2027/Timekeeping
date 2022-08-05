@@ -50,7 +50,7 @@ const NotificationDropdow = (props) => {
         </div>
         <div
           id="dropdown"
-          className={`top-26 absolute mt-5 flex w-[400px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-slate-100 p-4 shadow-lg ${
+          className={`top-26 absolute mt-2 flex w-[400px] translate-x-[-85%] transform  flex-col space-y-4 rounded-lg bg-slate-50 p-4 shadow-lg ${
             isShowing ? "" : "hidden"
           }`}
         >
