@@ -30,7 +30,9 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = await this.getUser(client);
 
     if (!user) throw new UnauthorizedException('Token not found');
-    this.server.socketsJoin(user.id.toString());
+    // this.server.socketsJoin(user.id.toString());
+
+    client.join(user.id.toString());
     this.logger.log(`User ${user.id} join the room`);
   }
 
@@ -44,10 +46,11 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('msgToServer')
   emitEvent(@MessageBody() payload: any, rooms: string[]) {
+    if (!rooms) return;
     rooms.forEach((room) => {
-      console.log('HELLO ', payload);
       this.server.to(room).emit('msgToClient', payload);
     });
+    // this.server.emit('msgToClient', payload);
   }
 
   async getUser(client: Socket): Promise<any> {

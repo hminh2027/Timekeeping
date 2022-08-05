@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { log } from 'console';
 import { NotificationService } from 'src/modules/notification/services/notification.service';
 import { SocketService } from 'src/modules/socket/socket.service';
 import { TicketService } from 'src/modules/ticket/services/ticket.service';
@@ -43,16 +44,18 @@ export class CommentService {
       throw new ForbiddenException(
         'You are not allowed to comment on this ticket!',
       );
-
+    //DDoi ten thanh author roi ma no van send user a ?
     const newComment = await this.commentRepository.create(data);
+    console.log({ data });
+
     const ticket = await this.ticketService.getByTicketId(data.ticketId);
+
     await this.notificationService.create({
       content: `has commented on your ticket`,
       url: data.ticketId.toString(),
       authorId: data.userId,
       recipients: [ticket.recipient],
     });
-
     return await this.commentRepository.save(newComment);
   }
 

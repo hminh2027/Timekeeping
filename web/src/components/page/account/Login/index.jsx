@@ -49,23 +49,9 @@ const LoginForm = () => {
       try {
         const res = await api.post("auth/login", { email, password });
 
-        // test mutation
-        // await doLogin(
-        //   {
-        //     email,
-        //     password,
-        //   },
-        //   {
-        //     onSuccess: async (response) => {
-        //       console.log("response", response);
-        //     },
-        //   }
-        // );
-
         if (res) {
           if (res.status === 201) {
             const { user: userInfo } = res.data;
-            // console.log(userInfo);
             dispatch(setUserInfo({ userInfo: userInfo }));
             auth.setToken(res.data.accessToken);
             auth.setRefreshToken(res.data.refreshToken);
