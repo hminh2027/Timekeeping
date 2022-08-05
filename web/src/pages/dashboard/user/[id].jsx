@@ -4,6 +4,12 @@ import DashboardLayout from "@/layout/DashboardLayout";
 import UserInfo from "@/components/page/Dashboard/User/Info";
 import NotifiyPreference from "@/components/page/Dashboard/User/NotifiyPreference";
 import ChangePassword from "@/components/page/Dashboard/User/ChangePassword";
+import RBACWrapper from "@/components/RBACWrapper";
+import {
+  CHECK_IN_PERMISSION,
+  REPORT_PERMISSION,
+  TICKET_PERMISSION,
+} from "@/utils/constants/permission";
 const UserDetail = () => {
   const [action, setAction] = useState("edit");
   let tab;
@@ -37,7 +43,16 @@ const UserDetail = () => {
     <div className="card w-full">
       <div className="card-body">
         <UserInfo />
-        <NotifiyPreference />
+        <RBACWrapper
+          requiredPermissions={[
+            TICKET_PERMISSION.READ,
+            TICKET_PERMISSION.WRITE,
+            // REPORT_PERMISSION.READ,
+            // CHECK_IN_PERMISSION.READ,
+          ]}
+        >
+          <NotifiyPreference />
+        </RBACWrapper>
         <ChangePassword />
       </div>
     </div>

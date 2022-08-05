@@ -4,7 +4,7 @@ import moment from "moment";
 
 class Auth extends BaseService {
   getMe() {
-    return this.http.get("auth/me").then((res) => res.data);
+    return this.http.get(`${this.basePath}/me`).then((res) => res.data);
   }
   login(input) {
     return this.http
