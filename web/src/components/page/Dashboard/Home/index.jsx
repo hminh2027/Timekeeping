@@ -12,18 +12,6 @@ import {
 import CheckInContent from "@/components/page/Dashboard/Check/CheckInContent";
 const Home = () => {
   ChartJS.register(ArcElement, Tooltip, Legend);
-  const data = {
-    labels: ["Đi đúng giờ", "Đi muộn", "Nghỉ"],
-    datasets: [
-      {
-        label: "# of Votes",
-        data: [11, 12, 10],
-        backgroundColor: ["#e5f7ed", "#ffedeb", "#f5f5f5"],
-        borderColor: ["#00b14f", "#ff564c", "#9f9f9f"],
-        borderWidth: 1,
-      },
-    ],
-  };
   const GetData = [
     {
       name: "Ngày",
@@ -31,10 +19,18 @@ const Home = () => {
         labels: ["Đi đúng giờ", "Đi muộn", "Nghỉ"],
         datasets: [
           {
-            label: "# of Votes",
-            data: [11, 12, 10],
-            backgroundColor: ["#e5f7ed", "#ffedeb", "#f5f5f5"],
-            borderColor: ["#00b14f", "#ff564c", "#9f9f9f"],
+            label: '# of Votes',
+            data: [11,12,6],
+            backgroundColor: [
+              "#e5f7ed",
+              "#ffedeb",
+              "#f5f5f5",
+            ],
+            borderColor: [
+              "#00b14f",
+              "#ff564c",
+              "#9f9f9f",
+            ],
             borderWidth: 1,
           },
         ],
@@ -46,10 +42,18 @@ const Home = () => {
         labels: ["Đi đúng giờ", "Đi muộn", "Nghỉ"],
         datasets: [
           {
-            label: "# of Votes",
-            data: [15, 9, 10],
-            backgroundColor: ["#e5f7ed", "#ffedeb", "#f5f5f5"],
-            borderColor: ["#00b14f", "#ff564c", "#9f9f9f"],
+            label: '# of Votes',
+            data: [25,15,10],
+            backgroundColor: [
+              "#e5f7ed",
+              "#ffedeb",
+              "#f5f5f5",
+            ],
+            borderColor: [
+              "#00b14f",
+              "#ff564c",
+              "#9f9f9f",
+            ],
             borderWidth: 1,
           },
         ],
@@ -61,10 +65,18 @@ const Home = () => {
         labels: ["Đi đúng giờ", "Đi muộn", "Nghỉ"],
         datasets: [
           {
-            label: "# of Votes",
-            data: [20, 12, 11],
-            backgroundColor: ["#e5f7ed", "#ffedeb", "#f5f5f5"],
-            borderColor: ["#00b14f", "#ff564c", "#9f9f9f"],
+            label: '# of Votes',
+            data: [107,56,11],
+            backgroundColor: [
+              "#e5f7ed",
+              "#ffedeb",
+              "#f5f5f5",
+            ],
+            borderColor: [
+              "#00b14f",
+              "#ff564c",
+              "#9f9f9f",
+            ],
             borderWidth: 1,
           },
         ],
