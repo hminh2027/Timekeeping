@@ -31,10 +31,11 @@ export class CommentController {
 
   @Post()
   @ApiOperation({
-    description: 'cancel ticket',
+    description: 'create comment',
   })
   async create(@ReqUser() user: User, @Body() data: CommentPayload) {
     data.userId = user.id;
+
     return {
       statusCode: HttpStatus.OK,
       message: 'Comment created successfully',
