@@ -1,16 +1,22 @@
 import LeaderBoard from "@/components/LeaderBoard";
-import { Fragment } from 'react'
-import { Tab } from '@headlessui/react'
+import { Fragment } from "react";
+import { Tab } from "@headlessui/react";
 import ReactCalendar from "./ReactCalendar";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
+import RBACWrapper from "@/components/RBACWrapper";
+import {
+  CHECK_IN_PERMISSION,
+  REPORT_PERMISSION,
+} from "@/utils/constants/permission";
+import CheckInContent from "@/components/page/Dashboard/Check/CheckInContent";
 const Home = () => {
   ChartJS.register(ArcElement, Tooltip, Legend);
   const GetData = [
-    { 
+    {
       name: "Ngày",
       data: {
-        labels: ['Đi đúng giờ', 'Đi muộn', 'Nghỉ'],
+        labels: ["Đi đúng giờ", "Đi muộn", "Nghỉ"],
         datasets: [
           {
             label: '# of Votes',
@@ -28,12 +34,12 @@ const Home = () => {
             borderWidth: 1,
           },
         ],
-      }
+      },
     },
     {
       name: "Tháng",
       data: {
-        labels: ['Đi đúng giờ', 'Đi muộn', 'Nghỉ'],
+        labels: ["Đi đúng giờ", "Đi muộn", "Nghỉ"],
         datasets: [
           {
             label: '# of Votes',
@@ -51,12 +57,12 @@ const Home = () => {
             borderWidth: 1,
           },
         ],
-      }
+      },
     },
     {
       name: "Năm",
       data: {
-        labels: ['Đi đúng giờ', 'Đi muộn', 'Nghỉ'],
+        labels: ["Đi đúng giờ", "Đi muộn", "Nghỉ"],
         datasets: [
           {
             label: '# of Votes',
@@ -74,51 +80,61 @@ const Home = () => {
             borderWidth: 1,
           },
         ],
-      }
+      },
     },
-  ]
-  const style1 = "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
-  const style2 = "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+  ];
+  const style1 =
+    "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500";
+  const style2 =
+    "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300";
   return (
     <>
       <div className="m-4 flex flex-col gap-8 lg:flex-row">
         <div className="flex w-full flex-col gap-4 lg:w-1/4 ">
           {/*{checkInStatus ? <CheckOutContent /> : <CheckInContent />}*/}
-          {/* <CheckInContent /> */}
-          <div className="card w-full">
-            <div className="card-body">
-              <Tab.Group>
-                <Tab.List>
-                <p className="text-cyan-900 text-center font-bold text-[1.3rem]">Bảng thống kê checkin theo </p>   
-                <div className="flex text-center justify-center">
-                  {GetData.map((dt)=> (
-                    <Tab
-                      className={({ selected }) =>
-                        selected ? style1 : style2
-                      }
-                    >
-                      {dt.name}
-                    </Tab>
-                  ))
-                  }
-                </div>               
-                
-                </Tab.List>
-                <Tab.Panels>
-                  
+          <RBACWrapper
+            requiredPermissions={[
+              CHECK_IN_PERMISSION.READ,
+              CHECK_IN_PERMISSION.WRITE,
+            ]}
+          >
+            <CheckInContent />
+          </RBACWrapper>
+          <RBACWrapper requiredPermissions={[REPORT_PERMISSION.READ]}>
+            <div className="card w-full">
+              <div className="card-body">
+                <Tab.Group>
+                  <Tab.List>
+                    <p className="text-center text-[1.3rem] font-bold text-cyan-900">
+                      Bảng thống kê checkin theo{" "}
+                    </p>
+                    <div className="flex justify-center text-center">
+                      {GetData.map((dt) => (
+                        <Tab
+                          className={({ selected }) =>
+                            selected ? style1 : style2
+                          }
+                        >
+                          {dt.name}
+                        </Tab>
+                      ))}
+                    </div>
+                  </Tab.List>
+                  <Tab.Panels>
                     {GetData.map((dt) => (
                       <Tab.Panel>
-                        <Pie rotation={482} data={dt.data} /> 
+                        <Pie rotation={482} data={dt.data} />
                       </Tab.Panel>
-                    ))}              
-                 
-                  {/* <Tab.Panel>Content 2</Tab.Panel>
+                    ))}
+
+                    {/* <Tab.Panel>Content 2</Tab.Panel>
                   <Tab.Panel>Content 3</Tab.Panel> */}
-                </Tab.Panels>
-              </Tab.Group>
-          </div>
-          </div>
-          
+                  </Tab.Panels>
+                </Tab.Group>
+              </div>
+            </div>
+          </RBACWrapper>
+
           <div className="card w-full">
             <div className="card-body">
               <ReactCalendar />

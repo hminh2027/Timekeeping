@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Input from "@/components/Common/Input";
+import { InputPassword } from "@/components/Common/Input";
 const ChangePassword = () => {
   const formik = useFormik({
     initialValues: {
@@ -10,7 +10,7 @@ const ChangePassword = () => {
     },
     validationSchema: Yup.object({
       password: Yup.string()
-        .max(30, "must be less than 30 characters")
+        .min(1, "must be more than 1 character")
         .required("Required"),
       repeatPassword: Yup.string().when("password", {
         is: (val) => (val && val.length > 0 ? true : false),
@@ -29,27 +29,25 @@ const ChangePassword = () => {
       <div>Change Password</div>
       <form onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-4">
-          <Input
+          <InputPassword
             name="password"
             label="Password"
-            type="password"
             value={formik.values.password}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
           {formik.touched.password && formik.errors.password && (
-            <p>{formik.errors.password}</p>
+            <p className="text-red-500">{formik.errors.password}</p>
           )}
-          <Input
+          <InputPassword
             name="repeatPassword"
             label="Repeat Password"
-            type="password"
             value={formik.values.repeatPassword}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
           {formik.touched.repeatPassword && formik.errors.repeatPassword && (
-            <p>{formik.errors.repeatPassword}</p>
+            <p className="text-red-500">{formik.errors.repeatPassword}</p>
           )}
         </div>
         <button type="submit" className="v-btn-primary">
