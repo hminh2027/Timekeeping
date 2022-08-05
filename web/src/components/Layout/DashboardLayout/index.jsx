@@ -5,6 +5,7 @@ import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 import {
   fetchCheckInStatus,
   selectUserCheckInStatus,
+  setUserInfo,
   setUserPermissions,
 } from "@/redux/feature/user/userSlice";
 import { ROLES } from "@/utils/constants/roles";
@@ -37,6 +38,7 @@ const DashboardLayout = (props) => {
     };
     const getUserInfo = () => {
       if (userInfo) {
+        dispatch(setUserInfo({ userInfo: userInfo }));
         ROLES.forEach((ROLE) => {
           if (ROLE.name === userInfo.role) {
             dispatch(setUserPermissions(ROLE.permissions));

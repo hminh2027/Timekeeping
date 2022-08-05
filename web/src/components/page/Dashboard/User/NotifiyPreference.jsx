@@ -1,6 +1,6 @@
 import React from "react";
 import CustomTable from "@/components/Common/Table/CustomTable";
-const NotifiyPreference = () => {
+const NotifyPreference = () => {
   const data = [
     {
       type: "Checkin Alert",
@@ -68,4 +68,4 @@ const NotifiyPreference = () => {
   );
 };
 
-export default NotifiyPreference;
+export default NotifyPreference;
