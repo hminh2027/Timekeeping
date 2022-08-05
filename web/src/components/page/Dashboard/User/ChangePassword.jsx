@@ -26,8 +26,8 @@ const ChangePassword = () => {
   });
   return (
     <div className="flex flex-col gap-4">
-      <div>Change Password</div>
-      <form onSubmit={formik.handleSubmit}>
+      <div className="text-2xl text-cyan-800">Change Password</div>
+      <form className="flex flex-col gap-4" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-4">
           <InputPassword
             name="password"

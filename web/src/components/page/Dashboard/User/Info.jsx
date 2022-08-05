@@ -1,7 +1,11 @@
+import Modal from "@/components/Common/Modal";
+import UseModal from "@/utils/hooks/UseModal";
 import React, { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { ImTrophy } from "react-icons/im";
+import CreateUser from "../../admin/users/FunctionUserModal";
 const UserInfo = () => {
+  const { isShowing, toggle } = UseModal();
   const [data, setData] = useState({
     role: { label: "User", value: "user" },
     name: "Selina Kyle",
@@ -31,7 +35,7 @@ const UserInfo = () => {
       </div>
       <div className="flex w-full justify-center gap-12">
         <div className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-cyan-100 text-cyan-400">
+          <div className="flex items-center justify-center rounded-md bg-cyan-100 p-3 text-cyan-400">
             <FaCheck />
           </div>
           <div className="flex flex-col">
@@ -42,7 +46,7 @@ const UserInfo = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-cyan-100 text-cyan-400">
+          <div className="flex items-center justify-center rounded-md bg-cyan-100 p-3 text-cyan-400">
             <ImTrophy />
           </div>
           <div className="flex flex-col">
@@ -83,10 +87,16 @@ const UserInfo = () => {
         </div>
       </div>
       {/* Account Permissions */}
-      <div className="flex w-full flex-row gap-4 p-4">
-        <button className="v-btn-primary w-full  lg:w-32">Edit</button>
+      <div className="flex w-full flex-row justify-center gap-4 p-4">
+        <button className="v-btn-primary w-full  lg:w-32" onClick={toggle}>
+          Edit
+        </button>
         <button className="v-btn  w-full lg:w-24">Suspend</button>
       </div>
+      {/* Modal */}
+      <Modal isShowing={isShowing} hide={toggle}>
+        <CreateUser Name="Edit" userData={data} hide={toggle} />
+      </Modal>
     </>
   );
 };
