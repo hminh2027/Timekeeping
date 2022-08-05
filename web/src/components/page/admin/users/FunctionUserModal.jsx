@@ -13,7 +13,7 @@ import {
 } from "react-icons/ai";
 import { RiAdminLine } from "react-icons/ri";
 const CreateUser = (props) => {
-  console.log({ props });
+  console.log("createUser",{ props });
   const [isShow, setIsShow] = useState(true);
   const [UserData, setUserData] = useState(props.userData);
   const handleClick = () => {
@@ -75,14 +75,14 @@ const CreateUser = (props) => {
                 name={"FirstName"}
                 nameInput={"firstName"}
                 hanlde={(e) => handleChange(e)}
-                value={UserData?.firstName}
+                value={UserData.firstName}
               />
               <Input
                 type="text"
                 name={"LastName"}
                 nameInput={"lastName"}
                 hanlde={(e) => handleChange(e)}
-                value={UserData?.lastName}
+                value={UserData.lastName}
               />
               <Input
                 type="radio"
@@ -169,7 +169,9 @@ const Input = (props) => {
             handleRole(e);
           }}
         >
-          {Roles.map((data) => (
+          {Roles.map((data) => {
+            console.log({data, role});
+            return(
             <div class="mb-4 flex items-center">
               <input
                 defaultChecked={data.roles == role}
@@ -186,7 +188,7 @@ const Input = (props) => {
                 {data.icon}
               </label>
             </div>
-          ))}
+          )})}
         </div>
       )}
     </div>

@@ -27,6 +27,8 @@ const CustomTable = ({ dataSource, columns }) => {
     const selectedData = dataSelection(dataSource, columns);
     const convertedData = dataConversion(selectedData, columns);
     setData(convertedData);
+    debugger
+    
   }, [columns, dataSource]);
 
   return (
@@ -35,21 +37,20 @@ const CustomTable = ({ dataSource, columns }) => {
         <thead className="bg-gray-50">
           <tr>
             {columns.map((col) => (
-              <th key={col.key} scope="col" className="px-6 py-3 font-semibold">
+              <th key={col.key} scope="col" className={`px-6 py-3 font-semibold ${columns?.className}`}>
                 {col.title}
               </th>
             ))}
           </tr>
         </thead>
         <tbody
-          className="
-
-        "
+          className=""
         >
           {data.map((item, key) => (
+            
             <tr key={key} className="border-b bg-white">
               {Object.keys(item).map((key) => (
-                <td key={key} scope="row" className="px-6 py-4 text-gray-500">
+                <td key={key} scope="row" className={`px-6 py-4 text-gray-500 ${columns?.className}`}>
                   {item[key]}
                 </td>
               ))}
