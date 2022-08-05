@@ -12,6 +12,7 @@ import { useGetUserQuery } from "src/rest/user/user.query";
 import Link from "next/link";
 import { USER_ACTION } from "@/utils/constants/user_constants";
 import CustomTable from "@/components/Common/Table/CustomTable";
+import HeaderUser from "./HeaderUser";
 import UseModal from "@/utils/hooks/UseModal";
 const AdminUserPage = () => {
   const [type, setType] = useState("edit");
@@ -123,18 +124,16 @@ const AdminUserPage = () => {
   ];
   return (
     // <div>AdminUserPage</div>
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between bg-white px-4 py-6">
-        <div className="text-3xl font-bold">Manage User</div>
-      </div>
-      <div span={24}>
-        <div
-          className="m-1 flex flex-col overflow-auto rounded-lg"
-          style={{
-            backgroundColor: "#fff",
-            boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-          }}
-        >
+    <div className="m-4 flex-1 flex-col gap-8">
+      <div
+        className="m-1 flex flex-col overflow-auto rounded-lg "
+        style={{
+          backgroundColor: "#fff",
+          boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
+        }}
+      >
+        <div className="card-body">
+          <HeaderUser title={"Manager User"}/>
           <DesktopFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="hidden lg:flex"
@@ -150,6 +149,7 @@ const AdminUserPage = () => {
           )}
         </div>
       </div>
+      
     </div>
   );
 };
