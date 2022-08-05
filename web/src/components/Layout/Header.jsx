@@ -7,7 +7,7 @@ import Dropdow from "./MenuLayout/Dropdow";
 import NotificationDropdow from "./MenuLayout/NotificationDropdow";
 
 const Header = () => {
-  const [isShowing, toggle] = useState(false)
+  const [isShowing, toggle] = useState(false);
   const userInfo = useSelector(selectUserInfo);
   return (
     <div className="shadow-black-500/40 z-20 flex max-h-28 w-full items-center bg-[#ffffff]  py-7 shadow-md ">
@@ -36,21 +36,18 @@ const Header = () => {
           </div>
           <div className="">
             <div className="text-xl font-semibold lg:text-3xl">
-              Hello {userInfo.lastName} {userInfo.firstName}!
+              Hello {userInfo?.lastName} {userInfo?.firstName}!
             </div>
-            <div className="underline">Role: {userInfo.role}</div>
+            <div className="underline">Role: {userInfo?.role}</div>
           </div>
-        </div>   
-        <div className="flex">
-          <NotificationDropdow/>
-          <Dropdow/>
         </div>
-        
+        <div className="flex">
+          <NotificationDropdow />
+          <Dropdow />
+        </div>
       </div>
     </div>
   );
 };
-
-
 
 export default Header;

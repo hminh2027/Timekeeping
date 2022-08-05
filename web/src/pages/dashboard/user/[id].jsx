@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import DashboardLayout from "@/layout/DashboardLayout";
 import UserInfo from "@/components/page/Dashboard/User/Info";
-import NotifiyPreference from "@/components/page/Dashboard/User/NotifiyPreference";
+import NotifyPreference from "@/components/page/Dashboard/User/NotifiyPreference";
 import ChangePassword from "@/components/page/Dashboard/User/ChangePassword";
 import RBACWrapper from "@/components/RBACWrapper";
 import {
@@ -10,6 +10,7 @@ import {
   REPORT_PERMISSION,
   TICKET_PERMISSION,
 } from "@/utils/constants/permission";
+import { InputPassword } from "@/components/Common/Input";
 const UserDetail = () => {
   const [action, setAction] = useState("edit");
   let tab;
@@ -51,8 +52,9 @@ const UserDetail = () => {
             // CHECK_IN_PERMISSION.READ,
           ]}
         >
-          <NotifiyPreference />
+          <NotifyPreference />
         </RBACWrapper>
+
         <ChangePassword />
       </div>
     </div>
