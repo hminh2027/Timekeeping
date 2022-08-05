@@ -169,7 +169,9 @@ const Input = (props) => {
             handleRole(e);
           }}
         >
-          {Roles.map((data) => (
+          {Roles.map((data) => {
+            console.log({data, role});
+            return(
             <div class="mb-4 flex items-center">
               <input
                 defaultChecked={data.roles == role}
@@ -186,7 +188,7 @@ const Input = (props) => {
                 {data.icon}
               </label>
             </div>
-          ))}
+          )})}
         </div>
       )}
     </div>
