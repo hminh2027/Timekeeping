@@ -12,10 +12,10 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { RiAdminLine } from "react-icons/ri";
-const CreateUser = (props) => {
-  console.log("createUser",{ props });
+import { InputPassword } from "@/components/Common/Input";
+const CreateUser = ({ userData, Name, hide, id, click, ...props }) => {
   const [isShow, setIsShow] = useState(true);
-  const [UserData, setUserData] = useState(props.userData);
+  const [UserData, setUserData] = useState(userData);
   const handleClick = () => {
     if (isShow) {
       setIsShow(false);
@@ -29,7 +29,7 @@ const CreateUser = (props) => {
     await doPost(data, {
       onSuccess: () => {
         console.log("success");
-        props.hide(false);
+        hide(false);
         queryClient.invalidateQueries(["get-user"]);
       },
     });
@@ -38,11 +38,11 @@ const CreateUser = (props) => {
   const { mutate: doUpdate } = useUpdateUserMutation();
   async function handleUpdate(data) {
     await doUpdate(
-      { ...data, id: props.id },
+      { ...data, id: id },
       {
         onSuccess: () => {
           console.log("success");
-          props.hide(false);
+          hide(false);
           queryClient.invalidateQueries(["get-user"]);
         },
       }
@@ -58,7 +58,7 @@ const CreateUser = (props) => {
         <div className="w-1/3 bg-yellow-400"></div>
         <div>
           <div className="flex-1 justify-center text-center text-xl font-bold  text-emerald-500">
-            {props.Name}
+            {Name}
           </div>
           <div className="mb-6 mt-[-1px] border-[1px] border-double border-emerald-400"></div>
           <div className={styles[`input-wrapper`]}>
@@ -92,9 +92,8 @@ const CreateUser = (props) => {
               />
               <div className="flex items-center gap-4">
                 <div style={{ minWidth: "5em" }}>Password:</div>
-                <input
-                  type={isShow ? "password" : "text"}
-                  className="v-input flex-1"
+                <InputPassword
+                  className="w-full"
                   name="password"
                   value={UserData.password}
                   placeholder="Password"
@@ -102,26 +101,17 @@ const CreateUser = (props) => {
                     handleChange(e);
                   }}
                 />
-                <div class="input-group-append">
-                  <button onClick={() => handleClick()}>
-                    {isShow ? (
-                      <AiOutlineEye size={"25px"} className="my-1" />
-                    ) : (
-                      <AiOutlineEyeInvisible size={"25px"} className="my-1" />
-                    )}
-                  </button>
-                </div>
               </div>
             </div>
           </div>
           <div className="flex justify-end">
-            {props.click == "CREATE" ? (
+            {click == "CREATE" ? (
               <Button handle={() => handlePost(UserData)} name="Create" />
             ) : (
               <Button handle={() => handleUpdate(UserData)} name="Edit" />
             )}
             <button
-              onClick={() => props.hide()}
+              onClick={() => hide()}
               className="ml-3 mt-3 w-1/3 self-end rounded-lg border border-solid border-gray-500 p-1 text-black hover:bg-gray-500 hover:text-white hover:shadow-xl"
             >
               Close
@@ -170,25 +160,26 @@ const Input = (props) => {
           }}
         >
           {Roles.map((data) => {
-            console.log({data, role});
-            return(
-            <div class="mb-4 flex items-center">
-              <input
-                defaultChecked={data.roles == role}
-                name="role"
-                value={data.roles}
-                type="radio"
-                class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300"
-                onChange={() => setRole(Roles.roles)}
-              />
-              <label
-                for={data.roles}
-                class="ml-3 mr-7 text-sm font-medium text-gray-900"
-              >
-                {data.icon}
-              </label>
-            </div>
-          )})}
+            console.log({ data, role });
+            return (
+              <div class="mb-4 flex items-center">
+                <input
+                  defaultChecked={data.roles == role}
+                  name="role"
+                  value={data.roles}
+                  type="radio"
+                  class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300"
+                  onChange={() => setRole(Roles.roles)}
+                />
+                <label
+                  for={data.roles}
+                  class="ml-3 mr-7 text-sm font-medium text-gray-900"
+                >
+                  {data.icon}
+                </label>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
