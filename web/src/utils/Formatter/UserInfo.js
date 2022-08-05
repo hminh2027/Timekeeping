@@ -6,6 +6,8 @@ export const UserInfoFormatter = (user) => {
   return {
     id: user.id,
     name: `${user.firstName} ${user.lastName}`,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
     role: user.role,
     createdAt,

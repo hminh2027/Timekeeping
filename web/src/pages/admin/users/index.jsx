@@ -55,6 +55,15 @@ const AdminUserPage = () => {
       },
     },
     {
+      title: "LastName",
+      key: "lastName",
+      className: "hidden"
+    },
+    {
+      title: "FirstName",
+      key: "firstName"
+    },
+    {
       title: "Email",
       key: "email",
     },
