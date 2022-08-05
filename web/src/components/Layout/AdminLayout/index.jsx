@@ -16,6 +16,7 @@ import Header from "../Header";
 import { adminMenuItems } from "@/components/page/Dashboard/Menu/Menu.config";
 import { SidebarMenu } from "@/components/page/Dashboard/Menu";
 import UseChatSocket from "@/utils/hooks/UseChatSocket";
+import { ToastContainer } from "react-toastify";
 
 const Index = (props) => {
   const router = useRouter();
@@ -73,6 +74,7 @@ const Index = (props) => {
         />
         <MobileMenu /> */}
       </div>
+      <ToastContainer />
     </div>
   );
 };
