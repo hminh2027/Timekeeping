@@ -22,6 +22,7 @@ const UseChatSocket = (props) => {
           Authorization: token,
         },
       });
+
       socket.on("msgToClient", (payload) => {
         onNewMessage(payload);
       });
@@ -30,7 +31,7 @@ const UseChatSocket = (props) => {
     return () => {
       socket?.disconnect();
     };
-  });
+  }, []);
 
   const socketUri = process.env.APP_URL;
 

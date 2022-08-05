@@ -13,7 +13,7 @@ import {
 } from "react-icons/ai";
 import { RiAdminLine } from "react-icons/ri";
 const CreateUser = (props) => {
-  // console.log({ props });
+  console.log({ props });
   const [isShow, setIsShow] = useState(true);
   const [UserData, setUserData] = useState(props.userData);
   const handleClick = () => {
@@ -145,11 +145,9 @@ const Input = (props) => {
     },
   ];
 
-  const [role, setIsRole] = useState(
-    props.value ? props.value : Roles[0].roles
-  );
+  const [role, setRole] = useState(props.value ? props.value : Roles[0].roles);
   const handleRole = (e) => {
-    setIsRole(e.target.value);
+    setRole(e.target.value);
     props.handle(e);
   };
   return (
@@ -174,11 +172,12 @@ const Input = (props) => {
           {Roles.map((data) => (
             <div class="mb-4 flex items-center">
               <input
-                checked={data.roles == role}
+                defaultChecked={data.roles == role}
                 name="role"
                 value={data.roles}
                 type="radio"
                 class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300"
+                onChange={() => setRole(Roles.roles)}
               />
               <label
                 for={data.roles}
