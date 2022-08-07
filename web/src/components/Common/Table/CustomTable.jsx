@@ -32,7 +32,7 @@ const CustomTable = ({ dataSource, columns }) => {
 
   return (
     <>
-      <table className="max-w-xs overflow-auto text-left">
+      <table className="text-left">
         <thead className="bg-gray-50">
           <tr>
             {columns.map((col) => (
