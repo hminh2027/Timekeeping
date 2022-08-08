@@ -21,12 +21,11 @@ import UseChatSocket from "@/utils/hooks/UseChatSocket";
 import { ToastContainer } from "react-toastify";
 import { useGetMeQuery } from "@/rest/auth/auth.query";
 
-const Index = (props) => {
+const AdminLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const checkInStatus = useSelector(selectUserCheckInStatus);
   const { data: userInfo } = useGetMeQuery();
-  const [openDrawer, setOpenDrawer] = useState(false);
   const [loading, setLoading] = useState(true);
   UseChatSocket();
   useEffect(() => {
@@ -87,4 +86,4 @@ const Index = (props) => {
   );
 };
 
-export default Index;
+export default AdminLayout;

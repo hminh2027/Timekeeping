@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-const Input = React.memo(({ label, name, className, ...props }) => {
-  return (
-    <div className={`flex flex-col gap-1 ${className}`}>
-      <label htmlFor="user-userName">{label}</label>
-      <input name={name} className={`v-input`} placeholder={label} {...props} />
-    </div>
-  );
-});
+const Input = React.memo(
+  ({ label, name, placeholder, className, ...props }) => {
+    return (
+      <div className={`flex flex-col gap-1 ${className}`}>
+        <label htmlFor="user-userName">{label}</label>
+        <input
+          name={name}
+          className={`v-input`}
+          placeholder={placeholder}
+          {...props}
+        />
+      </div>
+    );
+  }
+);
 
 const InputPassword = React.memo(({ label, name, className, ...props }) => {
   const [isHiding, setIsHiding] = useState(true);
