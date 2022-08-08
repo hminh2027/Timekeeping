@@ -11,20 +11,20 @@ const UserDetail = () => {
   const [action, setAction] = useState("notification");
 
   return (
-    <div className="flex w-full flex-wrap gap-4">
+    <div className="flex w-full flex-wrap gap-4 p-4  ">
       <div className="card max-w-sm">
         <div className="card-body">
           <UserInfo />
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-4">
+      <div className="flex flex-1 flex-col gap-4 overflow-auto  ">
         <Tab.Group>
-          <Tab.List className="flex gap-4">
+          <Tab.List className="flex flex-wrap gap-4">
             <Tab>
               <div className="flex-4 flex">
-                <button
+                <div
                   onClick={() => setAction("notification")}
-                  className={`flex items-baseline justify-center gap-2 rounded-lg  ${
+                  className={`flex items-baseline justify-center gap-2 rounded-lg   ${
                     action === "notification"
                       ? "bg-indigo-500 text-white"
                       : "text-indigo-900"
@@ -32,12 +32,12 @@ const UserDetail = () => {
                 >
                   <FaBell />
                   <span>Notifications</span>
-                </button>
+                </div>
               </div>
             </Tab>
             <Tab>
               <div className="flex-4 flex">
-                <button
+                <div
                   onClick={() => setAction("changePass")}
                   className={`flex items-baseline justify-center gap-2 rounded-lg ${
                     action === "changePass"
@@ -47,12 +47,12 @@ const UserDetail = () => {
                 >
                   <FaLock />
                   <span>Password</span>
-                </button>
+                </div>
               </div>
             </Tab>
             <Tab>
               <div className="flex-4 flex">
-                <button
+                <div
                   onClick={() => setAction("permission")}
                   className={`flex items-baseline justify-center gap-2 rounded-lg ${
                     action === "permission"
@@ -62,13 +62,13 @@ const UserDetail = () => {
                 >
                   <BsShieldFill />
                   <span>Permissions</span>
-                </button>
+                </div>
               </div>
             </Tab>
           </Tab.List>
           <Tab.Panels>
             <Tab.Panel>
-              <div className="card flex-1">
+              <div className="card flex-1 overflow-auto">
                 <div className="card-body">
                   <NotifyPreference />
                 </div>
@@ -82,7 +82,7 @@ const UserDetail = () => {
               </div>
             </Tab.Panel>
             <Tab.Panel>
-              <div className="card flex-1">
+              <div className="card flex-1 overflow-auto">
                 <div className="card-body">
                   <Permission />
                 </div>
