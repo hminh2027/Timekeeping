@@ -14,6 +14,7 @@ import { USER_ACTION } from "@/utils/constants/user_constants";
 import CustomTable from "@/components/Common/Table/CustomTable";
 import HeaderUser from "./HeaderUser";
 import UseModal from "@/utils/hooks/UseModal";
+import { useRouter } from "next/router";
 const AdminUserPage = () => {
   const [type, setType] = useState("edit");
   const [curUser, setCurUser] = useState(null);
@@ -39,6 +40,7 @@ const AdminUserPage = () => {
     setCurUser(obj);
     toggle();
   };
+  const router = useRouter();
   const columns = [
     {
       title: "ID",
@@ -87,34 +89,46 @@ const AdminUserPage = () => {
           <div className="flex">
             {USER_ACTION.map(({ name, icon }) => (
               <div key={name}>
-                <button
-                  onClick={() => handleClick(name, obj)}
-                  className="mr-2 rounded-xl p-2 hover:bg-gray-300"
-                >
-                  {icon}
-                </button>
+                
                 {name == "DELETE" ? (
-                  <Modal
-                    isShowing={isShowing && type == "DELETE"}
-                    hide={toggle}
+                <div>
+                  <button
+                    onClick={() => handleClick(name, obj)}
+                    className="mr-2 rounded-xl p-2 hover:bg-gray-300"
                   >
-                    <div className="flex">
-                      <DeleteNotification hide={toggle} id={curUser?.id} />
-                    </div>
-                  </Modal>
-                ) : (
-                  <Modal isShowing={isShowing && type == "EDIT"} hide={toggle}>
-                    <div className="flex">
-                      <CreateUser
-                        hide={toggle}
-                        id={curUser?.id}
-                        userData={curUser}
-                        Name={name}
-                        click={name}
-                      />
-                    </div>
-                  </Modal>
-                )}
+                    {icon}
+                  </button> 
+                  <Modal
+                      isShowing={isShowing && type == "DELETE"}
+                      hide={toggle}
+                    >
+                      <div className="flex">
+                        <DeleteNotification hide={toggle} id={curUser?.id} />
+                      </div>
+                    </Modal>  
+                </div>
+                
+                ) : 
+                (
+                  <button
+                    onClick={() => router.push(`/dashboard/user/${obj.id}`)}
+                    className="mr-2 rounded-xl p-2 hover:bg-gray-300"
+                  >
+                    {icon}
+                  </button> 
+                  // <Modal isShowing={isShowing && type == "EDIT"} hide={toggle}>
+                  //   <div className="flex">
+                  //     <CreateUser
+                  //       hide={toggle}
+                  //       id={curUser?.id}
+                  //       userData={curUser}
+                  //       Name={name}
+                  //       click={name}
+                  //     />
+                  //   </div>
+                  // </Modal>
+                )
+                }
               </div>
             ))}
           </div>
