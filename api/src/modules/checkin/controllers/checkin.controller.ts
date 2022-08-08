@@ -47,7 +47,7 @@ export class CheckinController {
     summary: '(ADMIN only)',
     description: 'statistics about checkin',
   })
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.ADMIN, UserRole.USER)
   async statistics(@Query() data: StatisticsQueryDto) {
     return {
       early: await this.checkinService.countEarly(data.range),

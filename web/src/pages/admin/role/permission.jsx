@@ -9,7 +9,7 @@ const PermissionManage = () => {
   const { isShowing, toggle } = UseModal();
   return (
     <div className="w-full p-4">
-      <PermissionTable className="py-4" openAddPermission={toggle} />
+      <PermissionTable className="py-4 px-1" openAddPermission={toggle} />
       <Modal isShowing={isShowing} hide={toggle}>
         <AddPermissionModal onDiscard={toggle} onSubmit={toggle} />
       </Modal>

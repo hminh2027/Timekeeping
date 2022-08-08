@@ -124,7 +124,7 @@ const TicketContent = () => {
           <div>
             <button
               onClick={() => router.push(`/dashboard/ticket/${obj.key}`)}
-              className="v-btn"
+              className="v-btn-secondary"
             >
               Edit
             </button>

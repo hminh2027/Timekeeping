@@ -5,7 +5,6 @@ import { useGetTicketInfoQuery } from "@/rest/ticket/ticket.query";
 
 const TicketDetails = (props) => {
   const { id } = props;
-  // console.log(id);
   const { isLoading, error, data: ticketData } = useGetTicketInfoQuery(id);
   if (isLoading) return <div>Loading ...</div>;
   if (error) return <div>Error :( </div>;

@@ -91,7 +91,7 @@ const UserInfo = () => {
         <button className="v-btn-primary w-full  lg:w-32" onClick={toggle}>
           Edit
         </button>
-        <button className="v-btn  w-full lg:w-24">Suspend</button>
+        <button className="v-btn-secondary  w-full lg:w-24">Suspend</button>
       </div>
       {/* Modal */}
       <Modal isShowing={isShowing} hide={toggle}>

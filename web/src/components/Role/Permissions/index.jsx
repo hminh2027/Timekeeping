@@ -37,7 +37,9 @@ const PermissionTable = ({ openAddPermission, className, ...props }) => {
             {obj.actions.map((action, index) => {
               return (
                 <div
-                  className={index === 0 ? "v-btn-primary w-max" : "v-btn"}
+                  className={
+                    index === 0 ? "v-btn-primary w-max" : "v-btn-secondary"
+                  }
                   onClick={() => (index === 0 ? null : null)}
                 >
                   {action}

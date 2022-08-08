@@ -119,12 +119,12 @@ const ApproveTicket = () => {
       render: (obj) => (
         <div className="flex">
           <div>
-          <button
-            className="v-btn"
-            onClick={ () => router.push(`/admin/ticket/${obj.id}`)}
-          >
-           Detail
-          </button>
+            <button
+              className="v-btn-secodary"
+              onClick={() => router.push(`/admin/ticket/${obj.id}`)}
+            >
+              Detail
+            </button>
           </div>
         </div>
       ),
@@ -140,9 +140,11 @@ const ApproveTicket = () => {
         }}
       >
         <div className="card-body">
-        <div className="flex max-h-[56px] w-full items-center justify-between bg-white py-10">
-            <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Manager Ticket</div>
-        </div>
+          <div className="flex max-h-[56px] w-full items-center justify-between bg-white py-10">
+            <div style={{ fontSize: "2em", fontWeight: "bolder" }}>
+              Manager Ticket
+            </div>
+          </div>
           <DesktopFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="hidden lg:flex"
