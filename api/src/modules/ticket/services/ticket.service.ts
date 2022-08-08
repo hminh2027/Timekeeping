@@ -148,6 +148,14 @@ export class TicketService {
     });
   }
 
+  async countAbsent(range: number) {
+    return await this.ticketRepository
+      .createQueryBuilder('tickets')
+      .where('date(endDate) >= subdate(curdate(), :range)', { range })
+      .andWhere('ticketStatus = "approved"')
+      .getCount();
+  }
+
   async checkTicketTimeConflict(data: CreateTicketPayload): Promise<boolean> {
     const lastestTicket = await this.ticketRepository.findOne({
       where: [

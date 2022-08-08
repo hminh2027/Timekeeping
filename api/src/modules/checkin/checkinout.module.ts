@@ -6,9 +6,11 @@ import { CheckoutHistoryRepository } from './repositories/checkout-history.repos
 import { CheckOutHistoryService } from './services/checkout-history.service';
 import { CheckinRepository } from './repositories/checkinout.repository';
 import { CheckoutController } from './controllers/checkout.controller';
+import { TicketModule } from '../ticket/ticket.module';
 
 @Module({
   imports: [
+    TicketModule,
     TypeOrmExModule.forRepository([
       CheckinRepository,
       CheckoutHistoryRepository,

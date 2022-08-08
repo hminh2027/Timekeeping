@@ -18,6 +18,8 @@ import { CheckinService } from '../services/checkinout.service';
 import { UserRole } from 'src/modules/user/enums/role.enum';
 import { CheckinoutPayload } from '../payloads/checkinout.payload';
 import { SearchQueryDto } from '../dto/search.dto';
+import { TicketService } from '../../ticket/services/ticket.service';
+import { StatisticsQueryDto } from '../dto/statistics.dto';
 
 @Controller('checkin')
 @ApiTags('check in')
@@ -26,7 +28,10 @@ import { SearchQueryDto } from '../dto/search.dto';
 @UseGuards(RolesGuard)
 @Roles(UserRole.USER)
 export class CheckinController {
-  constructor(private readonly checkinService: CheckinService) {}
+  constructor(
+    private readonly checkinService: CheckinService,
+    private readonly ticketService: TicketService,
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -35,6 +40,20 @@ export class CheckinController {
   })
   async getCheckin(@ReqUser() user, @Query() data: SearchQueryDto) {
     return await this.checkinService.search(user.id, data);
+  }
+
+  @Get('/statistics')
+  @ApiOperation({
+    summary: '(ADMIN only)',
+    description: 'statistics about checkin',
+  })
+  @Roles(UserRole.ADMIN)
+  async statistics(@Query() data: StatisticsQueryDto) {
+    return {
+      early: await this.checkinService.countEarly(data.range),
+      late: await this.checkinService.countLate(data.range),
+      absent: await this.ticketService.countAbsent(data.range),
+    };
   }
 
   @Post()

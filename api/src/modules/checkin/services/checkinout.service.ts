@@ -117,6 +117,22 @@ export class CheckinService {
     return checkinUpdated;
   }
 
+  async countEarly(range: number): Promise<number> {
+    return await this.checkinRepository
+      .createQueryBuilder('checkins')
+      .where('time("08:00:00") > time(createdAt)')
+      .andWhere('date(createdAt) >= subdate(curdate(), :range)', { range })
+      .getCount();
+  }
+
+  async countLate(range: number): Promise<number> {
+    return await this.checkinRepository
+      .createQueryBuilder('checkins')
+      .where('time("08:00:00") < time(createdAt)')
+      .andWhere('date(createdAt) >= subdate(curdate(), :range)', { range })
+      .getCount();
+  }
+
   //   async removeByUserId(id: number) {
   //     await this.ch
   //     await this.checkinRepository.delete({ where: { userId: id } });
