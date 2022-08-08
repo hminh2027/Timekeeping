@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { IoClose } from "react-icons/io5";
-const Modal = (props) => {
-  const { isShowing, hide, children, closeButton } = props;
+const Modal = ({ isShowing, hide, children, closeButton }) => {
   const content = isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
