@@ -131,18 +131,18 @@ const ApproveTicket = () => {
     },
   ];
   return (
-    <div className="flex-1">
-      <div className="flex w-full items-center justify-between bg-white px-4 py-6">
-        <div className="text-3xl font-bold">Manage Ticket</div>
-      </div>
-      <div span={24}>
-        <div
-          className="m-1 flex flex-col overflow-auto rounded-lg"
-          style={{
-            backgroundColor: "#fff",
-            boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
-          }}
-        >
+    <div className="m-4 flex-1 flex-col gap-8">
+      <div
+        className="m-1 flex flex-col overflow-auto rounded-lg "
+        style={{
+          backgroundColor: "#fff",
+          boxShadow: "10px 10px 15px -3px rgba(0,0,0,0.2)",
+        }}
+      >
+        <div className="card-body">
+        <div className="flex max-h-[56px] w-full items-center justify-between bg-white py-10">
+            <div style={{ fontSize: "2em", fontWeight: "bolder" }}>Manager Ticket</div>
+        </div>
           <DesktopFilter
             onSubmit={(filterOptions) => setFilterOptions(filterOptions)}
             className="hidden lg:flex"

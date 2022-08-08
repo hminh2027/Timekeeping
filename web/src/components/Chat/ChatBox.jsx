@@ -36,14 +36,14 @@ const ChatBox = ({ id, className, authorId }) => {
     <div
       className={`w-96 rounded-2xl border border-solid border-gray-400 bg-white shadow-xl ${className}`}
     >
-      <div className="flex h-full  flex-col p-2">
+      <div className="flex max-h-sm  flex-col p-2">
         <div className="w-full ">
           <div className="relative flex items-center justify-center gap-4">
             <div className="text-xl font-bold">Comments</div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col gap-6 border-t border-t-gray-200">
-          <div className="mt-1 flex flex-1 flex-col overflow-auto">
+        <div className="flex flex-1 flex-col justify-between gap-4 border-t border-t-gray-200">
+          <div className="mt-1 flex max-h-sm flex-1 flex-col overflow-y-auto">
             {CommentList?.map(({ userId, content }, index) => (
               <MessageRow
                 key={index}
@@ -53,13 +53,13 @@ const ChatBox = ({ id, className, authorId }) => {
               />
             ))}
           </div>
-          <div className="flex">
+          <div className="flex ">
             <textarea
               autoFocus
               name="content"
               type="text"
               placeholder="comment"
-              className="input input-bordered input-accent w-full max-w-xs resize-none"
+              className="input input-bordered input-accent w-full max-w-4/5 resize-none "
               value={Comment.content}
               onChange={(e) => {
                 handleChange(e);

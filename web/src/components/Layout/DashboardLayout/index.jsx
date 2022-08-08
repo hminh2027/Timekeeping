@@ -4,10 +4,11 @@ import { MobileMenu, SidebarMenu } from "@/components/page/Dashboard/Menu";
 import MobileDrawer from "@/components/page/Dashboard/Menu/MobileDrawer";
 import {
   fetchCheckInStatus,
-  fetchMe,
   selectUserCheckInStatus,
-  selectUserInfo,
+  setUserInfo,
+  setUserPermissions,
 } from "@/redux/feature/user/userSlice";
+import { ROLES } from "@/utils/constants/roles";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +16,15 @@ import Header from "../Header";
 import { menuItems } from "@/components/page/Dashboard/Menu/Menu.config";
 import { ToastContainer } from "react-toastify";
 import UseChatSocket from "@/utils/hooks/UseChatSocket";
+import { useGetMeQuery } from "@/rest/auth/auth.query";
 const DashboardLayout = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const checkInStatus = useSelector(selectUserCheckInStatus);
-  const userInfo = useSelector(selectUserInfo);
+  const { data: userInfo } = useGetMeQuery();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [loading, setLoading] = useState(true);
+
   UseChatSocket();
   useEffect(() => {
     const checkAuthStatus = () => {
@@ -34,8 +37,13 @@ const DashboardLayout = (props) => {
       }
     };
     const getUserInfo = () => {
-      if (Object.keys(userInfo).length === 0) {
-        dispatch(fetchMe());
+      if (userInfo) {
+        dispatch(setUserInfo({ userInfo: userInfo }));
+        ROLES.forEach((ROLE) => {
+          if (ROLE.name === userInfo.role) {
+            dispatch(setUserPermissions(ROLE.permissions));
+          }
+        });
       }
     };
     const getCheckInStatus = () => {
@@ -47,7 +55,7 @@ const DashboardLayout = (props) => {
     checkAuthStatus();
     getUserInfo();
     getCheckInStatus();
-  });
+  }, [userInfo]);
 
   if (loading) return <Loading />;
 

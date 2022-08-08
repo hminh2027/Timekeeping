@@ -1,60 +1,64 @@
-import React from "react";
 import CustomTable from "@/components/Common/Table/CustomTable";
-const NotifyPreference = () => {
+import React from "react";
+
+const Permission = () => {
   const data = [
     {
-      type: "Checkin Alert",
-      email: true,
-      app: true,
-      browser: false,
+      permission: "User",
+      read: true,
+      write: false,
+      delete: false,
     },
     {
-      type: "Ticket",
-      email: true,
-      app: false,
-      browser: false,
+      permission: "Ticket",
+      read: true,
+      write: false,
+      delete: true,
     },
     {
-      type: "Events",
-      email: false,
-      app: false,
-      browser: true,
+      permission: "Check in",
+      read: true,
+      write: true,
+      delete: false,
     },
   ];
   const columns = [
-    { title: "Type", key: "type" },
+    { title: "Permissions", key: "permission" },
     {
-      title: "✉ Email",
-      key: "email",
+      title: "Read",
+      key: "read",
       render: (obj) => {
         return (
           <input
             className="h-5 w-5  outline-0 outline-violet-500 checked:accent-violet-500"
             type={"checkbox"}
-            // checked={obj.email}
+            checked={obj.read}
+            disabled
           />
         );
       },
     },
     {
-      title: "📱 App",
-      key: "app",
+      title: "Write",
+      key: "write",
       render: (obj) => (
         <input
           className="h-5 w-5 outline-0 outline-violet-500 checked:accent-violet-500"
           type={"checkbox"}
-          //   checked={obj.app && "checked"}
+          checked={obj.write}
+          disabled
         />
       ),
     },
     {
-      title: "🌏 Browser",
-      key: "browser",
+      title: "Delete",
+      key: "delete",
       render: (obj) => (
         <input
           className="h-5 w-5 outline-0 checked:accent-violet-500"
           type={"checkbox"}
-          //   checked={obj.browser}
+          checked={obj.delete}
+          disabled
         />
       ),
     },
@@ -62,17 +66,17 @@ const NotifyPreference = () => {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <div className="text-2xl text-cyan-800">Notifications</div>
-        <div>Change notification settings</div>
+        <div className="text-2xl text-cyan-800">Permissions</div>
+        <div>User's permissions</div>
       </div>
 
       <CustomTable dataSource={data} columns={columns} />
-      <div className="flex-end flex gap-4">
+      {/* <div className="flex-end flex gap-4">
         <button className="v-btn-primary w-40">Save Changes</button>
         <button className="v-btn">Reset</button>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default NotifyPreference;
+export default Permission;

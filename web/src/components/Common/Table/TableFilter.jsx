@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 const DesktopFilter = ({ dataSort, onSubmit, className, ...props }) => {
   const [filterOption, setFilterOption] = useState({
     title: "",
@@ -75,6 +74,7 @@ const MobileFilter = ({ dataSort, onSubmit, className, ...props }) => {
                   value={dt.value}
                   style={dt.style}
                   handle={(e) => handleChange(e)}
+                  // submit = {() => submit()}
                 />
               ) : (
                 <SelectInput
@@ -119,18 +119,22 @@ export { DesktopFilter, MobileFilter };
 
 const Input = (props) => {
   return (
-    <div className="flex w-full items-center">
-      <div className="mx-auto flex w-[92%] items-center rounded-full border hover:shadow-md md:w-full">
-        <IconSearch />
-        <input
-          placeholder={props.name}
-          name={props.name}
-          value={props.value}
-          className={props.style}
-          onChange={props.handle}
-        />
+
+      <div className="flex w-full items-center">
+        <div className="mx-auto flex w-[92%] items-center rounded-full border hover:shadow-md md:w-full">
+          <IconSearch />
+          <input
+            placeholder={props.name}
+            name={props.name}
+            value={props.value}
+            className={props.style}
+            onChange={props.handle}
+          />
+        </div>
       </div>
-    </div>
+      
+   
+    
   );
 };
 

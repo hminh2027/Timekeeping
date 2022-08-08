@@ -1,14 +1,15 @@
+import { selectUserPermissions } from "@/redux/feature/user/userSlice";
 import React from "react";
+import { useSelector } from "react-redux";
 
-const RBACWrapper = (props) => {
-  const requiredRoles = props.requiredRoles || [];
-  const userRoles = props.roles || [];
-  // const fallback = props.fallback || (
-  //   <div className="text-center">No permission</div>
-  // );
-  if (userRoles.includes(...requiredRoles)) {
-    return <div>{props.children}</div>;
-  } else return;
-};
+const RBACWrapper = React.memo(({ children, requiredPermissions }) => {
+  const userPermission = useSelector(selectUserPermissions);
+
+  const res = requiredPermissions
+    .map((requiredPermission) => userPermission.includes(requiredPermission))
+    .every((result) => result === true);
+  // useMemo(() => first, [second]);
+  return res ? <>{children}</> : <></>;
+});
 
 export default RBACWrapper;

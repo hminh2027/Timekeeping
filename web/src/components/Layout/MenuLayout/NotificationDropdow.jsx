@@ -26,6 +26,11 @@ const NotificationDropdow = (props) => {
     };
   }, [isShowing]);
     const {data: ListNotification} = useGetMeNotificationQuery(); 
+    const [Notifications, setNotifications] = useState([]);
+    useEffect(()=> {
+      setNotifications(ListNotification?.reverse());
+      console.log(Notifications)
+    },[ListNotification])
     const {data: Auth} = useGetMeQuery();
     console.log("ListNOTIFICATION", ListNotification)
     return (
@@ -50,13 +55,13 @@ const NotificationDropdow = (props) => {
         </div>
         <div
           id="dropdown"
-          className={`top-26 absolute mt-5 flex w-[400px] translate-x-[-80%] transform  flex-col space-y-4 rounded-lg bg-slate-100 p-4 shadow-lg ${
+          className={`top-26 absolute mt-2 flex w-[400px] translate-x-[-85%] transform  flex-col space-y-4 rounded-lg bg-slate-50 p-4 shadow-lg ${
             isShowing ? "" : "hidden"
           }`}
         >
           {
             ListNotification?.length > 0 ?
-            <div className="flex flex-col space-y-2 h-[500px] overflow-auto">
+            <div className="flex flex-col space-y-2 h-[500px] v-scrollbar">
               {ListNotification?.map((notification) => 
               (
                   <NotificationItem notification= {notification}/>
@@ -71,3 +76,4 @@ const NotificationDropdow = (props) => {
 };
 
 export default NotificationDropdow;
+
