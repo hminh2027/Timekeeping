@@ -5,11 +5,11 @@ const Select = React.memo(
     const [showingOptions, setShowingOptions] = useState(false);
 
     return (
-      <div className={`relative flex  flex-col gap-1 ${className}`}>
+      <div className={`relative flex w-full flex-col gap-1 ${className}`}>
         <label htmlFor="user-userName">{label || ""}</label>
         <div
           id="user-userName"
-          className={`v-select  flex justify-between bg-white`}
+          className={`v-select flex justify-between bg-white`}
           onClick={() => setShowingOptions(!showingOptions)}
         >
           <div>{value.label}</div>

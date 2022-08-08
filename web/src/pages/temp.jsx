@@ -1,7 +1,9 @@
-import Permission from "@/components/Role/Permissions";
+import Role from "@/components/Role";
+import AdminLayout from "@/layout/AdminLayout";
 
 const temp = () => {
-  return <Permission />;
+  return <Role />;
 };
+temp.layout = AdminLayout;
 
 export default temp;

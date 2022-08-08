@@ -9,7 +9,7 @@ const Pagination = React.memo(({ total, currentPage, onChange }) => {
     settotalt(total);
   }, [total]);
 
-  const size = totalt ? (totalt < 5 ? 0 : 5) : 0;
+  const size = totalt ? (totalt <= 5 ? 0 : 5) : 0;
   const margin = size ? Math.floor(size / 2) : 0;
   const content = [];
 

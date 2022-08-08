@@ -1,16 +1,16 @@
 import { Input } from "@/components/Common/Input";
 import React from "react";
+import Header from "../Common/Header";
 
 const AddPermissionModal = ({ onDiscard, onSubmit, ...props }) => {
   return (
-    <div className="card  bg-white">
+    <div className="card bg-white">
       <div className="card-body">
-        <div className="flex flex-col items-center gap-2">
-          <div className="text-3xl text-violet-900">Add Permission</div>
-          <div className=" text-violet-900">
-            Permissions you may use and assign to your users.
-          </div>
-        </div>
+        <Header
+          title="Add New Permission"
+          description="Permissions you may use and assign to your users."
+          className="items-center"
+        />
         <div className="mt-4 flex flex-col gap-2">
           <Input label="Permission name" placeholder="Permission name" />
           <div>
