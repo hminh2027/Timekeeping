@@ -9,37 +9,37 @@
 
 @layer components {
   .v-btn-primary {
-    @apply w-full min-w-32 rounded-md bg-primary py-2 px-4 font-bold text-white transition-all duration-300 hover:bg-primaryLight;
+    @apply  min-w-max rounded-md bg-primary py-2 px-4 font-bold text-white transition-all duration-300 hover:bg-primaryLight focus:outline-none;
   }
   .v-btn-transparent {
-    @apply v-btn-primary text-primary bg-transparent hover:bg-primary hover:text-white border-2 border-primary;
+    @apply v-btn-primary text-primary bg-transparent hover:bg-primary hover:text-white border-2 border-primary focus:outline-none;
   }
   .v-btn-third {
-    @apply px-4 py-2 text-black transition-all duration-300 rounded-md min-w-32 border-pastelBlue bg-pastelBlue hover:text-white;
+    @apply px-4 py-2 text-black transition-all duration-300 rounded-md min-w-max border-pastelBlue bg-pastelBlue hover:text-white focus:outline-none;
   }
   .v-btn {
-    @apply px-4 py-2 text-black transition-all duration-300 bg-white border rounded-md border-violet-300 hover:bg-violet-400 hover:text-white;
+    @apply px-4 py-2 text-black transition-all duration-300 bg-white border rounded-md border-violet-300 hover:bg-violet-400 hover:text-white focus:outline-none;
   }
   .v-btn-disable {
-    @apply v-btn-primary cursor-not-allowed bg-smoke text-gray-500 hover:bg-smoke hover:text-gray-500
+    @apply v-btn-primary cursor-not-allowed bg-smoke text-gray-500 hover:bg-smoke hover:text-gray-500 focus:outline-none
   }
   .v-btn-green {
-    @apply px-4 py-2 text-black bg-white border border-teal-700 border-solid rounded-lg hover:bg-teal-700 hover:text-stone-100;
+    @apply px-4 py-2 text-black bg-white border border-teal-700 border-solid rounded-lg hover:bg-teal-700 hover:text-stone-100 focus:outline-none;
   }
   .v-btn-gray {
-    @apply px-4 py-2 text-black bg-white border border-gray-700 border-solid rounded-lg hover:bg-gray-700 hover:text-stone-100;
+    @apply px-4 py-2 text-black bg-white border border-gray-700 border-solid rounded-lg hover:bg-gray-700 hover:text-stone-100 focus:outline-none;
   }
   .v-input {
-    @apply p-2 rounded-lg cursor-text select-none border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
+    @apply p-2 rounded-lg cursor-text select-none border border-gray-300 hover:border-emerald-500 focus:outline-none  active:border-emerald-500 active:outline-none;
   }
   .v-select {
-    @apply p-2 rounded-lg cursor-pointer select-none border border-gray-300 hover:border-emerald-500 focus:outline-none active:border-emerald-500 active:outline-none;
+    @apply p-2 rounded-lg cursor-pointer select-none border border-gray-300 hover:border-emerald-500 focus:outline-none  active:border-emerald-500 active:outline-none;
   }
   .v-select-list {
-    @apply cursor-pointer select-none border border-teal-600 rounded-lg overflow-hidden
+    @apply cursor-pointer select-none border border-teal-600 rounded-lg overflow-hidden focus:outline-none
   }
   .v-select-option {
-    @apply p-2 cursor-pointer select-none hover:bg-teal-700 hover:text-white  
+    @apply p-2 cursor-pointer select-none hover:bg-teal-700 hover:text-white   focus:outline-none
   }
   .v-textarea {
     @apply resize-none textarea textarea-accent focus:outline-none;

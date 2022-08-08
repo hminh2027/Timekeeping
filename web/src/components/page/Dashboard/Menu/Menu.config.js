@@ -1,5 +1,5 @@
 import { AiOutlineHome, AiOutlineClockCircle } from "react-icons/ai";
-import { BsCamera } from "react-icons/bs";
+import { BsCamera, BsShield } from "react-icons/bs";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { HiOutlineTicket } from "react-icons/hi";
 import { FiUsers } from "react-icons/fi";
@@ -80,6 +80,12 @@ export const adminMenuItems = [
     icon: <HiOutlineTicket size={"30px"} />,
     label: "Tickets",
     value: "/admin/ticket",
+    id: "Ticket",
+  },
+  {
+    icon: <BsShield size={"30px"} />,
+    label: "Permission",
+    value: "/admin/role/permission",
     id: "Ticket",
   },
 ];

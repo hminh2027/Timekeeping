@@ -1,4 +1,4 @@
-const CustomTable = ({ dataSource, columns }) => {
+const CustomTable = ({ dataSource, columns, className }) => {
   const [data, setData] = useState([]);
   const dataConversion = (dataToConvert, columns) => {
     let deepClone = JSON.parse(JSON.stringify(dataToConvert));
@@ -32,7 +32,7 @@ const CustomTable = ({ dataSource, columns }) => {
 
   return (
     <>
-      <table className="max-w-xs overflow-auto text-left">
+      <table className={`w-full text-left ${className}`}>
         <thead className="bg-gray-50">
           <tr>
             {columns.map((col) => (
