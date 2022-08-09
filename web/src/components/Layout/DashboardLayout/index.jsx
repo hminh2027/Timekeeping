@@ -18,7 +18,7 @@ import { adminMenuItems } from "@/components/page/Dashboard/Menu/Menu.config";
 import { ToastContainer } from "react-toastify";
 import UseChatSocket from "@/utils/hooks/UseChatSocket";
 import { useGetMeQuery } from "@/rest/auth/auth.query";
-const DashboardLayout = (props) => {
+const DashboardLayout = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const checkInStatus = useSelector(selectUserCheckInStatus);
@@ -72,9 +72,7 @@ const DashboardLayout = (props) => {
         }
         
         {/* Content */}
-        <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
-          {props.children}
-        </div>
+        <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">{children}</div>
       </div>
       <div>
         <MobileDrawer

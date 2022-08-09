@@ -89,7 +89,7 @@ const TicketListItem = (props) => {
   const actions = [
     {
       title: "Detail",
-      style: "v-btn",
+      style: "v-btn-secodary",
       onClick: () => router.push(`/dashboard/ticket/${id}`),
     },
   ];

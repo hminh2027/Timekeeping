@@ -1,27 +1,9 @@
-import Pagination from "@/components/Common/Pagination";
-import UseChatSocket from "@/utils/hooks/UseChatSocket";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import Role from "@/components/Role";
+import AdminLayout from "@/layout/AdminLayout";
+
 const temp = () => {
-  return (
-    <div>
-      <Pagination totalPages={10} curPage={1} size={5} />
-      <Chat></Chat>
-    </div>
-  );
+  return <Role />;
 };
-
-const Chat = () => {
-  const queryClient = useQueryClient();
-  // const token =
-  // typeof window !== "undefined" ? localStorage.getItem("AUTH_TOKEN") : null;
-  const socket = UseChatSocket();
-  // client-side
-
-  // socket.on("msgToClient", (msg) => {
-  //   console.log("New msg", msg);
-  //   queryClient.invalidateQueries("get-comment");
-  // });
-};
+temp.layout = AdminLayout;
 
 export default temp;
