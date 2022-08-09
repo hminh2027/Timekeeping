@@ -68,26 +68,26 @@ const CreateUser = ({ userData, Name, hide, id, click, ...props }) => {
                 name={"Email"}
                 nameInput={"email"}
                 hanlde={(e) => handleChange(e)}
-                value={UserData.email}
+                value={UserData?.email}
               />
               <Input
                 type="text"
                 name={"FirstName"}
                 nameInput={"firstName"}
                 hanlde={(e) => handleChange(e)}
-                value={UserData.firstName}
+                value={UserData?.firstName}
               />
               <Input
                 type="text"
                 name={"LastName"}
                 nameInput={"lastName"}
                 hanlde={(e) => handleChange(e)}
-                value={UserData.lastName}
+                value={UserData?.lastName}
               />
               <Input
                 type="radio"
                 name="Role"
-                value={UserData.role}
+                value={UserData?.role}
                 handle={(e) => handleChange(e)}
               />
               <div className="flex items-center gap-4">
@@ -95,7 +95,7 @@ const CreateUser = ({ userData, Name, hide, id, click, ...props }) => {
                 <InputPassword
                   className="w-full"
                   name="password"
-                  value={UserData.password}
+                  value={UserData?.password}
                   placeholder="Password"
                   onChange={(e) => {
                     handleChange(e);

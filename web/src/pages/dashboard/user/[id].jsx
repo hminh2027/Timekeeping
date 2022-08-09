@@ -7,14 +7,20 @@ import NotifyPreference from "@/components/page/Dashboard/User/NotifiyPreference
 import ChangePassword from "@/components/page/Dashboard/User/ChangePassword";
 import { Tab } from "@headlessui/react";
 import Permission from "@/components/page/Dashboard/User/Permission";
+import { useRouter } from "next/router";
+import { useGetUserIdQuery } from "@/rest/user/user.query";
+
 const UserDetail = () => {
   const [action, setAction] = useState("notification");
-
+  const router = useRouter();
+  const {id: idUser} = router.query;
+  const {data: userInfo} = useGetUserIdQuery(idUser);
+  console.log("USERINFO", idUser, userInfo);
   return (
     <div className="flex w-full flex-wrap gap-4">
       <div className="card max-w-sm">
         <div className="card-body">
-          <UserInfo />
+          <UserInfo user={userInfo}/>
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-4">
@@ -70,7 +76,7 @@ const UserDetail = () => {
             <Tab.Panel>
               <div className="card flex-1">
                 <div className="card-body">
-                  <NotifyPreference />
+                  <NotifyPreference role={userInfo?.role}/>
                 </div>
               </div>
             </Tab.Panel>
@@ -94,5 +100,6 @@ const UserDetail = () => {
     </div>
   );
 };
-UserDetail.layout = DashboardLayout;
+
+UserDetail.layout =  DashboardLayout;
 export default UserDetail;

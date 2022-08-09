@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../Header";
 import { menuItems } from "@/components/page/Dashboard/Menu/Menu.config";
+import { adminMenuItems } from "@/components/page/Dashboard/Menu/Menu.config";
 import { ToastContainer } from "react-toastify";
 import UseChatSocket from "@/utils/hooks/UseChatSocket";
 import { useGetMeQuery } from "@/rest/auth/auth.query";
@@ -65,7 +66,11 @@ const DashboardLayout = (props) => {
       <Header />
       {/* Sidebar Menu */}
       <div className="z-10 flex flex-1 ">
-        <SidebarMenu menuItems={menuItems} />
+        {userInfo?.role == "user" ? 
+        <SidebarMenu menuItems={menuItems} /> : 
+        <SidebarMenu menuItems={adminMenuItems} />
+        }
+        
         {/* Content */}
         <div className="w-full bg-[#fafafa] lg:flex lg:flex-1">
           {props.children}

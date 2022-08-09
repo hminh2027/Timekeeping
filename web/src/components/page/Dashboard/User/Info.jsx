@@ -1,10 +1,11 @@
 import Modal from "@/components/Common/Modal";
+import { useGetUserIdQuery } from "@/rest/user/user.query";
 import UseModal from "@/utils/hooks/UseModal";
 import React, { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { ImTrophy } from "react-icons/im";
 import CreateUser from "../../admin/users/FunctionUserModal";
-const UserInfo = () => {
+const UserInfo = ({user,...props}) => {
   const { isShowing, toggle } = UseModal();
   const [data, setData] = useState({
     role: { label: "User", value: "user" },
@@ -15,7 +16,6 @@ const UserInfo = () => {
     checkinRecord: 99,
     times_on_leaderboard: 10,
   });
-
   return (
     <>
       {/* Avatar & name */}
@@ -27,9 +27,9 @@ const UserInfo = () => {
           />
         </div>
         <div className="flex flex-1 flex-col items-center gap-1">
-          <div className="text-2xl text-cyan-800">Selina Kyle</div>
+          <div className="text-2xl text-cyan-800">{user?.name}</div>
           <div className="rounded-md bg-sky-100 px-2 py-1 text-sm text-sky-400">
-            {data.role.label}
+            {user?.role}
           </div>
         </div>
       </div>
@@ -64,15 +64,15 @@ const UserInfo = () => {
         <div className="flex flex-col gap-2 text-sm">
           <div className="flex gap-2">
             <div className="text-cyan-900">Username:</div>
-            <div className="">{data.username}</div>
+            <div className="">{user?.name}</div>
           </div>
           <div className="flex gap-2">
             <div className="text-cyan-900">Email:</div>
-            <div>{data.email}</div>
+            <div>{user?.email}</div>
           </div>
           <div className="flex gap-2">
             <div className="text-cyan-900">Role:</div>
-            <div>{data.role.label}</div>
+            <div>{user?.role}</div>
           </div>
           <div className="flex items-baseline gap-2">
             <div className="text-cyan-900">Status:</div>
@@ -95,7 +95,7 @@ const UserInfo = () => {
       </div>
       {/* Modal */}
       <Modal isShowing={isShowing} hide={toggle}>
-        <CreateUser Name="Edit" userData={data} hide={toggle} />
+        <CreateUser Name="Edit" userData={user} hide={toggle} />
       </Modal>
     </>
   );
