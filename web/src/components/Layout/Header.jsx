@@ -42,8 +42,8 @@ const Header = () => {
           </div>
         </div>
         <div className="flex">
-          <NotificationDropdow />
-          <Dropdow />
+          <NotificationDropdow/>
+          <Dropdow id={userInfo?.id}/>
         </div>
       </div>
     </div>

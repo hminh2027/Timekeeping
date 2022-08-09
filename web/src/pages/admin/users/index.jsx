@@ -51,7 +51,7 @@ const AdminUserPage = () => {
       key: "name",
       render: (obj) => {
         return (
-          <Link href={`http://localhost:3005/`}>
+          <Link href={`http://localhost:3005/dashboard/user/${obj.id}`}>
             <div className="cursor-pointer text-blue-300">{obj.name}</div>
           </Link>
         );
@@ -89,8 +89,6 @@ const AdminUserPage = () => {
           <div className="flex">
             {USER_ACTION.map(({ name, icon }) => (
               <div key={name}>
-                
-                {name == "DELETE" ? (
                 <div>
                   <button
                     onClick={() => handleClick(name, obj)}
@@ -98,6 +96,8 @@ const AdminUserPage = () => {
                   >
                     {icon}
                   </button> 
+                {name == "DELETE" ? (
+                
                   <Modal
                       isShowing={isShowing && type == "DELETE"}
                       hide={toggle}
@@ -105,30 +105,30 @@ const AdminUserPage = () => {
                       <div className="flex">
                         <DeleteNotification hide={toggle} id={curUser?.id} />
                       </div>
-                    </Modal>  
-                </div>
+                  </Modal>  
                 
                 ) : 
                 (
-                  <button
-                    onClick={() => router.push(`/dashboard/user/${obj.id}`)}
-                    className="mr-2 rounded-xl p-2 hover:bg-gray-300"
-                  >
-                    {icon}
-                  </button> 
-                  // <Modal isShowing={isShowing && type == "EDIT"} hide={toggle}>
-                  //   <div className="flex">
-                  //     <CreateUser
-                  //       hide={toggle}
-                  //       id={curUser?.id}
-                  //       userData={curUser}
-                  //       Name={name}
-                  //       click={name}
-                  //     />
-                  //   </div>
-                  // </Modal>
+                  // <button
+                  //   onClick={() => router.push(`/dashboard/user/${obj.id}`)}
+                  //   className="mr-2 rounded-xl p-2 hover:bg-gray-300"
+                  // >
+                  //   {icon}
+                  // </button> 
+                  <Modal isShowing={isShowing && type == "EDIT"} hide={toggle}>
+                    <div className="flex">
+                      <CreateUser
+                        hide={toggle}
+                        id={curUser?.id}
+                        userData={curUser}
+                        Name={name}
+                        click={name}
+                      />
+                    </div>
+                  </Modal>
                 )
                 }
+                </div>
               </div>
             ))}
           </div>

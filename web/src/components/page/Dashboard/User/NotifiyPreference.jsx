@@ -1,24 +1,24 @@
 import React from "react";
 import CustomTable from "@/components/Common/Table/CustomTable";
-const NotifyPreference = () => {
+const NotifyPreference = ({role, ...props}) => {
   const data = [
     {
       type: "Checkin Alert",
       email: true,
       app: true,
-      browser: false,
+      browser: false
     },
     {
       type: "Ticket",
       email: true,
       app: false,
-      browser: false,
+      browser: false
     },
     {
       type: "Events",
       email: false,
       app: false,
-      browser: true,
+      browser: true
     },
   ];
   const columns = [
@@ -27,11 +27,13 @@ const NotifyPreference = () => {
       title: "✉ Email",
       key: "email",
       render: (obj) => {
+        console.log(role);
         return (
           <input
             className="h-5 w-5  outline-0 outline-violet-500 checked:accent-violet-500"
             type={"checkbox"}
-            // checked={obj.email}
+            disabled={role==="user"}
+            // disabled
           />
         );
       },
@@ -43,6 +45,7 @@ const NotifyPreference = () => {
         <input
           className="h-5 w-5 outline-0 outline-violet-500 checked:accent-violet-500"
           type={"checkbox"}
+          disabled={role=="user"}
           //   checked={obj.app && "checked"}
         />
       ),
@@ -50,10 +53,12 @@ const NotifyPreference = () => {
     {
       title: "🌏 Browser",
       key: "browser",
+      
       render: (obj) => (
         <input
           className="h-5 w-5 outline-0 checked:accent-violet-500"
           type={"checkbox"}
+          disabled={role=="user"}
           //   checked={obj.browser}
         />
       ),

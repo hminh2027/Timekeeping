@@ -5,8 +5,9 @@ import {FiLogOut, FiSettings, FiUser} from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/api/service/auth.service";
 import { useRef, useEffect,useState } from "react";
+import { useRouter } from "next/router";
 
-const Dropdow = () => {
+const Dropdow = ({id,...props}) => {
   const [isShowing, toggle] = useState(false)
   const dropdownMenuRef = useRef(null);
 
@@ -30,12 +31,12 @@ const Dropdow = () => {
     };
   }, [isShowing]);
 
-
+  const router = useRouter();
   const MENUS = [
   {
     title: "profile",
     onclick: () => {
-      console.log("profile")
+      router.push(`/dashboard/user/${id}`)
     },
     icon: <FiUser size={"20px"}/>
   },
